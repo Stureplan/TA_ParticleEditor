@@ -11,6 +11,7 @@ namespace TA_ParticleEditor
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        // comment
         [STAThread]
         static void Main()
         {
