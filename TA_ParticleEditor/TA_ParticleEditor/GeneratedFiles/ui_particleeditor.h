@@ -13,24 +13,29 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QFrame>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
-#include <QtWidgets/QWidget>
 #include "graphics.h"
+#include "maincontainer.h"
 
 QT_BEGIN_NAMESPACE
 
 class Ui_ParticleEditorClass
 {
 public:
-    QWidget *mainContainer;
+    MainContainer *maincontainer;
     Graphics *graphics;
     QLabel *label;
     QLabel *label_4;
+    QFrame *line;
+    QFrame *line_2;
+    QFrame *line_3;
+    QFrame *line_4;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -40,22 +45,42 @@ public:
         if (ParticleEditorClass->objectName().isEmpty())
             ParticleEditorClass->setObjectName(QStringLiteral("ParticleEditorClass"));
         ParticleEditorClass->resize(949, 653);
-        mainContainer = new QWidget(ParticleEditorClass);
-        mainContainer->setObjectName(QStringLiteral("mainContainer"));
-        graphics = new Graphics(mainContainer);
+        maincontainer = new MainContainer(ParticleEditorClass);
+        maincontainer->setObjectName(QStringLiteral("maincontainer"));
+        graphics = new Graphics(maincontainer);
         graphics->setObjectName(QStringLiteral("graphics"));
         graphics->setGeometry(QRect(9, 9, 640, 480));
-        label = new QLabel(mainContainer);
+        label = new QLabel(maincontainer);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(660, 10, 200, 50));
         QFont font;
         font.setPointSize(20);
         label->setFont(font);
-        label_4 = new QLabel(mainContainer);
+        label_4 = new QLabel(maincontainer);
         label_4->setObjectName(QStringLiteral("label_4"));
         label_4->setGeometry(QRect(660, 50, 200, 50));
         label_4->setFont(font);
-        ParticleEditorClass->setCentralWidget(mainContainer);
+        line = new QFrame(maincontainer);
+        line->setObjectName(QStringLiteral("line"));
+        line->setGeometry(QRect(649, 10, 3, 480));
+        line->setFrameShape(QFrame::VLine);
+        line->setFrameShadow(QFrame::Sunken);
+        line_2 = new QFrame(maincontainer);
+        line_2->setObjectName(QStringLiteral("line_2"));
+        line_2->setGeometry(QRect(9, 10, 3, 480));
+        line_2->setFrameShape(QFrame::VLine);
+        line_2->setFrameShadow(QFrame::Sunken);
+        line_3 = new QFrame(maincontainer);
+        line_3->setObjectName(QStringLiteral("line_3"));
+        line_3->setGeometry(QRect(10, 490, 640, 3));
+        line_3->setFrameShape(QFrame::HLine);
+        line_3->setFrameShadow(QFrame::Sunken);
+        line_4 = new QFrame(maincontainer);
+        line_4->setObjectName(QStringLiteral("line_4"));
+        line_4->setGeometry(QRect(9, 9, 642, 3));
+        line_4->setFrameShape(QFrame::HLine);
+        line_4->setFrameShadow(QFrame::Sunken);
+        ParticleEditorClass->setCentralWidget(maincontainer);
         menuBar = new QMenuBar(ParticleEditorClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
         menuBar->setGeometry(QRect(0, 0, 949, 21));

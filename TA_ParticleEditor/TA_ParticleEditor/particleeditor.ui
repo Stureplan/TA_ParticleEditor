@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>ParticleEditor</string>
   </property>
-  <widget class="QWidget" name="mainContainer">
+  <widget class="MainContainer" name="maincontainer">
    <widget class="Graphics" name="graphics" native="true">
     <property name="geometry">
      <rect>
@@ -60,6 +60,58 @@
      <string>TextLabel</string>
     </property>
    </widget>
+   <widget class="Line" name="line">
+    <property name="geometry">
+     <rect>
+      <x>649</x>
+      <y>10</y>
+      <width>3</width>
+      <height>480</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_2">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>10</y>
+      <width>3</width>
+      <height>480</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>490</y>
+      <width>640</width>
+      <height>3</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_4">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>9</y>
+      <width>642</width>
+      <height>3</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -87,6 +139,12 @@
    <class>Graphics</class>
    <extends>QWidget</extends>
    <header>graphics.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MainContainer</class>
+   <extends>QWidget</extends>
+   <header>maincontainer.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
