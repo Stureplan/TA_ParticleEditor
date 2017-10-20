@@ -186,7 +186,7 @@ void Graphics::LoadTextures()
 	HRESULT hr;
 	ID3D11ShaderResourceView* tex;
 	textures.push_back(tex);
-	hr = D3DX11CreateShaderResourceViewFromFileA(device, std::string(Utility::Path()+"Data\\Textures\\debug.png").c_str(), NULL, NULL, &textures[0], NULL);
+	hr = D3DX11CreateShaderResourceViewFromFileA(device, std::string(Utility::Path()+"Data\\Textures\\plasmaball.png").c_str(), NULL, NULL, &textures[0], NULL);
 }
 
 void Graphics::Render()
@@ -196,7 +196,24 @@ void Graphics::Render()
 
 	World = XMMatrixIdentity();
 	View = XMMatrixLookAtLH(campos, camdir, camup);
-	WVP = XMMatrixIdentity() * View * Projection;
+	WVP = World * View * Projection;
+
+	cBuffer.wvp = XMMatrixTranspose(WVP);
+	cBuffer.world = XMMatrixTranspose(World);
+	context->UpdateSubresource(constantBuffer, 0, NULL, &cBuffer, 0, 0);
+	context->VSSetConstantBuffers(0, 1, &constantBuffer);
+	context->PSSetSamplers(0, 1, &textureSamplerState);
+	context->PSSetShaderResources(0, 1, &textures[0]);
+
+	context->Draw(6, 0);
+
+
+
+
+
+	World = XMMatrixTranslation(2, 2, 0);
+	View = XMMatrixLookAtLH(campos, camdir, camup);
+	WVP = World * View * Projection;
 
 	cBuffer.wvp = XMMatrixTranspose(WVP);
 	cBuffer.world = XMMatrixTranspose(World);

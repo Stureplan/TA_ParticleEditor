@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include <QWidget>
+#include <QKeyEvent>
+#include <QCoreApplication>
 
 class MainContainer : public QWidget 
 {
@@ -9,6 +11,9 @@ class MainContainer : public QWidget
 public:
 	MainContainer(QWidget* parent = Q_NULLPTR);
 	~MainContainer();
+
+protected:
+	virtual void keyPressEvent(QKeyEvent* evt);
 
 private:
 	
