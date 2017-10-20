@@ -69,6 +69,7 @@ private:
 	ID3D11Texture2D* backBuffer;
 	ID3D11SamplerState* textureSamplerState;
 	D3D11_VIEWPORT viewport;
+	ID3D11BlendState* blendState;
 
 	// Shaders
 	ID3D11InputLayout*	pLayout;

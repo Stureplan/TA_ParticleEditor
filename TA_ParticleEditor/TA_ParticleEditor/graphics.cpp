@@ -45,6 +45,9 @@ void Graphics::Initialize()
 	hr = device->CreateRenderTargetView(backBuffer, NULL, &renderTargetView);
 	backBuffer->Release();
 
+	/*==============================================*/
+	/*				TEXTURE DESCRIPTOR				*/
+	/*==============================================*/
 	D3D11_SAMPLER_DESC textureDesc;
 	ZeroMemory(&textureDesc, sizeof(textureDesc));
 	textureDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
@@ -57,6 +60,25 @@ void Graphics::Initialize()
 	hr = device->CreateSamplerState(&textureDesc, &textureSamplerState);
 
 	context->OMSetRenderTargets(1, &renderTargetView, NULL);
+
+
+	D3D11_BLEND_DESC blendDesc;
+	ZeroMemory(&blendDesc, sizeof(blendDesc));
+	blendDesc.RenderTarget[0].BlendEnable = TRUE;
+	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_INV_DEST_ALPHA;
+	blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+	blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	device->CreateBlendState(&blendDesc, &blendState);
+
+	float blendFactor[] = { 0,0,0,0 };
+	UINT sampleMask = 0xffffffff;
+
+	context->OMSetBlendState(blendState, blendFactor, sampleMask);
+
 	
 	ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
 	viewport.MinDepth = 0.0f;
