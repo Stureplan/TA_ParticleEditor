@@ -31,8 +31,8 @@ VOut VShader(float4 position : POSITION, float2 texcoord : TEXCOORD)
 [maxvertexcount(4)]
 void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 {
-	float w = 50.0f;
-	float h = 50.0f;
+	float w = 10.0f;
+	float h = 10.0f;
 
 	float3 pos = input[0].worldPos;
 
@@ -55,25 +55,25 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 	vtx[3] = pos + right + up;
 
 	float2 uv[4];
-	uv[0] = float2(0, 0);
-	uv[1] = float2(1, 0);
-	uv[2] = float2(0, 1);
-	uv[3] = float2(1, 1);
+	uv[0] = float2(1, 0);
+	uv[1] = float2(0, 0);
+	uv[2] = float2(1, 1);
+	uv[3] = float2(0, 1);
 
 	VOut output;
-	output.position.w = 1.0f;
-	output.worldPos = vtx[0];
 
 	for (int i = 0; i < 4; i++)
 	{
+		output.position.w = input[0].position.w;
 		output.position.xyz = vtx[i];
+		output.worldPos = vtx[i];
 		output.position = mul(output.position, wvp);
 
 		output.texcoord = uv[i];
 		OutputStream.Append(output);
 	}
 
-	OutputStream.RestartStrip();
+	//OutputStream.RestartStrip();
 
 	// 0
 /*	output.position.xyz = vtx[0];

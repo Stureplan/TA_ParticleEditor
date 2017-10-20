@@ -8,7 +8,7 @@ Graphics::Graphics(QWidget * parent)
 	
 	ps = new ParticleSystem();
 	timer = new QTimer;
-	timer->setInterval(16);
+	timer->setInterval(16.666);
 	connect(timer, SIGNAL(timeout()), this, SLOT(MyStart()));
 	timer->start(0);
 
@@ -255,8 +255,8 @@ void Graphics::LoadTextures()
 	HRESULT hr;
 	ID3D11ShaderResourceView* tex;
 	textures.push_back(tex);
-	hr = D3DX11CreateShaderResourceViewFromFileA(device, std::string(Utility::Path()+"Data\\Textures\\plasmaball.png").c_str(), NULL, NULL, &textures[0], NULL);
-	hr = D3DX11CreateShaderResourceViewFromFileA(device, std::string(Utility::Path() + "Data\\Textures\\debug.png").c_str(), NULL, NULL, &texture_debug, NULL);
+	hr = D3DX11CreateShaderResourceViewFromFileA(device, std::string(Utility::Path()+"Data\\Textures\\debug.png").c_str(), NULL, NULL, &textures[0], NULL);
+	hr = D3DX11CreateShaderResourceViewFromFileA(device, std::string(Utility::Path() + "Data\\Textures\\debug_wireframe.png").c_str(), NULL, NULL, &texture_debug, NULL);
 }
 
 void Graphics::ChangeRasterization(D3D11_FILL_MODE fillmode)
@@ -286,7 +286,7 @@ void Graphics::Render()
 	// Draw Particle 1
 	ChangeRasterization(D3D11_FILL_SOLID);
 	World = XMMatrixIdentity();
-	World = XMMatrixTranslation(-4, 4, -2);
+	//World = XMMatrixTranslation(-4, 4, -2);
 	View = XMMatrixLookAtLH(campos, camdir, camup);
 	WVP = World * View * Projection;
 
