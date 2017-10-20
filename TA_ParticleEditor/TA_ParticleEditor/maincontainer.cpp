@@ -6,12 +6,25 @@ MainContainer::MainContainer(QWidget* parent)
 	setFocusPolicy(Qt::StrongFocus);
 }
 
-MainContainer::~MainContainer() {
+MainContainer::~MainContainer() 
+{
 	
+}
+
+void MainContainer::GraphicsWindow(Graphics* gfx)
+{
+	graphics = gfx;
 }
 
 void MainContainer::keyPressEvent(QKeyEvent* evt)
 {
+	if (evt->key() == Qt::Key::Key_Tab)
+	{
+		if (evt->isAutoRepeat() == false)
+		{
+			graphics->Debug();
+		}
+	}
 	if (evt->key() == Qt::Key::Key_Escape)
 	{
 		QCoreApplication::quit();

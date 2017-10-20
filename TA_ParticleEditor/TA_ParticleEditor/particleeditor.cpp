@@ -4,8 +4,9 @@ ParticleEditor::ParticleEditor(QWidget *parent, Qt::WindowFlags flags)	: QMainWi
 {
 	ui.setupUi(this);
 	setCentralWidget(ui.maincontainer);
-
 	setWindowFlag(Qt::MSWindowsFixedSizeDialogHint);
+
+	ui.maincontainer->GraphicsWindow(ui.graphics);
 }
 
 ParticleEditor::~ParticleEditor()
