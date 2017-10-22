@@ -396,31 +396,21 @@ void Graphics::ChangeRasterization(D3D11_FILL_MODE fillmode)
 
 void Graphics::TestIntersection(int x, int y)
 {
-	float nX = (2.0f * x / W - 1.0f);
-	float nY = (-2.0f * y / H + 1.0f);
+	//float nX = (2.0f * x / W - 1.0f);
+	//float nY = (-2.0f * y / H + 1.0f);
 
-	//qDebug("Normalized X: %f", nX);
-	//qDebug("Normalized Y: %f", nY);
-
-	XMVECTOR origin = XMVectorSet(nX, nY, 0, 1);
-	XMVECTOR destination = XMVectorSet(nX, nY, 1, 1);
-
-	XMMATRIX inverse = XMMatrixInverse(NULL, View * Projection);
+	// FIND ORIGINAL PARTICLE POS
+	XMVECTOR pos = XMVectorSet(particleData[0].X, particleData[0].Y, particleData[0].Z, 1.0f);
 
 
-	origin = XMVector4Transform(origin, inverse);
-	destination = XMVector4Transform(destination, inverse);
+	XMVECTOR up = XMVector3Normalize(camup) * sizeY;
+	XMVECTOR normal = XMVector3Normalize(pos - campos);
+	XMVECTOR right = XMVector3Normalize(XMVector3Cross(normal, up)) * sizeX;
 
-	XMFLOAT4 o;
-	XMFLOAT4 d;
-
-	XMStoreFloat4(&o, origin);
-	XMStoreFloat4(&d, XMVector4Normalize(destination - origin));
-
-	XMVECTOR vec0 = XMVectorSet(-5, 5, 0, 1);
-	XMVECTOR vec1 = XMVectorSet(-5,-5, 0, 1);
-	XMVECTOR vec2 = XMVectorSet(5, 5, 0, 1);
-	XMVECTOR vec3 = XMVectorSet(5, -5, 0, 1);
+	XMVECTOR vec0 = pos - right + up; //XMVectorSet(-5, 5, 0, 1);
+	XMVECTOR vec1 = pos - right - up; //XMVectorSet(-5,-5, 0, 1);
+	XMVECTOR vec2 = pos + right + up; //XMVectorSet(5, 5, 0, 1);
+	XMVECTOR vec3 = pos + right - up; //XMVectorSet(5, -5, 0, 1);
 
 
 	World = XMMatrixIdentity();
@@ -440,37 +430,10 @@ void Graphics::TestIntersection(int x, int y)
 	XMStoreFloat2(&dest3, nVec3);
 
 
-	//XMMATRIX mtx = Projection * View * World;
-	//vec = XMVector4Transform(vec, mtx);
-	//dest.x = dest.x / dest.w;
-	//dest.y = dest.y / dest.w;
-	//dest.z = dest.z / dest.w;
-	//dest.w = 1;
-	
-	qDebug("X0: %f Y0: %f", dest0.x, dest0.y);
-	qDebug("X1: %f Y1: %f", dest1.x, dest1.y);
-	qDebug("X2: %f Y2: %f", dest2.x, dest2.y);
-	qDebug("X3: %f Y3: %f", dest3.x, dest3.y);
-
 	qDebug("Intersection Test 1: %d", PointInTriangle(x, y, dest0.x, dest0.y, dest1.x, dest1.y, dest2.x, dest2.y));
 	qDebug("Intersection Test 2: %d", PointInTriangle(x, y, dest1.x, dest1.y, dest3.x, dest3.y, dest2.x, dest2.y));
-
-	//AddParticle(PARTICLE(3, 0, 0));
-
-
-
-
-	//qDebug("Intersection Test: %d", RaySphere(o, d, 0.1f));
-	//qDebug("Intersection Test: %d", RaySphere(origin, destination, XMVectorSet(0,0,0,1), 1));
-
-	//XMVECTOR v1 = XMVector3Unproject(XMVectorSet(x, y, 0, 1), 0.0f, 0.0f, W, H, 0.0f, 1.0f, Projection, View, World);
-	//XMVECTOR v2 = XMVector3Unproject(XMVectorSet(x, y, 1, 1), 0.0f, 0.0f, W, H, 0.0f, 1.0f, Projection, View, World);
-	//XMVECTOR vD = XMVector4Normalize(v2 - v1);
-	//XMFLOAT4 dir; XMStoreFloat4(&dir, v1);
-	//vertices.push_back(VERTEX(-5, -5, 0));
-	//vertices.push_back(VERTEX(5, 5, 0));
-	//vertices.push_back(VERTEX(5, -5, 0));
-
+	
+	//AddParticle(PARTICLE(pPos.x, pPos.y, pPos.z));
 }
 
 bool Graphics::PointInTriangle(float x, float y, float x1, float y1, float x2, float y2, float x3, float y3)
