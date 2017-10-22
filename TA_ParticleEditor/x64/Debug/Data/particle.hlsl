@@ -4,6 +4,7 @@ cbuffer CBUFFER
 	float4x4 world;
 	float4 campos;
 	float4 camup;
+	float2 size;
 };
 
 struct VOut
@@ -33,8 +34,8 @@ VOut VShader(float4 position : POSITION)
 [maxvertexcount(4)]
 void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 {
-	float w = 1.0f;
-	float h = 1.0f;
+	float w = size.x;
+	float h = size.y;
 
 	float3 pos = input[0].worldPos;
 

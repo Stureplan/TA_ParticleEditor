@@ -455,19 +455,18 @@ void Graphics::TestIntersection(int x, int y)
 	qDebug("Intersection Test 1: %d", PointInTriangle(x, y, dest0.x, dest0.y, dest1.x, dest1.y, dest2.x, dest2.y));
 	qDebug("Intersection Test 2: %d", PointInTriangle(x, y, dest1.x, dest1.y, dest3.x, dest3.y, dest2.x, dest2.y));
 
+	//AddParticle(PARTICLE(3, 0, 0));
+
+
+
 
 	//qDebug("Intersection Test: %d", RaySphere(o, d, 0.1f));
 	//qDebug("Intersection Test: %d", RaySphere(origin, destination, XMVectorSet(0,0,0,1), 1));
-
-
-
-
 
 	//XMVECTOR v1 = XMVector3Unproject(XMVectorSet(x, y, 0, 1), 0.0f, 0.0f, W, H, 0.0f, 1.0f, Projection, View, World);
 	//XMVECTOR v2 = XMVector3Unproject(XMVectorSet(x, y, 1, 1), 0.0f, 0.0f, W, H, 0.0f, 1.0f, Projection, View, World);
 	//XMVECTOR vD = XMVector4Normalize(v2 - v1);
 	//XMFLOAT4 dir; XMStoreFloat4(&dir, v1);
-	AddParticle(PARTICLE(3, 0, 0));
 	//vertices.push_back(VERTEX(-5, -5, 0));
 	//vertices.push_back(VERTEX(5, 5, 0));
 	//vertices.push_back(VERTEX(5, -5, 0));
@@ -583,7 +582,7 @@ void Graphics::Render()
 	if (debug == true) { RenderDebug(groundData.size()); }
 
 	
-	// Draw Particles
+	// SETUP & DRAW PARTICLES
 	// do this before object too (IASetVertexBuffers)
 	stride = sizeof(PARTICLE);
 	offset = 0;
@@ -593,6 +592,7 @@ void Graphics::Render()
 	cBufferParticle.world = XMMatrixTranspose(World);
 	cBufferParticle.campos = campos;
 	cBufferParticle.camup = XMVectorSet(0, 1, 0, 1);
+	cBufferParticle.size = XMFLOAT2(sizeX, sizeY);
 	context->UpdateSubresource(constantBufferParticle, 0, NULL, &cBufferParticle, 0, 0);
 	context->VSSetConstantBuffers(0, 1, &constantBufferParticle);
 	context->GSSetConstantBuffers(0, 1, &constantBufferParticle);

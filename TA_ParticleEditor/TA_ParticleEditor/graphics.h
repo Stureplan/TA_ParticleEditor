@@ -62,6 +62,7 @@ public:
 		XMMATRIX world;
 		XMVECTOR campos;
 		XMVECTOR camup;
+		XMFLOAT2 size;
 	};
 
 	struct CBUFFER_VERTEX
@@ -163,6 +164,8 @@ private:
 	std::vector<ID3D11ShaderResourceView*> textures;
 	ID3D11ShaderResourceView* texture_debug;
 
+	float sizeX = 1.0f;
+	float sizeY = 1.0f;
 
 	ParticleSystem* ps;
 	Shaders shaders;
