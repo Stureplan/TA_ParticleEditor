@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <QWidget>
 #include <QTimer>
+#include <QElapsedTimer>
 #include <QDebug>
 
 #include <string>
@@ -14,6 +15,7 @@
 
 #include "utility.h"
 #include "particlesystem.h"
+#include "shaders.h"
 
 #pragma comment (lib, "d3d11.lib")
 #pragma comment (lib, "d3dx11.lib")
@@ -29,35 +31,71 @@ class Graphics : public QWidget
 	Q_OBJECT
 	Q_DISABLE_COPY(Graphics)
 
+
 public:
-	Graphics(QWidget* parent = Q_NULLPTR);
-	~Graphics();
+	struct PARTICLE
+	{
+		PARTICLE(float x, float y, float z)
+		{
+			X = x; Y = y; Z = z;
+		}
 
-	void Initialize();
-	void SetupCamera(XMVECTOR pos, XMVECTOR dir, XMVECTOR up);
-	void LoadShaders();
-	void LoadQuad();
-	void LoadTextures();
-	void ChangeRasterization(D3D11_FILL_MODE fillmode);
-
-	void Debug();
-	void Render();
-
-	virtual QPaintEngine* paintEngine() const { return NULL; }
+		float X, Y, Z;
+	};
 
 	struct VERTEX
 	{
+		VERTEX(float x, float y, float z, 
+			   float u, float v)
+		{
+			X = x; Y = y; Z = z;
+			U = u; V = v;
+		}
+
 		float X, Y, Z;
 		float U, V;
 	};
 
-	struct CBUFFER
+	struct CBUFFER_PARTICLE
 	{
 		XMMATRIX wvp;
 		XMMATRIX world;
 		XMVECTOR campos;
 		XMVECTOR camup;
 	};
+
+	struct CBUFFER_VERTEX
+	{
+		XMMATRIX wvp;
+	};
+
+public:
+	Graphics(QWidget* parent = Q_NULLPTR);
+	~Graphics();
+
+	void Initialize();
+	void SetupCamera(XMVECTOR pos, XMVECTOR dir, XMVECTOR up);
+	void MoveCamera(XMVECTOR pos);
+	void LoadShaders();
+	void LoadParticles();
+	void LoadGroundPlane();
+	void LoadTextures();
+	void ChangeRasterization(D3D11_FILL_MODE fillmode);
+
+	void TestIntersection(int x, int y);
+	bool PointInTriangle(float x, float y, float x1, float y1, float x2, float y2, float x3, float y3);
+	bool RaySphere(XMVECTOR origin, XMVECTOR direction, XMVECTOR position, float radius);
+	bool RaySphere(XMFLOAT4 origin, XMFLOAT4 direction, float radius);
+
+	void AddParticle(PARTICLE v);
+
+	void Debug();
+	void Render();
+	void RenderDebug(unsigned int vtxcount);
+
+	virtual QPaintEngine* paintEngine() const { return NULL; }
+
+
 
 private:
 	bool debug = false;
@@ -102,15 +140,26 @@ private:
 	XMVECTOR camdir;
 	XMVECTOR camup;
 
-	// Constant buffer
-	ID3D11Buffer* constantBuffer;
-	CBUFFER cBuffer;
+	// Constant Buffer Vertices
+	ID3D11Buffer* constantBufferVertex;
+	CBUFFER_VERTEX cBufferVertex;
 
-	ID3D11Buffer* vertexBuffer;
-	std::vector<VERTEX> vertices;
+	// Constant Buffer Particles
+	ID3D11Buffer* constantBufferParticle;
+	CBUFFER_PARTICLE cBufferParticle;
+
+
+
+	ID3D11Buffer* particleVertexBuffer;
+	ID3D11Buffer* groundVertexBuffer;
+
+	std::vector<PARTICLE> particleData;
+	std::vector<VERTEX>   groundData;
+
 	std::vector<ID3D11ShaderResourceView*> textures;
 	ID3D11ShaderResourceView* texture_debug;
 
 
 	ParticleSystem* ps;
+	Shaders shaders;
 };

@@ -2,9 +2,12 @@
 #include <string>
 #include "Shlwapi.h"
 #include <Windows.h>
+#include <DirectXMath.h>
 
 
 #pragma comment (lib, "Shlwapi.lib")
+
+using namespace DirectX;
 
 class Utility
 {
@@ -27,4 +30,11 @@ public:
 		return fullpath;
 	}
 
+	static float Dot(XMVECTOR v1, XMVECTOR v2)
+	{
+		XMFLOAT3 dest;
+		XMStoreFloat3(&dest, XMVector3Dot(v1, v2));
+
+		return dest.x;
+	}
 };

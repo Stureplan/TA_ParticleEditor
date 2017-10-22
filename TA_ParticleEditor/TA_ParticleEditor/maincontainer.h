@@ -18,7 +18,7 @@ public:
 
 protected:
 	virtual void keyPressEvent(QKeyEvent* evt);
-
+	virtual void mousePressEvent(QMouseEvent* evt);
 private:
 	Graphics* graphics;
 };
