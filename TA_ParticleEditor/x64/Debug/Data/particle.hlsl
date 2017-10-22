@@ -23,8 +23,8 @@ VOut VShader(float4 position : POSITION)
 
 	output.worldPos = position.xyz;
 	//output.position = mul(position, wvp);
-	output.position = mul(position, wvp);
-
+	//output.position = mul(position, wvp);
+	output.position = position;
 	output.texcoord = float2(0,0);
 
 	return output;
@@ -33,8 +33,8 @@ VOut VShader(float4 position : POSITION)
 [maxvertexcount(4)]
 void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 {
-	float w = 5.0f;
-	float h = 5.0f;
+	float w = 1.0f;
+	float h = 1.0f;
 
 	float3 pos = input[0].worldPos;
 

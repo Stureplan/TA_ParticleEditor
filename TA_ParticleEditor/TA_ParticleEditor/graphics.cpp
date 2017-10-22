@@ -304,16 +304,7 @@ void Graphics::LoadParticles()
 
 	particleData =
 	{
-		/*{ -5, -5, 0, 0, 1 },
-		{ -5, 5, 0, 0, 0 },
-		{ 5, 5, 0, 1, 0 },
-
-		{ 5, 5, 0, 1, 0 },
-		{ 5, -5, 0, 1, 1 },
-		{ -5, -5, 0, 0, 1 }*/
-		{ -10, 10, 0 }
-		//{-4,-7,0}
-
+		{ 0, 0, 0 }
 	};
 
 	D3D11_BUFFER_DESC vertexDesc;
@@ -380,9 +371,14 @@ void Graphics::LoadGroundPlane()
 void Graphics::LoadTextures()
 {
 	HRESULT hr;
-	ID3D11ShaderResourceView* tex;
-	textures.push_back(tex);
+	ID3D11ShaderResourceView* debug;
+	ID3D11ShaderResourceView* plasmaball;
+
+	textures.push_back(debug);
+	textures.push_back(plasmaball);
+
 	hr = D3DX11CreateShaderResourceViewFromFileA(device, std::string(Utility::Path()+"Data\\Textures\\debug.png").c_str(), NULL, NULL, &textures[0], NULL);
+	hr = D3DX11CreateShaderResourceViewFromFileA(device, std::string(Utility::Path() + "Data\\Textures\\plasmaball.png").c_str(), NULL, NULL, &textures[1], NULL);
 	hr = D3DX11CreateShaderResourceViewFromFileA(device, std::string(Utility::Path() + "Data\\Textures\\debug_wireframe.png").c_str(), NULL, NULL, &texture_debug, NULL);
 }
 
@@ -471,7 +467,7 @@ void Graphics::TestIntersection(int x, int y)
 	//XMVECTOR v2 = XMVector3Unproject(XMVectorSet(x, y, 1, 1), 0.0f, 0.0f, W, H, 0.0f, 1.0f, Projection, View, World);
 	//XMVECTOR vD = XMVector4Normalize(v2 - v1);
 	//XMFLOAT4 dir; XMStoreFloat4(&dir, v1);
-	AddParticle(PARTICLE(10, 10, 0));
+	AddParticle(PARTICLE(3, 0, 0));
 	//vertices.push_back(VERTEX(-5, -5, 0));
 	//vertices.push_back(VERTEX(5, 5, 0));
 	//vertices.push_back(VERTEX(5, -5, 0));
@@ -601,7 +597,7 @@ void Graphics::Render()
 	context->VSSetConstantBuffers(0, 1, &constantBufferParticle);
 	context->GSSetConstantBuffers(0, 1, &constantBufferParticle);
 	context->PSSetSamplers(0, 1, &textureSamplerState);
-	context->PSSetShaderResources(0, 1, &textures[0]);
+	context->PSSetShaderResources(0, 1, &textures[1]);
 
 	context->Draw(particleData.size(), 0);
 	if (debug == true) { RenderDebug(particleData.size()); }
