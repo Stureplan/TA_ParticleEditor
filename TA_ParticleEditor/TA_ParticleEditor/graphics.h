@@ -76,6 +76,7 @@ public:
 	void Initialize();
 	void SetupCamera(XMVECTOR pos, XMVECTOR dir, XMVECTOR up);
 	void MoveCamera(XMVECTOR pos);
+	void SetLastCameraMovement(Qt::Key key, bool released);
 	void LoadShaders();
 	void LoadParticles();
 	void LoadGroundPlane();
@@ -136,9 +137,12 @@ private:
 	XMMATRIX View;
 	XMMATRIX Projection;
 
+	XMVECTOR camvel;
 	XMVECTOR campos;
 	XMVECTOR camdir;
 	XMVECTOR camup;
+	Qt::Key lastKey;
+	float camspeed = 0.5f;
 
 	// Constant Buffer Vertices
 	ID3D11Buffer* constantBufferVertex;

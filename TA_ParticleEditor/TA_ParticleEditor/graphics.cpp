@@ -17,9 +17,16 @@ Graphics::Graphics(QWidget * parent)
 
 void Graphics::MyStart()
 {
+	// Measurement for time spent rendering
 	//QElapsedTimer t;
 	//t.start();
+
+	// DT is 16 ms (0.016 seconds per frame)
+	MoveCamera(camvel * 0.016f * camspeed);
 	Render();
+
+
+	// Measure time spent rendering (does it even work?)
 	//qDebug("%d", t.elapsed());
 }
 
@@ -157,7 +164,7 @@ void Graphics::Initialize()
 
 
 	SetupCamera(XMVectorSet(0, 0, -10, 0), //pos
-				XMVectorSet(0, 0, 0, 0),   //dir
+				XMVectorSet(0, 0, -9,  0), //dir
 				XMVectorSet(0, 1, 0, 0));  //up
 
 	shaders.LoadObjectShader(device, context);
@@ -171,6 +178,9 @@ void Graphics::Initialize()
 
 void Graphics::SetupCamera(XMVECTOR pos, XMVECTOR dir, XMVECTOR up)
 {
+	camvel = XMVectorSet(0, 0, 0, 0);
+	lastKey = Qt::Key::Key_0;
+
 	campos = pos;
 	camdir = dir;
 	camup = up;
@@ -182,9 +192,52 @@ void Graphics::SetupCamera(XMVECTOR pos, XMVECTOR dir, XMVECTOR up)
 
 void Graphics::MoveCamera(XMVECTOR pos)
 {
+	XMVECTOR dir = XMVector4Normalize(camdir - campos);
+
 	campos += pos;
+	camdir += pos;
 	
 	View = XMMatrixLookAtLH(campos, camdir, camup);
+}
+
+void Graphics::SetLastCameraMovement(Qt::Key key, bool released)
+{
+
+	if (released == true && key == lastKey)
+	{
+		camvel = XMVectorSet(0, 0, 0, 0);
+		return;
+	}
+
+	if (released == false)
+	{
+		switch (key)
+		{
+		case Qt::Key::Key_W:
+			camvel = XMVectorSet(0, 0, 1, 0);
+			break;
+
+		case Qt::Key::Key_A:
+			camvel = XMVectorSet(-1, 0, 0, 0);
+			break;
+
+		case Qt::Key::Key_S:
+			camvel = XMVectorSet(0, 0, -1, 0);
+			break;
+
+		case Qt::Key::Key_D:
+			camvel = XMVectorSet(1, 0, 0, 0);
+			break;
+
+		default:
+			break;
+		}
+
+		lastKey = key;
+
+	}
+
+
 }
 
 void Graphics::LoadShaders()

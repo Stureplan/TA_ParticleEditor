@@ -18,21 +18,42 @@ void MainContainer::GraphicsWindow(Graphics* gfx)
 
 void MainContainer::keyPressEvent(QKeyEvent* evt)
 {
-	if (evt->key() == Qt::Key::Key_Tab)
+	Qt::Key key = (Qt::Key)evt->key();
+
+
+
+	if (key == Qt::Key::Key_Tab)
 	{
 		if (evt->isAutoRepeat() == false)
 		{
 			graphics->Debug();
 		}
 	}
-	if (evt->key() == Qt::Key::Key_Escape)
+	if (key == Qt::Key::Key_Escape)
 	{
 		QCoreApplication::quit();
 	}
 	
-	if (evt->key() == Qt::Key::Key_D)
+	if (key == Qt::Key::Key_W || key == Qt::Key::Key_A || key == Qt::Key::Key_S || key == Qt::Key::Key_D)
 	{
-		graphics->MoveCamera(XMVectorSet(1, 0, 0, 0));
+		if (evt->isAutoRepeat() == false)
+		{
+			graphics->SetLastCameraMovement(key, false);
+		}
+	}
+}
+
+void MainContainer::keyReleaseEvent(QKeyEvent* evt)
+{
+	Qt::Key key = (Qt::Key)evt->key();
+
+	if (key == Qt::Key::Key_W || key == Qt::Key::Key_A || key == Qt::Key::Key_S || key == Qt::Key::Key_D)
+	{
+		if (evt->isAutoRepeat() == false)
+		{
+			graphics->SetLastCameraMovement(key, true);
+		}
+
 	}
 }
 
