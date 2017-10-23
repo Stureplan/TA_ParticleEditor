@@ -147,7 +147,7 @@ private:
 	XMVECTOR camdir;
 	XMVECTOR camup;
 	Qt::Key lastKey;
-	float camspeed = 0.5f;
+	float camspeed = 0.1f;
 
 	// Constant Buffer Vertices
 	ID3D11Buffer* constantBufferVertex;
