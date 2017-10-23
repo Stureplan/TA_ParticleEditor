@@ -30,8 +30,8 @@ class Ui_ParticleEditorClass
 public:
     MainContainer *maincontainer;
     Graphics *graphics;
-    QLabel *label;
-    QLabel *label_4;
+    QLabel *label_ParticleID;
+    QLabel *label_ParticleInfo;
     QFrame *line;
     QFrame *line_2;
     QFrame *line_3;
@@ -50,16 +50,19 @@ public:
         graphics = new Graphics(maincontainer);
         graphics->setObjectName(QStringLiteral("graphics"));
         graphics->setGeometry(QRect(9, 9, 640, 480));
-        label = new QLabel(maincontainer);
-        label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(660, 10, 200, 50));
+        label_ParticleID = new QLabel(maincontainer);
+        label_ParticleID->setObjectName(QStringLiteral("label_ParticleID"));
+        label_ParticleID->setGeometry(QRect(660, 10, 200, 50));
         QFont font;
-        font.setPointSize(20);
-        label->setFont(font);
-        label_4 = new QLabel(maincontainer);
-        label_4->setObjectName(QStringLiteral("label_4"));
-        label_4->setGeometry(QRect(660, 50, 200, 50));
-        label_4->setFont(font);
+        font.setPointSize(16);
+        label_ParticleID->setFont(font);
+        label_ParticleInfo = new QLabel(maincontainer);
+        label_ParticleInfo->setObjectName(QStringLiteral("label_ParticleInfo"));
+        label_ParticleInfo->setGeometry(QRect(660, 60, 200, 171));
+        QFont font1;
+        font1.setPointSize(12);
+        label_ParticleInfo->setFont(font1);
+        label_ParticleInfo->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
         line = new QFrame(maincontainer);
         line->setObjectName(QStringLiteral("line"));
         line->setGeometry(QRect(649, 10, 3, 480));
@@ -100,8 +103,8 @@ public:
     void retranslateUi(QMainWindow *ParticleEditorClass)
     {
         ParticleEditorClass->setWindowTitle(QApplication::translate("ParticleEditorClass", "ParticleEditor", Q_NULLPTR));
-        label->setText(QApplication::translate("ParticleEditorClass", "TextLabel", Q_NULLPTR));
-        label_4->setText(QApplication::translate("ParticleEditorClass", "TextLabel", Q_NULLPTR));
+        label_ParticleID->setText(QApplication::translate("ParticleEditorClass", "No particle selected", Q_NULLPTR));
+        label_ParticleInfo->setText(QApplication::translate("ParticleEditorClass", "<no info>", Q_NULLPTR));
     } // retranslateUi
 
 };

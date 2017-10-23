@@ -8,6 +8,9 @@ ParticleEditor::ParticleEditor(QWidget *parent, Qt::WindowFlags flags)	: QMainWi
 	//QApplication::setKeyboardInputInterval(16);
 
 	ui.maincontainer->GraphicsWindow(ui.graphics);
+	ui.maincontainer->ParticleIDLabel(ui.label_ParticleID);
+	ui.maincontainer->ParticleInfoLabel(ui.label_ParticleInfo);
+
 }
 
 ParticleEditor::~ParticleEditor()

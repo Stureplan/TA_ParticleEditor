@@ -304,7 +304,7 @@ void Graphics::LoadParticles()
 
 	particleData =
 	{
-		{ 0, 0, 0 }
+		{ -1.2545464f, 0, 0 }
 	};
 
 	D3D11_BUFFER_DESC vertexDesc;
@@ -394,45 +394,56 @@ void Graphics::ChangeRasterization(D3D11_FILL_MODE fillmode)
 	}
 }
 
-void Graphics::TestIntersection(int x, int y)
+int Graphics::TestIntersection(int x, int y, XMFLOAT3 &particlePos)
 {
 	//float nX = (2.0f * x / W - 1.0f);
 	//float nY = (-2.0f * y / H + 1.0f);
 
-	// FIND ORIGINAL PARTICLE POS
-	XMVECTOR pos = XMVectorSet(particleData[0].X, particleData[0].Y, particleData[0].Z, 1.0f);
+	for (unsigned int i = 0; i < particleData.size(); i++)
+	{
+		// FIND ORIGINAL PARTICLE POS
+		XMVECTOR pos = XMVectorSet(particleData[i].X, particleData[i].Y, particleData[i].Z, 1.0f);
+
+		XMVECTOR up = XMVector3Normalize(camup) * sizeY;
+		XMVECTOR normal = XMVector3Normalize(pos - campos);
+		XMVECTOR right = XMVector3Normalize(XMVector3Cross(normal, up)) * sizeX;
+
+		XMVECTOR vec0 = pos - right + up; //XMVectorSet(-5, 5, 0, 1);
+		XMVECTOR vec1 = pos - right - up; //XMVectorSet(-5,-5, 0, 1);
+		XMVECTOR vec2 = pos + right + up; //XMVectorSet(5, 5, 0, 1);
+		XMVECTOR vec3 = pos + right - up; //XMVectorSet(5, -5, 0, 1);
+
+		World = XMMatrixIdentity();
+		XMVECTOR nVec0 = XMVector3Project(vec0, 0, 0, W, H, 0, 1, Projection, View, World);
+		XMVECTOR nVec1 = XMVector3Project(vec1, 0, 0, W, H, 0, 1, Projection, View, World);
+		XMVECTOR nVec2 = XMVector3Project(vec2, 0, 0, W, H, 0, 1, Projection, View, World);
+		XMVECTOR nVec3 = XMVector3Project(vec3, 0, 0, W, H, 0, 1, Projection, View, World);
+
+		XMFLOAT2 pixel0;
+		XMStoreFloat2(&pixel0, nVec0);
+		XMFLOAT2 pixel1;
+		XMStoreFloat2(&pixel1, nVec1);
+		XMFLOAT2 pixel2;
+		XMStoreFloat2(&pixel2, nVec2);
+		XMFLOAT2 pixel3;
+		XMStoreFloat2(&pixel3, nVec3);
 
 
-	XMVECTOR up = XMVector3Normalize(camup) * sizeY;
-	XMVECTOR normal = XMVector3Normalize(pos - campos);
-	XMVECTOR right = XMVector3Normalize(XMVector3Cross(normal, up)) * sizeX;
+		bool t1 = PointInTriangle(x, y, pixel0.x, pixel0.y, pixel1.x, pixel1.y, pixel2.x, pixel2.y);
+		bool t2 = PointInTriangle(x, y, pixel1.x, pixel1.y, pixel3.x, pixel3.y, pixel2.x, pixel2.y);
 
-	XMVECTOR vec0 = pos - right + up; //XMVectorSet(-5, 5, 0, 1);
-	XMVECTOR vec1 = pos - right - up; //XMVectorSet(-5,-5, 0, 1);
-	XMVECTOR vec2 = pos + right + up; //XMVectorSet(5, 5, 0, 1);
-	XMVECTOR vec3 = pos + right - up; //XMVectorSet(5, -5, 0, 1);
+		if (t1 == true || t2 == true)
+		{
+			XMStoreFloat3(&particlePos, pos);
+			//XMStoreFloat2(&particlePos, XMVector3Project(pos, 0, 0, W, H, 0, 1, Projection, View, World));
+			return i;
+		}
 
-
-	World = XMMatrixIdentity();
-	XMVECTOR nVec0 = XMVector3Project(vec0, 0, 0, W, H, 0, 1, Projection, View, World);
-	XMVECTOR nVec1 = XMVector3Project(vec1, 0, 0, W, H, 0, 1, Projection, View, World);
-	XMVECTOR nVec2 = XMVector3Project(vec2, 0, 0, W, H, 0, 1, Projection, View, World);
-	XMVECTOR nVec3 = XMVector3Project(vec3, 0, 0, W, H, 0, 1, Projection, View, World);
+		//qDebug("Intersection Test 2: %d", 
+	}
 
 
-	XMFLOAT2 dest0;
-	XMStoreFloat2(&dest0, nVec0);
-	XMFLOAT2 dest1;
-	XMStoreFloat2(&dest1, nVec1);
-	XMFLOAT2 dest2;
-	XMStoreFloat2(&dest2, nVec2);
-	XMFLOAT2 dest3;
-	XMStoreFloat2(&dest3, nVec3);
-
-
-	qDebug("Intersection Test 1: %d", PointInTriangle(x, y, dest0.x, dest0.y, dest1.x, dest1.y, dest2.x, dest2.y));
-	qDebug("Intersection Test 2: %d", PointInTriangle(x, y, dest1.x, dest1.y, dest3.x, dest3.y, dest2.x, dest2.y));
-	
+	return -1;
 	//AddParticle(PARTICLE(pPos.x, pPos.y, pPos.z));
 }
 

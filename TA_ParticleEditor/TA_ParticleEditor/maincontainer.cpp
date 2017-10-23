@@ -16,6 +16,16 @@ void MainContainer::GraphicsWindow(Graphics* gfx)
 	graphics = gfx;
 }
 
+void MainContainer::ParticleIDLabel(QLabel* lbl)
+{
+	labelID = lbl;
+}
+
+void MainContainer::ParticleInfoLabel(QLabel* lbl)
+{
+	labelInfo = lbl;
+}
+
 void MainContainer::keyPressEvent(QKeyEvent* evt)
 {
 	Qt::Key key = (Qt::Key)evt->key();
@@ -65,7 +75,29 @@ void MainContainer::mousePressEvent(QMouseEvent* evt)
 		// check if inside window to begin with
 		if (graphics->rect().contains(pt))
 		{
-			graphics->TestIntersection(pt.x(), pt.y());
+			XMFLOAT3 pos = XMFLOAT3(-999,-999,-999);
+			int hitParticle = graphics->TestIntersection(pt.x(), pt.y(), pos);
+
+			if (hitParticle > -1)
+			{
+				//QLabel* label = new	QLabel(this);
+				//label->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+				labelID->setText(QString(std::string("Particle: " + std::to_string(hitParticle)).c_str()));
+				
+				QString sPosX; sPosX = sPosX.setNum(pos.x, 'f', 2);
+				QString sPosY; sPosY = sPosY.setNum(pos.y, 'f', 2);
+				QString sPosZ; sPosZ = sPosZ.setNum(pos.z, 'f', 2);
+
+				QString	sPos = QString("X: %1 Y: %2 Z: %3").arg(sPosX, sPosY, sPosZ);
+				labelInfo->setText(sPos);
+				//label->setAlignment(Qt::AlignBottom | Qt::AlignRight);
+				//label->setGeometry(10,10, 30, 80);
+			}
+			else
+			{
+				labelID->setText("No particle selected");
+				labelInfo->setText("<no info>");
+			}
 		}
 	}
 }

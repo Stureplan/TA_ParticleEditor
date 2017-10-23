@@ -84,7 +84,7 @@ public:
 	void LoadTextures();
 	void ChangeRasterization(D3D11_FILL_MODE fillmode);
 
-	void TestIntersection(int x, int y);
+	int TestIntersection(int x, int y, XMFLOAT3 &particlePos);
 	bool PointInTriangle(float x, float y, float x1, float y1, float x2, float y2, float x3, float y3);
 	bool RaySphere(XMVECTOR origin, XMVECTOR direction, XMVECTOR position, float radius);
 	bool RaySphere(XMFLOAT4 origin, XMFLOAT4 direction, float radius);
