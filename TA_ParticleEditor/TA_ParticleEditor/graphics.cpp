@@ -172,6 +172,7 @@ void Graphics::Initialize()
 	//LoadShaders();
 	
 	LoadParticles();
+	LoadDebugParticle();
 	LoadGroundPlane();
 	LoadTextures();
 }
@@ -304,7 +305,7 @@ void Graphics::LoadParticles()
 
 	particleData =
 	{
-		{ -1.2545464f, 0, 0 }
+		{ -1.25f, 0, 0 }
 	};
 
 	D3D11_BUFFER_DESC vertexDesc;
@@ -323,6 +324,30 @@ void Graphics::LoadParticles()
 	vertexData.SysMemSlicePitch = 0;
 
 	hr = device->CreateBuffer(&vertexDesc, &vertexData, &particleVertexBuffer);
+}
+
+void Graphics::LoadDebugParticle()
+{
+	HRESULT hr;
+
+	debugParticle = { 0, 0, 0 };
+
+	D3D11_BUFFER_DESC vertexDesc;
+	ZeroMemory(&vertexDesc, sizeof(vertexDesc));
+	vertexDesc.ByteWidth = sizeof(PARTICLE);
+	vertexDesc.Usage = D3D11_USAGE_DYNAMIC;
+	vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	vertexDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	vertexDesc.MiscFlags = 0;
+	vertexDesc.StructureByteStride = 0;
+
+	D3D11_SUBRESOURCE_DATA vertexData;
+	ZeroMemory(&vertexData, sizeof(vertexData));
+	vertexData.pSysMem = &debugParticle;
+	vertexData.SysMemPitch = 0;
+	vertexData.SysMemSlicePitch = 0;
+
+	hr = device->CreateBuffer(&vertexDesc, &vertexData, &particleDebugVertexBuffer);
 }
 
 void Graphics::LoadGroundPlane()
@@ -436,13 +461,15 @@ int Graphics::TestIntersection(int x, int y, XMFLOAT3 &particlePos)
 		{
 			XMStoreFloat3(&particlePos, pos);
 			//XMStoreFloat2(&particlePos, XMVector3Project(pos, 0, 0, W, H, 0, 1, Projection, View, World));
+			particleDebugID = i;
+
 			return i;
 		}
 
 		//qDebug("Intersection Test 2: %d", 
 	}
 
-
+	particleDebugID = -1;
 	return -1;
 	//AddParticle(PARTICLE(pPos.x, pPos.y, pPos.z));
 }
@@ -553,7 +580,7 @@ void Graphics::Render()
 	context->PSSetShaderResources(0, 1, &textures[0]);
 
 	context->Draw(groundData.size(), 0);
-	if (debug == true) { RenderDebug(groundData.size()); }
+	if (debug == true) { RenderDebugObject(groundData.size()); }
 
 	
 	// SETUP & DRAW PARTICLES
@@ -574,14 +601,20 @@ void Graphics::Render()
 	context->PSSetShaderResources(0, 1, &textures[1]);
 
 	context->Draw(particleData.size(), 0);
-	if (debug == true) { RenderDebug(particleData.size()); }
+	if (particleDebugID > -1)
+	{
+		context->IASetVertexBuffers(0, 1, &particleVertexBuffer, &stride, &offset);
+		RenderDebugParticle(particleDebugID); 
+	}
+
+	//if (debug == true) { RenderDebug(particleData.size()); }
 
 	
 
 	swapChain->Present(0, 0);
 }
 
-void Graphics::RenderDebug(unsigned int vtxcount)
+void Graphics::RenderDebugObject(unsigned int vtxcount)
 {
 	// Change to wireframe
 	ChangeRasterization(D3D11_FILL_WIREFRAME);
@@ -590,6 +623,33 @@ void Graphics::RenderDebug(unsigned int vtxcount)
 	context->PSSetSamplers(0, 1, &textureSamplerState);
 	context->PSSetShaderResources(0, 1, &texture_debug);
 	context->Draw(vtxcount, 0);
+
+	// Change back to fill
+	ChangeRasterization(D3D11_FILL_SOLID);
+}
+
+void Graphics::RenderDebugParticle(unsigned int particleID)
+{
+	debugParticle = particleData[particleID];
+
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+	context->Map(particleDebugVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	memcpy((PARTICLE*)mappedResource.pData, &debugParticle, sizeof(PARTICLE));
+	context->Unmap(particleVertexBuffer, 0);
+
+
+
+
+
+	// Change to wireframe
+	ChangeRasterization(D3D11_FILL_WIREFRAME);
+
+	// Render wireframe
+	context->PSSetSamplers(0, 1, &textureSamplerState);
+	context->PSSetShaderResources(0, 1, &texture_debug);
+	context->Draw(1, 0);
 
 	// Change back to fill
 	ChangeRasterization(D3D11_FILL_SOLID);

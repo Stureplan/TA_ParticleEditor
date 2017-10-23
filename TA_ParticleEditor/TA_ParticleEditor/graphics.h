@@ -8,7 +8,7 @@
 #include <vector>
 
 
-#include <dxgi.h>
+//#include <dxgi.h>
 #include <d3d11.h>
 #include <d3dx11.h>
 #include <DirectXMath.h>
@@ -35,6 +35,7 @@ class Graphics : public QWidget
 public:
 	struct PARTICLE
 	{
+		PARTICLE() : X(0), Y(0), Z(0) { }
 		PARTICLE(float x, float y, float z)
 		{
 			X = x; Y = y; Z = z;
@@ -80,6 +81,7 @@ public:
 	void SetLastCameraMovement(Qt::Key key, bool released);
 	void LoadShaders();
 	void LoadParticles();
+	void LoadDebugParticle();
 	void LoadGroundPlane();
 	void LoadTextures();
 	void ChangeRasterization(D3D11_FILL_MODE fillmode);
@@ -93,7 +95,9 @@ public:
 
 	void Debug();
 	void Render();
-	void RenderDebug(unsigned int vtxcount);
+	void RenderDebugObject(unsigned int vtxcount);
+	void RenderDebugParticle(unsigned int particleID);
+
 
 	virtual QPaintEngine* paintEngine() const { return NULL; }
 
@@ -157,8 +161,11 @@ private:
 
 	ID3D11Buffer* particleVertexBuffer;
 	ID3D11Buffer* groundVertexBuffer;
+	ID3D11Buffer* particleDebugVertexBuffer;
 
 	std::vector<PARTICLE> particleData;
+	int particleDebugID = -1;
+	PARTICLE debugParticle;
 	std::vector<VERTEX>   groundData;
 
 	std::vector<ID3D11ShaderResourceView*> textures;
