@@ -26,6 +26,13 @@ void MainContainer::ParticleInfoLabel(QLabel* lbl)
 	labelInfo = lbl;
 }
 
+//void MainContainer::SetVelocity()
+//{
+//	XMFLOAT3(0, 0, 0);
+//
+//	//set velocity
+//}
+
 void MainContainer::keyPressEvent(QKeyEvent* evt)
 {
 	Qt::Key key = (Qt::Key)evt->key();

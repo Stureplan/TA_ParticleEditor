@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'particleeditor.ui'
 **
-** Created by: Qt User Interface Compiler version 5.9.1
+** Created by: Qt User Interface Compiler version 5.9.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -18,6 +18,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include "graphics.h"
@@ -36,6 +37,7 @@ public:
     QFrame *line_2;
     QFrame *line_3;
     QFrame *line_4;
+    QPushButton *buildParticleSystem;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -83,6 +85,9 @@ public:
         line_4->setGeometry(QRect(9, 9, 642, 3));
         line_4->setFrameShape(QFrame::HLine);
         line_4->setFrameShadow(QFrame::Sunken);
+        buildParticleSystem = new QPushButton(maincontainer);
+        buildParticleSystem->setObjectName(QStringLiteral("buildParticleSystem"));
+        buildParticleSystem->setGeometry(QRect(660, 100, 75, 23));
         ParticleEditorClass->setCentralWidget(maincontainer);
         menuBar = new QMenuBar(ParticleEditorClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -105,6 +110,7 @@ public:
         ParticleEditorClass->setWindowTitle(QApplication::translate("ParticleEditorClass", "ParticleEditor", Q_NULLPTR));
         label_ParticleID->setText(QApplication::translate("ParticleEditorClass", "No particle selected", Q_NULLPTR));
         label_ParticleInfo->setText(QApplication::translate("ParticleEditorClass", "<no info>", Q_NULLPTR));
+        buildParticleSystem->setText(QApplication::translate("ParticleEditorClass", "Build", Q_NULLPTR));
     } // retranslateUi
 
 };
