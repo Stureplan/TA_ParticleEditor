@@ -26,6 +26,12 @@ void MainContainer::ParticleInfoLabel(QLabel* lbl)
 	labelInfo = lbl;
 }
 
+void MainContainer::LifetimeInput(QPlainTextEdit* pte)
+{
+	//QString str = "hello";
+	//pte->setPlaceholderText(str);
+	//connect(pte, 
+}
 //void MainContainer::SetVelocity()
 //{
 //	XMFLOAT3(0, 0, 0);

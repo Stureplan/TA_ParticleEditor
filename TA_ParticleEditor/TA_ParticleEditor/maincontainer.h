@@ -3,6 +3,7 @@
 #include <QKeyEvent>
 #include <QCoreApplication>
 #include <QLabel>
+#include <QPlainTextEdit>
 
 #include "graphics.h"
 
@@ -18,7 +19,10 @@ public:
 	void GraphicsWindow(Graphics* gfx);
 	void ParticleIDLabel(QLabel* lbl);
 	void ParticleInfoLabel(QLabel* lbl);
+	void LifetimeInput(QPlainTextEdit* pte);
 
+//public slots:
+	//void setVector();
 
 protected:
 	virtual void keyPressEvent(QKeyEvent* evt);
@@ -28,5 +32,7 @@ private:
 	Graphics* graphics;
 	QLabel* labelID;
 	QLabel* labelInfo;
+	QPlainTextEdit* textField;
+	float mLifetime;
 
 };

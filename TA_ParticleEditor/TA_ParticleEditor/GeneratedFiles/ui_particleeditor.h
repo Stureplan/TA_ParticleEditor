@@ -18,6 +18,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
@@ -37,7 +38,8 @@ public:
     QFrame *line_2;
     QFrame *line_3;
     QFrame *line_4;
-    QPushButton *buildParticleSystem;
+    QPushButton *browsepath;
+    QPlainTextEdit *lifetime;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -85,9 +87,12 @@ public:
         line_4->setGeometry(QRect(9, 9, 642, 3));
         line_4->setFrameShape(QFrame::HLine);
         line_4->setFrameShadow(QFrame::Sunken);
-        buildParticleSystem = new QPushButton(maincontainer);
-        buildParticleSystem->setObjectName(QStringLiteral("buildParticleSystem"));
-        buildParticleSystem->setGeometry(QRect(660, 100, 75, 23));
+        browsepath = new QPushButton(maincontainer);
+        browsepath->setObjectName(QStringLiteral("browsepath"));
+        browsepath->setGeometry(QRect(670, 470, 75, 23));
+        lifetime = new QPlainTextEdit(maincontainer);
+        lifetime->setObjectName(QStringLiteral("lifetime"));
+        lifetime->setGeometry(QRect(680, 100, 61, 31));
         ParticleEditorClass->setCentralWidget(maincontainer);
         menuBar = new QMenuBar(ParticleEditorClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -110,7 +115,7 @@ public:
         ParticleEditorClass->setWindowTitle(QApplication::translate("ParticleEditorClass", "ParticleEditor", Q_NULLPTR));
         label_ParticleID->setText(QApplication::translate("ParticleEditorClass", "No particle selected", Q_NULLPTR));
         label_ParticleInfo->setText(QApplication::translate("ParticleEditorClass", "<no info>", Q_NULLPTR));
-        buildParticleSystem->setText(QApplication::translate("ParticleEditorClass", "Build", Q_NULLPTR));
+        browsepath->setText(QApplication::translate("ParticleEditorClass", "Browse", Q_NULLPTR));
     } // retranslateUi
 
 };
