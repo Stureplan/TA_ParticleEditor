@@ -22,7 +22,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Graphics_t {
     QByteArrayData data[3];
-    char stringdata0[18];
+    char stringdata0[15];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -32,11 +32,11 @@ struct qt_meta_stringdata_Graphics_t {
 static const qt_meta_stringdata_Graphics_t qt_meta_stringdata_Graphics = {
     {
 QT_MOC_LITERAL(0, 0, 8), // "Graphics"
-QT_MOC_LITERAL(1, 9, 7), // "MyStart"
-QT_MOC_LITERAL(2, 17, 0) // ""
+QT_MOC_LITERAL(1, 9, 4), // "Loop"
+QT_MOC_LITERAL(2, 14, 0) // ""
 
     },
-    "Graphics\0MyStart\0"
+    "Graphics\0Loop\0"
 };
 #undef QT_MOC_LITERAL
 
@@ -68,7 +68,7 @@ void Graphics::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
         Graphics *_t = static_cast<Graphics *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->MyStart(); break;
+        case 0: _t->Loop(); break;
         default: ;
         }
     }
