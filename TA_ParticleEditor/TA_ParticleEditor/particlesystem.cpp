@@ -24,27 +24,28 @@ void ParticleSystem::ModifyParticle(int id, POSITION p)
 	particles[id].position = p;
 }
 
-void* ParticleSystem::ParticlePositionData(unsigned int &count)
+std::vector<POSITION> ParticleSystem::ParticlePositionData(unsigned int &count)
 {
+	std::vector<POSITION> positions;
 	count = particles.size();
-	POSITION* positions = new POSITION[count];
+	unsigned int actualCount = 0;
 
-	int actualCount = 0;
+
+
 	for (int i = 0; i < count; i++)
 	{
 		if (particles[i].active)
 		{
-			positions[i] = particles[i].position;
+			positions.push_back(particles[i].position);
 			actualCount++;
 		}
 	}
 
 	count = actualCount;
-
 	return positions;
 }
 
-std::vector<POSITION> ParticleSystem::GetPositions()
+std::vector<POSITION> ParticleSystem::AllParticlePositions()
 {
 	unsigned int count = particles.size();
 	std::vector<POSITION> positions;

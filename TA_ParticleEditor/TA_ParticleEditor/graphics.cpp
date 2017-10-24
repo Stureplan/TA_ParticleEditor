@@ -243,13 +243,8 @@ void Graphics::LoadParticles()
 {
 	HRESULT hr;
 
-	unsigned int count;
-	void* data = particlesystem->ParticlePositionData(count);
-
-	//particleData =
-	//{
-	//	{ -1.25f, 0, 0 }
-	//};
+	std::vector<POSITION> positions = particlesystem->AllParticlePositions();
+	unsigned int count = positions.size();
 
 	D3D11_BUFFER_DESC vertexDesc;
 	ZeroMemory(&vertexDesc, sizeof(vertexDesc));
@@ -263,7 +258,7 @@ void Graphics::LoadParticles()
 
 	D3D11_SUBRESOURCE_DATA vertexData;
 	ZeroMemory(&vertexData, sizeof(vertexData));
-	vertexData.pSysMem = data;
+	vertexData.pSysMem = positions.data();
 	vertexData.SysMemPitch = 0;
 	vertexData.SysMemSlicePitch = 0;
 
@@ -365,13 +360,13 @@ void Graphics::ChangeRasterization(D3D11_FILL_MODE fillmode)
 
 int Graphics::TestIntersection(int x, int y, XMFLOAT3 &particlePos)
 {
-	particlesystem->ModifyParticle(0, POSITION(0, 1, 0));
+	//particlesystem->ModifyParticle(0, POSITION(0, 1, 0));
 
 
 
 	//float nX = (2.0f * x / W - 1.0f);
 	//float nY = (-2.0f * y / H + 1.0f);
-	std::vector<POSITION> particles = particlesystem->GetPositions();
+	std::vector<POSITION> particles = particlesystem->AllParticlePositions();
 
 	for (unsigned int i = 0; i < particles.size(); i++)
 	{
@@ -444,14 +439,14 @@ void Graphics::AddParticle(POSITION p)
 	particlesystem->AddParticle(p);
 
 	// Get the data pointer
-	void* data = particlesystem->ParticlePositionData(newParticleCount);
+	std::vector<POSITION> positions = particlesystem->ParticlePositionData(newParticleCount);
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
 	// Discard the whole old system and set a new one
 	context->Map(particleVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-	memcpy(mappedResource.pData, data, sizeof(POSITION) * newParticleCount);
+	memcpy(mappedResource.pData, positions.data(), sizeof(POSITION) * newParticleCount);
 	context->Unmap(particleVertexBuffer, 0);
 }
 
@@ -460,15 +455,13 @@ void Graphics::UploadParticleBuffer()
 	unsigned int count = -1;
 
 	// Fetch the data & count from the PS
-	void* data = particlesystem->ParticlePositionData(count);
+	std::vector<POSITION> positions = particlesystem->ParticlePositionData(count);
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 	HRESULT hr = context->Map(particleVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-	memcpy((POSITION*)mappedResource.pData, data, sizeof(POSITION) * count);
+	memcpy((POSITION*)mappedResource.pData, positions.data(), sizeof(POSITION) * count);
 	context->Unmap(particleVertexBuffer, 0);
-
-	delete data;
 }
 
 
