@@ -33,29 +33,7 @@ class Graphics : public QWidget
 
 
 public:
-	struct PARTICLE
-	{
-		PARTICLE() : X(0), Y(0), Z(0) { }
-		PARTICLE(float x, float y, float z)
-		{
-			X = x; Y = y; Z = z;
-		}
 
-		float X, Y, Z;
-	};
-
-	struct VERTEX
-	{
-		VERTEX(float x, float y, float z, 
-			   float u, float v)
-		{
-			X = x; Y = y; Z = z;
-			U = u; V = v;
-		}
-
-		float X, Y, Z;
-		float U, V;
-	};
 
 	struct CBUFFER_PARTICLE
 	{
@@ -79,7 +57,6 @@ public:
 	void SetupCamera(XMVECTOR pos, XMVECTOR dir, XMVECTOR up);
 	void MoveCamera(XMVECTOR pos);
 	void SetLastCameraMovement(Qt::Key key, bool released);
-	void LoadShaders();
 	void LoadParticles();
 	void LoadDebugParticle();
 	void LoadGroundPlane();
@@ -88,20 +65,19 @@ public:
 
 	int TestIntersection(int x, int y, XMFLOAT3 &particlePos);
 	bool PointInTriangle(float x, float y, float x1, float y1, float x2, float y2, float x3, float y3);
-	bool RaySphere(XMVECTOR origin, XMVECTOR direction, XMVECTOR position, float radius);
-	bool RaySphere(XMFLOAT4 origin, XMFLOAT4 direction, float radius);
 
-	void AddParticle(PARTICLE v);
+	void ResizeParticleSystem(unsigned int count);
+	void UploadParticleBuffer();
+	void AddParticle(POSITION p);
 
 	void Debug();
+	void Update();
 	void Render();
 	void RenderDebugObject(unsigned int vtxcount);
 	void RenderDebugParticle(unsigned int particleID);
 
 
 	virtual QPaintEngine* paintEngine() const { return NULL; }
-
-
 
 private:
 	bool debug = false;
@@ -110,7 +86,7 @@ private:
 	QTimer* timer;
 
 private slots:
-	void MyStart();
+	void Loop();
 
 protected:
 	virtual void paintEvent(QPaintEvent* evt);
@@ -163,10 +139,10 @@ private:
 	ID3D11Buffer* groundVertexBuffer;
 	ID3D11Buffer* particleDebugVertexBuffer;
 
-	std::vector<PARTICLE> particleData;
 	int particleDebugID = -1;
-	PARTICLE debugParticle;
-	std::vector<VERTEX>   groundData;
+	//std::vector<POINT>	particleVertexData;
+	std::vector<VERTEX> groundVertexData;
+	POSITION debugParticle;
 
 	std::vector<ID3D11ShaderResourceView*> textures;
 	ID3D11ShaderResourceView* texture_debug;
@@ -174,6 +150,6 @@ private:
 	float sizeX = 1.0f;
 	float sizeY = 1.0f;
 
-	ParticleSystem* ps;
+	ParticleSystem* particlesystem;
 	Shaders shaders;
 };
