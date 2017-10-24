@@ -29,3 +29,10 @@
 *.exe
 *.out
 *.app
+
+*.log
+*.tlog
+*.suo
+*.opendb
+*.ilk
+*.pdb
