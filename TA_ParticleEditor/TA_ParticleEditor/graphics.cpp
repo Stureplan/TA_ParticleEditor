@@ -6,16 +6,16 @@ Graphics::Graphics(QWidget * parent)
 	setAttribute(Qt::WA_PaintOnScreen, true);
 	setAttribute(Qt::WA_NativeWindow, true);
 	
-	ps = new ParticleSystem();
+	particlesystem = new ParticleSystem();
 	timer = new QTimer;
 	timer->setInterval(16.666);
-	connect(timer, SIGNAL(timeout()), this, SLOT(MyStart()));
+	connect(timer, SIGNAL(timeout()), this, SLOT(Loop()));
 	timer->start(0);
 
 	Initialize();
 }
 
-void Graphics::MyStart()
+void Graphics::Loop()
 {
 	// Measurement for time spent rendering
 	//QElapsedTimer t;
@@ -23,6 +23,7 @@ void Graphics::MyStart()
 
 	// DT is 16 ms (0.016 seconds per frame)
 	MoveCamera(camvel * 0.016f * camspeed);
+	Update();
 	Render();
 
 
@@ -169,8 +170,8 @@ void Graphics::Initialize()
 
 	shaders.LoadObjectShader(device, context);
 	shaders.LoadParticleShader(device, context);
-	//LoadShaders();
 	
+	particlesystem->Initialize(1);
 	LoadParticles();
 	LoadDebugParticle();
 	LoadGroundPlane();
@@ -235,82 +236,25 @@ void Graphics::SetLastCameraMovement(Qt::Key key, bool released)
 		}
 
 		lastKey = key;
-
 	}
-
-
 }
-
-void Graphics::LoadShaders()
-{
-	std::string shaderpath = Utility::Path();
-
-	// Insert shader path
-	shaderpath.insert(shaderpath.size(), "Data\\particle.hlsl");
-	
-	HRESULT hr;
-	ID3D10Blob* blob;
-	
-	blob = NULL;
-	hr = D3DX11CompileFromFileA(shaderpath.c_str(), 0, 0, "VShader", "vs_4_0", 0, 0, 0, &VS, &blob, 0);
-	if (hr != S_OK)
-	{
-		// Something went wrong with the shader
-		std::string error = static_cast<char*>(blob->GetBufferPointer());
-		MessageBoxA(NULL, error.c_str(), "VS Error", MB_OK);
-	}
-
-	blob = NULL;
-	hr = D3DX11CompileFromFileA(shaderpath.c_str(), 0, 0, "GShader", "gs_4_0", 0, 0, 0, &GS, &blob, 0);
-	if (hr != S_OK)
-	{
-		// Something went wrong with the shader
-		std::string error = static_cast<char*>(blob->GetBufferPointer());
-		MessageBoxA(NULL, error.c_str(), "PS Error", MB_OK);
-	}
-
-	blob = NULL;
-	hr = D3DX11CompileFromFileA(shaderpath.c_str(), 0, 0, "PShader", "ps_4_0", 0, 0, 0, &PS, &blob, 0);
-	if (hr != S_OK)
-	{
-		// Something went wrong with the shader
-		std::string error = static_cast<char*>(blob->GetBufferPointer());
-		MessageBoxA(NULL, error.c_str(), "PS Error", MB_OK);
-	}
-
-	hr = device->CreateVertexShader(VS->GetBufferPointer(), VS->GetBufferSize(), NULL, &pVS);
-	hr = device->CreateGeometryShader(GS->GetBufferPointer(), GS->GetBufferSize(), NULL, &pGS);
-	hr = device->CreatePixelShader(PS->GetBufferPointer(), PS->GetBufferSize(), NULL, &pPS);
-
-	context->VSSetShader(pVS, 0, 0);
-	context->GSSetShader(pGS, 0, 0);
-	context->PSSetShader(pPS, 0, 0);
-
-	D3D11_INPUT_ELEMENT_DESC ied[] =
-	{
-		{ "POSITION",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	};
-
-	hr = device->CreateInputLayout(ied, sizeof(ied) / sizeof(ied[0]), VS->GetBufferPointer(), VS->GetBufferSize(), &pLayout);
-	context->IASetInputLayout(pLayout);
-	//context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
-
-}
-
 
 void Graphics::LoadParticles()
 {
 	HRESULT hr;
 
-	particleData =
-	{
-		{ -1.25f, 0, 0 }
-	};
+	unsigned int count;
+	void* data = particlesystem->ParticlePositionData(count);
+
+	//particleData =
+	//{
+	//	{ -1.25f, 0, 0 }
+	//};
 
 	D3D11_BUFFER_DESC vertexDesc;
 	ZeroMemory(&vertexDesc, sizeof(vertexDesc));
-	vertexDesc.ByteWidth = sizeof(PARTICLE) * particleData.size()*2;	//NOTE!!!!!! this is just simply reserved space for further vertices.
+	//vertexDesc.ByteWidth = sizeof(POSITION) * count*2;	//NOTE!!!!!! this is just simply reserved space for further vertices.
+	vertexDesc.ByteWidth = sizeof(POSITION) * count;
 	vertexDesc.Usage = D3D11_USAGE_DYNAMIC;
 	vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	vertexDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
@@ -319,7 +263,7 @@ void Graphics::LoadParticles()
 
 	D3D11_SUBRESOURCE_DATA vertexData;
 	ZeroMemory(&vertexData, sizeof(vertexData));
-	vertexData.pSysMem = particleData.data();
+	vertexData.pSysMem = data;
 	vertexData.SysMemPitch = 0;
 	vertexData.SysMemSlicePitch = 0;
 
@@ -334,7 +278,7 @@ void Graphics::LoadDebugParticle()
 
 	D3D11_BUFFER_DESC vertexDesc;
 	ZeroMemory(&vertexDesc, sizeof(vertexDesc));
-	vertexDesc.ByteWidth = sizeof(PARTICLE);
+	vertexDesc.ByteWidth = sizeof(POSITION);
 	vertexDesc.Usage = D3D11_USAGE_DYNAMIC;
 	vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	vertexDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
@@ -353,7 +297,7 @@ void Graphics::LoadDebugParticle()
 void Graphics::LoadGroundPlane()
 {
 	HRESULT hr;
-	groundData =
+	groundVertexData =
 	{
 		// QUAD:
 		// 0, 2, 1, 1, 2, 3 
@@ -377,7 +321,7 @@ void Graphics::LoadGroundPlane()
 
 	D3D11_BUFFER_DESC vertexDesc;
 	ZeroMemory(&vertexDesc, sizeof(D3D11_BUFFER_DESC));
-	vertexDesc.ByteWidth = sizeof(VERTEX) * groundData.size();
+	vertexDesc.ByteWidth = sizeof(VERTEX) * groundVertexData.size();
 	vertexDesc.Usage = D3D11_USAGE_DEFAULT;
 	vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	vertexDesc.CPUAccessFlags = 0;
@@ -386,7 +330,7 @@ void Graphics::LoadGroundPlane()
 
 	D3D11_SUBRESOURCE_DATA vertexData;
 	ZeroMemory(&vertexData, sizeof(vertexData));
-	vertexData.pSysMem = groundData.data();
+	vertexData.pSysMem = groundVertexData.data();
 	vertexData.SysMemPitch = 0;
 	vertexData.SysMemSlicePitch = 0;
 
@@ -421,13 +365,18 @@ void Graphics::ChangeRasterization(D3D11_FILL_MODE fillmode)
 
 int Graphics::TestIntersection(int x, int y, XMFLOAT3 &particlePos)
 {
+	particlesystem->ModifyParticle(0, POSITION(0, 1, 0));
+
+
+
 	//float nX = (2.0f * x / W - 1.0f);
 	//float nY = (-2.0f * y / H + 1.0f);
+	std::vector<POSITION> particles = particlesystem->GetPositions();
 
-	for (unsigned int i = 0; i < particleData.size(); i++)
+	for (unsigned int i = 0; i < particles.size(); i++)
 	{
 		// FIND ORIGINAL PARTICLE POS
-		XMVECTOR pos = XMVectorSet(particleData[i].X, particleData[i].Y, particleData[i].Z, 1.0f);
+		XMVECTOR pos = XMVectorSet(particles[i].X, particles[i].Y, particles[i].Z, 1.0f);
 
 		XMVECTOR up = XMVector3Normalize(camup) * sizeY;
 		XMVECTOR normal = XMVector3Normalize(pos - campos);
@@ -460,20 +409,14 @@ int Graphics::TestIntersection(int x, int y, XMFLOAT3 &particlePos)
 		if (t1 == true || t2 == true)
 		{
 			XMStoreFloat3(&particlePos, pos);
-			//XMStoreFloat2(&particlePos, XMVector3Project(pos, 0, 0, W, H, 0, 1, Projection, View, World));
 			particleDebugID = i;
-
 			return i;
 		}
-
-		//qDebug("Intersection Test 2: %d", 
 	}
 
 	particleDebugID = -1;
 	return -1;
-	//AddParticle(PARTICLE(pPos.x, pPos.y, pPos.z));
 }
-
 bool Graphics::PointInTriangle(float x, float y, float x1, float y1, float x2, float y2, float x3, float y3)
 {
 	float l1 = (x - x1)*(y3 - y1) - (x3 - x1)*(y - y1);
@@ -483,75 +426,60 @@ bool Graphics::PointInTriangle(float x, float y, float x1, float y1, float x2, f
 	return (l1>0 && l2>0 && l3>0) || (l1<0 && l2<0 && l3<0);
 }
 
-bool Graphics::RaySphere(XMVECTOR origin, XMVECTOR direction, XMVECTOR position, float radius)
+void Graphics::ResizeParticleSystem(unsigned int count)
 {
-	XMVECTOR offset = origin - position;
-
-	float radiusSquared = radius*radius;
-
-	float p_d = Utility::Dot(offset, direction);
-
-	if (p_d > 0 || Utility::Dot(offset, offset) < radiusSquared)
-	{
-		return false;
-	}
-
-	XMVECTOR approach = offset - p_d * direction;
-
-	float approachSquared = Utility::Dot(approach, approach);
-
-	if (approachSquared > radiusSquared)
-	{
-		return false;
-	}
-
-	return true;
+	//This function clears every particle and recreates the data.
 }
 
-bool Graphics::RaySphere(XMFLOAT4 origin, XMFLOAT4 direction, float radius)
+void Graphics::AddParticle(POSITION p)
 {
-	float a, b, c, discriminant;
+	//This function adds ONE particle to the existing particle amount.
 
 
-	// Calculate the a, b, and c coefficients.
-	a = (direction.x * direction.x) + (direction.y * direction.y) + (direction.z * direction.z);
-	b = ((direction.x * origin.x) + (direction.y * origin.y) + (direction.z * origin.z)) * 2.0f;
-	c = ((origin.x * origin.x) + (origin.y * origin.y) + (origin.z * origin.z)) - (radius * radius);
-
-	// Find the discriminant.
-	discriminant = (b * b) - (4 * a * c);
-
-	// if discriminant is negative the picking ray missed the sphere, otherwise it intersected the sphere.
-	if (discriminant < 0.0f)
-	{
-		return false;
-	}
-
-	return true;
-}
-
-void Graphics::AddParticle(PARTICLE v)
-{
 	// Original vertex amount
-	unsigned int originalVerts = particleData.size();
+	unsigned int originalParticleCount = particlesystem->ParticleCount();
+	unsigned int newParticleCount = -1;
 
-	particleData.push_back(v);
+	// Add one particle to the vector
+	particlesystem->AddParticle(p);
+
+	// Get the data pointer
+	void* data = particlesystem->ParticlePositionData(newParticleCount);
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
-	unsigned int newVerts = particleData.size();
-
+	// Discard the whole old system and set a new one
 	context->Map(particleVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-	memcpy((PARTICLE*)mappedResource.pData, (void*)particleData.data(), sizeof(PARTICLE) * newVerts);
+	memcpy(mappedResource.pData, data, sizeof(POSITION) * newParticleCount);
+	context->Unmap(particleVertexBuffer, 0);
+}
+
+void Graphics::UploadParticleBuffer()
+{
+	unsigned int count = -1;
+
+	// Fetch the data & count from the PS
+	void* data = particlesystem->ParticlePositionData(count);
+
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+	HRESULT hr = context->Map(particleVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	memcpy((POSITION*)mappedResource.pData, data, sizeof(POSITION) * count);
 	context->Unmap(particleVertexBuffer, 0);
 
+	delete data;
 }
 
 
 void Graphics::Debug()
 {
 	debug = !debug;
+}
+
+void Graphics::Update()
+{
+	particlesystem->Update();
 }
 
 void Graphics::Render()
@@ -579,13 +507,14 @@ void Graphics::Render()
 	context->PSSetSamplers(0, 1, &textureSamplerState);
 	context->PSSetShaderResources(0, 1, &textures[0]);
 
-	context->Draw(groundData.size(), 0);
-	if (debug == true) { RenderDebugObject(groundData.size()); }
+	context->Draw(groundVertexData.size(), 0);
+	if (debug == true) { RenderDebugObject(groundVertexData.size()); }
 
 	
 	// SETUP & DRAW PARTICLES
-	// do this before object too (IASetVertexBuffers)
-	stride = sizeof(PARTICLE);
+	UploadParticleBuffer();
+
+	stride = sizeof(POSITION);
 	offset = 0;
 	shaders.SetParticleShader(context);
 	context->IASetVertexBuffers(0, 1, &particleVertexBuffer, &stride, &offset);
@@ -603,7 +532,6 @@ void Graphics::Render()
 	{
 		// Debug texture
 		context->PSSetShaderResources(0, 1, &textures[0]);
-
 	}
 	else
 	{
@@ -611,7 +539,7 @@ void Graphics::Render()
 		context->PSSetShaderResources(0, 1, &textures[1]);
 	}
 
-	context->Draw(particleData.size(), 0);
+	context->Draw(particlesystem->GetSize(), 0);
 	if (particleDebugID > -1)
 	{
 		context->IASetVertexBuffers(0, 1, &particleVertexBuffer, &stride, &offset);
@@ -641,14 +569,14 @@ void Graphics::RenderDebugObject(unsigned int vtxcount)
 
 void Graphics::RenderDebugParticle(unsigned int particleID)
 {
-	debugParticle = particleData[particleID];
+	debugParticle = particlesystem->GetPosition(particleID);
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
 	context->Map(particleDebugVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-	memcpy((PARTICLE*)mappedResource.pData, &debugParticle, sizeof(PARTICLE));
-	context->Unmap(particleVertexBuffer, 0);
+	memcpy((POSITION*)mappedResource.pData, &debugParticle, sizeof(POSITION));
+	context->Unmap(particleDebugVertexBuffer, 0);
 
 
 
