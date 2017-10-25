@@ -381,14 +381,9 @@ void Graphics::UpdateInspectorText()
 {
 	POSITION pos = particlesystem->GetPosition(particleDebugID);
 
-	inspectorLabel->setText(QString(std::string("Particle: " + std::to_string(particleDebugID)).c_str()));
-
-	QString sPosX; sPosX = sPosX.setNum(pos.X, 'f', 2);
-	QString sPosY; sPosY = sPosY.setNum(pos.Y, 'f', 2);
-	QString sPosZ; sPosZ = sPosZ.setNum(pos.Z, 'f', 2);
-
-	QString	sPos = QString("Particle: %1\nX: %2 Y: %3 Z: %4").arg(std::to_string(particleDebugID).c_str(), sPosX, sPosY, sPosZ);
-	inspectorLabel->setText(sPos);
+	char buffer[64];
+	sprintf(buffer, "X: %.2f Y: %.2f Z: %.2f", pos.X, pos.Y, pos.Z);
+	inspectorLabel->setText(buffer);
 }
 
 int Graphics::TestIntersection(int x, int y, XMFLOAT3 &particlePos)
@@ -506,10 +501,32 @@ void Graphics::Debug(bool active)
 
 void Graphics::Update()
 {
-	if (particleDebugID > -1)
+	frame++;
+
+#ifdef VSYNC_1
+	if (frame == 10)
 	{
-		UpdateInspectorText();
+		if (particleDebugID > -1 && particlesystem->IsAlive(particleDebugID))
+		{
+			UpdateInspectorText();
+		}
+		frame = 0;
 	}
+#else
+	if (frame == 1000)
+	{
+		if (particleDebugID > -1 && particlesystem->IsAlive(particleDebugID))
+		{
+			UpdateInspectorText();
+		}
+		frame = 0;
+	}
+#endif // VSYNC
+
+
+
+
+
 
 	particlesystem->Update(ms);
 }
@@ -589,9 +606,11 @@ void Graphics::Render()
 
 	//if (debug == true) { RenderDebug(particleData.size()); }
 
-	
-
-	swapChain->Present(1, 0);
+	int vsync = 0;
+#ifdef VSYNC_1
+	vsync = 1;
+#endif
+	swapChain->Present(vsync, 0);
 }
 
 void Graphics::RenderDebugObject(unsigned int vtxcount)

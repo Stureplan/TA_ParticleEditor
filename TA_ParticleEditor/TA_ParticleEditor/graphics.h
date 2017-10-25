@@ -25,6 +25,8 @@
 #define W width()
 #define H height()
 
+#define VSYNC_1
+
 using namespace DirectX;
 
 class Graphics : public QWidget 
@@ -87,6 +89,7 @@ public:
 private:
 	bool debug = false;
 	int amt = 0;
+	unsigned int frame = 0;
 
 	QTimer* timer;
 	QLabel* inspectorLabel;

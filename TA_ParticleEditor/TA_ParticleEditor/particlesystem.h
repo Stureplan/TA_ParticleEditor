@@ -46,6 +46,7 @@ public:
 	std::vector<POSITION> ParticlePositionData(unsigned int &count);
 	std::vector<POSITION> AllParticlePositions();
 	POSITION GetPosition(unsigned int id);
+	bool IsAlive(unsigned int id) { return particles[id].active; }
 	unsigned int GetSize();
 	void Pause();
 
