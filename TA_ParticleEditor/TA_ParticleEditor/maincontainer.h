@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <QPlainTextEdit>
 #include <QMessageBox>
+#include "utility.h"
 
 #include "graphics.h"
 
@@ -21,9 +22,19 @@ public:
 	void ParticleIDLabel(QLabel* lbl);
 	void ParticleInfoLabel(QLabel* lbl);
 	void LifetimeInput(QPlainTextEdit* pte);
+	void EmissionDelayInput(QPlainTextEdit* pte);
+	void VelocityXInput(QPlainTextEdit* pte);
+	void VelocityYInput(QPlainTextEdit* pte);
+	void VelocityZInput(QPlainTextEdit* pte);
+	float ErrorHandleUI(QString text, QPlainTextEdit* qpte);
+	
 
 public slots:
 	void setLifetime();
+	void setEmissionDelay();
+	void setVelocityX();
+	void setVelocityY();
+	void setVelocityZ();
 
 protected:
 	virtual void keyPressEvent(QKeyEvent* evt);
@@ -33,7 +44,17 @@ private:
 	Graphics* graphics;
 	QLabel* labelID;
 	QLabel* labelInfo;
-	QPlainTextEdit* textField;
+	QPlainTextEdit* textFieldLifetime;
+	QPlainTextEdit* textFieldEmissionDelay;
+	QPlainTextEdit* textFieldVelocityX;
+	QPlainTextEdit* textFieldVelocityY;
+	QPlainTextEdit* textFieldVelocityZ;
+	float mTextFieldValue;
 	float mLifetime;
+	float mEmissionDelay;
+	float mVelocityX;
+	float mVelocityY;
+	float mVelocityZ;
+	POSITION velocity;
 
 };

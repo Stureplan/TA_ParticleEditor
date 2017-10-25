@@ -148,6 +148,10 @@ public:
 
         retranslateUi(ParticleEditorClass);
         QObject::connect(lifetime, SIGNAL(textChanged()), maincontainer, SLOT(setLifetime()));
+        QObject::connect(emissionDelay, SIGNAL(textChanged()), maincontainer, SLOT(setEmissionDelay()));
+        QObject::connect(velocityX, SIGNAL(textChanged()), maincontainer, SLOT(setVelocityX()));
+        QObject::connect(velocityY, SIGNAL(textChanged()), maincontainer, SLOT(setVelocityY()));
+        QObject::connect(velocityZ, SIGNAL(textChanged()), maincontainer, SLOT(setVelocityZ()));
 
         QMetaObject::connectSlotsByName(ParticleEditorClass);
     } // setupUi
@@ -160,7 +164,7 @@ public:
         browsepath->setText(QApplication::translate("ParticleEditorClass", "Browse", Q_NULLPTR));
         label_Lifetime->setText(QApplication::translate("ParticleEditorClass", "Lifetime", Q_NULLPTR));
         label_Velocity->setText(QApplication::translate("ParticleEditorClass", "Velocity", Q_NULLPTR));
-        label_EmissionDelay->setText(QApplication::translate("ParticleEditorClass", "Emission delay", Q_NULLPTR));
+        label_EmissionDelay->setText(QApplication::translate("ParticleEditorClass", "Emission Delay", Q_NULLPTR));
         label_MaxParticles->setText(QApplication::translate("ParticleEditorClass", "Max Particles", Q_NULLPTR));
     } // retranslateUi
 
