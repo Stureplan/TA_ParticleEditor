@@ -4,6 +4,7 @@ MainContainer::MainContainer(QWidget* parent)
 {
 	// Make sure the Main Container takes full focus (keyboard input)
 	setFocusPolicy(Qt::StrongFocus);
+	velocity = POSITION(0, 0, 0);
 }
 
 MainContainer::~MainContainer() 
@@ -28,17 +29,74 @@ void MainContainer::ParticleInfoLabel(QLabel* lbl)
 
 void MainContainer::LifetimeInput(QPlainTextEdit* pte)
 {
-	textField = pte;
+	textFieldLifetime = pte;
+}
+
+void MainContainer::EmissionDelayInput(QPlainTextEdit* pte)
+{
+	textFieldEmissionDelay = pte;
+}
+
+void MainContainer::VelocityXInput(QPlainTextEdit* pte)
+{
+	textFieldVelocityX = pte;
+}
+
+void MainContainer::VelocityYInput(QPlainTextEdit* pte)
+{
+	textFieldVelocityY = pte;
+}
+
+void MainContainer::VelocityZInput(QPlainTextEdit* pte)
+{
+	textFieldVelocityZ = pte;
+}
+
+void MainContainer::setVelocityX()
+{
+	QString text = textFieldVelocityX->toPlainText();
+	mVelocityX = ErrorHandleUI(text, textFieldVelocityX);
+
+	velocity.X = mVelocityX;
+	//graphics->SetVelocity(velocity);
+}
+
+void MainContainer::setVelocityY()
+{
+	QString text = textFieldVelocityY->toPlainText();
+	mVelocityY = ErrorHandleUI(text, textFieldVelocityY);
+
+	velocity.Y = mVelocityY;
+	//graphics->SetVelocity(velocity);
+}
+
+void MainContainer::setVelocityZ()
+{
+	QString text = textFieldVelocityZ->toPlainText();
+	mVelocityZ = ErrorHandleUI(text, textFieldVelocityZ);
+	
+	velocity.Z = mVelocityZ;
+	//graphics->SetVelocity(velocity);
+}
+
+
+void MainContainer::setEmissionDelay()
+{
+	QString text = textFieldEmissionDelay->toPlainText();
+	mEmissionDelay = ErrorHandleUI(text, textFieldEmissionDelay);
 }
 
 void MainContainer::setLifetime()
 {
-	QString text = textField->toPlainText();
+	QString text = textFieldLifetime->toPlainText();
+	mLifetime = ErrorHandleUI(text, textFieldLifetime);
+}
 
-
+float MainContainer::ErrorHandleUI(QString text, QPlainTextEdit* qpte)
+{
 	if (text == "-")
 	{
-		return;
+		return 0;
 	}
 
 	bool ok;
@@ -52,34 +110,33 @@ void MainContainer::setLifetime()
 
 		// check if has focus or not
 		//textField->hasFocus()
-		textField->document()->setPlainText(oldText);
+		qpte->document()->setPlainText(oldText);
 	}
 
 	t = text.toFloat(&ok);
 	if (ok == true)
 	{
-		mLifetime = t; 
-		int a = 0;
+		mTextFieldValue = t;
+		return mTextFieldValue;
 	}
-	
-	if(ok == false && text != NULL)
+
+	if (ok == false && text != NULL)
 	{
 		QString oldText = text;
 		oldText.chop(1);
-		textField->document()->setPlainText(oldText);
+		qpte->document()->setPlainText(oldText);
 
-		QMessageBox msgBox;
+		/*QMessageBox msgBox;
 		msgBox.setWindowTitle("Float ERROR");
 		msgBox.setText("Input MUST be float, not character!");
-		msgBox.exec();
+		msgBox.exec();*/
 	}
+	
 }
 
 void MainContainer::keyPressEvent(QKeyEvent* evt)
 {
 	Qt::Key key = (Qt::Key)evt->key();
-
-
 
 	if (key == Qt::Key::Key_Tab)
 	{

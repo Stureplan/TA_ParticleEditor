@@ -11,6 +11,10 @@ ParticleEditor::ParticleEditor(QWidget *parent, Qt::WindowFlags flags)	: QMainWi
 	ui.maincontainer->ParticleIDLabel(ui.label_ParticleID);
 	ui.maincontainer->ParticleInfoLabel(ui.label_ParticleInfo);
 	ui.maincontainer->LifetimeInput(ui.lifetime);
+	ui.maincontainer->EmissionDelayInput(ui.emissionDelay);
+	ui.maincontainer->VelocityXInput(ui.velocityX);
+	ui.maincontainer->VelocityYInput(ui.velocityY);
+	ui.maincontainer->VelocityZInput(ui.velocityZ);
 }
 
 ParticleEditor::~ParticleEditor()

@@ -224,7 +224,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Emission delay</string>
+     <string>Emission Delay</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_MaxParticles">
@@ -286,6 +286,10 @@
    <container>1</container>
    <slots>
     <slot>setLifetime()</slot>
+    <slot>setEmissionDelay()</slot>
+    <slot>setVelocityX()</slot>
+    <slot>setVelocityY()</slot>
+    <slot>setVelocityZ()</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -302,6 +306,70 @@
     <hint type="sourcelabel">
      <x>710</x>
      <y>148</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>332</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>emissionDelay</sender>
+   <signal>textChanged()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>setEmissionDelay()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>700</x>
+     <y>308</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>332</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>velocityX</sender>
+   <signal>textChanged()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>setVelocityX()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>700</x>
+     <y>188</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>332</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>velocityY</sender>
+   <signal>textChanged()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>setVelocityY()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>780</x>
+     <y>188</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>332</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>velocityZ</sender>
+   <signal>textChanged()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>setVelocityZ()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>860</x>
+     <y>188</y>
     </hint>
     <hint type="destinationlabel">
      <x>474</x>
