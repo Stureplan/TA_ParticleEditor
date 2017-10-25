@@ -5,6 +5,8 @@
 #include <QLabel>
 #include <QPlainTextEdit>
 #include <QMessageBox>
+#include <QFileDialog>
+#include <QTextBrowser>
 #include "utility.h"
 
 #include "graphics.h"
@@ -26,6 +28,9 @@ public:
 	void VelocityXInput(QPlainTextEdit* pte);
 	void VelocityYInput(QPlainTextEdit* pte);
 	void VelocityZInput(QPlainTextEdit* pte);
+	void BrowseInput(QPushButton* pbtn);
+	void MaxParticlesInput(QPlainTextEdit* pte);
+	void BrowseTextBox(QTextBrowser* qtb);
 	float ErrorHandleUI(QString text, QPlainTextEdit* qpte);
 	
 
@@ -35,6 +40,8 @@ public slots:
 	void setVelocityX();
 	void setVelocityY();
 	void setVelocityZ();
+	void setMaxParticles();
+	void browse();
 
 protected:
 	virtual void keyPressEvent(QKeyEvent* evt);
@@ -49,12 +56,17 @@ private:
 	QPlainTextEdit* textFieldVelocityX;
 	QPlainTextEdit* textFieldVelocityY;
 	QPlainTextEdit* textFieldVelocityZ;
+	QPlainTextEdit* textFieldMaxParticles;
+	QPushButton* browseBtn;
+	QTextBrowser* textBrowser;
+	QString texturePath;
 	float mTextFieldValue;
 	float mLifetime;
 	float mEmissionDelay;
 	float mVelocityX;
 	float mVelocityY;
 	float mVelocityZ;
+	int mMaxParticles;
 	POSITION velocity;
 
 };
