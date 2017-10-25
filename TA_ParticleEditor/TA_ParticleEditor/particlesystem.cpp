@@ -73,7 +73,7 @@ unsigned int ParticleSystem::GetSize()
 
 void ParticleSystem::Initialize(unsigned int count)
 {
-	ps = new PARTICLESYSTEM(count, XMVectorSet(0, 0, 0, 0), 0.1f, 1.0f, "C:\\texture.png");
+	ps = new PARTICLESYSTEM(XMFLOAT3(0,2,0),count, XMVectorSet(0, 0, 0, 0), 0.1f, 1.0f, "C:\\texture.png");
 
 
 	for (unsigned int i = 0; i < count; i++)
@@ -87,8 +87,29 @@ void ParticleSystem::Update()
 	unsigned int max = particles.size();
 	for (unsigned int i = 0; i < max; i++)
 	{
-		//update logic
+		PARTICLE p = particles[i];
+		POSITION nPos = p.position;
+		
+		if (p.currentlifetime < ps->lifetime)
+		{
+			// Add time to particle life
+			p.currentlifetime += DELTA_TIME;
+		}
+		else
+		{
+			// Particle died by lifetime, reset
+			p.currentlifetime = 0;
+		}
 
-		//positions[i] = newpos;
+		
+		float percent = p.currentlifetime / ps->lifetime;
+
+		// Add gravity
+		nPos.Y += ((GRAVITY + percent*10) * DELTA_TIME * DELTA_TIME);
+		if (nPos.Y < 0) nPos.Y = ps->position.y;
+
+
+		// Move particle
+		particles[i].position = nPos;
 	}
 }

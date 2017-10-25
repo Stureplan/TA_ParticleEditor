@@ -7,6 +7,12 @@
 
 #pragma comment (lib, "Shlwapi.lib")
 
+
+
+#define GRAVITY -9.81f
+#define DELTA_TIME 0.016f
+
+
 using namespace DirectX;
 
 
