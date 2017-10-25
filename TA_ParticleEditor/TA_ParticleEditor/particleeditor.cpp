@@ -15,6 +15,7 @@ ParticleEditor::ParticleEditor(QWidget *parent, Qt::WindowFlags flags)	: QMainWi
 	ui.maincontainer->VelocityXInput(ui.velocityX);
 	ui.maincontainer->VelocityYInput(ui.velocityY);
 	ui.maincontainer->VelocityZInput(ui.velocityZ);
+	ui.maincontainer->MaxParticlesInput(ui.maxParticles);
 }
 
 ParticleEditor::~ParticleEditor()

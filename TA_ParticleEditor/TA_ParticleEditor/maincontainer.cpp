@@ -52,6 +52,50 @@ void MainContainer::VelocityZInput(QPlainTextEdit* pte)
 	textFieldVelocityZ = pte;
 }
 
+void MainContainer::MaxParticlesInput(QPlainTextEdit* pte)
+{
+	textFieldMaxParticles = pte;
+}
+
+void MainContainer::setMaxParticles()
+{
+	QString text = textFieldMaxParticles->toPlainText();
+	bool newline = text.contains("\n");
+	if (newline)
+	{
+		QString oldText = text;
+		oldText.remove("\n");
+		textFieldMaxParticles->document()->setPlainText(oldText);
+	}
+	bool ok;
+	float t;
+
+	t = text.toInt(&ok);
+
+	if (ok == true)
+	{
+		if (t > 1000)
+		{
+			textFieldMaxParticles->document()->setPlainText("999");
+			mMaxParticles = 999;
+		}
+		else
+		{
+			mMaxParticles = t;
+		}
+			
+	}
+	if (ok == false && text != NULL)
+	{
+		QString oldText = text;
+		oldText.chop(1);
+		textFieldMaxParticles->document()->setPlainText(oldText);
+	}
+
+	//graphics->SetMaxParticles(mMaxParticles);
+}
+
+
 void MainContainer::setVelocityX()
 {
 	QString text = textFieldVelocityX->toPlainText();
@@ -84,12 +128,15 @@ void MainContainer::setEmissionDelay()
 {
 	QString text = textFieldEmissionDelay->toPlainText();
 	mEmissionDelay = ErrorHandleUI(text, textFieldEmissionDelay);
+	//graphics->setEmissionDelay(mEmissionDelay);
 }
 
 void MainContainer::setLifetime()
 {
 	QString text = textFieldLifetime->toPlainText();
 	mLifetime = ErrorHandleUI(text, textFieldLifetime);
+
+	//graphics->SetLifetime(mLifetime);
 }
 
 float MainContainer::ErrorHandleUI(QString text, QPlainTextEdit* qpte)

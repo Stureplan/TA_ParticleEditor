@@ -152,6 +152,7 @@ public:
         QObject::connect(velocityX, SIGNAL(textChanged()), maincontainer, SLOT(setVelocityX()));
         QObject::connect(velocityY, SIGNAL(textChanged()), maincontainer, SLOT(setVelocityY()));
         QObject::connect(velocityZ, SIGNAL(textChanged()), maincontainer, SLOT(setVelocityZ()));
+        QObject::connect(maxParticles, SIGNAL(textChanged()), maincontainer, SLOT(setMaxParticles()));
 
         QMetaObject::connectSlotsByName(ParticleEditorClass);
     } // setupUi
