@@ -15,7 +15,6 @@
 
 using namespace DirectX;
 
-
 // Defines a point in world space (XYZ).
 // For our purposes it's a particle that will be used as a vertex.
 struct POSITION

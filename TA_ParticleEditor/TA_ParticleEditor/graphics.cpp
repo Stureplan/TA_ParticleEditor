@@ -18,8 +18,8 @@ Graphics::Graphics(QWidget * parent)
 void Graphics::Loop()
 {
 	// Measurement for time spent rendering
-	//QElapsedTimer t;
-	//t.start();
+	QElapsedTimer t;
+	t.start();
 
 	// DT is 16 ms (0.016 seconds per frame)
 	MoveCamera(camvel * 0.016f * camspeed);
@@ -28,7 +28,7 @@ void Graphics::Loop()
 
 
 	// Measure time spent rendering (does it even work?)
-	//qDebug("%d", t.elapsed());
+	qint64 time = t.elapsed();
 }
 
 Graphics::~Graphics()
