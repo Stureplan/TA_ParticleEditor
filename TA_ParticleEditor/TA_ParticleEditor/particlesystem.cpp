@@ -93,20 +93,20 @@ void ParticleSystem::Update()
 		if (p.currentlifetime < ps->lifetime)
 		{
 			// Add time to particle life
-			p.currentlifetime += DELTA_TIME;
+			particles[i].currentlifetime += DELTA_TIME;
 		}
 		else
 		{
 			// Particle died by lifetime, reset
-			p.currentlifetime = 0;
+			particles[i].currentlifetime = 0;
 		}
 
 		
 		float percent = p.currentlifetime / ps->lifetime;
 
 		// Add gravity
-		nPos.Y += ((GRAVITY + percent*10) * DELTA_TIME * DELTA_TIME);
-		if (nPos.Y < 0) nPos.Y = ps->position.y;
+		nPos.Y += ((GRAVITY - (percent)) * DELTA_TIME * DELTA_TIME);
+		if (nPos.Y < -4) nPos.Y = ps->position.y;
 
 
 		// Move particle
