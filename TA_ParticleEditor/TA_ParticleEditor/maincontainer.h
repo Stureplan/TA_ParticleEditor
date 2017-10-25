@@ -4,6 +4,7 @@
 #include <QCoreApplication>
 #include <QLabel>
 #include <QPlainTextEdit>
+#include <QMessageBox>
 
 #include "graphics.h"
 
@@ -21,8 +22,8 @@ public:
 	void ParticleInfoLabel(QLabel* lbl);
 	void LifetimeInput(QPlainTextEdit* pte);
 
-//public slots:
-	//void setVector();
+public slots:
+	void setLifetime();
 
 protected:
 	virtual void keyPressEvent(QKeyEvent* evt);

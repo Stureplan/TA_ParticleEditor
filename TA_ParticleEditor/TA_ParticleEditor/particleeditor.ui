@@ -121,7 +121,7 @@
       <x>670</x>
       <y>470</y>
       <width>75</width>
-      <height>23</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
@@ -131,9 +131,121 @@
    <widget class="QPlainTextEdit" name="lifetime">
     <property name="geometry">
      <rect>
-      <x>680</x>
-      <y>100</y>
+      <x>670</x>
+      <y>200</y>
       <width>61</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_Lifetime">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>180</y>
+      <width>51</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Lifetime</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="emissionDelay">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>260</y>
+      <width>61</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="maxParticles">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>320</y>
+      <width>61</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="velocityX">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>140</y>
+      <width>61</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="velocityY">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>140</y>
+      <width>61</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="velocityZ">
+    <property name="geometry">
+     <rect>
+      <x>830</x>
+      <y>140</y>
+      <width>61</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_Velocity">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>110</y>
+      <width>71</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Velocity</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_EmissionDelay">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>240</y>
+      <width>121</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Emission delay</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_MaxParticles">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>300</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Max Particles</string>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="textBrowser">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>470</y>
+      <width>191</width>
       <height>31</height>
      </rect>
     </property>
@@ -172,10 +284,30 @@
    <extends>QWidget</extends>
    <header>maincontainer.h</header>
    <container>1</container>
+   <slots>
+    <slot>setLifetime()</slot>
+   </slots>
   </customwidget>
  </customwidgets>
  <resources>
   <include location="particleeditor.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>lifetime</sender>
+   <signal>textChanged()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>setLifetime()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>710</x>
+     <y>148</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>332</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

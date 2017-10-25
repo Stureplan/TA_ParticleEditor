@@ -28,16 +28,52 @@ void MainContainer::ParticleInfoLabel(QLabel* lbl)
 
 void MainContainer::LifetimeInput(QPlainTextEdit* pte)
 {
-	//QString str = "hello";
-	//pte->setPlaceholderText(str);
-	//connect(pte, 
+	textField = pte;
 }
-//void MainContainer::SetVelocity()
-//{
-//	XMFLOAT3(0, 0, 0);
-//
-//	//set velocity
-//}
+
+void MainContainer::setLifetime()
+{
+	QString text = textField->toPlainText();
+
+
+	if (text == "-")
+	{
+		return;
+	}
+
+	bool ok;
+	float t;
+
+	bool newline = text.contains("\n");
+	if (newline)
+	{
+		QString oldText = text;
+		oldText.remove("\n");
+
+		// check if has focus or not
+		//textField->hasFocus()
+		textField->document()->setPlainText(oldText);
+	}
+
+	t = text.toFloat(&ok);
+	if (ok == true)
+	{
+		mLifetime = t; 
+		int a = 0;
+	}
+	
+	if(ok == false && text != NULL)
+	{
+		QString oldText = text;
+		oldText.chop(1);
+		textField->document()->setPlainText(oldText);
+
+		QMessageBox msgBox;
+		msgBox.setWindowTitle("Float ERROR");
+		msgBox.setText("Input MUST be float, not character!");
+		msgBox.exec();
+	}
+}
 
 void MainContainer::keyPressEvent(QKeyEvent* evt)
 {

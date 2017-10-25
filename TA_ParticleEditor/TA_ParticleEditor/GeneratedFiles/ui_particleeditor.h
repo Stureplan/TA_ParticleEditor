@@ -21,6 +21,7 @@
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QToolBar>
 #include "graphics.h"
 #include "maincontainer.h"
@@ -40,6 +41,16 @@ public:
     QFrame *line_4;
     QPushButton *browsepath;
     QPlainTextEdit *lifetime;
+    QLabel *label_Lifetime;
+    QPlainTextEdit *emissionDelay;
+    QPlainTextEdit *maxParticles;
+    QPlainTextEdit *velocityX;
+    QPlainTextEdit *velocityY;
+    QPlainTextEdit *velocityZ;
+    QLabel *label_Velocity;
+    QLabel *label_EmissionDelay;
+    QLabel *label_MaxParticles;
+    QTextBrowser *textBrowser;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -89,10 +100,40 @@ public:
         line_4->setFrameShadow(QFrame::Sunken);
         browsepath = new QPushButton(maincontainer);
         browsepath->setObjectName(QStringLiteral("browsepath"));
-        browsepath->setGeometry(QRect(670, 470, 75, 23));
+        browsepath->setGeometry(QRect(670, 470, 75, 31));
         lifetime = new QPlainTextEdit(maincontainer);
         lifetime->setObjectName(QStringLiteral("lifetime"));
-        lifetime->setGeometry(QRect(680, 100, 61, 31));
+        lifetime->setGeometry(QRect(670, 200, 61, 31));
+        label_Lifetime = new QLabel(maincontainer);
+        label_Lifetime->setObjectName(QStringLiteral("label_Lifetime"));
+        label_Lifetime->setGeometry(QRect(680, 180, 51, 20));
+        emissionDelay = new QPlainTextEdit(maincontainer);
+        emissionDelay->setObjectName(QStringLiteral("emissionDelay"));
+        emissionDelay->setGeometry(QRect(670, 260, 61, 31));
+        maxParticles = new QPlainTextEdit(maincontainer);
+        maxParticles->setObjectName(QStringLiteral("maxParticles"));
+        maxParticles->setGeometry(QRect(670, 320, 61, 31));
+        velocityX = new QPlainTextEdit(maincontainer);
+        velocityX->setObjectName(QStringLiteral("velocityX"));
+        velocityX->setGeometry(QRect(670, 140, 61, 31));
+        velocityY = new QPlainTextEdit(maincontainer);
+        velocityY->setObjectName(QStringLiteral("velocityY"));
+        velocityY->setGeometry(QRect(750, 140, 61, 31));
+        velocityZ = new QPlainTextEdit(maincontainer);
+        velocityZ->setObjectName(QStringLiteral("velocityZ"));
+        velocityZ->setGeometry(QRect(830, 140, 61, 31));
+        label_Velocity = new QLabel(maincontainer);
+        label_Velocity->setObjectName(QStringLiteral("label_Velocity"));
+        label_Velocity->setGeometry(QRect(680, 110, 71, 31));
+        label_EmissionDelay = new QLabel(maincontainer);
+        label_EmissionDelay->setObjectName(QStringLiteral("label_EmissionDelay"));
+        label_EmissionDelay->setGeometry(QRect(670, 240, 121, 16));
+        label_MaxParticles = new QLabel(maincontainer);
+        label_MaxParticles->setObjectName(QStringLiteral("label_MaxParticles"));
+        label_MaxParticles->setGeometry(QRect(670, 300, 91, 16));
+        textBrowser = new QTextBrowser(maincontainer);
+        textBrowser->setObjectName(QStringLiteral("textBrowser"));
+        textBrowser->setGeometry(QRect(750, 470, 191, 31));
         ParticleEditorClass->setCentralWidget(maincontainer);
         menuBar = new QMenuBar(ParticleEditorClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -106,6 +147,7 @@ public:
         ParticleEditorClass->setStatusBar(statusBar);
 
         retranslateUi(ParticleEditorClass);
+        QObject::connect(lifetime, SIGNAL(textChanged()), maincontainer, SLOT(setLifetime()));
 
         QMetaObject::connectSlotsByName(ParticleEditorClass);
     } // setupUi
@@ -116,6 +158,10 @@ public:
         label_ParticleID->setText(QApplication::translate("ParticleEditorClass", "No particle selected", Q_NULLPTR));
         label_ParticleInfo->setText(QApplication::translate("ParticleEditorClass", "<no info>", Q_NULLPTR));
         browsepath->setText(QApplication::translate("ParticleEditorClass", "Browse", Q_NULLPTR));
+        label_Lifetime->setText(QApplication::translate("ParticleEditorClass", "Lifetime", Q_NULLPTR));
+        label_Velocity->setText(QApplication::translate("ParticleEditorClass", "Velocity", Q_NULLPTR));
+        label_EmissionDelay->setText(QApplication::translate("ParticleEditorClass", "Emission delay", Q_NULLPTR));
+        label_MaxParticles->setText(QApplication::translate("ParticleEditorClass", "Max Particles", Q_NULLPTR));
     } // retranslateUi
 
 };
