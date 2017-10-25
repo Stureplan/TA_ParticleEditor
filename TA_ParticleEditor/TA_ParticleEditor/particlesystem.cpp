@@ -71,6 +71,11 @@ unsigned int ParticleSystem::GetSize()
 	return particles.size();
 }
 
+void ParticleSystem::Pause()
+{
+	paused = !paused;
+}
+
 void ParticleSystem::Initialize(unsigned int count)
 {
 	ps = new PARTICLESYSTEM(XMFLOAT3(0,2,0),count, XMVectorSet(0, 0, 0, 0), 0.1f, 1.0f, "C:\\texture.png");
@@ -84,32 +89,36 @@ void ParticleSystem::Initialize(unsigned int count)
 
 void ParticleSystem::Update(float dt)
 {
-	unsigned int max = particles.size();
-	for (unsigned int i = 0; i < max; i++)
+	if (paused == false)
 	{
-		PARTICLE p = particles[i];
-		POSITION nPos = p.position;
-		
-		if (p.currentlifetime < ps->lifetime)
+		unsigned int max = particles.size();
+		for (unsigned int i = 0; i < max; i++)
 		{
-			// Add time to particle life
-			particles[i].currentlifetime += dt;
+			PARTICLE p = particles[i];
+			POSITION nPos = p.position;
+
+			if (p.currentlifetime < ps->lifetime)
+			{
+				// Add time to particle life
+				particles[i].currentlifetime += dt;
+			}
+			else
+			{
+				// Particle died by lifetime, reset
+				particles[i].currentlifetime = 0;
+			}
+
+
+			float percent = p.currentlifetime / ps->lifetime;
+
+			// Add gravity
+			nPos.Y += ((GRAVITY - (percent)) * dt);
+			if (nPos.Y < -4) nPos.Y = ps->position.y;
+
+
+			// Move particle
+			particles[i].position = nPos;
 		}
-		else
-		{
-			// Particle died by lifetime, reset
-			particles[i].currentlifetime = 0;
-		}
-
-		
-		float percent = p.currentlifetime / ps->lifetime;
-
-		// Add gravity
-		nPos.Y += ((GRAVITY - (percent)) * dt);
-		if (nPos.Y < -4) nPos.Y = ps->position.y;
-
-
-		// Move particle
-		particles[i].position = nPos;
 	}
+
 }

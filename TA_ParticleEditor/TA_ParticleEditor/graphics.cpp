@@ -367,6 +367,11 @@ void Graphics::ChangeRasterization(D3D11_FILL_MODE fillmode)
 	}
 }
 
+void Graphics::PauseSimulation()
+{
+	particlesystem->Pause();
+}
+
 void Graphics::ParticleInspectionLabel(QLabel* label)
 {
 	inspectorLabel = label;
@@ -382,7 +387,7 @@ void Graphics::UpdateInspectorText()
 	QString sPosY; sPosY = sPosY.setNum(pos.Y, 'f', 2);
 	QString sPosZ; sPosZ = sPosZ.setNum(pos.Z, 'f', 2);
 
-	QString	sPos = QString("X: %1 Y: %2 Z: %3").arg(sPosX, sPosY, sPosZ);
+	QString	sPos = QString("Particle: %1\nX: %2 Y: %3 Z: %4").arg(std::to_string(particleDebugID).c_str(), sPosX, sPosY, sPosZ);
 	inspectorLabel->setText(sPos);
 }
 

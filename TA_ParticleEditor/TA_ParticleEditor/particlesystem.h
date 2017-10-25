@@ -47,6 +47,7 @@ public:
 	std::vector<POSITION> AllParticlePositions();
 	POSITION GetPosition(unsigned int id);
 	unsigned int GetSize();
+	void Pause();
 
 	void Initialize(unsigned int count);
 	void Update(float dt);
@@ -55,4 +56,5 @@ private:
 	PARTICLESYSTEM* ps;
 	//std::vector<POSITION> positions;
 	std::vector<PARTICLE> particles;
+	bool paused = false;
 };

@@ -64,6 +64,8 @@ public:
 	void LoadTextures();
 	void ChangeRasterization(D3D11_FILL_MODE fillmode);
 
+	void PauseSimulation();
+
 	void ParticleInspectionLabel(QLabel* label);
 	void UpdateInspectorText();
 	int TestIntersection(int x, int y, XMFLOAT3 &particlePos);
