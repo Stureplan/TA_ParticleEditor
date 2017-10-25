@@ -198,13 +198,24 @@ void MainContainer::keyPressEvent(QKeyEvent* evt)
 {
 	Qt::Key key = (Qt::Key)evt->key();
 
-	if (key == Qt::Key::Key_Tab)
+
+	if (key == Qt::Key::Key_1)
 	{
 		if (evt->isAutoRepeat() == false)
 		{
-			graphics->Debug();
+			graphics->Debug(false);
 		}
 	}
+
+	if (key == Qt::Key::Key_2)
+	{
+		if (evt->isAutoRepeat() == false)
+		{
+			graphics->Debug(true);
+		}
+	}
+
+
 	if (key == Qt::Key::Key_Escape)
 	{
 		QCoreApplication::quit();

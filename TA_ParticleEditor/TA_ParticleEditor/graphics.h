@@ -75,7 +75,7 @@ public:
 	void UploadParticleBuffer();
 	void AddParticle(POSITION p);
 
-	void Debug();
+	void Debug(bool active);
 	void Update();
 	void Render();
 	void RenderDebugObject(unsigned int vtxcount);

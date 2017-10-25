@@ -499,9 +499,9 @@ void Graphics::UploadParticleBuffer()
 }
 
 
-void Graphics::Debug()
+void Graphics::Debug(bool active)
 {
-	debug = !debug;
+	debug = active;
 }
 
 void Graphics::Update()
@@ -536,11 +536,18 @@ void Graphics::Render()
 	cBufferVertex.wvp = XMMatrixTranspose(WVP);
 	context->UpdateSubresource(constantBufferVertex, 0, NULL, &cBufferVertex, 0, 0);
 	context->VSSetConstantBuffers(0, 1, &constantBufferVertex);
-	context->PSSetSamplers(0, 1, &textureSamplerState);
-	context->PSSetShaderResources(0, 1, &textures[0]);
 
-	context->Draw(groundVertexData.size(), 0);
-	if (debug == true) { RenderDebugObject(groundVertexData.size()); }
+	if (debug == false)
+	{
+		context->PSSetSamplers(0, 1, &textureSamplerState);
+		context->PSSetShaderResources(0, 1, &textures[0]);
+		context->Draw(groundVertexData.size(), 0);
+
+	}
+	else
+	{
+		RenderDebugObject(groundVertexData.size());
+	}
 
 	
 	// SETUP & DRAW PARTICLES
@@ -564,14 +571,16 @@ void Graphics::Render()
 	{
 		// Debug texture
 		context->PSSetShaderResources(0, 1, &textures[0]);
+		RenderDebugObject(particlesystem->GetSize());
 	}
 	else
 	{
 		// Regular texture
 		context->PSSetShaderResources(0, 1, &textures[1]);
+		context->Draw(particlesystem->GetSize(), 0);
+
 	}
 
-	context->Draw(particlesystem->GetSize(), 0);
 	if (particleDebugID > -1)
 	{
 		context->IASetVertexBuffers(0, 1, &particleVertexBuffer, &stride, &offset);
