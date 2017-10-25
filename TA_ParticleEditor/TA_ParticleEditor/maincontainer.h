@@ -21,7 +21,6 @@ public:
 	~MainContainer();
 
 	void GraphicsWindow(Graphics* gfx);
-	void ParticleIDLabel(QLabel* lbl);
 	void ParticleInfoLabel(QLabel* lbl);
 	void LifetimeInput(QPlainTextEdit* pte);
 	void EmissionDelayInput(QPlainTextEdit* pte);
@@ -49,7 +48,6 @@ protected:
 	virtual void mousePressEvent(QMouseEvent* evt);
 private:
 	Graphics* graphics;
-	QLabel* labelID;
 	QLabel* labelInfo;
 	QPlainTextEdit* textFieldLifetime;
 	QPlainTextEdit* textFieldEmissionDelay;

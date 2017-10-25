@@ -17,11 +17,6 @@ void MainContainer::GraphicsWindow(Graphics* gfx)
 	graphics = gfx;
 }
 
-void MainContainer::ParticleIDLabel(QLabel* lbl)
-{
-	labelID = lbl;
-}
-
 void MainContainer::ParticleInfoLabel(QLabel* lbl)
 {
 	labelInfo = lbl;
@@ -260,7 +255,6 @@ void MainContainer::mousePressEvent(QMouseEvent* evt)
 			}
 			else
 			{
-				labelID->setText("No particle selected");
 				labelInfo->setText("<no info>");
 			}
 		}
