@@ -10,7 +10,7 @@ ParticleEditor::ParticleEditor(QWidget *parent, Qt::WindowFlags flags)	: QMainWi
 	ui.maincontainer->GraphicsWindow(ui.graphics);
 	ui.maincontainer->ParticleIDLabel(ui.label_ParticleID);
 	ui.maincontainer->ParticleInfoLabel(ui.label_ParticleInfo);
-	//ui.maincontainer->LifetimeInput(ui.lifetime);
+	ui.maincontainer->LifetimeInput(ui.lifetime);
 }
 
 ParticleEditor::~ParticleEditor()
