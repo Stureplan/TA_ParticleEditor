@@ -149,6 +149,11 @@ void MainContainer::keyPressEvent(QKeyEvent* evt)
 	{
 		QCoreApplication::quit();
 	}
+
+	if (key == Qt::Key::Key_Space)
+	{
+		graphics->PauseSimulation();
+	}
 	
 	if (key == Qt::Key::Key_W || key == Qt::Key::Key_A || key == Qt::Key::Key_S || key == Qt::Key::Key_D)
 	{

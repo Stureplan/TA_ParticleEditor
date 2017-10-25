@@ -17,18 +17,27 @@ Graphics::Graphics(QWidget * parent)
 
 void Graphics::Loop()
 {
+
 	// Measurement for time spent rendering
-	QElapsedTimer t;
-	t.start();
+	//QElapsedTimer t;
+	//t.start();
 
 	// DT is 16 ms (0.016 seconds per frame)
 	MoveCamera(camvel * 0.016f * camspeed);
 	Update();
 	Render();
 
+	
+	ULONGLONG now = GetTickCount64() - last;
+	if (now > 0)
+	{
+		ms = (float)now / 1000;
+	}
 
+	last = GetTickCount64();
 	// Measure time spent rendering (does it even work?)
-	qint64 time = t.elapsed();
+	//qint64 time = t.elapsed();
+	//qint64 time = t.nsecsElapsed();
 }
 
 Graphics::~Graphics()
@@ -497,7 +506,7 @@ void Graphics::Update()
 		UpdateInspectorText();
 	}
 
-	particlesystem->Update();
+	particlesystem->Update(ms);
 }
 
 void Graphics::Render()
@@ -568,7 +577,7 @@ void Graphics::Render()
 
 	
 
-	swapChain->Present(0, 0);
+	swapChain->Present(1, 0);
 }
 
 void Graphics::RenderDebugObject(unsigned int vtxcount)
@@ -615,5 +624,5 @@ void Graphics::RenderDebugParticle(unsigned int particleID)
 void Graphics::paintEvent(QPaintEvent* evt)
 {
 	//qt paint
-	Render();
+	//Render();
 }

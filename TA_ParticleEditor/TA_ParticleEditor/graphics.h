@@ -7,7 +7,7 @@
 
 #include <string>
 #include <vector>
-
+#include <ctime>
 
 //#include <dxgi.h>
 #include <d3d11.h>
@@ -89,6 +89,10 @@ private:
 	QTimer* timer;
 	QLabel* inspectorLabel;
 
+	ULONGLONG last = 0;
+
+	float ms = 0;
+
 private slots:
 	void Loop();
 
@@ -127,7 +131,7 @@ private:
 	XMVECTOR camdir;
 	XMVECTOR camup;
 	Qt::Key lastKey;
-	float camspeed = 0.1f;
+	float camspeed = 10.0f;
 
 	// Constant Buffer Vertices
 	ID3D11Buffer* constantBufferVertex;

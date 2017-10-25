@@ -49,7 +49,7 @@ public:
 	unsigned int GetSize();
 
 	void Initialize(unsigned int count);
-	void Update();
+	void Update(float dt);
 
 private:
 	PARTICLESYSTEM* ps;
