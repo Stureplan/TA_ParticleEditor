@@ -246,7 +246,7 @@
       <x>750</x>
       <y>470</y>
       <width>191</width>
-      <height>31</height>
+      <height>41</height>
      </rect>
     </property>
    </widget>
@@ -291,6 +291,7 @@
     <slot>setVelocityY()</slot>
     <slot>setVelocityZ()</slot>
     <slot>setMaxParticles()</slot>
+    <slot>browse()</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -387,6 +388,22 @@
     <hint type="sourcelabel">
      <x>700</x>
      <y>368</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>332</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>browsepath</sender>
+   <signal>clicked()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>browse()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>707</x>
+     <y>518</y>
     </hint>
     <hint type="destinationlabel">
      <x>474</x>

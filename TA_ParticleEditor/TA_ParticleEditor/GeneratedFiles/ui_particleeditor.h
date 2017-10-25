@@ -133,7 +133,7 @@ public:
         label_MaxParticles->setGeometry(QRect(670, 300, 91, 16));
         textBrowser = new QTextBrowser(maincontainer);
         textBrowser->setObjectName(QStringLiteral("textBrowser"));
-        textBrowser->setGeometry(QRect(750, 470, 191, 31));
+        textBrowser->setGeometry(QRect(750, 470, 191, 41));
         ParticleEditorClass->setCentralWidget(maincontainer);
         menuBar = new QMenuBar(ParticleEditorClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -153,6 +153,7 @@ public:
         QObject::connect(velocityY, SIGNAL(textChanged()), maincontainer, SLOT(setVelocityY()));
         QObject::connect(velocityZ, SIGNAL(textChanged()), maincontainer, SLOT(setVelocityZ()));
         QObject::connect(maxParticles, SIGNAL(textChanged()), maincontainer, SLOT(setMaxParticles()));
+        QObject::connect(browsepath, SIGNAL(clicked()), maincontainer, SLOT(browse()));
 
         QMetaObject::connectSlotsByName(ParticleEditorClass);
     } // setupUi

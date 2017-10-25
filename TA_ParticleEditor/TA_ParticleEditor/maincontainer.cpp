@@ -57,6 +57,24 @@ void MainContainer::MaxParticlesInput(QPlainTextEdit* pte)
 	textFieldMaxParticles = pte;
 }
 
+void MainContainer::BrowseInput(QPushButton* pbtn)
+{
+	browseBtn = pbtn;
+}
+
+void MainContainer::BrowseTextBox(QTextBrowser* qtb)
+{
+	textBrowser = qtb;
+}
+
+void MainContainer::browse()
+{
+	texturePath = QFileDialog::getOpenFileName(this,
+		tr("Open Image"), "", tr("Image Files (*.png)"));
+	textBrowser->setPlainText(texturePath);
+	//graphics->SetTexturePath(texturePath);
+}
+
 void MainContainer::setMaxParticles()
 {
 	QString text = textFieldMaxParticles->toPlainText();
