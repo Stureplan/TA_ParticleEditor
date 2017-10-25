@@ -42,8 +42,8 @@ public:
 	unsigned int ParticleCount();
 	void AddParticle(POSITION p);
 	void ModifyParticle(int id, POSITION p);
-	void* ParticlePositionData(unsigned int &count);
-	std::vector<POSITION> GetPositions();
+	std::vector<POSITION> ParticlePositionData(unsigned int &count);
+	std::vector<POSITION> AllParticlePositions();
 	POSITION GetPosition(unsigned int id);
 	unsigned int GetSize();
 
