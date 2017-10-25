@@ -358,6 +358,25 @@ void Graphics::ChangeRasterization(D3D11_FILL_MODE fillmode)
 	}
 }
 
+void Graphics::ParticleInspectionLabel(QLabel* label)
+{
+	inspectorLabel = label;
+}
+
+void Graphics::UpdateInspectorText()
+{
+	POSITION pos = particlesystem->GetPosition(particleDebugID);
+
+	inspectorLabel->setText(QString(std::string("Particle: " + std::to_string(particleDebugID)).c_str()));
+
+	QString sPosX; sPosX = sPosX.setNum(pos.X, 'f', 2);
+	QString sPosY; sPosY = sPosY.setNum(pos.Y, 'f', 2);
+	QString sPosZ; sPosZ = sPosZ.setNum(pos.Z, 'f', 2);
+
+	QString	sPos = QString("X: %1 Y: %2 Z: %3").arg(sPosX, sPosY, sPosZ);
+	inspectorLabel->setText(sPos);
+}
+
 int Graphics::TestIntersection(int x, int y, XMFLOAT3 &particlePos)
 {
 	//particlesystem->ModifyParticle(0, POSITION(0, 1, 0));
@@ -366,9 +385,10 @@ int Graphics::TestIntersection(int x, int y, XMFLOAT3 &particlePos)
 
 	//float nX = (2.0f * x / W - 1.0f);
 	//float nY = (-2.0f * y / H + 1.0f);
-	std::vector<POSITION> particles = particlesystem->AllParticlePositions();
+	unsigned int count = -1;
+	std::vector<POSITION> particles = particlesystem->ParticlePositionData(count);
 
-	for (unsigned int i = 0; i < particles.size(); i++)
+	for (unsigned int i = 0; i < count; i++)
 	{
 		// FIND ORIGINAL PARTICLE POS
 		XMVECTOR pos = XMVectorSet(particles[i].X, particles[i].Y, particles[i].Z, 1.0f);
@@ -472,6 +492,11 @@ void Graphics::Debug()
 
 void Graphics::Update()
 {
+	if (particleDebugID > -1)
+	{
+		UpdateInspectorText();
+	}
+
 	particlesystem->Update();
 }
 

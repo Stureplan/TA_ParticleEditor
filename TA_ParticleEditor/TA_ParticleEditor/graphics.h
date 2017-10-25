@@ -3,6 +3,7 @@
 #include <QTimer>
 #include <QElapsedTimer>
 #include <QDebug>
+#include <QLabel>
 
 #include <string>
 #include <vector>
@@ -63,6 +64,8 @@ public:
 	void LoadTextures();
 	void ChangeRasterization(D3D11_FILL_MODE fillmode);
 
+	void ParticleInspectionLabel(QLabel* label);
+	void UpdateInspectorText();
 	int TestIntersection(int x, int y, XMFLOAT3 &particlePos);
 	bool PointInTriangle(float x, float y, float x1, float y1, float x2, float y2, float x3, float y3);
 
@@ -84,6 +87,7 @@ private:
 	int amt = 0;
 
 	QTimer* timer;
+	QLabel* inspectorLabel;
 
 private slots:
 	void Loop();
