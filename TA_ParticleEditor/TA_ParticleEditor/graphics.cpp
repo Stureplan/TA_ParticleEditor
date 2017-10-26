@@ -180,7 +180,7 @@ void Graphics::Initialize()
 	shaders.LoadObjectShader(device, context);
 	shaders.LoadParticleShader(device, context);
 	
-	particlesystem->Initialize(1);
+	particlesystem->Initialize(5);
 	LoadParticles();
 	LoadDebugParticle();
 	LoadGroundPlane();

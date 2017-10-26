@@ -34,13 +34,25 @@ struct PARTICLE
 	{ 
 		position = pos;
 		currentlifetime = cl; 
-		active = a; 
+		alive = a;
 	}
 
 	POSITION position;
 	float currentlifetime;
-	bool active;
+	bool alive;
 };
+
+/*struct PARTICLE_VERTEX
+{
+	PARTICLE_VERTEX(POSITION pos, float cl)
+	{
+		position = pos;
+		currentlifetime = cl;
+	}
+
+	POSITION position;
+	float currentlifetime;
+};*/
 
 
 

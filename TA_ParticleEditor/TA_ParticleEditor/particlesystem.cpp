@@ -34,7 +34,7 @@ std::vector<POSITION> ParticleSystem::ParticlePositionData(unsigned int &count)
 
 	for (int i = 0; i < count; i++)
 	{
-		if (particles[i].active)
+		if (particles[i].alive)
 		{
 			positions.push_back(particles[i].position);
 			actualCount++;
@@ -52,7 +52,7 @@ std::vector<POSITION> ParticleSystem::AllParticlePositions()
 
 	for (unsigned int i = 0; i < count; i++)
 	{
-		if (particles[i].active)
+		if (particles[i].alive)
 		{
 			positions.push_back(particles[i].position);
 		}
@@ -68,7 +68,16 @@ POSITION ParticleSystem::GetPosition(unsigned int id)
 
 unsigned int ParticleSystem::GetSize()
 {
-	return particles.size();
+	unsigned int count = 0;
+	for (unsigned int i = 0; i < particles.size(); i++)
+	{
+		if (particles[i].alive)
+		{
+			count++;
+		}
+	}
+
+	return count;
 }
 
 void ParticleSystem::Pause()
@@ -78,7 +87,7 @@ void ParticleSystem::Pause()
 
 void ParticleSystem::Initialize(unsigned int count)
 {
-	ps = new PARTICLESYSTEM(POSITION(0,0,0),count, POSITION(0, 1, 0), 0.1f, 1.0f, 1.0f, "C:\\texture.png");
+	ps = new PARTICLESYSTEM(POSITION(0,0,0),count, POSITION(0, 0.1, 0), 0.1f, 1.0f, 1.0f, "C:\\texture.png");
 
 
 	for (unsigned int i = 0; i < count; i++)
@@ -95,39 +104,56 @@ void ParticleSystem::Update(float dt)
 		for (unsigned int i = 0; i < max; i++)
 		{
 			PARTICLE p = particles[i];
-			POSITION nPos = p.position;
 
 
-
-
-			float percent = p.currentlifetime / ps->lifetime;
-
-			// Add gravity
-			nPos.Y += ((GRAVITY - (percent*10)) * dt) * ps->gravity;
-
-			nPos.X += (ps->velocity.X);
-			nPos.Y += (ps->velocity.Y);
-			nPos.Z += (ps->velocity.Z);
-
-
-			if (p.currentlifetime < ps->lifetime)
+			// Check for dead/alive
+			if (p.alive == true)
 			{
-				// Add time to particle life
-				particles[i].currentlifetime += dt;
+				if (p.currentlifetime < ps->lifetime)
+				{
+					POSITION nPos = p.position;
+
+					float percent = p.currentlifetime / ps->lifetime;
+
+					// Add gravity
+					nPos.Y += ((GRAVITY - (percent * 10)) * dt) * ps->gravity;
+
+					// Add velocity
+					nPos.X += (ps->velocity.X);
+					nPos.Y += (ps->velocity.Y);
+					nPos.Z += (ps->velocity.Z);
+
+					// Add time to particle life
+					particles[i].currentlifetime += dt;
+
+					// Move particle
+					particles[i].position = nPos;
+				}
+				else
+				{
+					// Particle died by lifetime, reset
+					particles[i].currentlifetime = 0;
+					particles[i].alive = false;
+
+					// Move particle back to PS origin
+					particles[i].position = ps->position;
+				}
 			}
 			else
 			{
-				// Particle died by lifetime, reset
-				particles[i].currentlifetime = 0;
-				nPos.X = ps->position.X;
-				nPos.Y = ps->position.Y;
-				nPos.Z = ps->position.Z;
+				// This particle is dead already since before.
+				// Find out if we should emit it again!
+				if (cooldown > ps->emissiondelay)
+				{
+					particles[i].alive = true;
 
+					cooldown = 0.0f;
+				}
 			}
 
-			// Move particle
-			particles[i].position = nPos;
 		}
+
+		cooldown += dt;
 	}
 
 }

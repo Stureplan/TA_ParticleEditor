@@ -25,7 +25,7 @@ public:
 			gravity = grv;
 			texturename = tex;
 		}
-
+		// PS Export variables
 		POSITION position;
 		int maxparticles;
 		POSITION velocity;
@@ -33,6 +33,7 @@ public:
 		float lifetime;
 		float gravity;
 		std::string texturename;
+
 	};
 
 
@@ -48,7 +49,7 @@ public:
 	std::vector<POSITION> ParticlePositionData(unsigned int &count);
 	std::vector<POSITION> AllParticlePositions();
 	POSITION GetPosition(unsigned int id);
-	bool IsAlive(unsigned int id) { return particles[id].active; }
+	bool IsAlive(unsigned int id) { return particles[id].alive; }
 	unsigned int GetSize();
 	void Pause();
 
@@ -56,8 +57,9 @@ public:
 	void Update(float dt);
 
 private:
+	// Private variables
 	PARTICLESYSTEM* ps;
-	//std::vector<POSITION> positions;
 	std::vector<PARTICLE> particles;
 	bool paused = false;
+	float cooldown = 0.0f;
 };
