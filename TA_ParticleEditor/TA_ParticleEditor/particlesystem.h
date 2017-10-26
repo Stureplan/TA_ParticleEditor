@@ -15,21 +15,23 @@ class ParticleSystem
 public:
 	struct PARTICLESYSTEM
 	{
-		PARTICLESYSTEM(XMFLOAT3 pos, int m, XMVECTOR v, float ed, float lt, std::string tex)
+		PARTICLESYSTEM(POSITION pos, int m, POSITION v, float ed, float lt, float grv, std::string tex)
 		{
 			position = pos;
 			maxparticles = m;
 			velocity = v;
 			emissiondelay = ed;
 			lifetime = lt;
+			gravity = grv;
 			texturename = tex;
 		}
 
-		XMFLOAT3 position;
+		POSITION position;
 		int maxparticles;
-		XMVECTOR velocity;
+		POSITION velocity;
 		float emissiondelay;
 		float lifetime;
+		float gravity;
 		std::string texturename;
 	};
 

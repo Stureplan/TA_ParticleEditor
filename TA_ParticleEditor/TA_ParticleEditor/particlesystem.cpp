@@ -78,12 +78,12 @@ void ParticleSystem::Pause()
 
 void ParticleSystem::Initialize(unsigned int count)
 {
-	ps = new PARTICLESYSTEM(XMFLOAT3(0,2,0),count, XMVectorSet(0, 0, 0, 0), 0.1f, 1.0f, "C:\\texture.png");
+	ps = new PARTICLESYSTEM(POSITION(0,0,0),count, POSITION(0, 1, 0), 0.1f, 1.0f, 1.0f, "C:\\texture.png");
 
 
 	for (unsigned int i = 0; i < count; i++)
 	{
-		particles.push_back(PARTICLE(POSITION(0,2,0),0, true));
+		particles.push_back(PARTICLE(ps->position,0, true));
 	}
 }
 
@@ -97,6 +97,19 @@ void ParticleSystem::Update(float dt)
 			PARTICLE p = particles[i];
 			POSITION nPos = p.position;
 
+
+
+
+			float percent = p.currentlifetime / ps->lifetime;
+
+			// Add gravity
+			nPos.Y += ((GRAVITY - (percent*10)) * dt) * ps->gravity;
+
+			nPos.X += (ps->velocity.X);
+			nPos.Y += (ps->velocity.Y);
+			nPos.Z += (ps->velocity.Z);
+
+
 			if (p.currentlifetime < ps->lifetime)
 			{
 				// Add time to particle life
@@ -106,15 +119,11 @@ void ParticleSystem::Update(float dt)
 			{
 				// Particle died by lifetime, reset
 				particles[i].currentlifetime = 0;
+				nPos.X = ps->position.X;
+				nPos.Y = ps->position.Y;
+				nPos.Z = ps->position.Z;
+
 			}
-
-
-			float percent = p.currentlifetime / ps->lifetime;
-
-			// Add gravity
-			nPos.Y += ((GRAVITY - (percent)) * dt);
-			if (nPos.Y < -4) nPos.Y = ps->position.y;
-
 
 			// Move particle
 			particles[i].position = nPos;
