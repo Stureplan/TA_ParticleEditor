@@ -110,7 +110,7 @@ void MainContainer::setMaxParticles()
 		mMaxParticles = DEFAULT_MAXPARTICLES;
 	}
 
-	//graphics->SetMaxParticles(mMaxParticles);
+	BuildParticleSystem();
 }
 
 void MainContainer::BuildParticleSystem()
