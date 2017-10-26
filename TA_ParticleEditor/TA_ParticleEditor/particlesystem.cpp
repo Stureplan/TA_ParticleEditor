@@ -96,6 +96,17 @@ void ParticleSystem::Initialize()
 	}
 }
 
+void ParticleSystem::Rebuild(PARTICLESYSTEM particlesystem)
+{
+	ps->position = particlesystem.position;
+	ps->maxparticles = particlesystem.maxparticles;
+	ps->velocity= particlesystem.velocity;
+	ps->emissiondelay= particlesystem.emissiondelay;
+	ps->lifetime= particlesystem.lifetime;
+	ps->gravity= particlesystem.gravity;
+	ps->texturename= particlesystem.texturename;
+}
+
 void ParticleSystem::Update(float dt)
 {
 	if (paused == false)

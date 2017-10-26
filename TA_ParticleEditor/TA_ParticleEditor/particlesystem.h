@@ -13,12 +13,6 @@ using namespace DirectX;
 class ParticleSystem
 {
 public:
-
-
-
-
-
-
 	ParticleSystem();
 	~ParticleSystem();
 	
@@ -33,6 +27,7 @@ public:
 	void Pause();
 
 	void Initialize();
+	void Rebuild(PARTICLESYSTEM particlesystem);
 	void Update(float dt);
 
 private:
