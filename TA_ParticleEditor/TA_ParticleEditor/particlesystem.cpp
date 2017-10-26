@@ -87,7 +87,7 @@ void ParticleSystem::Pause()
 
 void ParticleSystem::Initialize()
 {
-	ps = new PARTICLESYSTEM(POSITION(0,0,0), 1, POSITION(0, 0.1, 0), 0.1f, 1.0f, 1.0f, "C:\\texture.png");
+	ps = new PARTICLESYSTEM(POSITION(0,0,0),0,POSITION(0,0,0),0,0,0,"");
 
 
 	for (unsigned int i = 0; i < ps->maxparticles; i++)
