@@ -42,6 +42,30 @@ struct PARTICLE
 	bool alive;
 };
 
+struct PARTICLESYSTEM
+{
+	PARTICLESYSTEM(POSITION pos, int m, POSITION v, float ed, float lt, float grv, std::string tex)
+	{
+		position = pos;
+		maxparticles = m;
+		velocity = v;
+		emissiondelay = ed;
+		lifetime = lt;
+		gravity = grv;
+		texturename = tex;
+	}
+	// PS Export variables
+	POSITION position;
+	int maxparticles;
+	POSITION velocity;
+	float emissiondelay;
+	float lifetime;
+	float gravity;
+	std::string texturename;
+
+};
+
+
 /*struct PARTICLE_VERTEX
 {
 	PARTICLE_VERTEX(POSITION pos, float cl)

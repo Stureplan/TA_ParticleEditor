@@ -13,33 +13,6 @@ using namespace DirectX;
 class ParticleSystem
 {
 public:
-	struct PARTICLESYSTEM
-	{
-		PARTICLESYSTEM(POSITION pos, int m, POSITION v, float ed, float lt, float grv, std::string tex)
-		{
-			position = pos;
-			maxparticles = m;
-			velocity = v;
-			emissiondelay = ed;
-			lifetime = lt;
-			gravity = grv;
-			texturename = tex;
-		}
-		// PS Export variables
-		POSITION position;
-		int maxparticles;
-		POSITION velocity;
-		float emissiondelay;
-		float lifetime;
-		float gravity;
-		std::string texturename;
-
-	};
-
-
-
-
-
 	ParticleSystem();
 	~ParticleSystem();
 	
@@ -53,7 +26,8 @@ public:
 	unsigned int GetSize();
 	void Pause();
 
-	void Initialize(unsigned int count);
+	void Initialize();
+	void Rebuild(PARTICLESYSTEM particlesystem);
 	void Update(float dt);
 
 private:

@@ -75,5 +75,4 @@ private:
 	float mGravity;
 	int mMaxParticles;
 	POSITION velocity;
-
 };
