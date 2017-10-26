@@ -20,6 +20,7 @@ public:
 	MainContainer(QWidget* parent = Q_NULLPTR);
 	~MainContainer();
 
+	void Init();
 	void GraphicsWindow(Graphics* gfx);
 	void ParticleInfoLabel(QLabel* lbl);
 	void LifetimeInput(QPlainTextEdit* pte);
@@ -27,7 +28,9 @@ public:
 	void VelocityXInput(QPlainTextEdit* pte);
 	void VelocityYInput(QPlainTextEdit* pte);
 	void VelocityZInput(QPlainTextEdit* pte);
+	void GravityInput(QPlainTextEdit* pte);
 	void BrowseInput(QPushButton* pbtn);
+	void SaveInput(QPushButton* pbtn);
 	void MaxParticlesInput(QPlainTextEdit* pte);
 	void BrowseTextBox(QTextBrowser* qtb);
 	float ErrorHandleUI(QString text, QPlainTextEdit* qpte);
@@ -40,7 +43,9 @@ public slots:
 	void setVelocityY();
 	void setVelocityZ();
 	void setMaxParticles();
+	void setGravity();
 	void browse();
+	void save();
 
 protected:
 	virtual void keyPressEvent(QKeyEvent* evt);
@@ -55,15 +60,19 @@ private:
 	QPlainTextEdit* textFieldVelocityY;
 	QPlainTextEdit* textFieldVelocityZ;
 	QPlainTextEdit* textFieldMaxParticles;
+	QPlainTextEdit* textFieldGravity;
 	QPushButton* browseBtn;
+	QPushButton* saveBtn;
 	QTextBrowser* textBrowser;
 	QString texturePath;
+	QString savePath;
 	float mTextFieldValue;
 	float mLifetime;
 	float mEmissionDelay;
 	float mVelocityX;
 	float mVelocityY;
 	float mVelocityZ;
+	float mGravity;
 	int mMaxParticles;
 	POSITION velocity;
 

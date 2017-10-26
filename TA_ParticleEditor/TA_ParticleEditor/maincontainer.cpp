@@ -4,12 +4,25 @@ MainContainer::MainContainer(QWidget* parent)
 {
 	// Make sure the Main Container takes full focus (keyboard input)
 	setFocusPolicy(Qt::StrongFocus);
+	Init();
 	velocity = POSITION(0, 0, 0);
 }
 
 MainContainer::~MainContainer() 
 {
 	
+}
+
+void MainContainer::Init()
+{
+	mTextFieldValue = 0.0f;
+	mLifetime = 0.0f;
+	mEmissionDelay = 0.0f;
+	mVelocityX = 0.0f;
+	mVelocityY = 0.0f;
+	mVelocityZ = 0.0f;
+	mGravity = 0.0f;
+	mMaxParticles = 0;
 }
 
 void MainContainer::GraphicsWindow(Graphics* gfx)
@@ -60,6 +73,28 @@ void MainContainer::BrowseInput(QPushButton* pbtn)
 void MainContainer::BrowseTextBox(QTextBrowser* qtb)
 {
 	textBrowser = qtb;
+}
+
+void MainContainer::SaveInput(QPushButton* pbtn)
+{
+	saveBtn = pbtn;
+}
+
+void MainContainer::GravityInput(QPlainTextEdit* pte)
+{
+	textFieldGravity = pte;
+}
+
+void MainContainer::setGravity()
+{
+	QString text = textFieldGravity->toPlainText();
+	mGravity = ErrorHandleUI(text, textFieldGravity);
+}
+
+void MainContainer::save()
+{
+	savePath = QFileDialog::getSaveFileName(this);
+	//graphics->Export(savePath);
 }
 
 void MainContainer::browse()

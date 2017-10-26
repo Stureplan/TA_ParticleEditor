@@ -15,8 +15,10 @@ ParticleEditor::ParticleEditor(QWidget *parent, Qt::WindowFlags flags)	: QMainWi
 	ui.maincontainer->VelocityYInput(ui.velocityY);
 	ui.maincontainer->VelocityZInput(ui.velocityZ);
 	ui.maincontainer->MaxParticlesInput(ui.maxParticles);
+	ui.maincontainer->GravityInput(ui.gravity);
 	ui.maincontainer->BrowseInput(ui.browsepath);
 	ui.maincontainer->BrowseTextBox(ui.textBrowser);
+	ui.maincontainer->SaveInput(ui.savePS);
 }
 
 ParticleEditor::~ParticleEditor()

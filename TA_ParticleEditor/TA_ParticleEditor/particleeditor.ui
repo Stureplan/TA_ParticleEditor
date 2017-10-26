@@ -114,7 +114,7 @@
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>200</y>
+      <y>260</y>
       <width>64</width>
       <height>24</height>
      </rect>
@@ -124,7 +124,7 @@
     <property name="geometry">
      <rect>
       <x>680</x>
-      <y>180</y>
+      <y>240</y>
       <width>51</width>
       <height>20</height>
      </rect>
@@ -137,7 +137,7 @@
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>260</y>
+      <y>320</y>
       <width>64</width>
       <height>24</height>
      </rect>
@@ -147,7 +147,7 @@
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>320</y>
+      <y>380</y>
       <width>64</width>
       <height>24</height>
      </rect>
@@ -200,7 +200,7 @@
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>240</y>
+      <y>300</y>
       <width>121</width>
       <height>16</height>
      </rect>
@@ -213,7 +213,7 @@
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>300</y>
+      <y>360</y>
       <width>91</width>
       <height>16</height>
      </rect>
@@ -252,6 +252,42 @@
     </property>
     <property name="invertedAppearance">
      <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="savePS">
+    <property name="geometry">
+     <rect>
+      <x>780</x>
+      <y>540</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Save as...</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="gravity">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>200</y>
+      <width>64</width>
+      <height>24</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_Gravity">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>180</y>
+      <width>51</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Gravity</string>
     </property>
    </widget>
   </widget>
@@ -296,6 +332,8 @@
     <slot>setVelocityZ()</slot>
     <slot>setMaxParticles()</slot>
     <slot>browse()</slot>
+    <slot>save()</slot>
+    <slot>setGravity()</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -408,6 +446,38 @@
     <hint type="sourcelabel">
      <x>707</x>
      <y>518</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>332</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>savePS</sender>
+   <signal>clicked()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>835</x>
+     <y>593</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>332</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>gravity</sender>
+   <signal>textChanged()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>setGravity()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>701</x>
+     <y>244</y>
     </hint>
     <hint type="destinationlabel">
      <x>474</x>
