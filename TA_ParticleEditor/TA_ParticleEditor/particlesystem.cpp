@@ -85,12 +85,12 @@ void ParticleSystem::Pause()
 	paused = !paused;
 }
 
-void ParticleSystem::Initialize(unsigned int count)
+void ParticleSystem::Initialize()
 {
-	ps = new PARTICLESYSTEM(POSITION(0,0,0),count, POSITION(0, 0.1, 0), 0.1f, 1.0f, 1.0f, "C:\\texture.png");
+	ps = new PARTICLESYSTEM(POSITION(0,0,0), 1, POSITION(0, 0.1, 0), 0.1f, 1.0f, 1.0f, "C:\\texture.png");
 
 
-	for (unsigned int i = 0; i < count; i++)
+	for (unsigned int i = 0; i < ps->maxparticles; i++)
 	{
 		particles.push_back(PARTICLE(ps->position,0, true));
 	}

@@ -66,5 +66,4 @@ private:
 	float mVelocityZ;
 	int mMaxParticles;
 	POSITION velocity;
-
 };
