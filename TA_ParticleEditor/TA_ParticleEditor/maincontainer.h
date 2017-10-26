@@ -8,8 +8,11 @@
 #include <QFileDialog>
 #include <QTextBrowser>
 #include "utility.h"
-
 #include "graphics.h"
+
+#define DEFAULT_MAXPARTICLES 0
+#define DEFAULT_LIFETIME 1.0f
+#define DEFAULT_EMISSIONDELAY 0.0f
 
 class MainContainer : public QWidget 
 {

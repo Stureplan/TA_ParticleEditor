@@ -4,8 +4,9 @@ MainContainer::MainContainer(QWidget* parent)
 {
 	// Make sure the Main Container takes full focus (keyboard input)
 	setFocusPolicy(Qt::StrongFocus);
-	Init();
 	velocity = POSITION(0, 0, 0);
+	Init();
+	
 }
 
 MainContainer::~MainContainer() 
@@ -18,11 +19,8 @@ void MainContainer::Init()
 	mTextFieldValue = 0.0f;
 	mLifetime = 0.0f;
 	mEmissionDelay = 0.0f;
-	mVelocityX = 0.0f;
-	mVelocityY = 0.0f;
-	mVelocityZ = 0.0f;
 	mGravity = 0.0f;
-	mMaxParticles = 0;
+	mMaxParticles = DEFAULT_MAXPARTICLES;
 }
 
 void MainContainer::GraphicsWindow(Graphics* gfx)
@@ -139,6 +137,10 @@ void MainContainer::setMaxParticles()
 		oldText.chop(1);
 		textFieldMaxParticles->document()->setPlainText(oldText);
 	}
+	if (ok == false)
+	{
+		mMaxParticles = DEFAULT_MAXPARTICLES;
+	}
 
 	//graphics->SetMaxParticles(mMaxParticles);
 }
@@ -183,7 +185,6 @@ void MainContainer::setLifetime()
 {
 	QString text = textFieldLifetime->toPlainText();
 	mLifetime = ErrorHandleUI(text, textFieldLifetime);
-
 	//graphics->SetLifetime(mLifetime);
 }
 
@@ -226,7 +227,6 @@ float MainContainer::ErrorHandleUI(QString text, QPlainTextEdit* qpte)
 		msgBox.setText("Input MUST be float, not character!");
 		msgBox.exec();*/
 	}
-	
 }
 
 void MainContainer::keyPressEvent(QKeyEvent* evt)

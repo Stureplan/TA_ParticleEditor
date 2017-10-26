@@ -179,11 +179,18 @@ public:
         ParticleEditorClass->setWindowTitle(QApplication::translate("ParticleEditorClass", "ParticleEditor", Q_NULLPTR));
         label_ParticleInfo->setText(QApplication::translate("ParticleEditorClass", "<no info>", Q_NULLPTR));
         browsepath->setText(QApplication::translate("ParticleEditorClass", "Browse", Q_NULLPTR));
+        lifetime->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));
         label_Lifetime->setText(QApplication::translate("ParticleEditorClass", "Lifetime", Q_NULLPTR));
+        emissionDelay->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));
+        maxParticles->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));
+        velocityX->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));
+        velocityY->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));
+        velocityZ->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));
         label_Velocity->setText(QApplication::translate("ParticleEditorClass", "Velocity", Q_NULLPTR));
         label_EmissionDelay->setText(QApplication::translate("ParticleEditorClass", "Emission Delay", Q_NULLPTR));
         label_MaxParticles->setText(QApplication::translate("ParticleEditorClass", "Max Particles", Q_NULLPTR));
         savePS->setText(QApplication::translate("ParticleEditorClass", "Save as...", Q_NULLPTR));
+        gravity->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));
         label_Gravity->setText(QApplication::translate("ParticleEditorClass", "Gravity", Q_NULLPTR));
     } // retranslateUi
 

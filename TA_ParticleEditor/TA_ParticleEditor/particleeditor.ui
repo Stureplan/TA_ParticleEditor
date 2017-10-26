@@ -119,6 +119,9 @@
       <height>24</height>
      </rect>
     </property>
+    <property name="placeholderText">
+     <string>0</string>
+    </property>
    </widget>
    <widget class="QLabel" name="label_Lifetime">
     <property name="geometry">
@@ -142,6 +145,9 @@
       <height>24</height>
      </rect>
     </property>
+    <property name="placeholderText">
+     <string>0</string>
+    </property>
    </widget>
    <widget class="QPlainTextEdit" name="maxParticles">
     <property name="geometry">
@@ -151,6 +157,9 @@
       <width>64</width>
       <height>24</height>
      </rect>
+    </property>
+    <property name="placeholderText">
+     <string>0</string>
     </property>
    </widget>
    <widget class="QPlainTextEdit" name="velocityX">
@@ -162,6 +171,9 @@
       <height>24</height>
      </rect>
     </property>
+    <property name="placeholderText">
+     <string>0</string>
+    </property>
    </widget>
    <widget class="QPlainTextEdit" name="velocityY">
     <property name="geometry">
@@ -172,6 +184,9 @@
       <height>24</height>
      </rect>
     </property>
+    <property name="placeholderText">
+     <string>0</string>
+    </property>
    </widget>
    <widget class="QPlainTextEdit" name="velocityZ">
     <property name="geometry">
@@ -181,6 +196,9 @@
       <width>64</width>
       <height>24</height>
      </rect>
+    </property>
+    <property name="placeholderText">
+     <string>0</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_Velocity">
@@ -275,6 +293,9 @@
       <width>64</width>
       <height>24</height>
      </rect>
+    </property>
+    <property name="placeholderText">
+     <string>0</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_Gravity">
