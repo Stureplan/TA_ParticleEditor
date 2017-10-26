@@ -4,9 +4,6 @@ MainContainer::MainContainer(QWidget* parent)
 {
 	// Make sure the Main Container takes full focus (keyboard input)
 	setFocusPolicy(Qt::StrongFocus);
-	velocity = POSITION(0, 0, 0);
-	Init();
-	
 }
 
 MainContainer::~MainContainer() 
@@ -14,73 +11,44 @@ MainContainer::~MainContainer()
 	
 }
 
+#pragma region POINTERS
+void MainContainer::SetPointers(Graphics* gfx, QLabel* particleInfoUI, QPlainTextEdit* lifetimeInputUI, QPlainTextEdit* emissionDelayUI, QPlainTextEdit* velocityXUI, QPlainTextEdit* velocityYUI, QPlainTextEdit* velocityZUI,	QPlainTextEdit* gravityUI, QPushButton* browseUI, QPushButton* saveUI, QPlainTextEdit* maxParticlesUI, QTextBrowser* browseTextBoxUI)
+{
+	graphics = gfx;
+	textFieldParticleInfo = particleInfoUI;
+	textFieldLifetime = lifetimeInputUI;
+	textFieldEmissionDelay = emissionDelayUI;
+	textFieldVelocityX = velocityXUI;
+	textFieldVelocityY = velocityYUI;
+	textFieldVelocityZ = velocityZUI;
+	textFieldGravity = gravityUI;
+	browseBtn = browseUI;
+	saveBtn = saveUI;
+	textFieldMaxParticles = maxParticlesUI;
+	textBrowser = browseTextBoxUI;
+}
+#pragma endregion
+
 void MainContainer::Init()
 {
 	mTextFieldValue = 0.0f;
-	mLifetime = 0.0f;
-	mEmissionDelay = 0.0f;
-	mGravity = 0.0f;
+
+	mLifetime = DEFAULT_LIFETIME;
+	textFieldLifetime->setPlainText(std::to_string(DEFAULT_LIFETIME).c_str());
+
+	mEmissionDelay = DEFAULT_EMISSIONDELAY;
+	textFieldLifetime->setPlainText(std::to_string(DEFAULT_EMISSIONDELAY).c_str());
+
+	mVelocity = DEFAULT_VELOCITY;
+	textFieldVelocityX->setPlainText(std::to_string(DEFAULT_VELOCITY.X).c_str());
+	textFieldVelocityY->setPlainText(std::to_string(DEFAULT_VELOCITY.Y).c_str());
+	textFieldVelocityZ->setPlainText(std::to_string(DEFAULT_VELOCITY.Z).c_str());
+
+	mGravity = DEFAULT_GRAVITY;
+	textFieldGravity->setPlainText(std::to_string(DEFAULT_GRAVITY).c_str());
+
 	mMaxParticles = DEFAULT_MAXPARTICLES;
-}
-
-void MainContainer::GraphicsWindow(Graphics* gfx)
-{
-	graphics = gfx;
-}
-
-void MainContainer::ParticleInfoLabel(QLabel* lbl)
-{
-	labelInfo = lbl;
-}
-
-void MainContainer::LifetimeInput(QPlainTextEdit* pte)
-{
-	textFieldLifetime = pte;
-}
-
-void MainContainer::EmissionDelayInput(QPlainTextEdit* pte)
-{
-	textFieldEmissionDelay = pte;
-}
-
-void MainContainer::VelocityXInput(QPlainTextEdit* pte)
-{
-	textFieldVelocityX = pte;
-}
-
-void MainContainer::VelocityYInput(QPlainTextEdit* pte)
-{
-	textFieldVelocityY = pte;
-}
-
-void MainContainer::VelocityZInput(QPlainTextEdit* pte)
-{
-	textFieldVelocityZ = pte;
-}
-
-void MainContainer::MaxParticlesInput(QPlainTextEdit* pte)
-{
-	textFieldMaxParticles = pte;
-}
-
-void MainContainer::BrowseInput(QPushButton* pbtn)
-{
-	browseBtn = pbtn;
-}
-
-void MainContainer::BrowseTextBox(QTextBrowser* qtb)
-{
-	textBrowser = qtb;
-}
-
-void MainContainer::SaveInput(QPushButton* pbtn)
-{
-	saveBtn = pbtn;
-}
-
-void MainContainer::GravityInput(QPlainTextEdit* pte)
-{
-	textFieldGravity = pte;
+	textFieldMaxParticles->setPlainText(std::to_string(DEFAULT_MAXPARTICLES).c_str());
 }
 
 void MainContainer::setGravity()
@@ -97,9 +65,9 @@ void MainContainer::save()
 
 void MainContainer::browse()
 {
-	texturePath = QFileDialog::getOpenFileName(this,
+	mTexturePath = QFileDialog::getOpenFileName(this,
 		tr("Open Image"), "", tr("Image Files (*.png)"));
-	textBrowser->setPlainText(texturePath);
+	textBrowser->setPlainText(mTexturePath);
 	//graphics->SetTexturePath(texturePath);
 }
 
@@ -145,32 +113,42 @@ void MainContainer::setMaxParticles()
 	//graphics->SetMaxParticles(mMaxParticles);
 }
 
+void MainContainer::BuildParticleSystem()
+{
+	PARTICLESYSTEM ps(mPosition, mMaxParticles,
+		mVelocity, mEmissionDelay, mLifetime, mGravity,
+		mTexturePath.toStdString());
+
+	graphics->SetParticleSystem(ps);
+}
+
 
 void MainContainer::setVelocityX()
 {
 	QString text = textFieldVelocityX->toPlainText();
-	mVelocityX = ErrorHandleUI(text, textFieldVelocityX);
+	float x = ErrorHandleUI(text, textFieldVelocityX);
 
-	velocity.X = mVelocityX;
-	//graphics->SetVelocity(velocity);
+	mVelocity.X = x;
+	BuildParticleSystem();
 }
 
 void MainContainer::setVelocityY()
 {
 	QString text = textFieldVelocityY->toPlainText();
-	mVelocityY = ErrorHandleUI(text, textFieldVelocityY);
+	float y = ErrorHandleUI(text, textFieldVelocityY);
 
-	velocity.Y = mVelocityY;
-	//graphics->SetVelocity(velocity);
+	mVelocity.Y = y;
+	BuildParticleSystem();
+
 }
 
 void MainContainer::setVelocityZ()
 {
 	QString text = textFieldVelocityZ->toPlainText();
-	mVelocityZ = ErrorHandleUI(text, textFieldVelocityZ);
+	float z = ErrorHandleUI(text, textFieldVelocityZ);
 	
-	velocity.Z = mVelocityZ;
-	//graphics->SetVelocity(velocity);
+	mVelocity.Z = z;
+	BuildParticleSystem();
 }
 
 
@@ -178,14 +156,14 @@ void MainContainer::setEmissionDelay()
 {
 	QString text = textFieldEmissionDelay->toPlainText();
 	mEmissionDelay = ErrorHandleUI(text, textFieldEmissionDelay);
-	//graphics->setEmissionDelay(mEmissionDelay);
+	BuildParticleSystem();
 }
 
 void MainContainer::setLifetime()
 {
 	QString text = textFieldLifetime->toPlainText();
 	mLifetime = ErrorHandleUI(text, textFieldLifetime);
-	//graphics->SetLifetime(mLifetime);
+	BuildParticleSystem();
 }
 
 float MainContainer::ErrorHandleUI(QString text, QPlainTextEdit* qpte)
@@ -297,11 +275,11 @@ void MainContainer::mousePressEvent(QMouseEvent* evt)
 
 			if (hitParticle > -1)
 			{
-				graphics->ParticleInspectionLabel(labelInfo);
+				graphics->ParticleInspectionLabel(textFieldParticleInfo);
 			}
 			else
 			{
-				labelInfo->setText("<no info>");
+				textFieldParticleInfo->setText("<no info>");
 			}
 		}
 	}

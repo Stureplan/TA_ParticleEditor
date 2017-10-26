@@ -159,7 +159,7 @@
      </rect>
     </property>
     <property name="placeholderText">
-     <string>0</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPlainTextEdit" name="velocityX">

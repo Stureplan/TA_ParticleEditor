@@ -367,6 +367,11 @@ void Graphics::ChangeRasterization(D3D11_FILL_MODE fillmode)
 	}
 }
 
+void Graphics::SetParticleSystem(PARTICLESYSTEM ps)
+{
+	particlesystem->Rebuild(ps);
+}
+
 void Graphics::PauseSimulation()
 {
 	particlesystem->Pause();

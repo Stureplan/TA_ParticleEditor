@@ -182,7 +182,7 @@ public:
         lifetime->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));
         label_Lifetime->setText(QApplication::translate("ParticleEditorClass", "Lifetime", Q_NULLPTR));
         emissionDelay->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));
-        maxParticles->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));
+        maxParticles->setPlaceholderText(QString());
         velocityX->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));
         velocityY->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));
         velocityZ->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));

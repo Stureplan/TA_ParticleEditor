@@ -7,18 +7,23 @@ ParticleEditor::ParticleEditor(QWidget *parent, Qt::WindowFlags flags)	: QMainWi
 	setWindowFlag(Qt::MSWindowsFixedSizeDialogHint);
 	//QApplication::setKeyboardInputInterval(16);
 
-	ui.maincontainer->GraphicsWindow(ui.graphics);
-	ui.maincontainer->ParticleInfoLabel(ui.label_ParticleInfo);
-	ui.maincontainer->LifetimeInput(ui.lifetime);
-	ui.maincontainer->EmissionDelayInput(ui.emissionDelay);
-	ui.maincontainer->VelocityXInput(ui.velocityX);
-	ui.maincontainer->VelocityYInput(ui.velocityY);
-	ui.maincontainer->VelocityZInput(ui.velocityZ);
-	ui.maincontainer->MaxParticlesInput(ui.maxParticles);
-	ui.maincontainer->GravityInput(ui.gravity);
-	ui.maincontainer->BrowseInput(ui.browsepath);
-	ui.maincontainer->BrowseTextBox(ui.textBrowser);
-	ui.maincontainer->SaveInput(ui.savePS);
+	ui.maincontainer->SetPointers
+	(
+		ui.graphics,
+		ui.label_ParticleInfo, 
+		ui.lifetime, 
+		ui.emissionDelay, 
+		ui.velocityX, 
+		ui.velocityY,
+		ui.velocityZ,
+		ui.gravity,
+		ui.browsepath,
+		ui.savePS,
+		ui.maxParticles,
+		ui.textBrowser
+	);
+
+	ui.maincontainer->Init();
 }
 
 ParticleEditor::~ParticleEditor()
