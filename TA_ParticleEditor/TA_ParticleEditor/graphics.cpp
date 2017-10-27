@@ -252,13 +252,13 @@ void Graphics::LoadParticles()
 {
 	HRESULT hr;
 
-	std::vector<VECTOR3> positions = particlesystem->AllParticlePositions();
+	std::vector<PARTICLE_VERTEX> positions = particlesystem->AllParticleData();
 	unsigned int count = positions.size();
 
 	D3D11_BUFFER_DESC vertexDesc;
 	ZeroMemory(&vertexDesc, sizeof(vertexDesc));
 	//vertexDesc.ByteWidth = sizeof(POSITION) * count*2;	//NOTE!!!!!! this is just simply reserved space for further vertices.
-	vertexDesc.ByteWidth = sizeof(VECTOR3) * count;
+	vertexDesc.ByteWidth = sizeof(PARTICLE_VERTEX) * count;
 	vertexDesc.Usage = D3D11_USAGE_DYNAMIC;
 	vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	vertexDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
@@ -278,11 +278,11 @@ void Graphics::LoadDebugParticle()
 {
 	HRESULT hr;
 
-	debugParticle = { 0, 0, 0 };
+	debugParticle = { {0, 0, 0}, 0 };
 
 	D3D11_BUFFER_DESC vertexDesc;
 	ZeroMemory(&vertexDesc, sizeof(vertexDesc));
-	vertexDesc.ByteWidth = sizeof(VECTOR3);
+	vertexDesc.ByteWidth = sizeof(PARTICLE_VERTEX);
 	vertexDesc.Usage = D3D11_USAGE_DYNAMIC;
 	vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	vertexDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
@@ -393,7 +393,7 @@ void Graphics::ParticleInspectionLabel(QLabel* label)
 
 void Graphics::UpdateInspectorText()
 {
-	VECTOR3 pos = particlesystem->GetPosition(particleDebugID);
+	VECTOR3 pos = particlesystem->GetPosition(particleDebugID).position;
 
 	char buffer[64];
 	sprintf(buffer, "X: %.2f Y: %.2f Z: %.2f", pos.X, pos.Y, pos.Z);
@@ -409,12 +409,12 @@ int Graphics::TestIntersection(int x, int y, XMFLOAT3 &particlePos)
 	//float nX = (2.0f * x / W - 1.0f);
 	//float nY = (-2.0f * y / H + 1.0f);
 	unsigned int count = -1;
-	std::vector<VECTOR3> particles = particlesystem->ParticlePositionData(count);
+	std::vector<PARTICLE_VERTEX> particles = particlesystem->ParticleData(count);
 
 	for (unsigned int i = 0; i < count; i++)
 	{
 		// FIND ORIGINAL PARTICLE POS
-		XMVECTOR pos = XMVectorSet(particles[i].X, particles[i].Y, particles[i].Z, 1.0f);
+		XMVECTOR pos = XMVectorSet(particles[i].position.X, particles[i].position.Y, particles[i].position.Z, 1.0f);
 
 		XMVECTOR up = XMVector3Normalize(camup) * sizeY;
 		XMVECTOR normal = XMVector3Normalize(pos - campos);
@@ -482,14 +482,14 @@ void Graphics::AddParticle(VECTOR3 p)
 	particlesystem->AddParticle(p);
 
 	// Get the data pointer
-	std::vector<VECTOR3> positions = particlesystem->ParticlePositionData(newParticleCount);
+	std::vector<PARTICLE_VERTEX> positions = particlesystem->ParticleData(newParticleCount);
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
 	// Discard the whole old system and set a new one
 	context->Map(particleVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-	memcpy(mappedResource.pData, positions.data(), sizeof(VECTOR3) * newParticleCount);
+	memcpy(mappedResource.pData, positions.data(), sizeof(PARTICLE_VERTEX) * newParticleCount);
 	context->Unmap(particleVertexBuffer, 0);
 }
 
@@ -498,14 +498,14 @@ void Graphics::UploadParticleBuffer()
 	unsigned int count = -1;
 
 	// Fetch the data & count from the PS
-	std::vector<VECTOR3> positions = particlesystem->ParticlePositionData(count);
+	std::vector<PARTICLE_VERTEX> positions = particlesystem->ParticleData(count);
 	
 	if (count > 0)
 	{
 		D3D11_MAPPED_SUBRESOURCE mappedResource;
 		ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 		HRESULT hr = context->Map(particleVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-		memcpy((VECTOR3*)mappedResource.pData, positions.data(), sizeof(VECTOR3) * count);
+		memcpy((PARTICLE_VERTEX*)mappedResource.pData, positions.data(), sizeof(PARTICLE_VERTEX) * count);
 		context->Unmap(particleVertexBuffer, 0);
 	}
 }
@@ -587,7 +587,7 @@ void Graphics::Render()
 	// SETUP & DRAW PARTICLES
 	UploadParticleBuffer();
 
-	stride = sizeof(VECTOR3);
+	stride = sizeof(PARTICLE_VERTEX);
 	offset = 0;
 	shaders.SetParticleShader(context);
 	context->IASetVertexBuffers(0, 1, &particleVertexBuffer, &stride, &offset);
@@ -596,11 +596,12 @@ void Graphics::Render()
 	cBufferParticle.campos = campos;
 	cBufferParticle.camup = XMVectorSet(0, 1, 0, 1);
 	cBufferParticle.size = XMFLOAT2(sizeX, sizeY);
-	cBufferParticle.colin = colIn;
-	cBufferParticle.colout = colOut;
+	cBufferParticle.colin = particlesystem->GetInColor();
+	cBufferParticle.colout = particlesystem->GetOutColor();
 	context->UpdateSubresource(constantBufferParticle, 0, NULL, &cBufferParticle, 0, 0);
 	context->VSSetConstantBuffers(0, 1, &constantBufferParticle);
 	context->GSSetConstantBuffers(0, 1, &constantBufferParticle);
+	context->PSSetConstantBuffers(0, 1, &constantBufferParticle);
 	context->PSSetSamplers(0, 1, &textureSamplerState);
 
 	if (debug == true)
@@ -654,7 +655,7 @@ void Graphics::RenderDebugParticle(unsigned int particleID)
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
 	context->Map(particleDebugVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-	memcpy((VECTOR3*)mappedResource.pData, &debugParticle, sizeof(VECTOR3));
+	memcpy((PARTICLE_VERTEX*)mappedResource.pData, &debugParticle, sizeof(PARTICLE_VERTEX));
 	context->Unmap(particleDebugVertexBuffer, 0);
 
 

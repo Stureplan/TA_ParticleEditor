@@ -24,9 +24,9 @@ void ParticleSystem::ModifyParticle(int id, VECTOR3 p)
 	particles[id].position = p;
 }
 
-std::vector<VECTOR3> ParticleSystem::ParticlePositionData(unsigned int &count)
+std::vector<PARTICLE_VERTEX> ParticleSystem::ParticleData(unsigned int &count)
 {
-	std::vector<VECTOR3> positions;
+	std::vector<PARTICLE_VERTEX> particle_vertices;
 	count = particles.size();
 	unsigned int actualCount = 0;
 
@@ -36,31 +36,31 @@ std::vector<VECTOR3> ParticleSystem::ParticlePositionData(unsigned int &count)
 	{
 		if (particles[i].alive)
 		{
-			positions.push_back(particles[i].position);
+			particle_vertices.push_back(PARTICLE_VERTEX(particles[i].position, particles[i].currentlifetime));
 			actualCount++;
 		}
 	}
 
 	count = actualCount;
-	return positions;
+	return particle_vertices;
 }
 
-std::vector<VECTOR3> ParticleSystem::AllParticlePositions()
+std::vector<PARTICLE_VERTEX> ParticleSystem::AllParticleData()
 {
 	unsigned int count = particles.size();
-	std::vector<VECTOR3> positions;
+	std::vector<PARTICLE_VERTEX> positions;
 
 	for (unsigned int i = 0; i < count; i++)
 	{
-		positions.push_back(particles[i].position);
+		positions.push_back(PARTICLE_VERTEX(particles[i].position, particles[i].currentlifetime));
 	}
 
 	return positions;
 }
 
-VECTOR3 ParticleSystem::GetPosition(unsigned int id)
+PARTICLE_VERTEX ParticleSystem::GetPosition(unsigned int id)
 {
-	return particles[id].position;
+	return PARTICLE_VERTEX(particles[id].position, particles[id].currentlifetime);
 }
 
 unsigned int ParticleSystem::GetSize()
@@ -114,7 +114,7 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 
 void ParticleSystem::Initialize()
 {
-	ps = new PARTICLESYSTEM(VECTOR3(0,0,0),0, VECTOR3(0,0,0),0,0,0,"", COLOR(0,0,0,0), COLOR(0,0,0,0));
+	ps = new PARTICLESYSTEM(VECTOR3(0,0,0),0, VECTOR3(0,0,0),0,0,0,"", COLOR(1,1,1,1), COLOR(1,1,1,1));
 
 
 	for (unsigned int i = 0; i < ps->maxparticles; i++)

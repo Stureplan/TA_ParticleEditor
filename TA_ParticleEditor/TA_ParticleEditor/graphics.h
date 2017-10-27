@@ -44,9 +44,9 @@ public:
 		XMMATRIX world;
 		XMVECTOR campos;
 		XMVECTOR camup;
-		XMFLOAT2 size;
 		COLOR colin;
 		COLOR colout;
+		XMFLOAT2 size;
 	};
 
 	struct CBUFFER_VERTEX
@@ -164,7 +164,7 @@ private:
 	int particleDebugID = -1;
 	//std::vector<POINT>	particleVertexData;
 	std::vector<VERTEX> groundVertexData;
-	VECTOR3 debugParticle;
+	PARTICLE_VERTEX debugParticle;
 
 	std::vector<ID3D11ShaderResourceView*> textures;
 	ID3D11ShaderResourceView* texture_debug;

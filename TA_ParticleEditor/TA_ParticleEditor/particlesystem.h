@@ -19,9 +19,11 @@ public:
 	unsigned int ParticleCount();
 	void AddParticle(VECTOR3 p);
 	void ModifyParticle(int id, VECTOR3 p);
-	std::vector<VECTOR3> ParticlePositionData(unsigned int &count);
-	std::vector<VECTOR3> AllParticlePositions();
-	VECTOR3 GetPosition(unsigned int id);
+	std::vector<PARTICLE_VERTEX> ParticleData(unsigned int &count);
+	std::vector<PARTICLE_VERTEX> AllParticleData();
+	PARTICLE_VERTEX GetPosition(unsigned int id);
+	COLOR GetInColor() { return ps->colorIn; }
+	COLOR GetOutColor() { return ps->colorOut; }
 	bool IsAlive(unsigned int id) { return particles[id].alive; }
 	unsigned int GetSize();
 	void Pause();

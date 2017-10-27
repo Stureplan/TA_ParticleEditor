@@ -4,6 +4,8 @@ cbuffer CBUFFER
 	float4x4 world;
 	float4 campos;
 	float4 camup;
+	float4 colin;
+	float4 colout;
 	float2 size;
 };
 
@@ -13,12 +15,16 @@ struct VOut
 	float2 texcoord : TEXCOORD;
 
 	float3 worldPos : NORMAL;
+	float lifetime : LIFETIME;
 };
 
 Texture2D tex;
 SamplerState smp;
 
-VOut VShader(float4 position : POSITION)
+//TODO: Check constant buffer PADDING / VALUES
+//TODO: Semantics input
+
+VOut VShader(float4 position : POSITION, float lifetime : LIFETIME)
 {
 	VOut output;
 
@@ -27,6 +33,7 @@ VOut VShader(float4 position : POSITION)
 	//output.position = mul(position, wvp);
 	output.position = position;
 	output.texcoord = float2(0,0);
+	output.lifetime = lifetime;
 
 	return output;
 }
@@ -64,13 +71,15 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 	uv[3] = float2(0, 1);
 
 	VOut output;
+
 	for (int i = 0; i < 4; i++)
 	{
 		output.position.w = input[0].position.w;
+		output.lifetime = input[0].lifetime;
+
 		output.position.xyz = vtx[i];
 		output.worldPos = vtx[i];
 		output.position = mul(output.position, wvp);
-
 		output.texcoord = uv[i];
 		OutputStream.Append(output);
 	}
@@ -102,6 +111,9 @@ float4 PShader(VOut input) : SV_TARGET
 {
 	float4 pos = input.position;
 	float2 uv = input.texcoord;
-	return tex.Sample(smp, uv);
-	//return float4(input.worldPos,1);
+	float lt = 1 - input.lifetime;
+	
+	float4 color = tex.Sample(smp, uv) * lerp(colin, colout, 1-lt);
+	
+	return color;
 }

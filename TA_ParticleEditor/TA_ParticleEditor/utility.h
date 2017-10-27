@@ -42,6 +42,7 @@ struct COLOR
 // For our purposes it's a particle that will be used as a vertex.
 struct PARTICLE_VERTEX
 {
+	PARTICLE_VERTEX() : position(0,0,0), currentlifetime(0) { }
 	PARTICLE_VERTEX(VECTOR3 pos, float cl)
 	{
 		position = pos;
