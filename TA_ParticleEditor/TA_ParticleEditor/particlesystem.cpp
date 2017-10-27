@@ -52,10 +52,7 @@ std::vector<POSITION> ParticleSystem::AllParticlePositions()
 
 	for (unsigned int i = 0; i < count; i++)
 	{
-		if (particles[i].alive)
-		{
-			positions.push_back(particles[i].position);
-		}
+		positions.push_back(particles[i].position);
 	}
 
 	return positions;
@@ -92,7 +89,7 @@ void ParticleSystem::Initialize()
 
 	for (unsigned int i = 0; i < ps->maxparticles; i++)
 	{
-		particles.push_back(PARTICLE(ps->position,0, true));
+		particles.push_back(PARTICLE(ps->position,0, false));
 	}
 }
 
@@ -105,6 +102,13 @@ void ParticleSystem::Rebuild(PARTICLESYSTEM particlesystem)
 	ps->lifetime= particlesystem.lifetime;
 	ps->gravity= particlesystem.gravity;
 	ps->texturename= particlesystem.texturename;
+
+	particles.clear();
+
+	for (unsigned int i = 0; i < ps->maxparticles; i++)
+	{
+		particles.push_back(PARTICLE(POSITION(0, 0, 0), 0, true));
+	}
 }
 
 void ParticleSystem::Update(float dt)

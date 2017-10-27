@@ -34,21 +34,21 @@ void MainContainer::Init()
 	mTextFieldValue = 0.0f;
 
 	mLifetime = DEFAULT_LIFETIME;
-	textFieldLifetime->setPlainText(std::to_string(DEFAULT_LIFETIME).c_str());
+	textFieldLifetime->setPlaceholderText(std::to_string(DEFAULT_LIFETIME).c_str());
 
 	mEmissionDelay = DEFAULT_EMISSIONDELAY;
-	textFieldLifetime->setPlainText(std::to_string(DEFAULT_EMISSIONDELAY).c_str());
+	textFieldLifetime->setPlaceholderText(std::to_string(DEFAULT_EMISSIONDELAY).c_str());
 
 	mVelocity = DEFAULT_VELOCITY;
-	textFieldVelocityX->setPlainText(std::to_string(DEFAULT_VELOCITY.X).c_str());
-	textFieldVelocityY->setPlainText(std::to_string(DEFAULT_VELOCITY.Y).c_str());
-	textFieldVelocityZ->setPlainText(std::to_string(DEFAULT_VELOCITY.Z).c_str());
+	textFieldVelocityX->setPlaceholderText(std::to_string(DEFAULT_VELOCITY.X).c_str());
+	textFieldVelocityY->setPlaceholderText(std::to_string(DEFAULT_VELOCITY.Y).c_str());
+	textFieldVelocityZ->setPlaceholderText(std::to_string(DEFAULT_VELOCITY.Z).c_str());
 
 	mGravity = DEFAULT_GRAVITY;
-	textFieldGravity->setPlainText(std::to_string(DEFAULT_GRAVITY).c_str());
+	textFieldGravity->setPlaceholderText(std::to_string(DEFAULT_GRAVITY).c_str());
 
 	mMaxParticles = DEFAULT_MAXPARTICLES;
-	textFieldMaxParticles->setPlainText(std::to_string(DEFAULT_MAXPARTICLES).c_str());
+	textFieldMaxParticles->setPlaceholderText(std::to_string(DEFAULT_MAXPARTICLES).c_str());
 }
 
 void MainContainer::setGravity()
@@ -119,7 +119,7 @@ void MainContainer::BuildParticleSystem()
 		mVelocity, mEmissionDelay, mLifetime, mGravity,
 		mTexturePath.toStdString());
 
-	graphics->SetParticleSystem(ps);
+	graphics->Rebuild(ps);
 }
 
 

@@ -66,7 +66,7 @@ public:
 	void LoadTextures();
 	void ChangeRasterization(D3D11_FILL_MODE fillmode);
 
-	void SetParticleSystem(PARTICLESYSTEM ps);
+	void Rebuild(PARTICLESYSTEM ps);
 	void PauseSimulation();
 
 	void ParticleInspectionLabel(QLabel* label);

@@ -24,6 +24,8 @@ ParticleEditor::ParticleEditor(QWidget *parent, Qt::WindowFlags flags)	: QMainWi
 	);
 
 	ui.maincontainer->Init();
+	ui.maincontainer->BuildParticleSystem();
+	ui.graphics->LoadParticles();
 }
 
 ParticleEditor::~ParticleEditor()

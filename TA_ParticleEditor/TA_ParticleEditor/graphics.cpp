@@ -367,7 +367,7 @@ void Graphics::ChangeRasterization(D3D11_FILL_MODE fillmode)
 	}
 }
 
-void Graphics::SetParticleSystem(PARTICLESYSTEM ps)
+void Graphics::Rebuild(PARTICLESYSTEM ps)
 {
 	particlesystem->Rebuild(ps);
 }
@@ -490,17 +490,15 @@ void Graphics::UploadParticleBuffer()
 
 	// Fetch the data & count from the PS
 	std::vector<POSITION> positions = particlesystem->ParticlePositionData(count);
-
+	
 	if (count > 0)
 	{
-
 		D3D11_MAPPED_SUBRESOURCE mappedResource;
 		ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 		HRESULT hr = context->Map(particleVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 		memcpy((POSITION*)mappedResource.pData, positions.data(), sizeof(POSITION) * count);
 		context->Unmap(particleVertexBuffer, 0);
 	}
-
 }
 
 
