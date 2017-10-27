@@ -37,7 +37,7 @@ void MainContainer::Init()
 	textFieldLifetime->setPlaceholderText(std::to_string(DEFAULT_LIFETIME).c_str());
 
 	mEmissionDelay = DEFAULT_EMISSIONDELAY;
-	textFieldLifetime->setPlaceholderText(std::to_string(DEFAULT_EMISSIONDELAY).c_str());
+	textFieldEmissionDelay->setPlaceholderText(std::to_string(DEFAULT_EMISSIONDELAY).c_str());
 
 	mVelocity = DEFAULT_VELOCITY;
 	textFieldVelocityX->setPlaceholderText(std::to_string(DEFAULT_VELOCITY.X).c_str());
@@ -67,7 +67,8 @@ void MainContainer::browse()
 {
 	mTexturePath = QFileDialog::getOpenFileName(this,
 		tr("Open Image"), "", tr("Image Files (*.png)"));
-	textBrowser->setPlainText(mTexturePath);
+	textBrowser->setPlainText(PathFindFileNameA(mTexturePath.toStdString().c_str()));
+	graphics->Retexture(mTexturePath.toStdString());
 	//graphics->SetTexturePath(texturePath);
 }
 

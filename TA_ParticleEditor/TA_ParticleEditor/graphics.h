@@ -66,6 +66,7 @@ public:
 	void LoadTextures();
 	void ChangeRasterization(D3D11_FILL_MODE fillmode);
 
+	void Retexture(std::string path);
 	void Rebuild(PARTICLESYSTEM ps);
 	void PauseSimulation();
 

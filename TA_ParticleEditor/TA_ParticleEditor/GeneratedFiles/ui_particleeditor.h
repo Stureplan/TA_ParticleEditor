@@ -55,6 +55,7 @@ public:
     QPushButton *savePS;
     QPlainTextEdit *gravity;
     QLabel *label_Gravity;
+    QLabel *label_MaxParticles_2;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -131,7 +132,7 @@ public:
         label_MaxParticles->setGeometry(QRect(670, 360, 91, 16));
         textBrowser = new QTextBrowser(maincontainer);
         textBrowser->setObjectName(QStringLiteral("textBrowser"));
-        textBrowser->setGeometry(QRect(750, 470, 191, 41));
+        textBrowser->setGeometry(QRect(750, 470, 191, 31));
         progressBar = new QProgressBar(maincontainer);
         progressBar->setObjectName(QStringLiteral("progressBar"));
         progressBar->setGeometry(QRect(10, 490, 641, 21));
@@ -148,6 +149,9 @@ public:
         label_Gravity = new QLabel(maincontainer);
         label_Gravity->setObjectName(QStringLiteral("label_Gravity"));
         label_Gravity->setGeometry(QRect(680, 180, 51, 20));
+        label_MaxParticles_2 = new QLabel(maincontainer);
+        label_MaxParticles_2->setObjectName(QStringLiteral("label_MaxParticles_2"));
+        label_MaxParticles_2->setGeometry(QRect(680, 450, 91, 16));
         ParticleEditorClass->setCentralWidget(maincontainer);
         menuBar = new QMenuBar(ParticleEditorClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -181,7 +185,7 @@ public:
         browsepath->setText(QApplication::translate("ParticleEditorClass", "Browse", Q_NULLPTR));
         lifetime->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));
         label_Lifetime->setText(QApplication::translate("ParticleEditorClass", "Lifetime", Q_NULLPTR));
-        emissionDelay->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));
+        emissionDelay->setPlaceholderText(QString());
         maxParticles->setPlaceholderText(QString());
         velocityX->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));
         velocityY->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));
@@ -192,6 +196,7 @@ public:
         savePS->setText(QApplication::translate("ParticleEditorClass", "Save as...", Q_NULLPTR));
         gravity->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));
         label_Gravity->setText(QApplication::translate("ParticleEditorClass", "Gravity", Q_NULLPTR));
+        label_MaxParticles_2->setText(QApplication::translate("ParticleEditorClass", "Texture", Q_NULLPTR));
     } // retranslateUi
 
 };

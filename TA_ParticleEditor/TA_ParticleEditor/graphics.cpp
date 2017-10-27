@@ -367,6 +367,15 @@ void Graphics::ChangeRasterization(D3D11_FILL_MODE fillmode)
 	}
 }
 
+void Graphics::Retexture(std::string path)
+{
+	HRESULT hr;
+
+	ID3D11ShaderResourceView* texture;
+
+	hr = D3DX11CreateShaderResourceViewFromFileA(device, path.c_str(), NULL, NULL, &textures[1], NULL);
+}
+
 void Graphics::Rebuild(PARTICLESYSTEM ps)
 {
 	particlesystem->Rebuild(ps);

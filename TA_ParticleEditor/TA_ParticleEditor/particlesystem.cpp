@@ -107,7 +107,7 @@ void ParticleSystem::Rebuild(PARTICLESYSTEM particlesystem)
 
 	for (unsigned int i = 0; i < ps->maxparticles; i++)
 	{
-		particles.push_back(PARTICLE(POSITION(0, 0, 0), 0, true));
+		particles.push_back(PARTICLE(POSITION(0, 0, 0), 0, false));
 	}
 }
 
