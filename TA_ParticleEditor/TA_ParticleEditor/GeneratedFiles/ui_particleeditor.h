@@ -16,6 +16,7 @@
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPlainTextEdit>
@@ -56,6 +57,10 @@ public:
     QPlainTextEdit *gravity;
     QLabel *label_Gravity;
     QLabel *label_MaxParticles_2;
+    QPushButton *colorInBtn;
+    QLineEdit *colorInDisplay;
+    QLineEdit *colorOutDisplay;
+    QPushButton *colorOutBtn;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -72,7 +77,7 @@ public:
         graphics->setGeometry(QRect(9, 9, 640, 480));
         label_ParticleInfo = new QLabel(maincontainer);
         label_ParticleInfo->setObjectName(QStringLiteral("label_ParticleInfo"));
-        label_ParticleInfo->setGeometry(QRect(660, 10, 200, 171));
+        label_ParticleInfo->setGeometry(QRect(10, 500, 361, 71));
         QFont font;
         font.setPointSize(12);
         label_ParticleInfo->setFont(font);
@@ -112,6 +117,7 @@ public:
         maxParticles = new QPlainTextEdit(maincontainer);
         maxParticles->setObjectName(QStringLiteral("maxParticles"));
         maxParticles->setGeometry(QRect(670, 380, 64, 24));
+        maxParticles->setReadOnly(true);
         velocityX = new QPlainTextEdit(maincontainer);
         velocityX->setObjectName(QStringLiteral("velocityX"));
         velocityX->setGeometry(QRect(670, 140, 64, 24));
@@ -135,14 +141,14 @@ public:
         textBrowser->setGeometry(QRect(750, 470, 191, 31));
         progressBar = new QProgressBar(maincontainer);
         progressBar->setObjectName(QStringLiteral("progressBar"));
-        progressBar->setGeometry(QRect(10, 490, 641, 21));
+        progressBar->setGeometry(QRect(10, 580, 641, 10));
         progressBar->setValue(0);
         progressBar->setAlignment(Qt::AlignCenter);
         progressBar->setOrientation(Qt::Horizontal);
         progressBar->setInvertedAppearance(false);
         savePS = new QPushButton(maincontainer);
         savePS->setObjectName(QStringLiteral("savePS"));
-        savePS->setGeometry(QRect(780, 540, 111, 41));
+        savePS->setGeometry(QRect(830, 550, 111, 41));
         gravity = new QPlainTextEdit(maincontainer);
         gravity->setObjectName(QStringLiteral("gravity"));
         gravity->setGeometry(QRect(670, 200, 64, 24));
@@ -152,6 +158,36 @@ public:
         label_MaxParticles_2 = new QLabel(maincontainer);
         label_MaxParticles_2->setObjectName(QStringLiteral("label_MaxParticles_2"));
         label_MaxParticles_2->setGeometry(QRect(680, 450, 91, 16));
+        colorInBtn = new QPushButton(maincontainer);
+        colorInBtn->setObjectName(QStringLiteral("colorInBtn"));
+        colorInBtn->setGeometry(QRect(660, 10, 70, 30));
+        colorInDisplay = new QLineEdit(maincontainer);
+        colorInDisplay->setObjectName(QStringLiteral("colorInDisplay"));
+        colorInDisplay->setGeometry(QRect(729, 10, 211, 30));
+        QFont font1;
+        font1.setKerning(true);
+        colorInDisplay->setFont(font1);
+        colorInDisplay->setCursor(QCursor(Qt::IBeamCursor));
+        colorInDisplay->setFocusPolicy(Qt::NoFocus);
+        colorInDisplay->setContextMenuPolicy(Qt::NoContextMenu);
+        colorInDisplay->setFrame(false);
+        colorInDisplay->setAlignment(Qt::AlignCenter);
+        colorInDisplay->setReadOnly(true);
+        colorOutDisplay = new QLineEdit(maincontainer);
+        colorOutDisplay->setObjectName(QStringLiteral("colorOutDisplay"));
+        colorOutDisplay->setGeometry(QRect(730, 50, 211, 30));
+        colorOutDisplay->setFont(font1);
+        colorOutDisplay->setCursor(QCursor(Qt::IBeamCursor));
+        colorOutDisplay->setMouseTracking(false);
+        colorOutDisplay->setFocusPolicy(Qt::NoFocus);
+        colorOutDisplay->setContextMenuPolicy(Qt::NoContextMenu);
+        colorOutDisplay->setFrame(false);
+        colorOutDisplay->setAlignment(Qt::AlignCenter);
+        colorOutDisplay->setReadOnly(true);
+        colorOutDisplay->setClearButtonEnabled(false);
+        colorOutBtn = new QPushButton(maincontainer);
+        colorOutBtn->setObjectName(QStringLiteral("colorOutBtn"));
+        colorOutBtn->setGeometry(QRect(660, 50, 70, 30));
         ParticleEditorClass->setCentralWidget(maincontainer);
         menuBar = new QMenuBar(ParticleEditorClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -174,6 +210,8 @@ public:
         QObject::connect(browsepath, SIGNAL(clicked()), maincontainer, SLOT(browse()));
         QObject::connect(savePS, SIGNAL(clicked()), maincontainer, SLOT(save()));
         QObject::connect(gravity, SIGNAL(textChanged()), maincontainer, SLOT(setGravity()));
+        QObject::connect(colorInBtn, SIGNAL(clicked()), maincontainer, SLOT(colorIn()));
+        QObject::connect(colorOutBtn, SIGNAL(clicked()), maincontainer, SLOT(colorOut()));
 
         QMetaObject::connectSlotsByName(ParticleEditorClass);
     } // setupUi
@@ -197,6 +235,12 @@ public:
         gravity->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));
         label_Gravity->setText(QApplication::translate("ParticleEditorClass", "Gravity", Q_NULLPTR));
         label_MaxParticles_2->setText(QApplication::translate("ParticleEditorClass", "Texture", Q_NULLPTR));
+        colorInBtn->setText(QApplication::translate("ParticleEditorClass", "Color Start", Q_NULLPTR));
+        colorInDisplay->setText(QString());
+        colorInDisplay->setPlaceholderText(QApplication::translate("ParticleEditorClass", "Color Start", Q_NULLPTR));
+        colorOutDisplay->setText(QString());
+        colorOutDisplay->setPlaceholderText(QApplication::translate("ParticleEditorClass", "Color End", Q_NULLPTR));
+        colorOutBtn->setText(QApplication::translate("ParticleEditorClass", "Color End", Q_NULLPTR));
     } // retranslateUi
 
 };

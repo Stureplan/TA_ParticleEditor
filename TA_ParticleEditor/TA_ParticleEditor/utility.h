@@ -15,12 +15,11 @@
 
 using namespace DirectX;
 
-// Defines a point in world space (XYZ).
-// For our purposes it's a particle that will be used as a vertex.
-struct POSITION
+
+struct VECTOR3
 {
-	POSITION() : X(0), Y(0), Z(0) { }
-	POSITION(float x, float y, float z)
+	VECTOR3() : X(0), Y(0), Z(0) { }
+	VECTOR3(float x, float y, float z)
 	{
 		X = x; Y = y; Z = z;
 	}
@@ -28,16 +27,41 @@ struct POSITION
 	float X, Y, Z;
 };
 
+struct COLOR
+{
+	COLOR() : R(0), G(0), B(0), A(0) { }
+	COLOR(float r, float g, float b, float a)
+	{
+		R = r; G = g; B = b; A = a;
+	}
+
+	float R, G, B, A;
+};
+
+// Defines a point in world space (XYZ) + a lifetime (0-1).
+// For our purposes it's a particle that will be used as a vertex.
+struct PARTICLE_VERTEX
+{
+	PARTICLE_VERTEX(VECTOR3 pos, float cl)
+	{
+		position = pos;
+		currentlifetime = cl;
+	}
+
+	VECTOR3 position;
+	float currentlifetime;
+};
+
 struct PARTICLE
 {
-	PARTICLE(POSITION pos, float cl, bool a)
+	PARTICLE(VECTOR3 pos, float cl, bool a)
 	{ 
 		position = pos;
 		currentlifetime = cl; 
 		alive = a;
 	}
 
-	POSITION position;
+	VECTOR3 position;
 	float currentlifetime;
 	bool alive;
 };
@@ -48,12 +72,14 @@ enum PS_PROPERTY
 	PS_VELOCITY,
 	PS_EMISSIONDELAY,
 	PS_LIFETIME,
-	PS_GRAVITY
+	PS_GRAVITY,
+	PS_COLOR_IN,
+	PS_COLOR_OUT
 };
 
 struct PARTICLESYSTEM
 {
-	PARTICLESYSTEM(POSITION pos, int m, POSITION v, float ed, float lt, float grv, std::string tex)
+	PARTICLESYSTEM(VECTOR3 pos, int m, VECTOR3 v, float ed, float lt, float grv, std::string tex, COLOR colIn, COLOR colOut)
 	{
 		position = pos;
 		maxparticles = m;
@@ -62,30 +88,23 @@ struct PARTICLESYSTEM
 		lifetime = lt;
 		gravity = grv;
 		texturename = tex;
+		colorIn = colIn;
+		colorOut = colOut;
 	}
 	// PS Export variables
-	POSITION position;
+	VECTOR3 position;
 	int maxparticles;
-	POSITION velocity;
+	VECTOR3 velocity;
 	float emissiondelay;
 	float lifetime;
 	float gravity;
 	std::string texturename;
-
+	COLOR colorIn;
+	COLOR colorOut;
 };
 
 
-/*struct PARTICLE_VERTEX
-{
-	PARTICLE_VERTEX(POSITION pos, float cl)
-	{
-		position = pos;
-		currentlifetime = cl;
-	}
 
-	POSITION position;
-	float currentlifetime;
-};*/
 
 
 

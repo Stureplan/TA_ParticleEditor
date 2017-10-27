@@ -12,7 +12,7 @@ MainContainer::~MainContainer()
 }
 
 #pragma region POINTERS
-void MainContainer::SetPointers(Graphics* gfx, ParticleSystem* ps, QLabel* particleInfoUI, QPlainTextEdit* lifetimeInputUI, QPlainTextEdit* emissionDelayUI, QPlainTextEdit* velocityXUI, QPlainTextEdit* velocityYUI, QPlainTextEdit* velocityZUI,	QPlainTextEdit* gravityUI, QPushButton* browseUI, QPushButton* saveUI, QPlainTextEdit* maxParticlesUI, QTextBrowser* browseTextBoxUI)
+void MainContainer::SetPointers(Graphics* gfx, ParticleSystem* ps, QLabel* particleInfoUI, QPlainTextEdit* lifetimeInputUI, QPlainTextEdit* emissionDelayUI, QPlainTextEdit* velocityXUI, QPlainTextEdit* velocityYUI, QPlainTextEdit* velocityZUI,	QPlainTextEdit* gravityUI, QPushButton* browseUI, QPushButton* saveUI, QPlainTextEdit* maxParticlesUI, QTextBrowser* browseTextBoxUI, QLineEdit* colorInDisplayUI, QLineEdit* colorOutDisplayUI)
 {
 	graphics = gfx;
 	particlesystem = ps;
@@ -27,6 +27,8 @@ void MainContainer::SetPointers(Graphics* gfx, ParticleSystem* ps, QLabel* parti
 	saveBtn = saveUI;
 	textFieldMaxParticles = maxParticlesUI;
 	textBrowser = browseTextBoxUI;
+	colorInDisplay = colorInDisplayUI;
+	colorOutDisplay = colorOutDisplayUI;
 }
 #pragma endregion
 
@@ -65,6 +67,32 @@ void MainContainer::save()
 {
 	savePath = QFileDialog::getSaveFileName(this);
 	//graphics->Export(savePath);
+}
+
+void MainContainer::colorIn()
+{
+	QColor c = QColorDialog::getColor(Qt::white, this, "Choose In Color", QColorDialog::ShowAlphaChannel);
+	if (c.isValid())
+	{
+		colIn = c;
+		colorInDisplay->setStyleSheet("QLineEdit { background: "+colIn.name()+"; selection-background-color: rgb(233, 99, 0); }");
+		
+		COLOR color = COLOR(colIn.redF(), colIn.greenF(), colIn.blueF(), colIn.alphaF());
+		particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_IN, &color);
+	}
+}
+
+void MainContainer::colorOut()
+{
+	QColor c = QColorDialog::getColor(Qt::white, this, "Choose In Color", QColorDialog::ShowAlphaChannel);
+	if (c.isValid())
+	{
+		colOut = c;
+		colorOutDisplay->setStyleSheet("QLineEdit { background: " + colOut.name() + "; selection-background-color: rgb(233, 99, 0); }");
+
+		COLOR color = COLOR(colOut.redF(), colOut.greenF(), colOut.blueF(), colOut.alphaF());
+		particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_OUT, &color);
+	}
 }
 
 void MainContainer::browse()
@@ -131,7 +159,7 @@ void MainContainer::BuildParticleSystem()
 {
 	PARTICLESYSTEM ps(mPosition, mMaxParticles,
 		mVelocity, mEmissionDelay, mLifetime, mGravity,
-		mTexturePath.toStdString());
+		mTexturePath.toStdString(), COLOR(0,0,0,0), COLOR(0,0,0,0));
 
 	graphics->Rebuild(ps);
 }

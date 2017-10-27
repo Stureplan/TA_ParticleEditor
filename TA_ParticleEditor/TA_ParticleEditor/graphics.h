@@ -38,13 +38,15 @@ class Graphics : public QWidget
 public:
 
 
-	struct CBUFFER_PARTICLE
+	struct CBUFFER_PARTICLESYSTEM
 	{
 		XMMATRIX wvp;
 		XMMATRIX world;
 		XMVECTOR campos;
 		XMVECTOR camup;
 		XMFLOAT2 size;
+		COLOR colin;
+		COLOR colout;
 	};
 
 	struct CBUFFER_VERTEX
@@ -77,7 +79,7 @@ public:
 
 	void ResizeParticleSystem(unsigned int count);
 	void UploadParticleBuffer();
-	void AddParticle(POSITION p);
+	void AddParticle(VECTOR3 p);
 
 	void Debug(bool active);
 	void Update();
@@ -147,9 +149,13 @@ private:
 
 	// Constant Buffer Particles
 	ID3D11Buffer* constantBufferParticle;
-	CBUFFER_PARTICLE cBufferParticle;
+	CBUFFER_PARTICLESYSTEM cBufferParticle;
 
-
+	// Constant Buffer Variables
+	float sizeX = 1.0f;
+	float sizeY = 1.0f;
+	COLOR colIn = (COLOR(1, 1, 1, 1));
+	COLOR colOut= (COLOR(1, 1, 1, 1));
 
 	ID3D11Buffer* particleVertexBuffer;
 	ID3D11Buffer* groundVertexBuffer;
@@ -158,13 +164,11 @@ private:
 	int particleDebugID = -1;
 	//std::vector<POINT>	particleVertexData;
 	std::vector<VERTEX> groundVertexData;
-	POSITION debugParticle;
+	VECTOR3 debugParticle;
 
 	std::vector<ID3D11ShaderResourceView*> textures;
 	ID3D11ShaderResourceView* texture_debug;
 
-	float sizeX = 1.0f;
-	float sizeY = 1.0f;
 
 	ParticleSystem* particlesystem;
 	Shaders shaders;

@@ -14,19 +14,19 @@ unsigned int ParticleSystem::ParticleCount()
 	return particles.size();
 }
 
-void ParticleSystem::AddParticle(POSITION p)
+void ParticleSystem::AddParticle(VECTOR3 p)
 {
 	particles.push_back(PARTICLE(p,0.0f, true));
 }
 
-void ParticleSystem::ModifyParticle(int id, POSITION p)
+void ParticleSystem::ModifyParticle(int id, VECTOR3 p)
 {
 	particles[id].position = p;
 }
 
-std::vector<POSITION> ParticleSystem::ParticlePositionData(unsigned int &count)
+std::vector<VECTOR3> ParticleSystem::ParticlePositionData(unsigned int &count)
 {
-	std::vector<POSITION> positions;
+	std::vector<VECTOR3> positions;
 	count = particles.size();
 	unsigned int actualCount = 0;
 
@@ -45,10 +45,10 @@ std::vector<POSITION> ParticleSystem::ParticlePositionData(unsigned int &count)
 	return positions;
 }
 
-std::vector<POSITION> ParticleSystem::AllParticlePositions()
+std::vector<VECTOR3> ParticleSystem::AllParticlePositions()
 {
 	unsigned int count = particles.size();
-	std::vector<POSITION> positions;
+	std::vector<VECTOR3> positions;
 
 	for (unsigned int i = 0; i < count; i++)
 	{
@@ -58,7 +58,7 @@ std::vector<POSITION> ParticleSystem::AllParticlePositions()
 	return positions;
 }
 
-POSITION ParticleSystem::GetPosition(unsigned int id)
+VECTOR3 ParticleSystem::GetPosition(unsigned int id)
 {
 	return particles[id].position;
 }
@@ -89,10 +89,11 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 	switch (prop)
 	{
 	case PS_PROPERTY::PS_POSITION:
-		ps->position = *(POSITION*)data;
+		ps->position = *(VECTOR3*)data;
 		break;
 	case PS_PROPERTY::PS_VELOCITY:
-		ps->velocity = *(POSITION*)data;
+		ps->velocity = *(VECTOR3*)data;
+		break;
 	case PS_PROPERTY::PS_EMISSIONDELAY:
 		ps->emissiondelay = *(float*)data;
 		break;
@@ -101,12 +102,19 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 		break;
 	case PS_PROPERTY::PS_GRAVITY:
 		ps->gravity = *(float*)data;
+		break;
+	case PS_PROPERTY::PS_COLOR_IN:
+		ps->colorIn = *(COLOR*)data;
+		break;
+	case PS_PROPERTY::PS_COLOR_OUT:
+		ps->colorOut = *(COLOR*)data;
+		break;
 	}
 }
 
 void ParticleSystem::Initialize()
 {
-	ps = new PARTICLESYSTEM(POSITION(0,0,0),0,POSITION(0,0,0),0,0,0,"");
+	ps = new PARTICLESYSTEM(VECTOR3(0,0,0),0, VECTOR3(0,0,0),0,0,0,"", COLOR(0,0,0,0), COLOR(0,0,0,0));
 
 
 	for (unsigned int i = 0; i < ps->maxparticles; i++)
@@ -129,7 +137,7 @@ void ParticleSystem::Rebuild(PARTICLESYSTEM particlesystem)
 
 	for (unsigned int i = 0; i < ps->maxparticles; i++)
 	{
-		particles.push_back(PARTICLE(POSITION(0, 0, 0), 0, false));
+		particles.push_back(PARTICLE(VECTOR3(0, 0, 0), 0, false));
 	}
 }
 
@@ -150,7 +158,7 @@ void ParticleSystem::Update(float dt)
 			{
 				if (p.currentlifetime < ps->lifetime)
 				{
-					POSITION nPos = p.position;
+					VECTOR3 nPos = p.position;
 
 					float percent = p.currentlifetime / ps->lifetime;
 

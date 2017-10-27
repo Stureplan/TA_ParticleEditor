@@ -7,13 +7,18 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QTextBrowser>
+#include <QColorDialog>
+#include <QColor>
+#include <QLineEdit>
+
+
 #include "utility.h"
 #include "graphics.h"
 
 #define DEFAULT_MAXPARTICLES 10
 #define DEFAULT_LIFETIME 1.0f
 #define DEFAULT_EMISSIONDELAY 0.1f
-#define DEFAULT_VELOCITY POSITION(0,0,0)
+#define DEFAULT_VELOCITY VECTOR3(0,0,0)
 #define DEFAULT_GRAVITY 1.0f
 
 class MainContainer : public QWidget 
@@ -37,7 +42,9 @@ public:
 		QPushButton* browseUI,
 		QPushButton* saveUI,
 		QPlainTextEdit* maxParticlesUI,
-		QTextBrowser* browseTextBoxUI);
+		QTextBrowser* browseTextBoxUI,
+		QLineEdit* colorInDisplayUI,
+		QLineEdit* colorOutDisplayUI);
 	void Init();
 	void BuildParticleSystem();
 
@@ -54,6 +61,9 @@ public slots:
 	void setGravity();
 	void browse();
 	void save();
+
+	void colorIn();
+	void colorOut();
 
 protected:
 	virtual void keyPressEvent(QKeyEvent* evt);
@@ -73,11 +83,18 @@ private:
 	QPushButton* browseBtn;
 	QPushButton* saveBtn;
 	QTextBrowser* textBrowser;
+	QLineEdit* colorInDisplay;
+	QLineEdit* colorOutDisplay;
+
 	QString mTexturePath;
 	QString savePath;
-	POSITION mPosition;
+
+	QColor colIn;
+	QColor colOut;
+
+	VECTOR3 mPosition;
 	int mMaxParticles;
-	POSITION mVelocity;
+	VECTOR3 mVelocity;
 	float mEmissionDelay;
 	float mLifetime;
 	float mGravity;

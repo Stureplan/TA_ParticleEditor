@@ -21,7 +21,9 @@ ParticleEditor::ParticleEditor(QWidget *parent, Qt::WindowFlags flags)	: QMainWi
 		ui.browsepath,
 		ui.savePS,
 		ui.maxParticles,
-		ui.textBrowser
+		ui.textBrowser,
+		ui.colorInDisplay,
+		ui.colorOutDisplay
 	);
 
 	ui.maincontainer->Init();

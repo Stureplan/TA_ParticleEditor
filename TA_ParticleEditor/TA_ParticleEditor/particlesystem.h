@@ -17,11 +17,11 @@ public:
 	~ParticleSystem();
 	
 	unsigned int ParticleCount();
-	void AddParticle(POSITION p);
-	void ModifyParticle(int id, POSITION p);
-	std::vector<POSITION> ParticlePositionData(unsigned int &count);
-	std::vector<POSITION> AllParticlePositions();
-	POSITION GetPosition(unsigned int id);
+	void AddParticle(VECTOR3 p);
+	void ModifyParticle(int id, VECTOR3 p);
+	std::vector<VECTOR3> ParticlePositionData(unsigned int &count);
+	std::vector<VECTOR3> AllParticlePositions();
+	VECTOR3 GetPosition(unsigned int id);
 	bool IsAlive(unsigned int id) { return particles[id].alive; }
 	unsigned int GetSize();
 	void Pause();
