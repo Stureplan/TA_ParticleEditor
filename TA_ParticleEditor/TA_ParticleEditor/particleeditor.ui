@@ -252,6 +252,12 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="textInteractionFlags">
+     <set>Qt::NoTextInteraction</set>
+    </property>
+    <property name="placeholderText">
+     <string>plasmaball.png</string>
+    </property>
    </widget>
    <widget class="QProgressBar" name="progressBar">
     <property name="geometry">
