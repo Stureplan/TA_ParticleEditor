@@ -139,6 +139,7 @@ public:
         textBrowser = new QTextBrowser(maincontainer);
         textBrowser->setObjectName(QStringLiteral("textBrowser"));
         textBrowser->setGeometry(QRect(750, 470, 191, 31));
+        textBrowser->setTextInteractionFlags(Qt::NoTextInteraction);
         progressBar = new QProgressBar(maincontainer);
         progressBar->setObjectName(QStringLiteral("progressBar"));
         progressBar->setGeometry(QRect(10, 580, 641, 10));
@@ -231,6 +232,7 @@ public:
         label_Velocity->setText(QApplication::translate("ParticleEditorClass", "Velocity", Q_NULLPTR));
         label_EmissionDelay->setText(QApplication::translate("ParticleEditorClass", "Emission Delay", Q_NULLPTR));
         label_MaxParticles->setText(QApplication::translate("ParticleEditorClass", "Max Particles", Q_NULLPTR));
+        textBrowser->setPlaceholderText(QApplication::translate("ParticleEditorClass", "plasmaball.png", Q_NULLPTR));
         savePS->setText(QApplication::translate("ParticleEditorClass", "Save as...", Q_NULLPTR));
         gravity->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));
         label_Gravity->setText(QApplication::translate("ParticleEditorClass", "Gravity", Q_NULLPTR));

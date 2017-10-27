@@ -620,7 +620,7 @@ void Graphics::Render()
 
 	if (particleDebugID > -1)
 	{
-		context->IASetVertexBuffers(0, 1, &particleVertexBuffer, &stride, &offset);
+		context->IASetVertexBuffers(0, 1, &particleDebugVertexBuffer, &stride, &offset);
 		RenderDebugParticle(particleDebugID);
 	}
 

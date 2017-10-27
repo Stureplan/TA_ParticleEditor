@@ -58,9 +58,22 @@ std::vector<PARTICLE_VERTEX> ParticleSystem::AllParticleData()
 	return positions;
 }
 
-PARTICLE_VERTEX ParticleSystem::GetPosition(unsigned int id)
+PARTICLE_VERTEX ParticleSystem::GetParticle(unsigned int id)
 {
-	return PARTICLE_VERTEX(particles[id].position, particles[id].currentlifetime);
+	unsigned int aliveParticles = 0;
+	for (unsigned int i = 0; i < particles.size(); i++)
+	{
+		if (particles[i].alive)
+		{
+			if (aliveParticles == id)
+			{
+				return PARTICLE_VERTEX(particles[i].position, particles[i].currentlifetime);
+			}
+			aliveParticles++;
+		}
+	}
+
+	return PARTICLE_VERTEX(VECTOR3(0, 0, 0), 0);
 }
 
 unsigned int ParticleSystem::GetSize()
