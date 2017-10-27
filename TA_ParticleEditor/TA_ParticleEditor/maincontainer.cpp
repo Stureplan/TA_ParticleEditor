@@ -86,6 +86,14 @@ void MainContainer::setMaxParticles()
 		oldText.remove("\n");
 		textFieldMaxParticles->document()->setPlainText(oldText);
 	}
+	bool space = text.contains(" ");
+	if (space)
+	{
+		QString oldText = text;
+		oldText.remove(" ");
+
+		textFieldMaxParticles->document()->setPlainText(oldText);
+	}
 	bool ok;
 	int t;
 
@@ -198,6 +206,15 @@ float MainContainer::ErrorHandleUI(QString text, QPlainTextEdit* qpte)
 
 		// check if has focus or not
 		//textField->hasFocus()
+		qpte->document()->setPlainText(oldText);
+	}
+
+	bool space = text.contains(" ");
+	if (space)
+	{
+		QString oldText = text;
+		oldText.remove(" ");
+
 		qpte->document()->setPlainText(oldText);
 	}
 
