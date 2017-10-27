@@ -84,13 +84,12 @@ void ParticleSystem::Pause()
 
 void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 {
+	float grav = *(float*)data;
+
 	switch (prop)
 	{
 	case PS_PROPERTY::PS_POSITION:
 		ps->position = *(POSITION*)data;
-		break;
-	case PS_PROPERTY::PS_MAXPARTICLES:
-		ps->maxparticles = *(int*)data;
 		break;
 	case PS_PROPERTY::PS_VELOCITY:
 		ps->velocity = *(POSITION*)data;
@@ -102,10 +101,6 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 		break;
 	case PS_PROPERTY::PS_GRAVITY:
 		ps->gravity = *(float*)data;
-	case PS_PROPERTY::PS_TEXTURENAME:
-		ps->texturename = *(std::string*)data;
-		break;
-		break;
 	}
 }
 

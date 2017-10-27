@@ -74,7 +74,6 @@ void MainContainer::browse()
 	textBrowser->setPlainText(PathFindFileNameA(mTexturePath.toStdString().c_str()));
 	graphics->Retexture(mTexturePath.toStdString());
 	//graphics->SetTexturePath(texturePath);
-	particlesystem->SetProperty(PS_PROPERTY::PS_TEXTURENAME, &mTexturePath.toStdString());
 }
 
 void MainContainer::setMaxParticles()
@@ -170,7 +169,6 @@ void MainContainer::setEmissionDelay()
 	mEmissionDelay = ErrorHandleUI(text, textFieldEmissionDelay);
 	//BuildParticleSystem();
 	particlesystem->SetProperty(PS_PROPERTY::PS_EMISSIONDELAY, &mEmissionDelay);
-
 }
 
 void MainContainer::setLifetime()
