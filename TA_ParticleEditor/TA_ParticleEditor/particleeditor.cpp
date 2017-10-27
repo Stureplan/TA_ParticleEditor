@@ -10,6 +10,7 @@ ParticleEditor::ParticleEditor(QWidget *parent, Qt::WindowFlags flags)	: QMainWi
 	ui.maincontainer->SetPointers
 	(
 		ui.graphics,
+		ui.graphics->ParticleSystemPtr(),
 		ui.label_ParticleInfo, 
 		ui.lifetime, 
 		ui.emissionDelay, 

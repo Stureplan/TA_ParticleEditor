@@ -12,9 +12,10 @@ MainContainer::~MainContainer()
 }
 
 #pragma region POINTERS
-void MainContainer::SetPointers(Graphics* gfx, QLabel* particleInfoUI, QPlainTextEdit* lifetimeInputUI, QPlainTextEdit* emissionDelayUI, QPlainTextEdit* velocityXUI, QPlainTextEdit* velocityYUI, QPlainTextEdit* velocityZUI,	QPlainTextEdit* gravityUI, QPushButton* browseUI, QPushButton* saveUI, QPlainTextEdit* maxParticlesUI, QTextBrowser* browseTextBoxUI)
+void MainContainer::SetPointers(Graphics* gfx, ParticleSystem* ps, QLabel* particleInfoUI, QPlainTextEdit* lifetimeInputUI, QPlainTextEdit* emissionDelayUI, QPlainTextEdit* velocityXUI, QPlainTextEdit* velocityYUI, QPlainTextEdit* velocityZUI,	QPlainTextEdit* gravityUI, QPushButton* browseUI, QPushButton* saveUI, QPlainTextEdit* maxParticlesUI, QTextBrowser* browseTextBoxUI)
 {
 	graphics = gfx;
+	particlesystem = ps;
 	textFieldParticleInfo = particleInfoUI;
 	textFieldLifetime = lifetimeInputUI;
 	textFieldEmissionDelay = emissionDelayUI;
@@ -55,6 +56,8 @@ void MainContainer::setGravity()
 {
 	QString text = textFieldGravity->toPlainText();
 	mGravity = ErrorHandleUI(text, textFieldGravity);
+
+	BuildParticleSystem();
 }
 
 void MainContainer::save()
@@ -111,7 +114,8 @@ void MainContainer::setMaxParticles()
 		mMaxParticles = DEFAULT_MAXPARTICLES;
 	}
 
-	BuildParticleSystem();
+	//BuildParticleSystem();
+	particlesystem->SetProperty(PS_PROPERTY::PS_MAXPARTICLES, &mMaxParticles);
 }
 
 void MainContainer::BuildParticleSystem()

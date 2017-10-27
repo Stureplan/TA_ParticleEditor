@@ -26,6 +26,7 @@ public:
 	~MainContainer();
 
 	void SetPointers(Graphics* gfx,
+		ParticleSystem* ps,
 		QLabel* particleInfoUI,
 		QPlainTextEdit* lifetimeInputUI,
 		QPlainTextEdit* emissionDelayUI,
@@ -60,6 +61,7 @@ protected:
 	virtual void mousePressEvent(QMouseEvent* evt);
 private:
 	Graphics* graphics;
+	ParticleSystem* particlesystem;
 	QLabel* textFieldParticleInfo;
 	QPlainTextEdit* textFieldLifetime;
 	QPlainTextEdit* textFieldEmissionDelay;

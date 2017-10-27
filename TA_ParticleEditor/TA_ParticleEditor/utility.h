@@ -42,6 +42,17 @@ struct PARTICLE
 	bool alive;
 };
 
+enum PS_PROPERTY
+{
+	PS_POSITION = 0,
+	PS_MAXPARTICLES,
+	PS_VELOCITY,
+	PS_EMISSIONDELAY,
+	PS_LIFETIME,
+	PS_GRAVITY,
+	PS_TEXTURENAME
+};
+
 struct PARTICLESYSTEM
 {
 	PARTICLESYSTEM(POSITION pos, int m, POSITION v, float ed, float lt, float grv, std::string tex)

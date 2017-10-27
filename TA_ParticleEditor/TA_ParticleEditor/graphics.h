@@ -85,6 +85,7 @@ public:
 	void RenderDebugObject(unsigned int vtxcount);
 	void RenderDebugParticle(unsigned int particleID);
 
+	ParticleSystem* ParticleSystemPtr() { return particlesystem; }
 
 	virtual QPaintEngine* paintEngine() const { return NULL; }
 

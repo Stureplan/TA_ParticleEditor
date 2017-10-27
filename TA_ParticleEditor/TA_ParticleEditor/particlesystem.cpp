@@ -82,6 +82,20 @@ void ParticleSystem::Pause()
 	paused = !paused;
 }
 
+void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
+{
+
+	switch (prop)
+	{
+	case PS_PROPERTY::PS_POSITION:
+		ps->position = *(POSITION*)data;
+		break;
+	case PS_PROPERTY::PS_MAXPARTICLES:
+		ps->maxparticles = *(int*)data;
+		break;
+	}
+}
+
 void ParticleSystem::Initialize()
 {
 	ps = new PARTICLESYSTEM(POSITION(0,0,0),0,POSITION(0,0,0),0,0,0,"");

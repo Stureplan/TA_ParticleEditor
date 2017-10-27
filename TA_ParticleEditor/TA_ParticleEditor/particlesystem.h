@@ -26,6 +26,8 @@ public:
 	unsigned int GetSize();
 	void Pause();
 
+	void SetProperty(PS_PROPERTY prop, void* data);
+
 	void Initialize();
 	void Rebuild(PARTICLESYSTEM particlesystem);
 	void Update(float dt);
