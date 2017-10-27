@@ -82,15 +82,15 @@ void MainContainer::setMaxParticles()
 		textFieldMaxParticles->document()->setPlainText(oldText);
 	}
 	bool ok;
-	float t;
+	int t;
 
 	t = text.toInt(&ok);
 
 	if (ok == true)
 	{
-		if (t > 1000)
+		if (t > 999)
 		{
-			textFieldMaxParticles->document()->setPlainText("999");
+			textFieldMaxParticles->setPlainText("999");// document()->setPlainText("999");
 			mMaxParticles = 999;
 		}
 		else
