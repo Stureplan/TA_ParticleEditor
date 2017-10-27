@@ -57,7 +57,8 @@ void MainContainer::setGravity()
 	QString text = textFieldGravity->toPlainText();
 	mGravity = ErrorHandleUI(text, textFieldGravity);
 
-	BuildParticleSystem();
+	//BuildParticleSystem();
+	particlesystem->SetProperty(PS_PROPERTY::PS_GRAVITY, &mGravity);
 }
 
 void MainContainer::save()
@@ -73,6 +74,7 @@ void MainContainer::browse()
 	textBrowser->setPlainText(PathFindFileNameA(mTexturePath.toStdString().c_str()));
 	graphics->Retexture(mTexturePath.toStdString());
 	//graphics->SetTexturePath(texturePath);
+	particlesystem->SetProperty(PS_PROPERTY::PS_TEXTURENAME, &mTexturePath.toStdString());
 }
 
 void MainContainer::setMaxParticles()
@@ -114,8 +116,8 @@ void MainContainer::setMaxParticles()
 		mMaxParticles = DEFAULT_MAXPARTICLES;
 	}
 
-	//BuildParticleSystem();
-	particlesystem->SetProperty(PS_PROPERTY::PS_MAXPARTICLES, &mMaxParticles);
+	BuildParticleSystem();
+	//particlesystem->SetProperty(PS_PROPERTY::PS_MAXPARTICLES, &mMaxParticles);
 }
 
 void MainContainer::BuildParticleSystem()
@@ -134,7 +136,9 @@ void MainContainer::setVelocityX()
 	float x = ErrorHandleUI(text, textFieldVelocityX);
 
 	mVelocity.X = x;
-	BuildParticleSystem();
+	//BuildParticleSystem();
+	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mVelocity);
+
 }
 
 void MainContainer::setVelocityY()
@@ -143,7 +147,8 @@ void MainContainer::setVelocityY()
 	float y = ErrorHandleUI(text, textFieldVelocityY);
 
 	mVelocity.Y = y;
-	BuildParticleSystem();
+	//BuildParticleSystem();
+	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mVelocity);
 
 }
 
@@ -153,7 +158,9 @@ void MainContainer::setVelocityZ()
 	float z = ErrorHandleUI(text, textFieldVelocityZ);
 	
 	mVelocity.Z = z;
-	BuildParticleSystem();
+	//BuildParticleSystem();
+	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mVelocity);
+
 }
 
 
@@ -161,14 +168,18 @@ void MainContainer::setEmissionDelay()
 {
 	QString text = textFieldEmissionDelay->toPlainText();
 	mEmissionDelay = ErrorHandleUI(text, textFieldEmissionDelay);
-	BuildParticleSystem();
+	//BuildParticleSystem();
+	particlesystem->SetProperty(PS_PROPERTY::PS_EMISSIONDELAY, &mEmissionDelay);
+
 }
 
 void MainContainer::setLifetime()
 {
 	QString text = textFieldLifetime->toPlainText();
 	mLifetime = ErrorHandleUI(text, textFieldLifetime);
-	BuildParticleSystem();
+	//BuildParticleSystem();
+	particlesystem->SetProperty(PS_PROPERTY::PS_LIFETIME, &mLifetime);
+
 }
 
 float MainContainer::ErrorHandleUI(QString text, QPlainTextEdit* qpte)

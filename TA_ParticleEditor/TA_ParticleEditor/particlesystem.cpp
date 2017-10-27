@@ -84,7 +84,6 @@ void ParticleSystem::Pause()
 
 void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 {
-
 	switch (prop)
 	{
 	case PS_PROPERTY::PS_POSITION:
@@ -92,6 +91,20 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 		break;
 	case PS_PROPERTY::PS_MAXPARTICLES:
 		ps->maxparticles = *(int*)data;
+		break;
+	case PS_PROPERTY::PS_VELOCITY:
+		ps->velocity = *(POSITION*)data;
+	case PS_PROPERTY::PS_EMISSIONDELAY:
+		ps->emissiondelay = *(float*)data;
+		break;
+	case PS_PROPERTY::PS_LIFETIME:
+		ps->lifetime = *(float*)data;
+		break;
+	case PS_PROPERTY::PS_GRAVITY:
+		ps->gravity = *(float*)data;
+	case PS_PROPERTY::PS_TEXTURENAME:
+		ps->texturename = *(std::string*)data;
+		break;
 		break;
 	}
 }
@@ -129,7 +142,9 @@ void ParticleSystem::Update(float dt)
 {
 	if (paused == false)
 	{
-		unsigned int max = particles.size();
+		//unsigned int max = particles.size();
+		unsigned int max = ps->maxparticles;
+
 		for (unsigned int i = 0; i < max; i++)
 		{
 			PARTICLE p = particles[i];
