@@ -6,7 +6,7 @@ Graphics::Graphics(QWidget * parent)
 	setAttribute(Qt::WA_PaintOnScreen, true);
 	setAttribute(Qt::WA_NativeWindow, true);
 	
-	particlesystem = new ParticleSystem(PARTICLESYSTEM(FLOAT3(0, 0, 0), 0, FLOAT3(0, 0, 0), 0, 0, 0, "", FLOAT4(1, 1, 1, 1), FLOAT4(1, 1, 1, 1), 1.0f, 1.0f));
+	particlesystem = new ParticleSystem();
 	timer = new QTimer;
 	timer->setInterval(16.666);
 	connect(timer, SIGNAL(timeout()), this, SLOT(Loop()));

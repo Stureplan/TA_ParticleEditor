@@ -61,6 +61,7 @@ void MainContainer::Init()
 	textFieldSizeX->setPlaceholderText(std::to_string(DEFAULT_SIZE).c_str());
 	textFieldSizeY->setPlaceholderText(std::to_string(DEFAULT_SIZE).c_str());
 
+	mTexturePath = DEFAULT_TEXTURE;
 }
 
 void MainContainer::setGravity()
@@ -74,7 +75,54 @@ void MainContainer::setGravity()
 
 void MainContainer::save()
 {
-	savePath = QFileDialog::getSaveFileName(this);
+	std::string exportPath = QFileDialog::getSaveFileName(this).toStdString();
+	exportPath.append(".ps");
+	//std::string exportPath = PathFindFileNameA(savePath.toStdString().c_str());
+	
+	PARTICLESYSTEM ps;
+	ps.position = mPosition;
+	ps.maxparticles = mMaxParticles;
+	ps.velocity = mVelocity;
+	ps.emissiondelay = mEmissionDelay;
+	ps.lifetime = mLifetime;
+	ps.gravity = mGravity;
+	ps.colorIn  = FLOAT4(colIn.redF(), colIn.greenF(), colIn.blueF(), colIn.alphaF());
+	ps.colorOut = FLOAT4(colOut.redF(), colOut.greenF(), colOut.blueF(), colOut.alphaF());
+	ps.sizeX = mSizeX;
+	ps.sizeY = mSizeY;
+
+
+	FILE* file = fopen(exportPath.c_str(), "wb");
+	if (file != NULL)
+	{
+		std::string texpath = mTexturePath.toStdString();
+		const char* tex = texpath.c_str();
+
+		unsigned int texturenamesize = strlen(tex);
+		
+		// First just write the size of the texture filename (imagine this is a header)
+		fwrite(&texturenamesize, sizeof(unsigned int), 1, file);
+
+		// ...then write the texture name
+		fwrite(tex, sizeof(const char), texturenamesize, file);
+
+		// ...then we write the particle system details
+		fwrite(&ps, sizeof(PARTICLESYSTEM), 1, file);
+		int result = fclose(file);
+
+		if (result == 0)
+		{
+			QMessageBox msg;
+			msg.setWindowTitle("File Exported");
+			msg.setText(QString("File: " + QString(exportPath.c_str()) + " was successfully exported."));
+			msg.exec();
+		}
+	}
+
+
+
+
+
 	//graphics->Export(savePath);
 }
 
@@ -193,7 +241,7 @@ void MainContainer::BuildParticleSystem()
 {
 	PARTICLESYSTEM ps(mPosition, mMaxParticles,
 		mVelocity, mEmissionDelay, mLifetime, mGravity,
-		mTexturePath.toStdString(), FLOAT4(0,0,0,0), FLOAT4(0,0,0,0),
+		FLOAT4(0,0,0,0), FLOAT4(0,0,0,0),
 		mSizeX, mSizeY);
 
 	graphics->Rebuild(ps);

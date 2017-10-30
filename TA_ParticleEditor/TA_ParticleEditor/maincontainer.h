@@ -21,6 +21,7 @@
 #define DEFAULT_EMISSIONDELAY 0.1f
 #define DEFAULT_VELOCITY FLOAT3(0,0,0)
 #define DEFAULT_GRAVITY 1.0f
+#define DEFAULT_TEXTURE "plasmaball.png"
 #define DEFAULT_SIZE 1.0f
 
 class MainContainer : public QWidget 

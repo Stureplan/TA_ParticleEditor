@@ -13,7 +13,7 @@ using namespace DirectX;
 class ParticleSystem
 {
 public:
-	ParticleSystem(PARTICLESYSTEM particlesystem);
+	ParticleSystem();
 	~ParticleSystem();
 	
 	unsigned int ParticleCount();
@@ -36,6 +36,10 @@ public:
 
 	bool Paused() { return paused; }
 	float Lifetime() { return ps->lifetime; }
+	PARTICLESYSTEM* GetParticleSystem() 
+	{
+		return ps;
+	}
 
 private:
 	// Private variables

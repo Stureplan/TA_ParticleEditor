@@ -82,7 +82,8 @@ enum PS_PROPERTY
 
 struct PARTICLESYSTEM
 {
-	PARTICLESYSTEM(FLOAT3 pos, int m, FLOAT3 v, float ed, float lt, float grv, std::string tex, FLOAT4 colIn, FLOAT4 colOut, float sX, float sY)
+	PARTICLESYSTEM(){}
+	PARTICLESYSTEM(FLOAT3 pos, int m, FLOAT3 v, float ed, float lt, float grv, FLOAT4 colIn, FLOAT4 colOut, float sX, float sY)
 	{
 		position = pos;
 		maxparticles = m;
@@ -90,7 +91,6 @@ struct PARTICLESYSTEM
 		emissiondelay = ed;
 		lifetime = lt;
 		gravity = grv;
-		texturename = tex;
 		colorIn = colIn;
 		colorOut = colOut;
 		sizeX = sX;
@@ -103,7 +103,6 @@ struct PARTICLESYSTEM
 	float emissiondelay;
 	float lifetime;
 	float gravity;
-	std::string texturename;
 	FLOAT4 colorIn;
 	FLOAT4 colorOut;
 	float sizeX;
