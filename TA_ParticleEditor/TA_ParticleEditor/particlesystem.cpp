@@ -217,6 +217,7 @@ void ParticleSystem::Update(float dt)
 				// Find out if we should emit it again!
 				if (cooldown > ps->emissiondelay)
 				{
+					particles[i].position = ps->position;
 					particles[i].alive = true;
 
 					cooldown = 0.0f;

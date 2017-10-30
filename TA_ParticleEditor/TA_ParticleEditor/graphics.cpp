@@ -400,6 +400,7 @@ void Graphics::Retexture(std::string path)
 void Graphics::Rebuild(PARTICLESYSTEM ps)
 {
 	particlesystem->Rebuild(ps);
+	LoadParticles();
 }
 
 void Graphics::PauseSimulation()

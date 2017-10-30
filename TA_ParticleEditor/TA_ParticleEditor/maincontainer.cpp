@@ -117,6 +117,13 @@ void MainContainer::save()
 			msg.setText(QString("File: " + QString(exportPath.c_str()) + " was successfully exported."));
 			msg.exec();
 		}
+		else
+		{
+			QMessageBox msg;
+			msg.setWindowTitle("File Export Failed");
+			msg.setText(QString("File: " + QString(exportPath.c_str()) + " failed on export."));
+			msg.exec();
+		}
 	}
 
 
