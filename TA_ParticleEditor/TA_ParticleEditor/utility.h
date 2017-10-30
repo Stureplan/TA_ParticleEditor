@@ -75,12 +75,14 @@ enum PS_PROPERTY
 	PS_LIFETIME,
 	PS_GRAVITY,
 	PS_COLOR_IN,
-	PS_COLOR_OUT
+	PS_COLOR_OUT,
+	PS_SIZE_X,
+	PS_SIZE_Y
 };
 
 struct PARTICLESYSTEM
 {
-	PARTICLESYSTEM(FLOAT3 pos, int m, FLOAT3 v, float ed, float lt, float grv, std::string tex, FLOAT4 colIn, FLOAT4 colOut)
+	PARTICLESYSTEM(FLOAT3 pos, int m, FLOAT3 v, float ed, float lt, float grv, std::string tex, FLOAT4 colIn, FLOAT4 colOut, float sX, float sY)
 	{
 		position = pos;
 		maxparticles = m;
@@ -91,6 +93,8 @@ struct PARTICLESYSTEM
 		texturename = tex;
 		colorIn = colIn;
 		colorOut = colOut;
+		sizeX = sX;
+		sizeY = sY;
 	}
 	// PS Export variables
 	FLOAT3 position;
@@ -102,6 +106,8 @@ struct PARTICLESYSTEM
 	std::string texturename;
 	FLOAT4 colorIn;
 	FLOAT4 colorOut;
+	float sizeX;
+	float sizeY;
 };
 
 

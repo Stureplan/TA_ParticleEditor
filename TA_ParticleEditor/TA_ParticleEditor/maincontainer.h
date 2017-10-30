@@ -21,6 +21,7 @@
 #define DEFAULT_EMISSIONDELAY 0.1f
 #define DEFAULT_VELOCITY FLOAT3(0,0,0)
 #define DEFAULT_GRAVITY 1.0f
+#define DEFAULT_SIZE 1.0f
 
 class MainContainer : public QWidget 
 {
@@ -46,7 +47,9 @@ public:
 		QTextBrowser* browseTextBoxUI,
 		QLineEdit* colorInDisplayUI,
 		QLineEdit* colorOutDisplayUI,
-		QComboBox* scaleUI);
+		QComboBox* scaleUI,
+		QPlainTextEdit* sizeXUI,
+		QPlainTextEdit* sizeYUI);
 	void Init();
 	void BuildParticleSystem();
 
@@ -67,6 +70,9 @@ public slots:
 	void colorIn();
 	void colorOut();
 	void scaleModeChanged(int index);
+	void sizeX();
+	void sizeY();
+
 
 protected:
 	virtual void keyPressEvent(QKeyEvent* evt);
@@ -83,6 +89,9 @@ private:
 	QPlainTextEdit* textFieldVelocityZ;
 	QPlainTextEdit* textFieldMaxParticles;
 	QPlainTextEdit* textFieldGravity;
+	QPlainTextEdit* textFieldSizeX;
+	QPlainTextEdit* textFieldSizeY;
+
 	QPushButton* browseBtn;
 	QPushButton* saveBtn;
 	QTextBrowser* textBrowser;
@@ -103,4 +112,6 @@ private:
 	float mLifetime;
 	float mGravity;
 	float mTextFieldValue;
+	float mSizeX;
+	float mSizeY;
 };

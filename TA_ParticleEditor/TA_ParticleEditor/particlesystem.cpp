@@ -99,8 +99,6 @@ void ParticleSystem::Pause()
 
 void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 {
-	float grav = *(float*)data;
-
 	switch (prop)
 	{
 	case PS_PROPERTY::PS_POSITION:
@@ -124,12 +122,18 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 	case PS_PROPERTY::PS_COLOR_OUT:
 		ps->colorOut = *(FLOAT4*)data;
 		break;
+	case PS_PROPERTY::PS_SIZE_X:
+		ps->sizeX = *(float*)data;
+		break;
+	case PS_PROPERTY::PS_SIZE_Y:
+		ps->sizeY = *(float*)data;
+		break;
 	}
 }
 
 void ParticleSystem::Initialize()
 {
-	ps = new PARTICLESYSTEM(FLOAT3(0,0,0),0, FLOAT3(0,0,0),0,0,0,"", FLOAT4(1,1,1,1), FLOAT4(1,1,1,1));
+	ps = new PARTICLESYSTEM(FLOAT3(0,0,0),0, FLOAT3(0,0,0),0,0,0,"", FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f);
 
 
 	for (unsigned int i = 0; i < ps->maxparticles; i++)
@@ -147,6 +151,9 @@ void ParticleSystem::Rebuild(PARTICLESYSTEM particlesystem)
 	ps->lifetime= particlesystem.lifetime;
 	ps->gravity= particlesystem.gravity;
 	ps->texturename= particlesystem.texturename;
+	ps->sizeX = particlesystem.sizeX;
+	ps->sizeY = particlesystem.sizeY;
+
 
 
 	particles.clear();

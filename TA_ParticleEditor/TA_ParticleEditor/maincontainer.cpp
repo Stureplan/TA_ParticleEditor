@@ -12,7 +12,7 @@ MainContainer::~MainContainer()
 }
 
 #pragma region POINTERS
-void MainContainer::SetPointers(Graphics* gfx, ParticleSystem* ps, QLabel* particleInfoUI, QPlainTextEdit* lifetimeInputUI, QPlainTextEdit* emissionDelayUI, QPlainTextEdit* velocityXUI, QPlainTextEdit* velocityYUI, QPlainTextEdit* velocityZUI,	QPlainTextEdit* gravityUI, QPushButton* browseUI, QPushButton* saveUI, QPlainTextEdit* maxParticlesUI, QTextBrowser* browseTextBoxUI, QLineEdit* colorInDisplayUI, QLineEdit* colorOutDisplayUI, QComboBox* scaleUI)
+void MainContainer::SetPointers(Graphics* gfx, ParticleSystem* ps, QLabel* particleInfoUI, QPlainTextEdit* lifetimeInputUI, QPlainTextEdit* emissionDelayUI, QPlainTextEdit* velocityXUI, QPlainTextEdit* velocityYUI, QPlainTextEdit* velocityZUI,	QPlainTextEdit* gravityUI, QPushButton* browseUI, QPushButton* saveUI, QPlainTextEdit* maxParticlesUI, QTextBrowser* browseTextBoxUI, QLineEdit* colorInDisplayUI, QLineEdit* colorOutDisplayUI, QComboBox* scaleUI, QPlainTextEdit* sizeXUI, QPlainTextEdit* sizeYUI)
 {
 	graphics = gfx;
 	particlesystem = ps;
@@ -30,6 +30,8 @@ void MainContainer::SetPointers(Graphics* gfx, ParticleSystem* ps, QLabel* parti
 	colorInDisplay = colorInDisplayUI;
 	colorOutDisplay = colorOutDisplayUI;
 	scaleBoxDisplay = scaleUI;
+	textFieldSizeX = sizeXUI;
+	textFieldSizeY = sizeYUI;
 }
 #pragma endregion
 
@@ -53,6 +55,12 @@ void MainContainer::Init()
 
 	mMaxParticles = DEFAULT_MAXPARTICLES;
 	textFieldMaxParticles->setPlaceholderText(std::to_string(DEFAULT_MAXPARTICLES).c_str());
+
+	mSizeX = DEFAULT_SIZE;
+	mSizeY = DEFAULT_SIZE;
+	textFieldSizeX->setPlaceholderText(std::to_string(DEFAULT_SIZE).c_str());
+	textFieldSizeY->setPlaceholderText(std::to_string(DEFAULT_SIZE).c_str());
+
 }
 
 void MainContainer::setGravity()
@@ -99,6 +107,26 @@ void MainContainer::colorOut()
 void MainContainer::scaleModeChanged(int mode)
 {
 	graphics->ChangeScaleMode(mode);
+}
+
+void MainContainer::sizeX()
+{
+	QString text = textFieldSizeX->toPlainText();
+	mSizeX = ErrorHandleUI(text, textFieldSizeX);
+
+	//BuildParticleSystem();
+	particlesystem->SetProperty(PS_PROPERTY::PS_SIZE_X, &mSizeX);
+	graphics->ChangeSize(mSizeX, mSizeY);
+}
+
+void MainContainer::sizeY()
+{
+	QString text = textFieldSizeY->toPlainText();
+	mSizeY = ErrorHandleUI(text, textFieldSizeY);
+
+	//BuildParticleSystem();
+	particlesystem->SetProperty(PS_PROPERTY::PS_SIZE_Y, &mSizeY);
+	graphics->ChangeSize(mSizeX, mSizeY);
 }
 
 void MainContainer::browse()
@@ -165,7 +193,8 @@ void MainContainer::BuildParticleSystem()
 {
 	PARTICLESYSTEM ps(mPosition, mMaxParticles,
 		mVelocity, mEmissionDelay, mLifetime, mGravity,
-		mTexturePath.toStdString(), FLOAT4(0,0,0,0), FLOAT4(0,0,0,0));
+		mTexturePath.toStdString(), FLOAT4(0,0,0,0), FLOAT4(0,0,0,0),
+		mSizeX, mSizeY);
 
 	graphics->Rebuild(ps);
 }
@@ -265,6 +294,11 @@ float MainContainer::ErrorHandleUI(QString text, QPlainTextEdit* qpte)
 		QString oldText = text;
 		oldText.chop(1);
 		qpte->document()->setPlainText(oldText);
+
+
+
+		return oldText.toFloat(&ok);
+
 
 		/*QMessageBox msgBox;
 		msgBox.setWindowTitle("Float ERROR");

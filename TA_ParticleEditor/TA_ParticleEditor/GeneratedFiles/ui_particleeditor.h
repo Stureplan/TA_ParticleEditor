@@ -55,12 +55,16 @@ public:
     QPushButton *savePS;
     QPlainTextEdit *gravity;
     QLabel *label_Gravity;
-    QLabel *label_MaxParticles_2;
+    QLabel *label_Texture;
     QPushButton *colorInBtn;
     QLineEdit *colorInDisplay;
     QLineEdit *colorOutDisplay;
     QPushButton *colorOutBtn;
     QComboBox *scaleBox;
+    QPlainTextEdit *sizeY;
+    QPlainTextEdit *sizeX;
+    QLabel *label_SizeY;
+    QLabel *label_SizeX;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -116,7 +120,7 @@ public:
         emissionDelay->setGeometry(QRect(850, 160, 81, 24));
         maxParticles = new QPlainTextEdit(maincontainer);
         maxParticles->setObjectName(QStringLiteral("maxParticles"));
-        maxParticles->setGeometry(QRect(760, 210, 81, 24));
+        maxParticles->setGeometry(QRect(850, 210, 81, 24));
         maxParticles->setReadOnly(false);
         velocityX = new QPlainTextEdit(maincontainer);
         velocityX->setObjectName(QStringLiteral("velocityX"));
@@ -135,7 +139,7 @@ public:
         label_EmissionDelay->setGeometry(QRect(850, 140, 121, 16));
         label_MaxParticles = new QLabel(maincontainer);
         label_MaxParticles->setObjectName(QStringLiteral("label_MaxParticles"));
-        label_MaxParticles->setGeometry(QRect(760, 190, 91, 16));
+        label_MaxParticles->setGeometry(QRect(850, 190, 91, 16));
         textBrowser = new QTextBrowser(maincontainer);
         textBrowser->setObjectName(QStringLiteral("textBrowser"));
         textBrowser->setGeometry(QRect(750, 460, 191, 31));
@@ -149,9 +153,9 @@ public:
         label_Gravity = new QLabel(maincontainer);
         label_Gravity->setObjectName(QStringLiteral("label_Gravity"));
         label_Gravity->setGeometry(QRect(680, 140, 51, 20));
-        label_MaxParticles_2 = new QLabel(maincontainer);
-        label_MaxParticles_2->setObjectName(QStringLiteral("label_MaxParticles_2"));
-        label_MaxParticles_2->setGeometry(QRect(680, 440, 91, 16));
+        label_Texture = new QLabel(maincontainer);
+        label_Texture->setObjectName(QStringLiteral("label_Texture"));
+        label_Texture->setGeometry(QRect(680, 440, 91, 16));
         colorInBtn = new QPushButton(maincontainer);
         colorInBtn->setObjectName(QStringLiteral("colorInBtn"));
         colorInBtn->setGeometry(QRect(660, 10, 70, 30));
@@ -184,8 +188,22 @@ public:
         colorOutBtn->setGeometry(QRect(660, 50, 70, 30));
         scaleBox = new QComboBox(maincontainer);
         scaleBox->setObjectName(QStringLiteral("scaleBox"));
-        scaleBox->setGeometry(QRect(670, 210, 81, 24));
+        scaleBox->setGeometry(QRect(760, 240, 81, 24));
         scaleBox->setLayoutDirection(Qt::LeftToRight);
+        sizeY = new QPlainTextEdit(maincontainer);
+        sizeY->setObjectName(QStringLiteral("sizeY"));
+        sizeY->setGeometry(QRect(760, 210, 81, 24));
+        sizeY->setReadOnly(false);
+        sizeX = new QPlainTextEdit(maincontainer);
+        sizeX->setObjectName(QStringLiteral("sizeX"));
+        sizeX->setGeometry(QRect(670, 210, 81, 24));
+        sizeX->setReadOnly(false);
+        label_SizeY = new QLabel(maincontainer);
+        label_SizeY->setObjectName(QStringLiteral("label_SizeY"));
+        label_SizeY->setGeometry(QRect(780, 190, 91, 16));
+        label_SizeX = new QLabel(maincontainer);
+        label_SizeX->setObjectName(QStringLiteral("label_SizeX"));
+        label_SizeX->setGeometry(QRect(690, 190, 91, 16));
         ParticleEditorClass->setCentralWidget(maincontainer);
         menuBar = new QMenuBar(ParticleEditorClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -211,6 +229,8 @@ public:
         QObject::connect(colorInBtn, SIGNAL(clicked()), maincontainer, SLOT(colorIn()));
         QObject::connect(colorOutBtn, SIGNAL(clicked()), maincontainer, SLOT(colorOut()));
         QObject::connect(scaleBox, SIGNAL(currentIndexChanged(int)), maincontainer, SLOT(scaleModeChanged(int)));
+        QObject::connect(sizeX, SIGNAL(textChanged()), maincontainer, SLOT(sizeX()));
+        QObject::connect(sizeY, SIGNAL(textChanged()), maincontainer, SLOT(sizeY()));
 
         QMetaObject::connectSlotsByName(ParticleEditorClass);
     } // setupUi
@@ -234,7 +254,7 @@ public:
         savePS->setText(QApplication::translate("ParticleEditorClass", "Save as...", Q_NULLPTR));
         gravity->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));
         label_Gravity->setText(QApplication::translate("ParticleEditorClass", "Gravity", Q_NULLPTR));
-        label_MaxParticles_2->setText(QApplication::translate("ParticleEditorClass", "Texture", Q_NULLPTR));
+        label_Texture->setText(QApplication::translate("ParticleEditorClass", "Texture", Q_NULLPTR));
         colorInBtn->setText(QApplication::translate("ParticleEditorClass", "Color Start", Q_NULLPTR));
         colorInDisplay->setText(QString());
         colorInDisplay->setPlaceholderText(QApplication::translate("ParticleEditorClass", "Color Start", Q_NULLPTR));
@@ -248,6 +268,10 @@ public:
          << QApplication::translate("ParticleEditorClass", "Scale Out", Q_NULLPTR)
         );
         scaleBox->setCurrentText(QApplication::translate("ParticleEditorClass", "Don't Scale", Q_NULLPTR));
+        sizeY->setPlaceholderText(QString());
+        sizeX->setPlaceholderText(QString());
+        label_SizeY->setText(QApplication::translate("ParticleEditorClass", "Size Y", Q_NULLPTR));
+        label_SizeX->setText(QApplication::translate("ParticleEditorClass", "Size X", Q_NULLPTR));
     } // retranslateUi
 
 };
