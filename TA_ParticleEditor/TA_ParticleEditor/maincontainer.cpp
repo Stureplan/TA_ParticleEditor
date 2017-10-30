@@ -78,7 +78,7 @@ void MainContainer::colorIn()
 		colIn = c;
 		colorInDisplay->setStyleSheet("QLineEdit { background: "+colIn.name()+"; selection-background-color: rgb(233, 99, 0); }");
 		
-		COLOR color = COLOR(colIn.redF(), colIn.greenF(), colIn.blueF(), colIn.alphaF());
+		FLOAT4 color = FLOAT4(colIn.redF(), colIn.greenF(), colIn.blueF(), colIn.alphaF());
 		particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_IN, &color);
 	}
 }
@@ -91,7 +91,7 @@ void MainContainer::colorOut()
 		colOut = c;
 		colorOutDisplay->setStyleSheet("QLineEdit { background: " + colOut.name() + "; selection-background-color: rgb(233, 99, 0); }");
 
-		COLOR color = COLOR(colOut.redF(), colOut.greenF(), colOut.blueF(), colOut.alphaF());
+		FLOAT4 color = FLOAT4(colOut.redF(), colOut.greenF(), colOut.blueF(), colOut.alphaF());
 		particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_OUT, &color);
 	}
 }
@@ -165,7 +165,7 @@ void MainContainer::BuildParticleSystem()
 {
 	PARTICLESYSTEM ps(mPosition, mMaxParticles,
 		mVelocity, mEmissionDelay, mLifetime, mGravity,
-		mTexturePath.toStdString(), COLOR(0,0,0,0), COLOR(0,0,0,0));
+		mTexturePath.toStdString(), FLOAT4(0,0,0,0), FLOAT4(0,0,0,0));
 
 	graphics->Rebuild(ps);
 }

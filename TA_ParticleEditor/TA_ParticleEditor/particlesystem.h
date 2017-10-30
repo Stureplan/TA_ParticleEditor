@@ -22,8 +22,8 @@ public:
 	std::vector<PARTICLE_VERTEX> ParticleData(unsigned int &count);
 	std::vector<PARTICLE_VERTEX> AllParticleData();
 	PARTICLE_VERTEX GetParticle(unsigned int id);
-	COLOR GetInColor() { return ps->colorIn; }
-	COLOR GetOutColor() { return ps->colorOut; }
+	FLOAT4 GetInColor() { return ps->colorIn; }
+	FLOAT4 GetOutColor() { return ps->colorOut; }
 	bool IsAlive(unsigned int id) { return particles[id].alive; }
 	unsigned int GetSize();
 	void Pause();

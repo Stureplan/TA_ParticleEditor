@@ -119,17 +119,17 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 		ps->gravity = *(float*)data;
 		break;
 	case PS_PROPERTY::PS_COLOR_IN:
-		ps->colorIn = *(COLOR*)data;
+		ps->colorIn = *(FLOAT4*)data;
 		break;
 	case PS_PROPERTY::PS_COLOR_OUT:
-		ps->colorOut = *(COLOR*)data;
+		ps->colorOut = *(FLOAT4*)data;
 		break;
 	}
 }
 
 void ParticleSystem::Initialize()
 {
-	ps = new PARTICLESYSTEM(FLOAT3(0,0,0),0, FLOAT3(0,0,0),0,0,0,"", COLOR(1,1,1,1), COLOR(1,1,1,1));
+	ps = new PARTICLESYSTEM(FLOAT3(0,0,0),0, FLOAT3(0,0,0),0,0,0,"", FLOAT4(1,1,1,1), FLOAT4(1,1,1,1));
 
 
 	for (unsigned int i = 0; i < ps->maxparticles; i++)

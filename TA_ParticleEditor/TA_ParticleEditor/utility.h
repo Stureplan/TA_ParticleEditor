@@ -27,15 +27,15 @@ struct FLOAT3
 	float X, Y, Z;
 };
 
-struct COLOR
+struct FLOAT4
 {
-	COLOR() : R(0), G(0), B(0), A(0) { }
-	COLOR(float r, float g, float b, float a)
+	FLOAT4() : X(0), Y(0), Z(0), W(0) { }
+	FLOAT4(float x, float y, float z, float w)
 	{
-		R = r; G = g; B = b; A = a;
+		X = x; Y = y; Z = z; W = w;
 	}
 
-	float R, G, B, A;
+	float X, Y, Z, W;
 };
 
 // Defines a point in world space (XYZ) + a lifetime (0-1).
@@ -80,7 +80,7 @@ enum PS_PROPERTY
 
 struct PARTICLESYSTEM
 {
-	PARTICLESYSTEM(FLOAT3 pos, int m, FLOAT3 v, float ed, float lt, float grv, std::string tex, COLOR colIn, COLOR colOut)
+	PARTICLESYSTEM(FLOAT3 pos, int m, FLOAT3 v, float ed, float lt, float grv, std::string tex, FLOAT4 colIn, FLOAT4 colOut)
 	{
 		position = pos;
 		maxparticles = m;
@@ -100,8 +100,8 @@ struct PARTICLESYSTEM
 	float lifetime;
 	float gravity;
 	std::string texturename;
-	COLOR colorIn;
-	COLOR colorOut;
+	FLOAT4 colorIn;
+	FLOAT4 colorOut;
 };
 
 

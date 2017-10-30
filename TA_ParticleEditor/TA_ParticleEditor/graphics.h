@@ -44,8 +44,8 @@ public:
 		XMMATRIX world;
 		XMVECTOR campos;
 		XMVECTOR camup;
-		COLOR colin;
-		COLOR colout;
+		FLOAT4 colin;
+		FLOAT4 colout;
 		XMFLOAT2 size;
 		float scale;
 	};
@@ -158,8 +158,8 @@ private:
 	float sizeX = 1.0f;
 	float sizeY = 1.0f;
 	float scaleMode = 0;
-	COLOR colIn = (COLOR(1, 1, 1, 1));
-	COLOR colOut= (COLOR(1, 1, 1, 1));
+	FLOAT4 colIn = (FLOAT4(1, 1, 1, 1));
+	FLOAT4 colOut= (FLOAT4(1, 1, 1, 1));
 
 	ID3D11Buffer* particleVertexBuffer;
 	ID3D11Buffer* groundVertexBuffer;
