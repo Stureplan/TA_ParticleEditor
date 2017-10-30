@@ -161,8 +161,12 @@ void ParticleSystem::Update(float dt)
 {
 	if (paused == false)
 	{
+		cooldown += dt;
+
 		unsigned int max = particles.size();
 		//unsigned int max = ps->maxparticles;
+
+
 
 		for (unsigned int i = 0; i < max; i++)
 		{
@@ -216,7 +220,6 @@ void ParticleSystem::Update(float dt)
 
 		}
 
-		cooldown += dt;
 	}
 
 }

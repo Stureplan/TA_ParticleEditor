@@ -636,7 +636,6 @@ void Graphics::Render()
 	else
 	{
 		unsigned int particleCount = particlesystem->GetSize();
-
 		// Regular texture
 		context->PSSetShaderResources(0, 1, &textures[1]);
 		context->Draw(particleCount, 0);
