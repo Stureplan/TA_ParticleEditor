@@ -13,12 +13,12 @@ using namespace DirectX;
 class ParticleSystem
 {
 public:
-	ParticleSystem();
+	ParticleSystem(PARTICLESYSTEM particlesystem);
 	~ParticleSystem();
 	
 	unsigned int ParticleCount();
-	void AddParticle(VECTOR3 p);
-	void ModifyParticle(int id, VECTOR3 p);
+	void AddParticle(FLOAT3 p);
+	void ModifyParticle(int id, FLOAT3 p);
 	std::vector<PARTICLE_VERTEX> ParticleData(unsigned int &count);
 	std::vector<PARTICLE_VERTEX> AllParticleData();
 	PARTICLE_VERTEX GetParticle(unsigned int id);

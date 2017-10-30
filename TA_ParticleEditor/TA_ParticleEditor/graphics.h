@@ -47,6 +47,7 @@ public:
 		COLOR colin;
 		COLOR colout;
 		XMFLOAT2 size;
+		float scale;
 	};
 
 	struct CBUFFER_VERTEX
@@ -68,6 +69,8 @@ public:
 	void LoadTextures();
 	void ChangeRasterization(D3D11_FILL_MODE fillmode);
 
+	void ChangeSize(float x, float y);
+	void ChangeScaleMode(int mode);
 	void Retexture(std::string path);
 	void Rebuild(PARTICLESYSTEM ps);
 	void PauseSimulation();
@@ -79,7 +82,7 @@ public:
 
 	void ResizeParticleSystem(unsigned int count);
 	void UploadParticleBuffer();
-	void AddParticle(VECTOR3 p);
+	void AddParticle(FLOAT3 p);
 
 	void Debug(bool active);
 	void Update();
@@ -154,6 +157,7 @@ private:
 	// Constant Buffer Variables
 	float sizeX = 1.0f;
 	float sizeY = 1.0f;
+	float scaleMode = 0;
 	COLOR colIn = (COLOR(1, 1, 1, 1));
 	COLOR colOut= (COLOR(1, 1, 1, 1));
 

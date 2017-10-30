@@ -10,6 +10,7 @@
 #include <QColorDialog>
 #include <QColor>
 #include <QLineEdit>
+#include <QComboBox>
 
 
 #include "utility.h"
@@ -18,7 +19,7 @@
 #define DEFAULT_MAXPARTICLES 10
 #define DEFAULT_LIFETIME 1.0f
 #define DEFAULT_EMISSIONDELAY 0.1f
-#define DEFAULT_VELOCITY VECTOR3(0,0,0)
+#define DEFAULT_VELOCITY FLOAT3(0,0,0)
 #define DEFAULT_GRAVITY 1.0f
 
 class MainContainer : public QWidget 
@@ -44,7 +45,8 @@ public:
 		QPlainTextEdit* maxParticlesUI,
 		QTextBrowser* browseTextBoxUI,
 		QLineEdit* colorInDisplayUI,
-		QLineEdit* colorOutDisplayUI);
+		QLineEdit* colorOutDisplayUI,
+		QComboBox* scaleUI);
 	void Init();
 	void BuildParticleSystem();
 
@@ -64,6 +66,7 @@ public slots:
 
 	void colorIn();
 	void colorOut();
+	void scaleModeChanged(int index);
 
 protected:
 	virtual void keyPressEvent(QKeyEvent* evt);
@@ -85,6 +88,7 @@ private:
 	QTextBrowser* textBrowser;
 	QLineEdit* colorInDisplay;
 	QLineEdit* colorOutDisplay;
+	QComboBox* scaleBoxDisplay;
 
 	QString mTexturePath;
 	QString savePath;
@@ -92,9 +96,9 @@ private:
 	QColor colIn;
 	QColor colOut;
 
-	VECTOR3 mPosition;
+	FLOAT3 mPosition;
 	int mMaxParticles;
-	VECTOR3 mVelocity;
+	FLOAT3 mVelocity;
 	float mEmissionDelay;
 	float mLifetime;
 	float mGravity;

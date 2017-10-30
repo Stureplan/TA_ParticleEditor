@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -20,7 +21,6 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPlainTextEdit>
-#include <QtWidgets/QProgressBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTextBrowser>
@@ -52,7 +52,6 @@ public:
     QLabel *label_EmissionDelay;
     QLabel *label_MaxParticles;
     QTextBrowser *textBrowser;
-    QProgressBar *progressBar;
     QPushButton *savePS;
     QPlainTextEdit *gravity;
     QLabel *label_Gravity;
@@ -61,6 +60,7 @@ public:
     QLineEdit *colorInDisplay;
     QLineEdit *colorOutDisplay;
     QPushButton *colorOutBtn;
+    QComboBox *scaleBox;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -104,61 +104,54 @@ public:
         line_4->setFrameShadow(QFrame::Sunken);
         browsepath = new QPushButton(maincontainer);
         browsepath->setObjectName(QStringLiteral("browsepath"));
-        browsepath->setGeometry(QRect(670, 470, 75, 31));
+        browsepath->setGeometry(QRect(670, 460, 75, 31));
         lifetime = new QPlainTextEdit(maincontainer);
         lifetime->setObjectName(QStringLiteral("lifetime"));
-        lifetime->setGeometry(QRect(670, 260, 64, 24));
+        lifetime->setGeometry(QRect(760, 160, 81, 24));
         label_Lifetime = new QLabel(maincontainer);
         label_Lifetime->setObjectName(QStringLiteral("label_Lifetime"));
-        label_Lifetime->setGeometry(QRect(680, 240, 51, 20));
+        label_Lifetime->setGeometry(QRect(770, 140, 51, 20));
         emissionDelay = new QPlainTextEdit(maincontainer);
         emissionDelay->setObjectName(QStringLiteral("emissionDelay"));
-        emissionDelay->setGeometry(QRect(670, 320, 64, 24));
+        emissionDelay->setGeometry(QRect(850, 160, 81, 24));
         maxParticles = new QPlainTextEdit(maincontainer);
         maxParticles->setObjectName(QStringLiteral("maxParticles"));
-        maxParticles->setGeometry(QRect(670, 380, 64, 24));
-        maxParticles->setReadOnly(true);
+        maxParticles->setGeometry(QRect(760, 210, 81, 24));
+        maxParticles->setReadOnly(false);
         velocityX = new QPlainTextEdit(maincontainer);
         velocityX->setObjectName(QStringLiteral("velocityX"));
-        velocityX->setGeometry(QRect(670, 140, 64, 24));
+        velocityX->setGeometry(QRect(670, 110, 91, 24));
         velocityY = new QPlainTextEdit(maincontainer);
         velocityY->setObjectName(QStringLiteral("velocityY"));
-        velocityY->setGeometry(QRect(750, 140, 64, 24));
+        velocityY->setGeometry(QRect(760, 110, 91, 24));
         velocityZ = new QPlainTextEdit(maincontainer);
         velocityZ->setObjectName(QStringLiteral("velocityZ"));
-        velocityZ->setGeometry(QRect(830, 140, 64, 24));
+        velocityZ->setGeometry(QRect(850, 110, 91, 24));
         label_Velocity = new QLabel(maincontainer);
         label_Velocity->setObjectName(QStringLiteral("label_Velocity"));
-        label_Velocity->setGeometry(QRect(680, 110, 71, 31));
+        label_Velocity->setGeometry(QRect(680, 80, 71, 31));
         label_EmissionDelay = new QLabel(maincontainer);
         label_EmissionDelay->setObjectName(QStringLiteral("label_EmissionDelay"));
-        label_EmissionDelay->setGeometry(QRect(670, 300, 121, 16));
+        label_EmissionDelay->setGeometry(QRect(850, 140, 121, 16));
         label_MaxParticles = new QLabel(maincontainer);
         label_MaxParticles->setObjectName(QStringLiteral("label_MaxParticles"));
-        label_MaxParticles->setGeometry(QRect(670, 360, 91, 16));
+        label_MaxParticles->setGeometry(QRect(760, 190, 91, 16));
         textBrowser = new QTextBrowser(maincontainer);
         textBrowser->setObjectName(QStringLiteral("textBrowser"));
-        textBrowser->setGeometry(QRect(750, 470, 191, 31));
+        textBrowser->setGeometry(QRect(750, 460, 191, 31));
         textBrowser->setTextInteractionFlags(Qt::NoTextInteraction);
-        progressBar = new QProgressBar(maincontainer);
-        progressBar->setObjectName(QStringLiteral("progressBar"));
-        progressBar->setGeometry(QRect(10, 580, 641, 10));
-        progressBar->setValue(0);
-        progressBar->setAlignment(Qt::AlignCenter);
-        progressBar->setOrientation(Qt::Horizontal);
-        progressBar->setInvertedAppearance(false);
         savePS = new QPushButton(maincontainer);
         savePS->setObjectName(QStringLiteral("savePS"));
         savePS->setGeometry(QRect(830, 550, 111, 41));
         gravity = new QPlainTextEdit(maincontainer);
         gravity->setObjectName(QStringLiteral("gravity"));
-        gravity->setGeometry(QRect(670, 200, 64, 24));
+        gravity->setGeometry(QRect(670, 160, 81, 24));
         label_Gravity = new QLabel(maincontainer);
         label_Gravity->setObjectName(QStringLiteral("label_Gravity"));
-        label_Gravity->setGeometry(QRect(680, 180, 51, 20));
+        label_Gravity->setGeometry(QRect(680, 140, 51, 20));
         label_MaxParticles_2 = new QLabel(maincontainer);
         label_MaxParticles_2->setObjectName(QStringLiteral("label_MaxParticles_2"));
-        label_MaxParticles_2->setGeometry(QRect(680, 450, 91, 16));
+        label_MaxParticles_2->setGeometry(QRect(680, 440, 91, 16));
         colorInBtn = new QPushButton(maincontainer);
         colorInBtn->setObjectName(QStringLiteral("colorInBtn"));
         colorInBtn->setGeometry(QRect(660, 10, 70, 30));
@@ -189,6 +182,10 @@ public:
         colorOutBtn = new QPushButton(maincontainer);
         colorOutBtn->setObjectName(QStringLiteral("colorOutBtn"));
         colorOutBtn->setGeometry(QRect(660, 50, 70, 30));
+        scaleBox = new QComboBox(maincontainer);
+        scaleBox->setObjectName(QStringLiteral("scaleBox"));
+        scaleBox->setGeometry(QRect(670, 210, 81, 24));
+        scaleBox->setLayoutDirection(Qt::LeftToRight);
         ParticleEditorClass->setCentralWidget(maincontainer);
         menuBar = new QMenuBar(ParticleEditorClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -213,6 +210,7 @@ public:
         QObject::connect(gravity, SIGNAL(textChanged()), maincontainer, SLOT(setGravity()));
         QObject::connect(colorInBtn, SIGNAL(clicked()), maincontainer, SLOT(colorIn()));
         QObject::connect(colorOutBtn, SIGNAL(clicked()), maincontainer, SLOT(colorOut()));
+        QObject::connect(scaleBox, SIGNAL(currentIndexChanged(int)), maincontainer, SLOT(scaleModeChanged(int)));
 
         QMetaObject::connectSlotsByName(ParticleEditorClass);
     } // setupUi
@@ -243,6 +241,13 @@ public:
         colorOutDisplay->setText(QString());
         colorOutDisplay->setPlaceholderText(QApplication::translate("ParticleEditorClass", "Color End", Q_NULLPTR));
         colorOutBtn->setText(QApplication::translate("ParticleEditorClass", "Color End", Q_NULLPTR));
+        scaleBox->clear();
+        scaleBox->insertItems(0, QStringList()
+         << QApplication::translate("ParticleEditorClass", "Don't Scale", Q_NULLPTR)
+         << QApplication::translate("ParticleEditorClass", "Scale In", Q_NULLPTR)
+         << QApplication::translate("ParticleEditorClass", "Scale Out", Q_NULLPTR)
+        );
+        scaleBox->setCurrentText(QApplication::translate("ParticleEditorClass", "Don't Scale", Q_NULLPTR));
     } // retranslateUi
 
 };

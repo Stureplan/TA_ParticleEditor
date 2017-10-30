@@ -16,10 +16,10 @@
 using namespace DirectX;
 
 
-struct VECTOR3
+struct FLOAT3
 {
-	VECTOR3() : X(0), Y(0), Z(0) { }
-	VECTOR3(float x, float y, float z)
+	FLOAT3() : X(0), Y(0), Z(0) { }
+	FLOAT3(float x, float y, float z)
 	{
 		X = x; Y = y; Z = z;
 	}
@@ -43,26 +43,26 @@ struct COLOR
 struct PARTICLE_VERTEX
 {
 	PARTICLE_VERTEX() : position(0,0,0), currentlifetime(0) { }
-	PARTICLE_VERTEX(VECTOR3 pos, float cl)
+	PARTICLE_VERTEX(FLOAT3 pos, float cl)
 	{
 		position = pos;
 		currentlifetime = cl;
 	}
 
-	VECTOR3 position;
+	FLOAT3 position;
 	float currentlifetime;
 };
 
 struct PARTICLE
 {
-	PARTICLE(VECTOR3 pos, float cl, bool a)
+	PARTICLE(FLOAT3 pos, float cl, bool a)
 	{ 
 		position = pos;
 		currentlifetime = cl; 
 		alive = a;
 	}
 
-	VECTOR3 position;
+	FLOAT3 position;
 	float currentlifetime;
 	bool alive;
 };
@@ -80,7 +80,7 @@ enum PS_PROPERTY
 
 struct PARTICLESYSTEM
 {
-	PARTICLESYSTEM(VECTOR3 pos, int m, VECTOR3 v, float ed, float lt, float grv, std::string tex, COLOR colIn, COLOR colOut)
+	PARTICLESYSTEM(FLOAT3 pos, int m, FLOAT3 v, float ed, float lt, float grv, std::string tex, COLOR colIn, COLOR colOut)
 	{
 		position = pos;
 		maxparticles = m;
@@ -93,9 +93,9 @@ struct PARTICLESYSTEM
 		colorOut = colOut;
 	}
 	// PS Export variables
-	VECTOR3 position;
+	FLOAT3 position;
 	int maxparticles;
-	VECTOR3 velocity;
+	FLOAT3 velocity;
 	float emissiondelay;
 	float lifetime;
 	float gravity;

@@ -1,7 +1,8 @@
 #include "particlesystem.h"
 
-ParticleSystem::ParticleSystem()
+ParticleSystem::ParticleSystem(PARTICLESYSTEM particlesystem)
 {
+	ps = new PARTICLESYSTEM(particlesystem);
 }
 
 ParticleSystem::~ParticleSystem()
@@ -14,12 +15,12 @@ unsigned int ParticleSystem::ParticleCount()
 	return particles.size();
 }
 
-void ParticleSystem::AddParticle(VECTOR3 p)
+void ParticleSystem::AddParticle(FLOAT3 p)
 {
 	particles.push_back(PARTICLE(p,0.0f, true));
 }
 
-void ParticleSystem::ModifyParticle(int id, VECTOR3 p)
+void ParticleSystem::ModifyParticle(int id, FLOAT3 p)
 {
 	particles[id].position = p;
 }
@@ -28,6 +29,7 @@ std::vector<PARTICLE_VERTEX> ParticleSystem::ParticleData(unsigned int &count)
 {
 	std::vector<PARTICLE_VERTEX> particle_vertices;
 	count = particles.size();
+
 	unsigned int actualCount = 0;
 
 
@@ -73,7 +75,7 @@ PARTICLE_VERTEX ParticleSystem::GetParticle(unsigned int id)
 		}
 	}
 
-	return PARTICLE_VERTEX(VECTOR3(0, 0, 0), 0);
+	return PARTICLE_VERTEX(FLOAT3(0, 0, 0), 0);
 }
 
 unsigned int ParticleSystem::GetSize()
@@ -102,10 +104,10 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 	switch (prop)
 	{
 	case PS_PROPERTY::PS_POSITION:
-		ps->position = *(VECTOR3*)data;
+		ps->position = *(FLOAT3*)data;
 		break;
 	case PS_PROPERTY::PS_VELOCITY:
-		ps->velocity = *(VECTOR3*)data;
+		ps->velocity = *(FLOAT3*)data;
 		break;
 	case PS_PROPERTY::PS_EMISSIONDELAY:
 		ps->emissiondelay = *(float*)data;
@@ -127,7 +129,7 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 
 void ParticleSystem::Initialize()
 {
-	ps = new PARTICLESYSTEM(VECTOR3(0,0,0),0, VECTOR3(0,0,0),0,0,0,"", COLOR(1,1,1,1), COLOR(1,1,1,1));
+	ps = new PARTICLESYSTEM(FLOAT3(0,0,0),0, FLOAT3(0,0,0),0,0,0,"", COLOR(1,1,1,1), COLOR(1,1,1,1));
 
 
 	for (unsigned int i = 0; i < ps->maxparticles; i++)
@@ -146,11 +148,12 @@ void ParticleSystem::Rebuild(PARTICLESYSTEM particlesystem)
 	ps->gravity= particlesystem.gravity;
 	ps->texturename= particlesystem.texturename;
 
+
 	particles.clear();
 
 	for (unsigned int i = 0; i < ps->maxparticles; i++)
 	{
-		particles.push_back(PARTICLE(VECTOR3(0, 0, 0), 0, false));
+		particles.push_back(PARTICLE(FLOAT3(0, 0, 0), 0, false));
 	}
 }
 
@@ -171,7 +174,7 @@ void ParticleSystem::Update(float dt)
 			{
 				if (p.currentlifetime < ps->lifetime)
 				{
-					VECTOR3 nPos = p.position;
+					FLOAT3 nPos = p.position;
 
 					float percent = p.currentlifetime / ps->lifetime;
 

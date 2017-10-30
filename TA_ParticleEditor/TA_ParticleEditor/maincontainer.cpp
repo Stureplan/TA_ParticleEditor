@@ -12,7 +12,7 @@ MainContainer::~MainContainer()
 }
 
 #pragma region POINTERS
-void MainContainer::SetPointers(Graphics* gfx, ParticleSystem* ps, QLabel* particleInfoUI, QPlainTextEdit* lifetimeInputUI, QPlainTextEdit* emissionDelayUI, QPlainTextEdit* velocityXUI, QPlainTextEdit* velocityYUI, QPlainTextEdit* velocityZUI,	QPlainTextEdit* gravityUI, QPushButton* browseUI, QPushButton* saveUI, QPlainTextEdit* maxParticlesUI, QTextBrowser* browseTextBoxUI, QLineEdit* colorInDisplayUI, QLineEdit* colorOutDisplayUI)
+void MainContainer::SetPointers(Graphics* gfx, ParticleSystem* ps, QLabel* particleInfoUI, QPlainTextEdit* lifetimeInputUI, QPlainTextEdit* emissionDelayUI, QPlainTextEdit* velocityXUI, QPlainTextEdit* velocityYUI, QPlainTextEdit* velocityZUI,	QPlainTextEdit* gravityUI, QPushButton* browseUI, QPushButton* saveUI, QPlainTextEdit* maxParticlesUI, QTextBrowser* browseTextBoxUI, QLineEdit* colorInDisplayUI, QLineEdit* colorOutDisplayUI, QComboBox* scaleUI)
 {
 	graphics = gfx;
 	particlesystem = ps;
@@ -29,6 +29,7 @@ void MainContainer::SetPointers(Graphics* gfx, ParticleSystem* ps, QLabel* parti
 	textBrowser = browseTextBoxUI;
 	colorInDisplay = colorInDisplayUI;
 	colorOutDisplay = colorOutDisplayUI;
+	scaleBoxDisplay = scaleUI;
 }
 #pragma endregion
 
@@ -93,6 +94,11 @@ void MainContainer::colorOut()
 		COLOR color = COLOR(colOut.redF(), colOut.greenF(), colOut.blueF(), colOut.alphaF());
 		particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_OUT, &color);
 	}
+}
+
+void MainContainer::scaleModeChanged(int mode)
+{
+	graphics->ChangeScaleMode(mode);
 }
 
 void MainContainer::browse()
@@ -335,6 +341,7 @@ void MainContainer::mousePressEvent(QMouseEvent* evt)
 			if (hitParticle > -1)
 			{
 				graphics->ParticleInspectionLabel(textFieldParticleInfo);
+				
 			}
 			else
 			{

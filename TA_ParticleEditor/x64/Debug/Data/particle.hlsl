@@ -7,6 +7,7 @@ cbuffer CBUFFER
 	float4 colin;
 	float4 colout;
 	float2 size;
+	float scalemode;
 };
 
 struct VOut
@@ -41,10 +42,15 @@ VOut VShader(float4 position : POSITION, float lifetime : LIFETIME)
 [maxvertexcount(4)]
 void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 {
-	float w = size.x;
-	float h = size.y;
+	float3 pos      = input[0].worldPos;
+	float lifetime  = input[0].lifetime;
 
-	float3 pos = input[0].worldPos;
+
+	float lifetimeScale = (1 - lifetime) * scalemode;
+
+
+	float w = size.x + lifetimeScale;
+	float h = size.y + lifetimeScale;
 
 	float3 up;
 	float3 normal;
@@ -75,7 +81,7 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 	for (int i = 0; i < 4; i++)
 	{
 		output.position.w = input[0].position.w;
-		output.lifetime = input[0].lifetime;
+		output.lifetime = lifetime;
 
 		output.position.xyz = vtx[i];
 		output.worldPos = vtx[i];

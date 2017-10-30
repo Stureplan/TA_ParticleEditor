@@ -6,7 +6,7 @@ Graphics::Graphics(QWidget * parent)
 	setAttribute(Qt::WA_PaintOnScreen, true);
 	setAttribute(Qt::WA_NativeWindow, true);
 	
-	particlesystem = new ParticleSystem();
+	particlesystem = new ParticleSystem(PARTICLESYSTEM(FLOAT3(0, 0, 0), 0, FLOAT3(0, 0, 0), 0, 0, 0, "", COLOR(1, 1, 1, 1), COLOR(1, 1, 1, 1)));
 	timer = new QTimer;
 	timer->setInterval(16.666);
 	connect(timer, SIGNAL(timeout()), this, SLOT(Loop()));
@@ -169,7 +169,7 @@ void Graphics::Initialize()
 	hr = device->CreateBuffer(&cb_particle_Desc, NULL, &constantBufferParticle);
 	/*===================================================================================*/
 
-
+	cBufferVertex.wvp = XMMatrixIdentity();
 
 
 
@@ -367,6 +367,27 @@ void Graphics::ChangeRasterization(D3D11_FILL_MODE fillmode)
 	}
 }
 
+void Graphics::ChangeScaleMode(int mode)
+{
+	if (mode == 0) // Don't scale
+	{
+		scaleMode = 0;
+	}
+	if (mode == 1) // Scale in
+	{
+		scaleMode = -1;
+	}
+	if (mode == 2) // Scale out
+	{
+		scaleMode = 1;
+	}
+}
+
+void Graphics::ChangeSize(float x, float y)
+{
+	sizeX = x; sizeY = y;
+}
+
 void Graphics::Retexture(std::string path)
 {
 	HRESULT hr;
@@ -393,7 +414,7 @@ void Graphics::ParticleInspectionLabel(QLabel* label)
 
 void Graphics::UpdateInspectorText()
 {
-	VECTOR3 pos = particlesystem->GetPosition(particleDebugID).position;
+	FLOAT3 pos = particlesystem->GetParticle(particleDebugID).position;
 
 	char buffer[64];
 	sprintf(buffer, "X: %.2f Y: %.2f Z: %.2f", pos.X, pos.Y, pos.Z);
@@ -415,7 +436,6 @@ int Graphics::TestIntersection(int x, int y, XMFLOAT3 &particlePos)
 	{
 		// FIND ORIGINAL PARTICLE POS
 		XMVECTOR pos = XMVectorSet(particles[i].position.X, particles[i].position.Y, particles[i].position.Z, 1.0f);
-
 		XMVECTOR up = XMVector3Normalize(camup) * sizeY;
 		XMVECTOR normal = XMVector3Normalize(pos - campos);
 		XMVECTOR right = XMVector3Normalize(XMVector3Cross(normal, up)) * sizeX;
@@ -469,7 +489,7 @@ void Graphics::ResizeParticleSystem(unsigned int count)
 	//This function clears every particle and recreates the data.
 }
 
-void Graphics::AddParticle(VECTOR3 p)
+void Graphics::AddParticle(FLOAT3 p)
 {
 	//This function adds ONE particle to the existing particle amount.
 
@@ -544,7 +564,7 @@ void Graphics::Update()
 
 
 
-
+	if (frame == 0) { ms = 0.016f; }
 	particlesystem->Update(ms);
 }
 
@@ -576,7 +596,6 @@ void Graphics::Render()
 		context->PSSetSamplers(0, 1, &textureSamplerState);
 		context->PSSetShaderResources(0, 1, &textures[0]);
 		context->Draw(groundVertexData.size(), 0);
-
 	}
 	else
 	{
@@ -598,6 +617,7 @@ void Graphics::Render()
 	cBufferParticle.size = XMFLOAT2(sizeX, sizeY);
 	cBufferParticle.colin = particlesystem->GetInColor();
 	cBufferParticle.colout = particlesystem->GetOutColor();
+	cBufferParticle.scale = scaleMode;
 	context->UpdateSubresource(constantBufferParticle, 0, NULL, &cBufferParticle, 0, 0);
 	context->VSSetConstantBuffers(0, 1, &constantBufferParticle);
 	context->GSSetConstantBuffers(0, 1, &constantBufferParticle);
@@ -649,7 +669,7 @@ void Graphics::RenderDebugObject(unsigned int vtxcount)
 
 void Graphics::RenderDebugParticle(unsigned int particleID)
 {
-	debugParticle = particlesystem->GetPosition(particleID);
+	debugParticle = particlesystem->GetParticle(particleID);
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));

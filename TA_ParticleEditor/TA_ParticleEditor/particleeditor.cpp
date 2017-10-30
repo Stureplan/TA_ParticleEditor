@@ -23,7 +23,8 @@ ParticleEditor::ParticleEditor(QWidget *parent, Qt::WindowFlags flags)	: QMainWi
 		ui.maxParticles,
 		ui.textBrowser,
 		ui.colorInDisplay,
-		ui.colorOutDisplay
+		ui.colorOutDisplay,
+		ui.scaleBox
 	);
 
 	ui.maincontainer->Init();
