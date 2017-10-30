@@ -6,7 +6,6 @@ ParticleEditor::ParticleEditor(QWidget *parent, Qt::WindowFlags flags)	: QMainWi
 	setCentralWidget(ui.maincontainer);
 	setWindowFlag(Qt::MSWindowsFixedSizeDialogHint);
 	//QApplication::setKeyboardInputInterval(16);
-
 	ui.maincontainer->SetPointers
 	(
 		ui.graphics,

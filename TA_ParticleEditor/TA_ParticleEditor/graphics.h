@@ -48,6 +48,7 @@ public:
 		FLOAT4 colout;
 		XMFLOAT2 size;
 		float scale;
+		float lifetime;
 	};
 
 	struct CBUFFER_VERTEX
@@ -76,6 +77,7 @@ public:
 	void PauseSimulation();
 
 	void ParticleInspectionLabel(QLabel* label);
+	void DebugLabels(QLineEdit* pCount, QLineEdit* vCount);
 	void UpdateInspectorText();
 	int TestIntersection(int x, int y, XMFLOAT3 &particlePos);
 	bool PointInTriangle(float x, float y, float x1, float y1, float x2, float y2, float x3, float y3);

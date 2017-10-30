@@ -8,15 +8,15 @@ cbuffer CBUFFER
 	float4 colout;
 	float2 size;
 	float scalemode;
+	float lifetime;
 };
 
 struct VOut
 {
 	float4 position : SV_POSITION;
 	float2 texcoord : TEXCOORD;
-
 	float3 worldPos : NORMAL;
-	float lifetime : LIFETIME;
+	float currentLifetime : LIFETIME;
 };
 
 Texture2D tex;
@@ -34,7 +34,7 @@ VOut VShader(float4 position : POSITION, float lifetime : LIFETIME)
 	//output.position = mul(position, wvp);
 	output.position = position;
 	output.texcoord = float2(0,0);
-	output.lifetime = lifetime;
+	output.currentLifetime = lifetime;
 
 	return output;
 }
@@ -43,10 +43,10 @@ VOut VShader(float4 position : POSITION, float lifetime : LIFETIME)
 void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 {
 	float3 pos      = input[0].worldPos;
-	float lifetime  = input[0].lifetime;
+	float percent  = input[0].currentLifetime / lifetime;
 
 
-	float lifetimeScale = (1 - lifetime) * scalemode;
+	float lifetimeScale = (1 - percent) * scalemode;
 
 
 	float w = size.x + lifetimeScale;
@@ -81,7 +81,7 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 	for (int i = 0; i < 4; i++)
 	{
 		output.position.w = input[0].position.w;
-		output.lifetime = lifetime;
+		output.currentLifetime = lifetime;
 
 		output.position.xyz = vtx[i];
 		output.worldPos = vtx[i];
@@ -117,7 +117,7 @@ float4 PShader(VOut input) : SV_TARGET
 {
 	float4 pos = input.position;
 	float2 uv = input.texcoord;
-	float lt = 1 - input.lifetime;
+	float lt = 1 - input.currentLifetime;
 	
 	float4 color = tex.Sample(smp, uv) * lerp(colin, colout, 1-lt);
 	

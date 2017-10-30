@@ -209,8 +209,9 @@ void MainContainer::setEmissionDelay()
 {
 	QString text = textFieldEmissionDelay->toPlainText();
 	mEmissionDelay = ErrorHandleUI(text, textFieldEmissionDelay);
-	//BuildParticleSystem();
 	particlesystem->SetProperty(PS_PROPERTY::PS_EMISSIONDELAY, &mEmissionDelay);
+
+	BuildParticleSystem();
 }
 
 void MainContainer::setLifetime()

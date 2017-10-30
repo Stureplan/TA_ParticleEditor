@@ -414,10 +414,12 @@ void Graphics::ParticleInspectionLabel(QLabel* label)
 
 void Graphics::UpdateInspectorText()
 {
-	FLOAT3 pos = particlesystem->GetParticle(particleDebugID).position;
+	PARTICLE_VERTEX p = particlesystem->GetParticle(particleDebugID);
+	FLOAT3 pos = p.position;
+	float life = p.currentlifetime;
 
 	char buffer[64];
-	sprintf(buffer, "X: %.2f Y: %.2f Z: %.2f", pos.X, pos.Y, pos.Z);
+	sprintf(buffer, "X: %.2f Y: %.2f Z: %.2f\nCurrent Lifetime: %.2f", pos.X, pos.Y, pos.Z, life);
 	inspectorLabel->setText(buffer);
 }
 
@@ -503,7 +505,7 @@ void Graphics::AddParticle(FLOAT3 p)
 
 	// Get the data pointer
 	std::vector<PARTICLE_VERTEX> positions = particlesystem->ParticleData(newParticleCount);
-
+	
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
@@ -618,6 +620,7 @@ void Graphics::Render()
 	cBufferParticle.colin = particlesystem->GetInColor();
 	cBufferParticle.colout = particlesystem->GetOutColor();
 	cBufferParticle.scale = scaleMode;
+	cBufferParticle.lifetime = particlesystem->Lifetime();
 	context->UpdateSubresource(constantBufferParticle, 0, NULL, &cBufferParticle, 0, 0);
 	context->VSSetConstantBuffers(0, 1, &constantBufferParticle);
 	context->GSSetConstantBuffers(0, 1, &constantBufferParticle);
@@ -632,10 +635,11 @@ void Graphics::Render()
 	}
 	else
 	{
+		unsigned int particleCount = particlesystem->GetSize();
+
 		// Regular texture
 		context->PSSetShaderResources(0, 1, &textures[1]);
-		context->Draw(particlesystem->GetSize(), 0);
-
+		context->Draw(particleCount, 0);
 	}
 
 	if (particleDebugID > -1)

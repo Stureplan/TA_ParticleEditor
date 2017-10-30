@@ -34,6 +34,9 @@ public:
 	void Rebuild(PARTICLESYSTEM particlesystem);
 	void Update(float dt);
 
+	bool Paused() { return paused; }
+	float Lifetime() { return ps->lifetime; }
+
 private:
 	// Private variables
 	PARTICLESYSTEM* ps;
