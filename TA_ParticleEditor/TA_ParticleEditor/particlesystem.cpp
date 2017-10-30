@@ -161,8 +161,8 @@ void ParticleSystem::Update(float dt)
 {
 	if (paused == false)
 	{
-		//unsigned int max = particles.size();
-		unsigned int max = ps->maxparticles;
+		unsigned int max = particles.size();
+		//unsigned int max = ps->maxparticles;
 
 		for (unsigned int i = 0; i < max; i++)
 		{
