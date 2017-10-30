@@ -248,7 +248,8 @@ void MainContainer::BuildParticleSystem()
 {
 	PARTICLESYSTEM ps(mPosition, mMaxParticles,
 		mVelocity, mEmissionDelay, mLifetime, mGravity,
-		FLOAT4(0,0,0,0), FLOAT4(0,0,0,0),
+		FLOAT4(colIn.redF(), colIn.greenF(), colIn.blueF(), colIn.alphaF()), 
+		FLOAT4(colOut.redF(), colOut.greenF(), colOut.blueF(), colOut.alphaF()),
 		mSizeX, mSizeY);
 
 	graphics->Rebuild(ps);
