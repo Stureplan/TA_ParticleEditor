@@ -165,7 +165,8 @@ void ParticleSystem::Rebuild(PARTICLESYSTEM particlesystem)
 	ps->sizeX = particlesystem.sizeX;
 	ps->sizeY = particlesystem.sizeY;
 
-
+	//TODO: Check if this is OK.
+	cooldown = ps->emissiondelay;
 
 	particles.clear();
 

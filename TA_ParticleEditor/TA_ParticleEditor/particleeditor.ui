@@ -110,24 +110,11 @@
      <string>Browse</string>
     </property>
    </widget>
-   <widget class="QPlainTextEdit" name="lifetime">
-    <property name="geometry">
-     <rect>
-      <x>760</x>
-      <y>160</y>
-      <width>81</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="placeholderText">
-     <string>0</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_Lifetime">
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>140</y>
+      <x>780</x>
+      <y>138</y>
       <width>51</width>
       <height>20</height>
      </rect>
@@ -135,112 +122,56 @@
     <property name="text">
      <string>Lifetime</string>
     </property>
-   </widget>
-   <widget class="QPlainTextEdit" name="emissionDelay">
-    <property name="geometry">
-     <rect>
-      <x>850</x>
-      <y>160</y>
-      <width>81</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="placeholderText">
-     <string/>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QPlainTextEdit" name="maxParticles">
-    <property name="geometry">
-     <rect>
-      <x>850</x>
-      <y>210</y>
-      <width>81</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="readOnly">
-     <bool>false</bool>
-    </property>
-    <property name="placeholderText">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QPlainTextEdit" name="velocityX">
-    <property name="geometry">
-     <rect>
-      <x>670</x>
-      <y>110</y>
-      <width>91</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="placeholderText">
-     <string>0</string>
-    </property>
-   </widget>
-   <widget class="QPlainTextEdit" name="velocityY">
-    <property name="geometry">
-     <rect>
-      <x>760</x>
-      <y>110</y>
-      <width>91</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="placeholderText">
-     <string>0</string>
-    </property>
-   </widget>
-   <widget class="QPlainTextEdit" name="velocityZ">
-    <property name="geometry">
-     <rect>
-      <x>850</x>
-      <y>110</y>
-      <width>91</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="placeholderText">
-     <string>0</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_Velocity">
+   <widget class="QLabel" name="label_VelocityX">
     <property name="geometry">
      <rect>
       <x>680</x>
-      <y>80</y>
+      <y>87</y>
       <width>71</width>
-      <height>31</height>
+      <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Velocity</string>
+     <string>Velocity X</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="label_EmissionDelay">
     <property name="geometry">
      <rect>
-      <x>850</x>
-      <y>140</y>
-      <width>121</width>
-      <height>16</height>
+      <x>854</x>
+      <y>138</y>
+      <width>80</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="text">
      <string>Emission Delay</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
    <widget class="QLabel" name="label_MaxParticles">
     <property name="geometry">
      <rect>
-      <x>850</x>
-      <y>190</y>
-      <width>91</width>
+      <x>856</x>
+      <y>191</y>
+      <width>70</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
      <string>Max Particles</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QTextBrowser" name="textBrowser">
@@ -272,30 +203,20 @@
      <string>Save as...</string>
     </property>
    </widget>
-   <widget class="QPlainTextEdit" name="gravity">
-    <property name="geometry">
-     <rect>
-      <x>670</x>
-      <y>160</y>
-      <width>81</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="placeholderText">
-     <string>0</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_Gravity">
     <property name="geometry">
      <rect>
-      <x>680</x>
-      <y>140</y>
+      <x>689</x>
+      <y>138</y>
       <width>51</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
      <string>Gravity</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="label_Texture">
@@ -452,62 +373,36 @@
      </property>
     </item>
    </widget>
-   <widget class="QPlainTextEdit" name="sizeY">
-    <property name="geometry">
-     <rect>
-      <x>760</x>
-      <y>210</y>
-      <width>81</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="readOnly">
-     <bool>false</bool>
-    </property>
-    <property name="placeholderText">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QPlainTextEdit" name="sizeX">
-    <property name="geometry">
-     <rect>
-      <x>670</x>
-      <y>210</y>
-      <width>81</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="readOnly">
-     <bool>false</bool>
-    </property>
-    <property name="placeholderText">
-     <string/>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_SizeY">
     <property name="geometry">
      <rect>
-      <x>780</x>
-      <y>190</y>
-      <width>91</width>
+      <x>771</x>
+      <y>191</y>
+      <width>60</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
      <string>Size Y</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
    <widget class="QLabel" name="label_SizeX">
     <property name="geometry">
      <rect>
-      <x>690</x>
-      <y>190</y>
-      <width>91</width>
+      <x>681</x>
+      <y>191</y>
+      <width>60</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
      <string>Size X</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QComboBox" name="emitterTypeBox">
@@ -573,6 +468,242 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
+   <widget class="QLineEdit" name="velocityX">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>110</y>
+      <width>90</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="inputMask">
+     <string>#0\.00</string>
+    </property>
+    <property name="text">
+     <string>0.0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="placeholderText">
+     <string>0.0</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="velocityY">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>110</y>
+      <width>90</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="inputMask">
+     <string>#0\.00</string>
+    </property>
+    <property name="text">
+     <string>0.0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="placeholderText">
+     <string>0.0</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="velocityZ">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>110</y>
+      <width>90</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="inputMask">
+     <string>#0\.00</string>
+    </property>
+    <property name="text">
+     <string>0.0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="placeholderText">
+     <string>0.0</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="gravity">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>160</y>
+      <width>90</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="inputMask">
+     <string>#0\.00</string>
+    </property>
+    <property name="text">
+     <string>1.0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="placeholderText">
+     <string>1.0</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lifetime">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>160</y>
+      <width>90</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="inputMask">
+     <string>#0\.00</string>
+    </property>
+    <property name="text">
+     <string>1.0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="placeholderText">
+     <string>0.0</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="emissionDelay">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>160</y>
+      <width>90</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="inputMask">
+     <string>#0\.00</string>
+    </property>
+    <property name="text">
+     <string>0.1</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="placeholderText">
+     <string>0.0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_VelocityY">
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>87</y>
+      <width>71</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>Velocity Y</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_VelocityZ">
+    <property name="geometry">
+     <rect>
+      <x>859</x>
+      <y>87</y>
+      <width>71</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>Velocity Z</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="sizeX">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>210</y>
+      <width>90</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="inputMask">
+     <string>#0\.00</string>
+    </property>
+    <property name="text">
+     <string>1.0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="placeholderText">
+     <string>1.0</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="sizeY">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>210</y>
+      <width>90</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="inputMask">
+     <string>#0\.00</string>
+    </property>
+    <property name="text">
+     <string>1.0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="placeholderText">
+     <string>1.0</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="maxParticles">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>210</y>
+      <width>90</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="inputMask">
+     <string>9000</string>
+    </property>
+    <property name="text">
+     <string>1</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="placeholderText">
+     <string>100</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -630,102 +761,6 @@
  </resources>
  <connections>
   <connection>
-   <sender>lifetime</sender>
-   <signal>textChanged()</signal>
-   <receiver>maincontainer</receiver>
-   <slot>setLifetime()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>710</x>
-     <y>148</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>474</x>
-     <y>332</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>emissionDelay</sender>
-   <signal>textChanged()</signal>
-   <receiver>maincontainer</receiver>
-   <slot>setEmissionDelay()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>700</x>
-     <y>308</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>474</x>
-     <y>332</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>velocityX</sender>
-   <signal>textChanged()</signal>
-   <receiver>maincontainer</receiver>
-   <slot>setVelocityX()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>700</x>
-     <y>188</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>474</x>
-     <y>332</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>velocityY</sender>
-   <signal>textChanged()</signal>
-   <receiver>maincontainer</receiver>
-   <slot>setVelocityY()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>780</x>
-     <y>188</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>474</x>
-     <y>332</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>velocityZ</sender>
-   <signal>textChanged()</signal>
-   <receiver>maincontainer</receiver>
-   <slot>setVelocityZ()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>860</x>
-     <y>188</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>474</x>
-     <y>332</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>maxParticles</sender>
-   <signal>textChanged()</signal>
-   <receiver>maincontainer</receiver>
-   <slot>setMaxParticles()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>700</x>
-     <y>368</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>474</x>
-     <y>332</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>browsepath</sender>
    <signal>clicked()</signal>
    <receiver>maincontainer</receiver>
@@ -750,22 +785,6 @@
     <hint type="sourcelabel">
      <x>835</x>
      <y>593</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>474</x>
-     <y>332</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>gravity</sender>
-   <signal>textChanged()</signal>
-   <receiver>maincontainer</receiver>
-   <slot>setGravity()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>701</x>
-     <y>244</y>
     </hint>
     <hint type="destinationlabel">
      <x>474</x>
@@ -822,14 +841,110 @@
    </hints>
   </connection>
   <connection>
+   <sender>velocityX</sender>
+   <signal>editingFinished()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>setVelocityX()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>714</x>
+     <y>152</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>332</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>velocityY</sender>
+   <signal>editingFinished()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>setVelocityY()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>804</x>
+     <y>152</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>332</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>velocityZ</sender>
+   <signal>editingFinished()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>setVelocityZ()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>894</x>
+     <y>152</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>332</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>gravity</sender>
+   <signal>editingFinished()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>setGravity()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>714</x>
+     <y>202</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>332</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lifetime</sender>
+   <signal>editingFinished()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>setLifetime()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>804</x>
+     <y>202</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>332</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>emissionDelay</sender>
+   <signal>editingFinished()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>setEmissionDelay()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>894</x>
+     <y>202</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>332</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
    <sender>sizeX</sender>
-   <signal>textChanged()</signal>
+   <signal>editingFinished()</signal>
    <receiver>maincontainer</receiver>
    <slot>sizeX()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>710</x>
-     <y>254</y>
+     <x>714</x>
+     <y>252</y>
     </hint>
     <hint type="destinationlabel">
      <x>474</x>
@@ -839,13 +954,29 @@
   </connection>
   <connection>
    <sender>sizeY</sender>
-   <signal>textChanged()</signal>
+   <signal>editingFinished()</signal>
    <receiver>maincontainer</receiver>
    <slot>sizeY()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>800</x>
-     <y>254</y>
+     <x>804</x>
+     <y>252</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>332</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>maxParticles</sender>
+   <signal>editingFinished()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>setMaxParticles()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>894</x>
+     <y>252</y>
     </hint>
     <hint type="destinationlabel">
      <x>474</x>

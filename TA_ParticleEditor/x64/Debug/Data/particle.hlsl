@@ -78,7 +78,7 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 	for (int i = 0; i < 4; i++)
 	{
 		output.position.w = input[0].position.w;
-		output.currentLifetime = lifetime;
+		output.currentLifetime = percent;
 
 		output.position.xyz = vtx[i];
 		output.worldPos = vtx[i];

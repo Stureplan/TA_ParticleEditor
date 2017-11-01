@@ -36,21 +36,21 @@ public:
 	void SetPointers(Graphics* gfx,
 		ParticleSystem* ps,
 		QLabel* particleInfoUI,
-		QPlainTextEdit* lifetimeInputUI,
-		QPlainTextEdit* emissionDelayUI,
-		QPlainTextEdit* velocityXUI,
-		QPlainTextEdit* velocityYUI,
-		QPlainTextEdit* velocityZUI,
-		QPlainTextEdit* gravityUI,
+		QLineEdit* lifetimeInputUI,
+		QLineEdit* emissionDelayUI,
+		QLineEdit* velocityXUI,
+		QLineEdit* velocityYUI,
+		QLineEdit* velocityZUI,
+		QLineEdit* gravityUI,
 		QPushButton* browseUI,
 		QPushButton* saveUI,
-		QPlainTextEdit* maxParticlesUI,
+		QLineEdit* maxParticlesUI,
 		QTextBrowser* browseTextBoxUI,
 		QLineEdit* colorInDisplayUI,
 		QLineEdit* colorOutDisplayUI,
 		QComboBox* scaleUI,
-		QPlainTextEdit* sizeXUI,
-		QPlainTextEdit* sizeYUI);
+		QLineEdit* sizeXUI,
+		QLineEdit* sizeYUI);
 	void Init();
 	void BuildParticleSystem();
 
@@ -84,15 +84,15 @@ private:
 	Graphics* graphics;
 	ParticleSystem* particlesystem;
 	QLabel* textFieldParticleInfo;
-	QPlainTextEdit* textFieldLifetime;
-	QPlainTextEdit* textFieldEmissionDelay;
-	QPlainTextEdit* textFieldVelocityX;
-	QPlainTextEdit* textFieldVelocityY;
-	QPlainTextEdit* textFieldVelocityZ;
-	QPlainTextEdit* textFieldMaxParticles;
-	QPlainTextEdit* textFieldGravity;
-	QPlainTextEdit* textFieldSizeX;
-	QPlainTextEdit* textFieldSizeY;
+	QLineEdit* textFieldLifetime;
+	QLineEdit* textFieldEmissionDelay;
+	QLineEdit* textFieldVelocityX;
+	QLineEdit* textFieldVelocityY;
+	QLineEdit* textFieldVelocityZ;
+	QLineEdit* textFieldMaxParticles;
+	QLineEdit* textFieldGravity;
+	QLineEdit* textFieldSizeX;
+	QLineEdit* textFieldSizeY;
 
 	QPushButton* browseBtn;
 	QPushButton* saveBtn;
@@ -104,8 +104,8 @@ private:
 	QString mTexturePath;
 	QString savePath;
 
-	QColor colIn;
-	QColor colOut;
+	QColor mColorIn;
+	QColor mColorOut;
 
 	//FLOAT3 mPosition;
 	EMITTER_TYPE mEmitterType;

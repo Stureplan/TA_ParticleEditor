@@ -12,7 +12,7 @@ MainContainer::~MainContainer()
 }
 
 #pragma region POINTERS
-void MainContainer::SetPointers(Graphics* gfx, ParticleSystem* ps, QLabel* particleInfoUI, QPlainTextEdit* lifetimeInputUI, QPlainTextEdit* emissionDelayUI, QPlainTextEdit* velocityXUI, QPlainTextEdit* velocityYUI, QPlainTextEdit* velocityZUI,	QPlainTextEdit* gravityUI, QPushButton* browseUI, QPushButton* saveUI, QPlainTextEdit* maxParticlesUI, QTextBrowser* browseTextBoxUI, QLineEdit* colorInDisplayUI, QLineEdit* colorOutDisplayUI, QComboBox* scaleUI, QPlainTextEdit* sizeXUI, QPlainTextEdit* sizeYUI)
+void MainContainer::SetPointers(Graphics* gfx, ParticleSystem* ps, QLabel* particleInfoUI, QLineEdit* lifetimeInputUI, QLineEdit* emissionDelayUI, QLineEdit* velocityXUI, QLineEdit* velocityYUI, QLineEdit* velocityZUI, QLineEdit* gravityUI, QPushButton* browseUI, QPushButton* saveUI, QLineEdit* maxParticlesUI, QTextBrowser* browseTextBoxUI, QLineEdit* colorInDisplayUI, QLineEdit* colorOutDisplayUI, QComboBox* scaleUI, QLineEdit* sizeXUI, QLineEdit* sizeYUI)
 {
 	graphics = gfx;
 	particlesystem = ps;
@@ -37,6 +37,10 @@ void MainContainer::SetPointers(Graphics* gfx, ParticleSystem* ps, QLabel* parti
 
 void MainContainer::Init()
 {
+	mEmitterType = EMITTER_TYPE::EMIT_POINT;
+	mPosition = FLOAT3(0, 0, 0);
+
+
 	mTextFieldValue = 0.0f;
 
 	mLifetime = DEFAULT_LIFETIME;
@@ -62,14 +66,14 @@ void MainContainer::Init()
 	textFieldSizeY->setPlaceholderText(std::to_string(DEFAULT_SIZE).c_str());
 
 	mTexturePath = DEFAULT_TEXTURE;
+
+	mColorIn  = Qt::white;
+	mColorOut = Qt::white;
 }
 
 void MainContainer::setGravity()
 {
-	QString text = textFieldGravity->toPlainText();
-	mGravity = ErrorHandleUI(text, textFieldGravity);
-
-	//BuildParticleSystem();
+	mGravity = textFieldGravity->text().toFloat();
 	particlesystem->SetProperty(PS_PROPERTY::PS_GRAVITY, &mGravity);
 }
 
@@ -87,8 +91,8 @@ void MainContainer::save()
 	ps.emissiondelay = mEmissionDelay;
 	ps.lifetime = mLifetime;
 	ps.gravity = mGravity;
-	ps.colorIn  = FLOAT4(colIn.redF(), colIn.greenF(), colIn.blueF(), colIn.alphaF());
-	ps.colorOut = FLOAT4(colOut.redF(), colOut.greenF(), colOut.blueF(), colOut.alphaF());
+	ps.colorIn  = FLOAT4(mColorIn.redF(), mColorIn.greenF(), mColorIn.blueF(), mColorIn.alphaF());
+	ps.colorOut = FLOAT4(mColorOut.redF(), mColorOut.greenF(), mColorOut.blueF(), mColorOut.alphaF());
 	ps.sizeX = mSizeX;
 	ps.sizeY = mSizeY;
 
@@ -136,26 +140,26 @@ void MainContainer::save()
 
 void MainContainer::colorIn()
 {
-	QColor c = QColorDialog::getColor(Qt::white, this, "Choose In Color", QColorDialog::ShowAlphaChannel);
+	QColor c = QColorDialog::getColor(mColorIn, this, "Choose In Color", QColorDialog::ShowAlphaChannel);
 	if (c.isValid())
 	{
-		colIn = c;
-		colorInDisplay->setStyleSheet("QLineEdit { background: "+colIn.name()+"; selection-background-color: rgb(233, 99, 0); }");
+		mColorIn = c;
+		colorInDisplay->setStyleSheet("QLineEdit { background: "+ mColorIn.name()+"; selection-background-color: rgb(233, 99, 0); }");
 		
-		FLOAT4 color = FLOAT4(colIn.redF(), colIn.greenF(), colIn.blueF(), colIn.alphaF());
+		FLOAT4 color = FLOAT4(mColorIn.redF(), mColorIn.greenF(), mColorIn.blueF(), mColorIn.alphaF());
 		particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_IN, &color);
 	}
 }
 
 void MainContainer::colorOut()
 {
-	QColor c = QColorDialog::getColor(Qt::white, this, "Choose In Color", QColorDialog::ShowAlphaChannel);
+	QColor c = QColorDialog::getColor(mColorOut, this, "Choose In Color", QColorDialog::ShowAlphaChannel);
 	if (c.isValid())
 	{
-		colOut = c;
-		colorOutDisplay->setStyleSheet("QLineEdit { background: " + colOut.name() + "; selection-background-color: rgb(233, 99, 0); }");
+		mColorOut = c;
+		colorOutDisplay->setStyleSheet("QLineEdit { background: " + mColorOut.name() + "; selection-background-color: rgb(233, 99, 0); }");
 
-		FLOAT4 color = FLOAT4(colOut.redF(), colOut.greenF(), colOut.blueF(), colOut.alphaF());
+		FLOAT4 color = FLOAT4(mColorOut.redF(), mColorOut.greenF(), mColorOut.blueF(), mColorOut.alphaF());
 		particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_OUT, &color);
 	}
 }
@@ -174,20 +178,14 @@ void MainContainer::emitterTypeChanged(int mode)
 
 void MainContainer::sizeX()
 {
-	QString text = textFieldSizeX->toPlainText();
-	mSizeX = ErrorHandleUI(text, textFieldSizeX);
-
-	//BuildParticleSystem();
+	mSizeX = textFieldSizeX->text().toFloat();
 	particlesystem->SetProperty(PS_PROPERTY::PS_SIZE_X, &mSizeX);
 	graphics->ChangeSize(mSizeX, mSizeY);
 }
 
 void MainContainer::sizeY()
 {
-	QString text = textFieldSizeY->toPlainText();
-	mSizeY = ErrorHandleUI(text, textFieldSizeY);
-
-	//BuildParticleSystem();
+	mSizeY = textFieldSizeY->text().toFloat();
 	particlesystem->SetProperty(PS_PROPERTY::PS_SIZE_Y, &mSizeY);
 	graphics->ChangeSize(mSizeX, mSizeY);
 }
@@ -203,7 +201,8 @@ void MainContainer::browse()
 
 void MainContainer::setMaxParticles()
 {
-	QString text = textFieldMaxParticles->toPlainText();
+	mMaxParticles = textFieldMaxParticles->text().toInt();
+	/*QString text = textFieldMaxParticles->toPlainText();
 	bool newline = text.contains("\n");
 	if (newline)
 	{
@@ -247,17 +246,16 @@ void MainContainer::setMaxParticles()
 	{
 		mMaxParticles = DEFAULT_MAXPARTICLES;
 	}
-
+	*/
 	BuildParticleSystem();
-	//particlesystem->SetProperty(PS_PROPERTY::PS_MAXPARTICLES, &mMaxParticles);
 }
 
 void MainContainer::BuildParticleSystem()
 {
 	PARTICLESYSTEM ps(mEmitterType, mPosition, mMaxParticles,
 		mVelocity, mEmissionDelay, mLifetime, mGravity,
-		FLOAT4(colIn.redF(), colIn.greenF(), colIn.blueF(), colIn.alphaF()), 
-		FLOAT4(colOut.redF(), colOut.greenF(), colOut.blueF(), colOut.alphaF()),
+		FLOAT4(mColorIn.redF(), mColorIn.greenF(), mColorIn.blueF(), mColorIn.alphaF()),
+		FLOAT4(mColorOut.redF(), mColorOut.greenF(), mColorOut.blueF(), mColorOut.alphaF()),
 		mSizeX, mSizeY);
 
 	graphics->Rebuild(ps);
@@ -266,8 +264,8 @@ void MainContainer::BuildParticleSystem()
 
 void MainContainer::setVelocityX()
 {
-	QString text = textFieldVelocityX->toPlainText();
-	float x = ErrorHandleUI(text, textFieldVelocityX);
+	float x = textFieldVelocityX->text().toFloat();
+	//float x = ErrorHandleUI(text, textFieldVelocityX);
 
 	mVelocity.X = x;
 	//BuildParticleSystem();
@@ -277,8 +275,8 @@ void MainContainer::setVelocityX()
 
 void MainContainer::setVelocityY()
 {
-	QString text = textFieldVelocityY->toPlainText();
-	float y = ErrorHandleUI(text, textFieldVelocityY);
+	float y = textFieldVelocityY->text().toFloat();
+	//float y = ErrorHandleUI(text, textFieldVelocityY);
 
 	mVelocity.Y = y;
 	//BuildParticleSystem();
@@ -288,32 +286,27 @@ void MainContainer::setVelocityY()
 
 void MainContainer::setVelocityZ()
 {
-	QString text = textFieldVelocityZ->toPlainText();
-	float z = ErrorHandleUI(text, textFieldVelocityZ);
+	float z = textFieldVelocityZ->text().toFloat();
+	//float z = ErrorHandleUI(text, textFieldVelocityZ);
 	
 	mVelocity.Z = z;
 	//BuildParticleSystem();
 	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mVelocity);
-
 }
 
 
 void MainContainer::setEmissionDelay()
 {
-	QString text = textFieldEmissionDelay->toPlainText();
-	mEmissionDelay = ErrorHandleUI(text, textFieldEmissionDelay);
+	mEmissionDelay = textFieldEmissionDelay->text().toFloat();
+	
 	particlesystem->SetProperty(PS_PROPERTY::PS_EMISSIONDELAY, &mEmissionDelay);
-
 	BuildParticleSystem();
 }
 
 void MainContainer::setLifetime()
 {
-	QString text = textFieldLifetime->toPlainText();
-	mLifetime = ErrorHandleUI(text, textFieldLifetime);
-	//BuildParticleSystem();
+	mLifetime = textFieldLifetime->text().toFloat();
 	particlesystem->SetProperty(PS_PROPERTY::PS_LIFETIME, &mLifetime);
-
 }
 
 float MainContainer::ErrorHandleUI(QString text, QPlainTextEdit* qpte)
