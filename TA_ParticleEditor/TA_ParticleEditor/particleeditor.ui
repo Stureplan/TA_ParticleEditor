@@ -48,7 +48,7 @@
    <widget class="Line" name="line">
     <property name="geometry">
      <rect>
-      <x>649</x>
+      <x>650</x>
       <y>10</y>
       <width>3</width>
       <height>480</height>
@@ -347,7 +347,7 @@
      <rect>
       <x>670</x>
       <y>260</y>
-      <width>131</width>
+      <width>121</width>
       <height>24</height>
      </rect>
     </property>
@@ -408,7 +408,7 @@
    <widget class="QComboBox" name="emitterTypeBox">
     <property name="geometry">
      <rect>
-      <x>810</x>
+      <x>820</x>
       <y>260</y>
       <width>121</width>
       <height>24</height>
@@ -427,11 +427,6 @@
     </item>
     <item>
      <property name="text">
-      <string>Box</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
       <string>Rectangle</string>
      </property>
     </item>
@@ -439,7 +434,7 @@
    <widget class="QLabel" name="label_SizeY_2">
     <property name="geometry">
      <rect>
-      <x>820</x>
+      <x>830</x>
       <y>240</y>
       <width>100</width>
       <height>16</height>
@@ -703,6 +698,278 @@
     <property name="placeholderText">
      <string>100</string>
     </property>
+   </widget>
+   <widget class="QWidget" name="pointWidget" native="true">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>300</y>
+      <width>120</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <widget class="QLineEdit" name="emitPointY">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>20</y>
+       <width>40</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="inputMask">
+      <string>#0\.00</string>
+     </property>
+     <property name="text">
+      <string>0.0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="placeholderText">
+      <string>0.0</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="emitPointX">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>20</y>
+       <width>40</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="inputMask">
+      <string>#0\.00</string>
+     </property>
+     <property name="text">
+      <string>0.0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="placeholderText">
+      <string>0.0</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="emitPointZ">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>20</y>
+       <width>40</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="inputMask">
+      <string>#0\.00</string>
+     </property>
+     <property name="text">
+      <string>0.0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="placeholderText">
+      <string>0.0</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_SizeY_4">
+     <property name="geometry">
+      <rect>
+       <x>4</x>
+       <y>1</y>
+       <width>110</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Point Position</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="rectangleWidget" native="true">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>300</y>
+      <width>120</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <widget class="QLineEdit" name="emitPointY_2">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>20</y>
+       <width>40</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="inputMask">
+      <string>#0\.00</string>
+     </property>
+     <property name="text">
+      <string>0.0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="placeholderText">
+      <string>0.0</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="emitPointX_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>20</y>
+       <width>40</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="inputMask">
+      <string>#0\.00</string>
+     </property>
+     <property name="text">
+      <string>0.0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="placeholderText">
+      <string>0.0</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="emitPointZ_2">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>20</y>
+       <width>40</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="inputMask">
+      <string>#0\.00</string>
+     </property>
+     <property name="text">
+      <string>0.0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="placeholderText">
+      <string>0.0</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_SizeY_5">
+     <property name="geometry">
+      <rect>
+       <x>4</x>
+       <y>1</y>
+       <width>110</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Rectangle Position</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_SizeY_6">
+     <property name="geometry">
+      <rect>
+       <x>4</x>
+       <y>41</y>
+       <width>110</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Rectangle Size</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="emitPointY_3">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>60</y>
+       <width>40</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="inputMask">
+      <string>#0\.00</string>
+     </property>
+     <property name="text">
+      <string>0.0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="placeholderText">
+      <string>0.0</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="emitPointX_3">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>60</y>
+       <width>40</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="inputMask">
+      <string>#0\.00</string>
+     </property>
+     <property name="text">
+      <string>0.0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="placeholderText">
+      <string>0.0</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="emitPointZ_3">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>60</y>
+       <width>40</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="inputMask">
+      <string>#0\.00</string>
+     </property>
+     <property name="text">
+      <string>0.0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="placeholderText">
+      <string>0.0</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">

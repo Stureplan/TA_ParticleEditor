@@ -24,6 +24,7 @@
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QToolBar>
+#include <QtWidgets/QWidget>
 #include "graphics.h"
 #include "maincontainer.h"
 
@@ -69,6 +70,20 @@ public:
     QLineEdit *sizeX;
     QLineEdit *sizeY;
     QLineEdit *maxParticles;
+    QWidget *pointWidget;
+    QLineEdit *emitPointY;
+    QLineEdit *emitPointX;
+    QLineEdit *emitPointZ;
+    QLabel *label_SizeY_4;
+    QWidget *rectangleWidget;
+    QLineEdit *emitPointY_2;
+    QLineEdit *emitPointX_2;
+    QLineEdit *emitPointZ_2;
+    QLabel *label_SizeY_5;
+    QLabel *label_SizeY_6;
+    QLineEdit *emitPointY_3;
+    QLineEdit *emitPointX_3;
+    QLineEdit *emitPointZ_3;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -92,7 +107,7 @@ public:
         label_ParticleInfo->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
         line = new QFrame(maincontainer);
         line->setObjectName(QStringLiteral("line"));
-        line->setGeometry(QRect(649, 10, 3, 480));
+        line->setGeometry(QRect(650, 10, 3, 480));
         line->setFrameShape(QFrame::VLine);
         line->setFrameShadow(QFrame::Sunken);
         line_2 = new QFrame(maincontainer);
@@ -175,7 +190,7 @@ public:
         colorOutBtn->setGeometry(QRect(660, 50, 70, 30));
         scaleBox = new QComboBox(maincontainer);
         scaleBox->setObjectName(QStringLiteral("scaleBox"));
-        scaleBox->setGeometry(QRect(670, 260, 131, 24));
+        scaleBox->setGeometry(QRect(670, 260, 121, 24));
         scaleBox->setLayoutDirection(Qt::LeftToRight);
         label_SizeY = new QLabel(maincontainer);
         label_SizeY->setObjectName(QStringLiteral("label_SizeY"));
@@ -187,11 +202,11 @@ public:
         label_SizeX->setAlignment(Qt::AlignCenter);
         emitterTypeBox = new QComboBox(maincontainer);
         emitterTypeBox->setObjectName(QStringLiteral("emitterTypeBox"));
-        emitterTypeBox->setGeometry(QRect(810, 260, 121, 24));
+        emitterTypeBox->setGeometry(QRect(820, 260, 121, 24));
         emitterTypeBox->setLayoutDirection(Qt::LeftToRight);
         label_SizeY_2 = new QLabel(maincontainer);
         label_SizeY_2->setObjectName(QStringLiteral("label_SizeY_2"));
-        label_SizeY_2->setGeometry(QRect(820, 240, 100, 16));
+        label_SizeY_2->setGeometry(QRect(830, 240, 100, 16));
         label_SizeY_2->setAlignment(Qt::AlignCenter);
         label_SizeY_3 = new QLabel(maincontainer);
         label_SizeY_3->setObjectName(QStringLiteral("label_SizeY_3"));
@@ -243,6 +258,62 @@ public:
         maxParticles->setObjectName(QStringLiteral("maxParticles"));
         maxParticles->setGeometry(QRect(850, 210, 90, 20));
         maxParticles->setAlignment(Qt::AlignCenter);
+        pointWidget = new QWidget(maincontainer);
+        pointWidget->setObjectName(QStringLiteral("pointWidget"));
+        pointWidget->setEnabled(false);
+        pointWidget->setGeometry(QRect(670, 300, 120, 80));
+        emitPointY = new QLineEdit(pointWidget);
+        emitPointY->setObjectName(QStringLiteral("emitPointY"));
+        emitPointY->setGeometry(QRect(40, 20, 40, 20));
+        emitPointY->setAlignment(Qt::AlignCenter);
+        emitPointX = new QLineEdit(pointWidget);
+        emitPointX->setObjectName(QStringLiteral("emitPointX"));
+        emitPointX->setGeometry(QRect(0, 20, 40, 20));
+        emitPointX->setAlignment(Qt::AlignCenter);
+        emitPointZ = new QLineEdit(pointWidget);
+        emitPointZ->setObjectName(QStringLiteral("emitPointZ"));
+        emitPointZ->setGeometry(QRect(80, 20, 40, 20));
+        emitPointZ->setAlignment(Qt::AlignCenter);
+        label_SizeY_4 = new QLabel(pointWidget);
+        label_SizeY_4->setObjectName(QStringLiteral("label_SizeY_4"));
+        label_SizeY_4->setGeometry(QRect(4, 1, 110, 16));
+        label_SizeY_4->setAlignment(Qt::AlignCenter);
+        rectangleWidget = new QWidget(maincontainer);
+        rectangleWidget->setObjectName(QStringLiteral("rectangleWidget"));
+        rectangleWidget->setEnabled(false);
+        rectangleWidget->setGeometry(QRect(820, 300, 120, 80));
+        emitPointY_2 = new QLineEdit(rectangleWidget);
+        emitPointY_2->setObjectName(QStringLiteral("emitPointY_2"));
+        emitPointY_2->setGeometry(QRect(40, 20, 40, 20));
+        emitPointY_2->setAlignment(Qt::AlignCenter);
+        emitPointX_2 = new QLineEdit(rectangleWidget);
+        emitPointX_2->setObjectName(QStringLiteral("emitPointX_2"));
+        emitPointX_2->setGeometry(QRect(0, 20, 40, 20));
+        emitPointX_2->setAlignment(Qt::AlignCenter);
+        emitPointZ_2 = new QLineEdit(rectangleWidget);
+        emitPointZ_2->setObjectName(QStringLiteral("emitPointZ_2"));
+        emitPointZ_2->setGeometry(QRect(80, 20, 40, 20));
+        emitPointZ_2->setAlignment(Qt::AlignCenter);
+        label_SizeY_5 = new QLabel(rectangleWidget);
+        label_SizeY_5->setObjectName(QStringLiteral("label_SizeY_5"));
+        label_SizeY_5->setGeometry(QRect(4, 1, 110, 16));
+        label_SizeY_5->setAlignment(Qt::AlignCenter);
+        label_SizeY_6 = new QLabel(rectangleWidget);
+        label_SizeY_6->setObjectName(QStringLiteral("label_SizeY_6"));
+        label_SizeY_6->setGeometry(QRect(4, 41, 110, 16));
+        label_SizeY_6->setAlignment(Qt::AlignCenter);
+        emitPointY_3 = new QLineEdit(rectangleWidget);
+        emitPointY_3->setObjectName(QStringLiteral("emitPointY_3"));
+        emitPointY_3->setGeometry(QRect(40, 60, 40, 20));
+        emitPointY_3->setAlignment(Qt::AlignCenter);
+        emitPointX_3 = new QLineEdit(rectangleWidget);
+        emitPointX_3->setObjectName(QStringLiteral("emitPointX_3"));
+        emitPointX_3->setGeometry(QRect(0, 60, 40, 20));
+        emitPointX_3->setAlignment(Qt::AlignCenter);
+        emitPointZ_3 = new QLineEdit(rectangleWidget);
+        emitPointZ_3->setObjectName(QStringLiteral("emitPointZ_3"));
+        emitPointZ_3->setGeometry(QRect(80, 60, 40, 20));
+        emitPointZ_3->setAlignment(Qt::AlignCenter);
         ParticleEditorClass->setCentralWidget(maincontainer);
         menuBar = new QMenuBar(ParticleEditorClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -305,7 +376,6 @@ public:
         emitterTypeBox->clear();
         emitterTypeBox->insertItems(0, QStringList()
          << QApplication::translate("ParticleEditorClass", "Point", Q_NULLPTR)
-         << QApplication::translate("ParticleEditorClass", "Box", Q_NULLPTR)
          << QApplication::translate("ParticleEditorClass", "Rectangle", Q_NULLPTR)
         );
         emitterTypeBox->setCurrentText(QApplication::translate("ParticleEditorClass", "Point", Q_NULLPTR));
@@ -340,6 +410,36 @@ public:
         maxParticles->setInputMask(QApplication::translate("ParticleEditorClass", "9000", Q_NULLPTR));
         maxParticles->setText(QApplication::translate("ParticleEditorClass", "1", Q_NULLPTR));
         maxParticles->setPlaceholderText(QApplication::translate("ParticleEditorClass", "100", Q_NULLPTR));
+        emitPointY->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
+        emitPointY->setText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        emitPointY->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        emitPointX->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
+        emitPointX->setText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        emitPointX->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        emitPointZ->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
+        emitPointZ->setText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        emitPointZ->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        label_SizeY_4->setText(QApplication::translate("ParticleEditorClass", "Point Position", Q_NULLPTR));
+        emitPointY_2->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
+        emitPointY_2->setText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        emitPointY_2->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        emitPointX_2->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
+        emitPointX_2->setText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        emitPointX_2->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        emitPointZ_2->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
+        emitPointZ_2->setText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        emitPointZ_2->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        label_SizeY_5->setText(QApplication::translate("ParticleEditorClass", "Rectangle Position", Q_NULLPTR));
+        label_SizeY_6->setText(QApplication::translate("ParticleEditorClass", "Rectangle Size", Q_NULLPTR));
+        emitPointY_3->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
+        emitPointY_3->setText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        emitPointY_3->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        emitPointX_3->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
+        emitPointX_3->setText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        emitPointX_3->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        emitPointZ_3->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
+        emitPointZ_3->setText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        emitPointZ_3->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
     } // retranslateUi
 
 };

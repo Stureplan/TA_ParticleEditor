@@ -173,6 +173,11 @@ void MainContainer::emitterTypeChanged(int mode)
 {
 	mEmitterType = (EMITTER_TYPE)mode;
 	
+	if (mode == 0)
+	{
+		//setVisible(true);
+	}
+
 	BuildParticleSystem();
 }
 

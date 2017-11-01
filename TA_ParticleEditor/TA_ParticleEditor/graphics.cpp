@@ -226,7 +226,6 @@ void Graphics::MoveCamera(float z)
 	//TODO: Set up 
 	//GROUND PLANE: NONE, USE EMISSION TYPE BOX INSTEAD
 	float distance = XMVectorGetX(XMVector4Length(XMVectorSet(0,0,0,0) - (campos + (camdir*z))));
-	qDebug("%d", distance);
 
 	if (distance > 10.0f && distance < 20.0f)
 	{
