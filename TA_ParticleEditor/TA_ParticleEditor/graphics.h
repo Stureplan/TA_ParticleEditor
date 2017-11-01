@@ -63,9 +63,10 @@ public:
 	void Initialize();
 	void SetupCamera(XMVECTOR pos, XMVECTOR dir, XMVECTOR up);
 	void MoveBack();
-	void MoveCamera(XMVECTOR pos);
+	void MoveCamera(float z);
 	void RotateCamera(float rot);
 	void SetLastCameraMovement(Qt::Key key, bool released);
+	void SetLastCameraRotation(Qt::Key key, bool released);
 	void LoadParticles();
 	void LoadDebugParticle();
 	void LoadGroundPlane();
@@ -144,12 +145,15 @@ private:
 	XMMATRIX View;
 	XMMATRIX Projection;
 
-	XMVECTOR camvel;
+	float camvel;
+	float camrot;
 	XMVECTOR campos;
 	XMVECTOR camdir;
 	XMVECTOR camup;
-	Qt::Key lastKey;
-	float camspeed = 10.0f;
+	Qt::Key lastMoveKey;
+	Qt::Key lastRotKey;
+	float movespeed = 2.0f;
+	float rotspeed = 2.5f;
 
 	// Constant Buffer Vertices
 	ID3D11Buffer* constantBufferVertex;

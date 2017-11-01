@@ -368,13 +368,6 @@ void MainContainer::keyPressEvent(QKeyEvent* evt)
 {
 	Qt::Key key = (Qt::Key)evt->key();
 
-
-	if (key == Qt::Key::Key_E)
-	{
-		graphics->RotateCamera(0.1f);
-	}
-
-
 	if (key == Qt::Key::Key_1)
 	{
 		if (evt->isAutoRepeat() == false)
@@ -402,16 +395,19 @@ void MainContainer::keyPressEvent(QKeyEvent* evt)
 		graphics->PauseSimulation();
 	}
 
-	if (key == Qt::Key::Key_S)
-	{
-		//graphics->MoveBack();
-	}
-	
-	if (key == Qt::Key::Key_W || key == Qt::Key::Key_A || key == Qt::Key::Key_S || key == Qt::Key::Key_D)
+	if (key == Qt::Key::Key_W || key == Qt::Key::Key_S)
 	{
 		if (evt->isAutoRepeat() == false)
 		{
 			graphics->SetLastCameraMovement(key, false);
+		}
+	}
+	
+	if (key == Qt::Key::Key_A || key == Qt::Key::Key_D)
+	{
+		if (evt->isAutoRepeat() == false)
+		{
+			graphics->SetLastCameraRotation(key, false);
 		}
 	}
 }
@@ -420,13 +416,20 @@ void MainContainer::keyReleaseEvent(QKeyEvent* evt)
 {
 	Qt::Key key = (Qt::Key)evt->key();
 
-	if (key == Qt::Key::Key_W || key == Qt::Key::Key_A || key == Qt::Key::Key_S || key == Qt::Key::Key_D)
+	if (key == Qt::Key::Key_W || key == Qt::Key::Key_S)
 	{
 		if (evt->isAutoRepeat() == false)
 		{
 			graphics->SetLastCameraMovement(key, true);
 		}
+	}
 
+	if (key == Qt::Key::Key_A || key == Qt::Key::Key_D)
+	{
+		if (evt->isAutoRepeat() == false)
+		{
+			graphics->SetLastCameraRotation(key, true);
+		}
 	}
 }
 

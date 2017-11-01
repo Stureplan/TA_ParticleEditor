@@ -23,9 +23,10 @@ void Graphics::Loop()
 	//t.start();
 
 	// DT is 16 ms (0.016 seconds per frame)
-	camvel = XMVector4Transform(camvel, v);
+	//camvel = XMVector4Transform(camvel, v);
 	
-	MoveCamera(camvel * ms * camspeed);
+	MoveCamera  (camvel * ms * movespeed);
+	RotateCamera(camrot * ms * rotspeed);
 	Update();
 	Render();
 
@@ -191,8 +192,11 @@ void Graphics::Initialize()
 
 void Graphics::SetupCamera(XMVECTOR pos, XMVECTOR dir, XMVECTOR up)
 {
-	camvel = XMVectorSet(0, 0, 0, 0);
-	lastKey = Qt::Key::Key_0;
+	camvel = 0.0f;
+	camrot = 0.0f;
+
+	lastMoveKey = Qt::Key::Key_0;
+	lastRotKey  = Qt::Key::Key_0;
 
 	campos = pos;
 	camdir = dir;
@@ -205,8 +209,8 @@ void Graphics::SetupCamera(XMVECTOR pos, XMVECTOR dir, XMVECTOR up)
 	v = XMMatrixIdentity();
 }
 
-void Graphics::MoveCamera(XMVECTOR pos)
-{
+//void Graphics::MoveCamera(XMVECTOR pos)
+//{
 	//XMVECTOR dir = XMVector4Normalize(camdir - campos);
 	
 	//pos = XMVector4Transform(pos, v);
@@ -215,24 +219,24 @@ void Graphics::MoveCamera(XMVECTOR pos)
 	//camdir += pos;
 	
 	//View = XMMatrixLookAtLH(campos, camdir, camup);
-}
+//}
 
-void Graphics::MoveBack()
+void Graphics::MoveCamera(float z)
 {
 	//TODO: Set up 
-	//MOVEMENT: NONE
-	//ROTATION: Q/E
-	//GROUND PLANE: NONE, USE EMISSION TYPE INSTEAD
-	campos += (camdir*0.1f);
+	//GROUND PLANE: NONE, USE EMISSION TYPE BOX INSTEAD
+	float distance = XMVectorGetX(XMVector4Length(XMVectorSet(0,0,0,0) - (campos + (camdir*z))));
+	qDebug("%d", distance);
 
-	View = XMMatrixLookAtLH(campos, camdir, camup);
+	if (distance > 10.0f && distance < 20.0f)
+	{
+		campos += (camdir * z);
+		View = XMMatrixLookAtLH(campos, camdir, camup);
+	}
 }
 
 void Graphics::RotateCamera(float rot)
 {
-	//View = XMMatrixRotationY(rot) * View;
-
-
 	v = XMMatrixRotationY(rot);
 
 	campos = XMVector4Transform(campos, v);
@@ -243,9 +247,9 @@ void Graphics::RotateCamera(float rot)
 void Graphics::SetLastCameraMovement(Qt::Key key, bool released)
 {
 
-	if (released == true && key == lastKey)
+	if (released == true && key == lastMoveKey)
 	{
-		camvel = XMVectorSet(0, 0, 0, 0);
+		camvel = 0.0f;
 		return;
 	}
 
@@ -254,26 +258,46 @@ void Graphics::SetLastCameraMovement(Qt::Key key, bool released)
 		switch (key)
 		{
 		case Qt::Key::Key_W:
-			camvel = XMVectorSet(0, 0, 1, 0);
-			break;
-
-		case Qt::Key::Key_A:
-			camvel = XMVectorSet(-1, 0, 0, 0);
+			camvel = -1.0f;
 			break;
 
 		case Qt::Key::Key_S:
-			camvel = XMVectorSet(0, 0, -1, 0);
-			break;
-
-		case Qt::Key::Key_D:
-			camvel = XMVectorSet(1, 0, 0, 0);
+			camvel = 1.0f;
 			break;
 
 		default:
 			break;
 		}
 
-		lastKey = key;
+		lastMoveKey = key;
+	}
+}
+
+void Graphics::SetLastCameraRotation(Qt::Key key, bool released)
+{
+	if (released == true && key == lastRotKey)
+	{
+		camrot = 0.0f;
+		return;
+	}
+
+	if (released == false)
+	{
+		switch (key)
+		{
+		case Qt::Key::Key_A:
+			camrot = 1.0f;
+			break;
+
+		case Qt::Key::Key_D:
+			camrot = -1.0f;
+			break;
+
+		default:
+			break;
+		}
+
+		lastRotKey = key;
 	}
 }
 
