@@ -80,6 +80,7 @@ void MainContainer::save()
 	//std::string exportPath = PathFindFileNameA(savePath.toStdString().c_str());
 	
 	PARTICLESYSTEM ps;
+	ps.emittertype = mEmitterType;
 	ps.position = mPosition;
 	ps.maxparticles = mMaxParticles;
 	ps.velocity = mVelocity;
@@ -164,6 +165,13 @@ void MainContainer::scaleModeChanged(int mode)
 	graphics->ChangeScaleMode(mode);
 }
 
+void MainContainer::emitterTypeChanged(int mode)
+{
+	mEmitterType = (EMITTER_TYPE)mode;
+	
+	BuildParticleSystem();
+}
+
 void MainContainer::sizeX()
 {
 	QString text = textFieldSizeX->toPlainText();
@@ -246,7 +254,7 @@ void MainContainer::setMaxParticles()
 
 void MainContainer::BuildParticleSystem()
 {
-	PARTICLESYSTEM ps(mPosition, mMaxParticles,
+	PARTICLESYSTEM ps(mEmitterType, mPosition, mMaxParticles,
 		mVelocity, mEmissionDelay, mLifetime, mGravity,
 		FLOAT4(colIn.redF(), colIn.greenF(), colIn.blueF(), colIn.alphaF()), 
 		FLOAT4(colOut.redF(), colOut.greenF(), colOut.blueF(), colOut.alphaF()),
@@ -368,6 +376,12 @@ void MainContainer::keyPressEvent(QKeyEvent* evt)
 	Qt::Key key = (Qt::Key)evt->key();
 
 
+	if (key == Qt::Key::Key_E)
+	{
+		graphics->RotateCamera(0.1f);
+	}
+
+
 	if (key == Qt::Key::Key_1)
 	{
 		if (evt->isAutoRepeat() == false)
@@ -393,6 +407,11 @@ void MainContainer::keyPressEvent(QKeyEvent* evt)
 	if (key == Qt::Key::Key_Space)
 	{
 		graphics->PauseSimulation();
+	}
+
+	if (key == Qt::Key::Key_S)
+	{
+		//graphics->MoveBack();
 	}
 	
 	if (key == Qt::Key::Key_W || key == Qt::Key::Key_A || key == Qt::Key::Key_S || key == Qt::Key::Key_D)

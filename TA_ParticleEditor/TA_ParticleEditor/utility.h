@@ -80,12 +80,19 @@ enum PS_PROPERTY
 	PS_SIZE_Y
 };
 
+enum EMITTER_TYPE
+{
+	EMIT_POINT = 0,
+	EMIT_BOX,
+	EMIT_RECTANGLE
+};
+
 struct PARTICLESYSTEM
 {
 	PARTICLESYSTEM(){}
-	PARTICLESYSTEM(FLOAT3 pos, int m, FLOAT3 v, float ed, float lt, float grv, FLOAT4 colIn, FLOAT4 colOut, float sX, float sY)
+	PARTICLESYSTEM(EMITTER_TYPE e, FLOAT3 p, int m, FLOAT3 v, float ed, float lt, float grv, FLOAT4 colIn, FLOAT4 colOut, float sX, float sY)
 	{
-		position = pos;
+		emittertype = e;
 		maxparticles = m;
 		velocity = v;
 		emissiondelay = ed;
@@ -97,6 +104,7 @@ struct PARTICLESYSTEM
 		sizeY = sY;
 	}
 	// PS Export variables
+	EMITTER_TYPE emittertype;
 	FLOAT3 position;
 	int maxparticles;
 	FLOAT3 velocity;

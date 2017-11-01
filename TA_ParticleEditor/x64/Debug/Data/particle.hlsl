@@ -22,9 +22,6 @@ struct VOut
 Texture2D tex;
 SamplerState smp;
 
-//TODO: Check constant buffer PADDING / VALUES
-//TODO: Semantics input
-
 VOut VShader(float4 position : POSITION, float lifetime : LIFETIME)
 {
 	VOut output;

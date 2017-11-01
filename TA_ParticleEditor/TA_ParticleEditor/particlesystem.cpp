@@ -132,17 +132,30 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 
 void ParticleSystem::Initialize()
 {
-	ps = new PARTICLESYSTEM(FLOAT3(0,0,0),0, FLOAT3(0,0,0),0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f);
+	ps = new PARTICLESYSTEM(EMITTER_TYPE::EMIT_POINT, FLOAT3(0,0,0),0, FLOAT3(0,0,0),0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f);
 
 
 	for (unsigned int i = 0; i < ps->maxparticles; i++)
 	{
-		particles.push_back(PARTICLE(ps->position,0, false));
+		particles.push_back(PARTICLE(ps->position, 0, false));
+	}
+}
+
+FLOAT3 ParticleSystem::FetchPosition(EMITTER_TYPE type)
+{
+	if (type == EMITTER_TYPE::EMIT_POINT)
+	{
+		return ps->position;
+	}
+	if (type == EMITTER_TYPE::EMIT_RECTANGLE)
+	{
+
 	}
 }
 
 void ParticleSystem::Rebuild(PARTICLESYSTEM particlesystem)
 {
+	ps->emittertype = particlesystem.emittertype;
 	ps->position = particlesystem.position;
 	ps->maxparticles = particlesystem.maxparticles;
 	ps->velocity= particlesystem.velocity;
@@ -223,9 +236,6 @@ void ParticleSystem::Update(float dt)
 					cooldown = 0.0f;
 				}
 			}
-
 		}
-
 	}
-
 }

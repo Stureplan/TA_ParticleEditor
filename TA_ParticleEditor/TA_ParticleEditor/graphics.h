@@ -62,7 +62,9 @@ public:
 
 	void Initialize();
 	void SetupCamera(XMVECTOR pos, XMVECTOR dir, XMVECTOR up);
+	void MoveBack();
 	void MoveCamera(XMVECTOR pos);
+	void RotateCamera(float rot);
 	void SetLastCameraMovement(Qt::Key key, bool released);
 	void LoadParticles();
 	void LoadDebugParticle();
@@ -106,6 +108,8 @@ private:
 	ULONGLONG last = 0;
 
 	float ms = 0;
+
+	XMMATRIX v;
 
 private slots:
 	void Loop();

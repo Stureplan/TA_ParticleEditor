@@ -34,12 +34,12 @@ public:
 	void Rebuild(PARTICLESYSTEM particlesystem);
 	void Update(float dt);
 
-	bool Paused() { return paused; }
-	float Lifetime() { return ps->lifetime; }
-	PARTICLESYSTEM* GetParticleSystem() 
-	{
-		return ps;
-	}
+	bool Paused()						{ return paused; }
+	float Lifetime()					{ return ps->lifetime; }
+	PARTICLESYSTEM* GetParticleSystem() { return ps; }
+
+private:
+	FLOAT3 FetchPosition(EMITTER_TYPE type);
 
 private:
 	// Private variables

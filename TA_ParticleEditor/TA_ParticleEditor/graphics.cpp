@@ -23,7 +23,9 @@ void Graphics::Loop()
 	//t.start();
 
 	// DT is 16 ms (0.016 seconds per frame)
-	MoveCamera(camvel * 0.016f * camspeed);
+	camvel = XMVector4Transform(camvel, v);
+	
+	MoveCamera(camvel * ms * camspeed);
 	Update();
 	Render();
 
@@ -195,19 +197,46 @@ void Graphics::SetupCamera(XMVECTOR pos, XMVECTOR dir, XMVECTOR up)
 	campos = pos;
 	camdir = dir;
 	camup = up;
-
+	
 	World = XMMatrixIdentity();
 	View = XMMatrixLookAtLH(campos, camdir, camup);
 	Projection = XMMatrixPerspectiveFovLH(0.4f * 3.14f, (float)W / (float)H, 1.0f, 1000.0f);
+
+	v = XMMatrixIdentity();
 }
 
 void Graphics::MoveCamera(XMVECTOR pos)
 {
-	XMVECTOR dir = XMVector4Normalize(camdir - campos);
-
-	campos += pos;
-	camdir += pos;
+	//XMVECTOR dir = XMVector4Normalize(camdir - campos);
 	
+	//pos = XMVector4Transform(pos, v);
+
+	//campos += pos;
+	//camdir += pos;
+	
+	//View = XMMatrixLookAtLH(campos, camdir, camup);
+}
+
+void Graphics::MoveBack()
+{
+	//TODO: Set up 
+	//MOVEMENT: NONE
+	//ROTATION: Q/E
+	//GROUND PLANE: NONE, USE EMISSION TYPE INSTEAD
+	campos += (camdir*0.1f);
+
+	View = XMMatrixLookAtLH(campos, camdir, camup);
+}
+
+void Graphics::RotateCamera(float rot)
+{
+	//View = XMMatrixRotationY(rot) * View;
+
+
+	v = XMMatrixRotationY(rot);
+
+	campos = XMVector4Transform(campos, v);
+	camdir = XMVector4Transform(camdir, v);
 	View = XMMatrixLookAtLH(campos, camdir, camup);
 }
 

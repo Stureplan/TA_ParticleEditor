@@ -71,6 +71,7 @@ public slots:
 	void colorIn();
 	void colorOut();
 	void scaleModeChanged(int index);
+	void emitterTypeChanged(int index);
 	void sizeX();
 	void sizeY();
 
@@ -106,6 +107,8 @@ private:
 	QColor colIn;
 	QColor colOut;
 
+	//FLOAT3 mPosition;
+	EMITTER_TYPE mEmitterType;
 	FLOAT3 mPosition;
 	int mMaxParticles;
 	FLOAT3 mVelocity;
