@@ -708,7 +708,7 @@
       <x>670</x>
       <y>300</y>
       <width>120</width>
-      <height>80</height>
+      <height>110</height>
      </rect>
     </property>
     <widget class="QLineEdit" name="emitPointY">
@@ -803,7 +803,7 @@
       <x>820</x>
       <y>300</y>
       <width>120</width>
-      <height>80</height>
+      <height>110</height>
      </rect>
     </property>
     <widget class="QLineEdit" name="emitPointY_2">

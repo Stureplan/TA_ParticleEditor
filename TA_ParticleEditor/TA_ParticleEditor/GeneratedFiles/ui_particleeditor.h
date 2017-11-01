@@ -261,7 +261,7 @@ public:
         pointWidget = new QWidget(maincontainer);
         pointWidget->setObjectName(QStringLiteral("pointWidget"));
         pointWidget->setEnabled(false);
-        pointWidget->setGeometry(QRect(670, 300, 120, 80));
+        pointWidget->setGeometry(QRect(670, 300, 120, 110));
         emitPointY = new QLineEdit(pointWidget);
         emitPointY->setObjectName(QStringLiteral("emitPointY"));
         emitPointY->setGeometry(QRect(40, 20, 40, 20));
@@ -281,7 +281,7 @@ public:
         rectangleWidget = new QWidget(maincontainer);
         rectangleWidget->setObjectName(QStringLiteral("rectangleWidget"));
         rectangleWidget->setEnabled(false);
-        rectangleWidget->setGeometry(QRect(820, 300, 120, 80));
+        rectangleWidget->setGeometry(QRect(820, 300, 120, 110));
         emitPointY_2 = new QLineEdit(rectangleWidget);
         emitPointY_2->setObjectName(QStringLiteral("emitPointY_2"));
         emitPointY_2->setGeometry(QRect(40, 20, 40, 20));
