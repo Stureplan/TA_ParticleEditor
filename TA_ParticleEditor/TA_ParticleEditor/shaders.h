@@ -130,6 +130,16 @@ public:
 		context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	}
 
+	void SetGizmoShader(ID3D11DeviceContext* context)
+	{
+		// set to this before render
+		context->VSSetShader(pObjectVS, 0, 0);
+		context->GSSetShader(nullptr, 0, 0);
+		context->PSSetShader(pObjectPS, 0, 0);
+		context->IASetInputLayout(pObjectLayout);
+		context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+	}
+
 	void SetParticleShader(ID3D11DeviceContext* context)
 	{
 		// set to this before render

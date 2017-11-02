@@ -12,7 +12,6 @@
 #include <QLineEdit>
 #include <QComboBox>
 
-
 #include "utility.h"
 #include "graphics.h"
 
@@ -50,7 +49,9 @@ public:
 		QLineEdit* colorOutDisplayUI,
 		QComboBox* scaleUI,
 		QLineEdit* sizeXUI,
-		QLineEdit* sizeYUI);
+		QLineEdit* sizeYUI,
+		QLineEdit* rectSizeXUI,
+		QLineEdit* rectSizeZUI);
 	void Init();
 	void BuildParticleSystem();
 
@@ -75,6 +76,7 @@ public slots:
 	void sizeX();
 	void sizeY();
 
+	void rectResize();
 
 protected:
 	virtual void keyPressEvent(QKeyEvent* evt);
@@ -93,6 +95,9 @@ private:
 	QLineEdit* textFieldGravity;
 	QLineEdit* textFieldSizeX;
 	QLineEdit* textFieldSizeY;
+	QLineEdit* textFieldRectSizeX;
+	QLineEdit* textFieldRectSizeZ;
+
 
 	QPushButton* browseBtn;
 	QPushButton* saveBtn;
@@ -118,4 +123,6 @@ private:
 	float mTextFieldValue;
 	float mSizeX;
 	float mSizeY;
+	float mRectSizeX;
+	float mRectSizeZ;
 };

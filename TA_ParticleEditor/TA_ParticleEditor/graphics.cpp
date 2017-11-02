@@ -174,10 +174,11 @@ void Graphics::Initialize()
 
 	cBufferVertex.wvp = XMMatrixIdentity();
 
+	RectangleScale = XMMatrixIdentity();
 
 
-	SetupCamera(XMVectorSet(0, 0, -10, 0), //pos
-				XMVectorSet(0, 0, -9,  0), //dir
+	SetupCamera(XMVectorSet(0, 1, -10, 0), //pos
+				XMVectorSet(0, 1, -9,  0), //dir
 				XMVectorSet(0, 1, 0, 0));  //up
 
 	shaders.LoadObjectShader(device, context);
@@ -186,7 +187,7 @@ void Graphics::Initialize()
 	particlesystem->Initialize();
 	LoadParticles();
 	LoadDebugParticle();
-	LoadGroundPlane();
+	LoadGizmo(EMITTER_TYPE::EMIT_POINT);
 	LoadTextures();
 }
 
@@ -225,7 +226,7 @@ void Graphics::MoveCamera(float z)
 {
 	//TODO: Set up 
 	//GROUND PLANE: NONE, USE EMISSION TYPE BOX INSTEAD
-	float distance = XMVectorGetX(XMVector4Length(XMVectorSet(0,0,0,0) - (campos + (camdir*z))));
+	float distance = XMVectorGetX(XMVector4Length(XMVectorSet(0,1,0,0) - (campos + (camdir*z))));
 
 	if (distance > 10.0f && distance < 20.0f)
 	{
@@ -350,34 +351,55 @@ void Graphics::LoadDebugParticle()
 	hr = device->CreateBuffer(&vertexDesc, &vertexData, &particleDebugVertexBuffer);
 }
 
-void Graphics::LoadGroundPlane()
+void Graphics::LoadGizmo(EMITTER_TYPE type)
 {
 	HRESULT hr;
-	groundVertexData =
+
+	if (type == EMITTER_TYPE::EMIT_POINT)
 	{
-		// QUAD:
-		// 0, 2, 1, 1, 2, 3 
-		//{ -5, 0, 5, 0, 0 }, // TOP LEFT  (0)
-		//{ -5, 0,-5, 0, 1 }, // BOT LEFT  (1)
-		//{  5, 0, 5, 1, 0 }, // TOP RIGHT (2)
-		//{  5, 0,-5, 1, 1 }, // BOT RIGHT (3)
+		emitterVertexData =
+		{
+			{ 0, 0, 0, 0, 0 }
+		};
+	}
+
+	if (type == EMITTER_TYPE::EMIT_RECTANGLE)
+	{
+		emitterVertexData =
+		{
+			// QUAD: (TRIANGLELIST W. INDICES)
+			// 0, 2, 1, 1, 2, 3 
+			//{ -5, 0, 5, 0, 0 }, // TOP LEFT  (0)
+			//{ -5, 0,-5, 0, 1 }, // BOT LEFT  (1)
+			//{  5, 0, 5, 1, 0 }, // TOP RIGHT (2)
+			//{  5, 0,-5, 1, 1 }, // BOT RIGHT (3)
+
+			// QUAD: (LINESTRIP)
+			{ -2, 0, 2, 0, 0 }, // TOP LEFT  (0)
+			{ 2, 0, 2, 1, 0 }, // TOP RIGHT (2)
+			{ 2, 0,-2, 1, 1 }, // BOT RIGHT (3)
+			{ -2, 0,-2, 0, 1 }, // BOT LEFT  (1)
+			{ -2, 0, 2, 0, 0 }  // TOP LEFT  (0)
+
+			// QUAD: (TRIANGLELIST W/O INDICES)
+			// TRIANGLE 0
+			//{ -5, -5, 5, 0, 0 },
+			//{  5, -5, 5, 1, 0 },
+			//{ -5, -5,-5, 0, 1 },
+
+			// TRIANGLE 1
+			//{ -5, -5,-5, 0, 1 },
+			//{  5, -5, 5, 1, 0 },
+			//{  5, -5,-5, 1, 1 }
+		};
+	}
 
 
-		// TRIANGLE 0
-		{ -5, -5, 5, 0, 0 },
-		{  5, -5, 5, 1, 0 },
-		{ -5, -5,-5, 0, 1 },
-
-		// TRIANGLE 1
-		{ -5, -5,-5, 0, 1 },
-		{  5, -5, 5, 1, 0 },
-		{  5, -5,-5, 1, 1 }
-	};
 
 
 	D3D11_BUFFER_DESC vertexDesc;
 	ZeroMemory(&vertexDesc, sizeof(D3D11_BUFFER_DESC));
-	vertexDesc.ByteWidth = sizeof(VERTEX) * groundVertexData.size();
+	vertexDesc.ByteWidth = sizeof(VERTEX) * emitterVertexData.size();
 	vertexDesc.Usage = D3D11_USAGE_DEFAULT;
 	vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	vertexDesc.CPUAccessFlags = 0;
@@ -386,11 +408,11 @@ void Graphics::LoadGroundPlane()
 
 	D3D11_SUBRESOURCE_DATA vertexData;
 	ZeroMemory(&vertexData, sizeof(vertexData));
-	vertexData.pSysMem = groundVertexData.data();
+	vertexData.pSysMem = emitterVertexData.data();
 	vertexData.SysMemPitch = 0;
 	vertexData.SysMemSlicePitch = 0;
 
-	hr = device->CreateBuffer(&vertexDesc, &vertexData, &groundVertexBuffer);
+	hr = device->CreateBuffer(&vertexDesc, &vertexData, &emitterVertexBuffer);
 }
 
 void Graphics::LoadTextures()
@@ -451,6 +473,7 @@ void Graphics::Retexture(std::string path)
 
 void Graphics::Rebuild(PARTICLESYSTEM ps)
 {
+	LoadGizmo(ps.emittertype);
 	particlesystem->Rebuild(ps);
 	LoadParticles();
 }
@@ -458,6 +481,11 @@ void Graphics::Rebuild(PARTICLESYSTEM ps)
 void Graphics::PauseSimulation()
 {
 	particlesystem->Pause();
+}
+
+void Graphics::RescaleRectangle(float x, float z)
+{
+	RectangleScale = XMMatrixScaling(x, 1.0f, z);
 }
 
 void Graphics::ParticleInspectionLabel(QLabel* label)
@@ -634,37 +662,31 @@ void Graphics::Render()
 	UINT stride;
 	UINT offset;
 	World = XMMatrixIdentity();
+
+	//TODO: Set Rectangle emission as this scale: -V
+	World = RectangleScale;
 	WVP = World * View * Projection;
 
 
-	// SETUP & DRAW GROUND PLANE
+	// SETUP & DRAW EMITTER GIZMO
 	stride = sizeof(VERTEX);
 	offset = 0;
-	shaders.SetObjectShader(context);
-	context->IASetVertexBuffers(0, 1, &groundVertexBuffer, &stride, &offset);
+	shaders.SetGizmoShader(context);
+	context->IASetVertexBuffers(0, 1, &emitterVertexBuffer, &stride, &offset);
 	cBufferVertex.wvp = XMMatrixTranspose(WVP);
 	context->UpdateSubresource(constantBufferVertex, 0, NULL, &cBufferVertex, 0, 0);
 	context->VSSetConstantBuffers(0, 1, &constantBufferVertex);
+	RenderDebugObject(emitterVertexData.size());
 
-	if (debug == false)
-	{
-		context->PSSetSamplers(0, 1, &textureSamplerState);
-		context->PSSetShaderResources(0, 1, &textures[0]);
-		context->Draw(groundVertexData.size(), 0);
-	}
-	else
-	{
-		RenderDebugObject(groundVertexData.size());
-	}
 
 	
 	// SETUP & DRAW PARTICLES
 	UploadParticleBuffer();
-
 	stride = sizeof(PARTICLE_VERTEX);
 	offset = 0;
 	shaders.SetParticleShader(context);
 	context->IASetVertexBuffers(0, 1, &particleVertexBuffer, &stride, &offset);
+	World = XMMatrixIdentity();
 	cBufferParticle.wvp = XMMatrixTranspose(WVP);
 	cBufferParticle.world = XMMatrixTranspose(World);
 	cBufferParticle.campos = campos;
@@ -682,7 +704,7 @@ void Graphics::Render()
 
 	if (debug == true)
 	{
-		// Debug texture
+		// Pink Debug texture
 		context->PSSetShaderResources(0, 1, &textures[0]);
 		RenderDebugObject(particlesystem->GetSize());
 	}

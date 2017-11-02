@@ -25,7 +25,9 @@ ParticleEditor::ParticleEditor(QWidget *parent, Qt::WindowFlags flags)	: QMainWi
 		ui.colorOutDisplay,
 		ui.scaleBox,
 		ui.sizeX,
-		ui.sizeY
+		ui.sizeY,
+		ui.rectSizeX,
+		ui.rectSizeZ
 	);
 
 	ui.maincontainer->Init();

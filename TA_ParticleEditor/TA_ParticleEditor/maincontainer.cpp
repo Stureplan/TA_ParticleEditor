@@ -12,7 +12,7 @@ MainContainer::~MainContainer()
 }
 
 #pragma region POINTERS
-void MainContainer::SetPointers(Graphics* gfx, ParticleSystem* ps, QLabel* particleInfoUI, QLineEdit* lifetimeInputUI, QLineEdit* emissionDelayUI, QLineEdit* velocityXUI, QLineEdit* velocityYUI, QLineEdit* velocityZUI, QLineEdit* gravityUI, QPushButton* browseUI, QPushButton* saveUI, QLineEdit* maxParticlesUI, QTextBrowser* browseTextBoxUI, QLineEdit* colorInDisplayUI, QLineEdit* colorOutDisplayUI, QComboBox* scaleUI, QLineEdit* sizeXUI, QLineEdit* sizeYUI)
+void MainContainer::SetPointers(Graphics* gfx, ParticleSystem* ps, QLabel* particleInfoUI, QLineEdit* lifetimeInputUI, QLineEdit* emissionDelayUI, QLineEdit* velocityXUI, QLineEdit* velocityYUI, QLineEdit* velocityZUI, QLineEdit* gravityUI, QPushButton* browseUI, QPushButton* saveUI, QLineEdit* maxParticlesUI, QTextBrowser* browseTextBoxUI, QLineEdit* colorInDisplayUI, QLineEdit* colorOutDisplayUI, QComboBox* scaleUI, QLineEdit* sizeXUI, QLineEdit* sizeYUI, QLineEdit* rectSizeXUI, QLineEdit* rectSizeZUI)
 {
 	graphics = gfx;
 	particlesystem = ps;
@@ -32,6 +32,8 @@ void MainContainer::SetPointers(Graphics* gfx, ParticleSystem* ps, QLabel* parti
 	scaleBoxDisplay = scaleUI;
 	textFieldSizeX = sizeXUI;
 	textFieldSizeY = sizeYUI;
+	textFieldRectSizeX = rectSizeXUI;
+	textFieldRectSizeZ = rectSizeZUI;
 }
 #pragma endregion
 
@@ -69,6 +71,9 @@ void MainContainer::Init()
 
 	mColorIn  = Qt::white;
 	mColorOut = Qt::white;
+
+	mRectSizeX = 1.0f;
+	mRectSizeZ = 1.0f;
 }
 
 void MainContainer::setGravity()
@@ -173,9 +178,15 @@ void MainContainer::emitterTypeChanged(int mode)
 {
 	mEmitterType = (EMITTER_TYPE)mode;
 	
-	if (mode == 0)
+	if (mode == EMITTER_TYPE::EMIT_POINT)
 	{
-		//setVisible(true);
+		//UI->rectangleWidget->setEnabled(false);
+		//UI->pointWidget->setEnabled(true);
+	}
+	if (mode == EMITTER_TYPE::EMIT_RECTANGLE)
+	{
+		//UI->pointWidget->setEnabled(false);
+		//UI->rectangleWidget->setEnabled(true);
 	}
 
 	BuildParticleSystem();
@@ -193,6 +204,14 @@ void MainContainer::sizeY()
 	mSizeY = textFieldSizeY->text().toFloat();
 	particlesystem->SetProperty(PS_PROPERTY::PS_SIZE_Y, &mSizeY);
 	graphics->ChangeSize(mSizeX, mSizeY);
+}
+
+void MainContainer::rectResize()
+{
+	mRectSizeX = textFieldRectSizeX->text().toFloat();
+	mRectSizeZ = textFieldRectSizeZ->text().toFloat();
+	graphics->RescaleRectangle(mRectSizeX, mRectSizeZ);
+	BuildParticleSystem();
 }
 
 void MainContainer::browse()

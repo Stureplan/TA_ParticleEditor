@@ -701,7 +701,7 @@
    </widget>
    <widget class="QWidget" name="pointWidget" native="true">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -806,7 +806,7 @@
       <height>110</height>
      </rect>
     </property>
-    <widget class="QLineEdit" name="emitPointY_2">
+    <widget class="QLineEdit" name="rectPosY">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -828,7 +828,7 @@
       <string>0.0</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="emitPointX_2">
+    <widget class="QLineEdit" name="rectPosX">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -850,7 +850,7 @@
       <string>0.0</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="emitPointZ_2">
+    <widget class="QLineEdit" name="rectPosZ">
      <property name="geometry">
       <rect>
        <x>80</x>
@@ -904,34 +904,12 @@
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLineEdit" name="emitPointY_3">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>60</y>
-       <width>40</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="inputMask">
-      <string>#0\.00</string>
-     </property>
-     <property name="text">
-      <string>0.0</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-     <property name="placeholderText">
-      <string>0.0</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="emitPointX_3">
+    <widget class="QLineEdit" name="rectSizeX">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>60</y>
-       <width>40</width>
+       <width>60</width>
        <height>20</height>
       </rect>
      </property>
@@ -948,12 +926,12 @@
       <string>0.0</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="emitPointZ_3">
+    <widget class="QLineEdit" name="rectSizeZ">
      <property name="geometry">
       <rect>
-       <x>80</x>
+       <x>60</x>
        <y>60</y>
-       <width>40</width>
+       <width>60</width>
        <height>20</height>
       </rect>
      </property>
@@ -1020,6 +998,8 @@
     <slot>scaleModeChanged(int)</slot>
     <slot>sizeX()</slot>
     <slot>sizeY()</slot>
+    <slot>emitterTypeChanged(int)</slot>
+    <slot>rectResize()</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -1244,6 +1224,54 @@
     <hint type="sourcelabel">
      <x>894</x>
      <y>252</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>332</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>emitterTypeBox</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>maincontainer</receiver>
+   <slot>emitterTypeChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>880</x>
+     <y>304</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>332</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rectSizeX</sender>
+   <signal>editingFinished()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>rectResize()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>849</x>
+     <y>402</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>332</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rectSizeZ</sender>
+   <signal>editingFinished()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>rectResize()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>909</x>
+     <y>402</y>
     </hint>
     <hint type="destinationlabel">
      <x>474</x>

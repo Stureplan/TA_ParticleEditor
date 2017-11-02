@@ -69,7 +69,7 @@ public:
 	void SetLastCameraRotation(Qt::Key key, bool released);
 	void LoadParticles();
 	void LoadDebugParticle();
-	void LoadGroundPlane();
+	void LoadGizmo(EMITTER_TYPE type);
 	void LoadTextures();
 	void ChangeRasterization(D3D11_FILL_MODE fillmode);
 
@@ -78,6 +78,8 @@ public:
 	void Retexture(std::string path);
 	void Rebuild(PARTICLESYSTEM ps);
 	void PauseSimulation();
+
+	void RescaleRectangle(float x, float z);
 
 	void ParticleInspectionLabel(QLabel* label);
 	void UpdateInspectorText();
@@ -111,6 +113,7 @@ private:
 	float ms = 0;
 
 	XMMATRIX v;
+	XMMATRIX RectangleScale;
 
 private slots:
 	void Loop();
@@ -171,12 +174,12 @@ private:
 	FLOAT4 colOut= (FLOAT4(1, 1, 1, 1));
 
 	ID3D11Buffer* particleVertexBuffer;
-	ID3D11Buffer* groundVertexBuffer;
+	ID3D11Buffer* emitterVertexBuffer;
 	ID3D11Buffer* particleDebugVertexBuffer;
 
 	int particleDebugID = -1;
 	//std::vector<POINT>	particleVertexData;
-	std::vector<VERTEX> groundVertexData;
+	std::vector<VERTEX> emitterVertexData;
 	PARTICLE_VERTEX debugParticle;
 
 	std::vector<ID3D11ShaderResourceView*> textures;
