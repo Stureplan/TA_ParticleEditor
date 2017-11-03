@@ -188,6 +188,7 @@ void Graphics::Initialize()
 	LoadParticles();
 	LoadDebugParticle();
 	LoadGizmo(EMITTER_TYPE::EMIT_POINT);
+	emitterType = EMITTER_TYPE::EMIT_POINT;
 	LoadTextures();
 }
 
@@ -488,6 +489,11 @@ void Graphics::RescaleRectangle(float x, float z)
 	RectangleScale = XMMatrixScaling(x, 1.0f, z);
 }
 
+void Graphics::EmitterGizmo(EMITTER_TYPE type)
+{
+	emitterType = type;
+}
+
 void Graphics::ParticleInspectionLabel(QLabel* label)
 {
 	inspectorLabel = label;
@@ -662,21 +668,28 @@ void Graphics::Render()
 	UINT stride;
 	UINT offset;
 	World = XMMatrixIdentity();
-
-	//TODO: Set Rectangle emission as this scale: -V
-	World = RectangleScale;
 	WVP = World * View * Projection;
 
+	if (emitterType == EMITTER_TYPE::EMIT_POINT)
+	{
+		// SETUP & DRAW POINT EMITTER GIZMO
+	}
 
-	// SETUP & DRAW EMITTER GIZMO
-	stride = sizeof(VERTEX);
-	offset = 0;
-	shaders.SetGizmoShader(context);
-	context->IASetVertexBuffers(0, 1, &emitterVertexBuffer, &stride, &offset);
-	cBufferVertex.wvp = XMMatrixTranspose(WVP);
-	context->UpdateSubresource(constantBufferVertex, 0, NULL, &cBufferVertex, 0, 0);
-	context->VSSetConstantBuffers(0, 1, &constantBufferVertex);
-	RenderDebugObject(emitterVertexData.size());
+	if (emitterType == EMITTER_TYPE::EMIT_RECTANGLE)
+	{
+		// SETUP & DRAW EMITTER GIZMO
+		World = RectangleScale;
+		WVP = World * View * Projection;
+		stride = sizeof(VERTEX);
+		offset = 0;
+		shaders.SetGizmoShader(context);
+		context->IASetVertexBuffers(0, 1, &emitterVertexBuffer, &stride, &offset);
+		cBufferVertex.wvp = XMMatrixTranspose(WVP);
+		context->UpdateSubresource(constantBufferVertex, 0, NULL, &cBufferVertex, 0, 0);
+		context->VSSetConstantBuffers(0, 1, &constantBufferVertex);
+		RenderDebugObject(emitterVertexData.size());
+	}
+
 
 
 	
@@ -686,7 +699,10 @@ void Graphics::Render()
 	offset = 0;
 	shaders.SetParticleShader(context);
 	context->IASetVertexBuffers(0, 1, &particleVertexBuffer, &stride, &offset);
+	
 	World = XMMatrixIdentity();
+	WVP = World * View * Projection;
+	
 	cBufferParticle.wvp = XMMatrixTranspose(WVP);
 	cBufferParticle.world = XMMatrixTranspose(World);
 	cBufferParticle.campos = campos;
