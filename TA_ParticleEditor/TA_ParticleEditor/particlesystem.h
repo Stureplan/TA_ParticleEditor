@@ -4,6 +4,7 @@
 #include <DirectXMath.h>
 #include <string>
 #include <vector>
+#include <random>
 
 #include "utility.h"
 
@@ -22,6 +23,7 @@ public:
 	std::vector<PARTICLE_VERTEX> ParticleData(unsigned int &count);
 	std::vector<PARTICLE_VERTEX> AllParticleData();
 	PARTICLE_VERTEX GetParticle(unsigned int id);
+	void EmitterSize(float x, float z);
 	FLOAT4 GetInColor() { return ps->colorIn; }
 	FLOAT4 GetOutColor() { return ps->colorOut; }
 	bool IsAlive(unsigned int id) { return particles[id].alive; }
@@ -39,7 +41,8 @@ public:
 	PARTICLESYSTEM* GetParticleSystem() { return ps; }
 
 private:
-	FLOAT3 FetchPosition(EMITTER_TYPE type);
+	float Random(float min, float max);
+	FLOAT3 Position(EMITTER_TYPE type);
 
 private:
 	// Private variables
@@ -47,4 +50,8 @@ private:
 	std::vector<PARTICLE> particles;
 	bool paused = false;
 	float cooldown = 0.0f;
+
+
+	std::random_device rd;
+	std::mt19937 rng;
 };

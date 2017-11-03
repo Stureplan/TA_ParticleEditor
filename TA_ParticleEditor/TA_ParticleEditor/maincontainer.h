@@ -11,6 +11,7 @@
 #include <QColor>
 #include <QLineEdit>
 #include <QComboBox>
+#include <QPushButton>
 
 #include "utility.h"
 #include "graphics.h"
@@ -32,26 +33,7 @@ public:
 	MainContainer(QWidget* parent = Q_NULLPTR);
 	~MainContainer();
 
-	void SetPointers(Graphics* gfx,
-		ParticleSystem* ps,
-		QLabel* particleInfoUI,
-		QLineEdit* lifetimeInputUI,
-		QLineEdit* emissionDelayUI,
-		QLineEdit* velocityXUI,
-		QLineEdit* velocityYUI,
-		QLineEdit* velocityZUI,
-		QLineEdit* gravityUI,
-		QPushButton* browseUI,
-		QPushButton* saveUI,
-		QLineEdit* maxParticlesUI,
-		QTextBrowser* browseTextBoxUI,
-		QLineEdit* colorInDisplayUI,
-		QLineEdit* colorOutDisplayUI,
-		QComboBox* scaleUI,
-		QLineEdit* sizeXUI,
-		QLineEdit* sizeYUI,
-		QLineEdit* rectSizeXUI,
-		QLineEdit* rectSizeZUI);
+	void SetPointers(ParticleSystem* ps);
 	void Init();
 	void BuildParticleSystem();
 
@@ -83,8 +65,11 @@ protected:
 	virtual void keyReleaseEvent(QKeyEvent* evt);
 	virtual void mousePressEvent(QMouseEvent* evt);
 private:
+	// PROGRAM POINTERS
 	Graphics* graphics;
 	ParticleSystem* particlesystem;
+	
+	// UI POINTERS
 	QLabel* textFieldParticleInfo;
 	QLineEdit* textFieldLifetime;
 	QLineEdit* textFieldEmissionDelay;
@@ -97,22 +82,22 @@ private:
 	QLineEdit* textFieldSizeY;
 	QLineEdit* textFieldRectSizeX;
 	QLineEdit* textFieldRectSizeZ;
-
-
 	QPushButton* browseBtn;
 	QPushButton* saveBtn;
 	QTextBrowser* textBrowser;
 	QLineEdit* colorInDisplay;
 	QLineEdit* colorOutDisplay;
 	QComboBox* scaleBoxDisplay;
+	QWidget* pointWidget;
+	QWidget* rectangleWidget;
 
+	// QT VARIABLES
 	QString mTexturePath;
 	QString savePath;
-
 	QColor mColorIn;
 	QColor mColorOut;
 
-	//FLOAT3 mPosition;
+	// PS VARIABLES
 	EMITTER_TYPE mEmitterType;
 	FLOAT3 mPosition;
 	int mMaxParticles;

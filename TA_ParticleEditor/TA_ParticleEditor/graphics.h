@@ -80,6 +80,7 @@ public:
 	void PauseSimulation();
 
 	void RescaleRectangle(float x, float z);
+	void EmitterGizmo(EMITTER_TYPE type);
 
 	void ParticleInspectionLabel(QLabel* label);
 	void UpdateInspectorText();
@@ -114,6 +115,8 @@ private:
 
 	XMMATRIX v;
 	XMMATRIX RectangleScale;
+
+	EMITTER_TYPE emitterType;
 
 private slots:
 	void Loop();

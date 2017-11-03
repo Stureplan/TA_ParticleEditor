@@ -77,6 +77,11 @@ PARTICLE_VERTEX ParticleSystem::GetParticle(unsigned int id)
 	return PARTICLE_VERTEX(FLOAT3(0, 0, 0), 0);
 }
 
+void ParticleSystem::EmitterSize(float x, float z)
+{
+	ps->rectSizeX = x; ps->rectSizeZ = z;
+}
+
 unsigned int ParticleSystem::GetSize()
 {
 	unsigned int count = 0;
@@ -127,21 +132,32 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 	case PS_PROPERTY::PS_SIZE_Y:
 		ps->sizeY = *(float*)data;
 		break;
+	case PS_PROPERTY::PS_EMITTER_TYPE:
+		ps->emittertype = *(EMITTER_TYPE*)data;
+		break;
 	}
 }
 
 void ParticleSystem::Initialize()
 {
-	ps = new PARTICLESYSTEM(EMITTER_TYPE::EMIT_POINT, FLOAT3(0,0,0),0, FLOAT3(0,0,0),0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f);
-
+	ps = new PARTICLESYSTEM(EMITTER_TYPE::EMIT_POINT, FLOAT3(0,0,0),0, FLOAT3(0,0,0),0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f, 1.0f, 1.0f);
 
 	for (unsigned int i = 0; i < ps->maxparticles; i++)
 	{
 		particles.push_back(PARTICLE(ps->position, 0, false));
 	}
+
+
+	rng = std::mt19937(rd());
 }
 
-FLOAT3 ParticleSystem::FetchPosition(EMITTER_TYPE type)
+float ParticleSystem::Random(float min, float max)
+{
+	std::uniform_real_distribution<float> dist(min, max);
+	return dist(rng);
+}
+
+FLOAT3 ParticleSystem::Position(EMITTER_TYPE type)
 {
 	if (type == EMITTER_TYPE::EMIT_POINT)
 	{
@@ -149,7 +165,12 @@ FLOAT3 ParticleSystem::FetchPosition(EMITTER_TYPE type)
 	}
 	if (type == EMITTER_TYPE::EMIT_RECTANGLE)
 	{
+		FLOAT3 pos = ps->position;
 
+		pos.X = Random(-ps->rectSizeX*2, ps->rectSizeX*2);
+		pos.Z = Random(-ps->rectSizeZ*2, ps->rectSizeZ*2);
+
+		return pos;
 	}
 }
 
@@ -222,7 +243,7 @@ void ParticleSystem::Update(float dt)
 					particles[i].alive = false;
 
 					// Move particle back to PS origin
-					particles[i].position = ps->position;
+					particles[i].position = Position(ps->emittertype);
 				}
 			}
 			else
@@ -231,7 +252,7 @@ void ParticleSystem::Update(float dt)
 				// Find out if we should emit it again!
 				if (cooldown > ps->emissiondelay)
 				{
-					particles[i].position = ps->position;
+					particles[i].position = Position(ps->emittertype);
 					particles[i].alive = true;
 
 					cooldown = 0.0f;

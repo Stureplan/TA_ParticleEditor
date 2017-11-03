@@ -406,7 +406,7 @@ public:
         sizeY->setText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
         sizeY->setPlaceholderText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
         maxParticles->setInputMask(QApplication::translate("ParticleEditorClass", "9000", Q_NULLPTR));
-        maxParticles->setText(QApplication::translate("ParticleEditorClass", "1", Q_NULLPTR));
+        maxParticles->setText(QApplication::translate("ParticleEditorClass", "100", Q_NULLPTR));
         maxParticles->setPlaceholderText(QApplication::translate("ParticleEditorClass", "100", Q_NULLPTR));
         emitPointY->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
         emitPointY->setText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
@@ -430,10 +430,10 @@ public:
         label_SizeY_5->setText(QApplication::translate("ParticleEditorClass", "Rectangle Position", Q_NULLPTR));
         label_SizeY_6->setText(QApplication::translate("ParticleEditorClass", "Rectangle Size", Q_NULLPTR));
         rectSizeX->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
-        rectSizeX->setText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        rectSizeX->setText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
         rectSizeX->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
         rectSizeZ->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
-        rectSizeZ->setText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        rectSizeZ->setText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
         rectSizeZ->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
     } // retranslateUi
 

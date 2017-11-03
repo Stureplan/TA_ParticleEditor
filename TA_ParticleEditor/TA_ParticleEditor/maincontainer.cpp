@@ -12,28 +12,30 @@ MainContainer::~MainContainer()
 }
 
 #pragma region POINTERS
-void MainContainer::SetPointers(Graphics* gfx, ParticleSystem* ps, QLabel* particleInfoUI, QLineEdit* lifetimeInputUI, QLineEdit* emissionDelayUI, QLineEdit* velocityXUI, QLineEdit* velocityYUI, QLineEdit* velocityZUI, QLineEdit* gravityUI, QPushButton* browseUI, QPushButton* saveUI, QLineEdit* maxParticlesUI, QTextBrowser* browseTextBoxUI, QLineEdit* colorInDisplayUI, QLineEdit* colorOutDisplayUI, QComboBox* scaleUI, QLineEdit* sizeXUI, QLineEdit* sizeYUI, QLineEdit* rectSizeXUI, QLineEdit* rectSizeZUI)
+void MainContainer::SetPointers(ParticleSystem* ps)
 {
-	graphics = gfx;
+	graphics			   = findChild<Graphics*>	("graphics",			Qt::FindChildOption::FindChildrenRecursively);
 	particlesystem = ps;
-	textFieldParticleInfo = particleInfoUI;
-	textFieldLifetime = lifetimeInputUI;
-	textFieldEmissionDelay = emissionDelayUI;
-	textFieldVelocityX = velocityXUI;
-	textFieldVelocityY = velocityYUI;
-	textFieldVelocityZ = velocityZUI;
-	textFieldGravity = gravityUI;
-	browseBtn = browseUI;
-	saveBtn = saveUI;
-	textFieldMaxParticles = maxParticlesUI;
-	textBrowser = browseTextBoxUI;
-	colorInDisplay = colorInDisplayUI;
-	colorOutDisplay = colorOutDisplayUI;
-	scaleBoxDisplay = scaleUI;
-	textFieldSizeX = sizeXUI;
-	textFieldSizeY = sizeYUI;
-	textFieldRectSizeX = rectSizeXUI;
-	textFieldRectSizeZ = rectSizeZUI;
+	textFieldParticleInfo  = findChild<QLabel*>		("label_ParticleInfo",	Qt::FindChildOption::FindChildrenRecursively);
+	textFieldLifetime	   = findChild<QLineEdit*>	("lifetime",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldEmissionDelay = findChild<QLineEdit*>	("emissionDelay",		Qt::FindChildOption::FindChildrenRecursively);
+	textFieldVelocityX	   = findChild<QLineEdit*>	("velocityX",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldVelocityY	   = findChild<QLineEdit*>	("velocityY",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldVelocityZ	   = findChild<QLineEdit*>	("velocityZ",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldGravity	   = findChild<QLineEdit*>	("gravity",				Qt::FindChildOption::FindChildrenRecursively);
+	browseBtn			   = findChild<QPushButton*>("browsepath",			Qt::FindChildOption::FindChildrenRecursively);
+	saveBtn				   = findChild<QPushButton*>("savePS",				Qt::FindChildOption::FindChildrenRecursively);
+	textFieldMaxParticles  = findChild<QLineEdit*>	("maxParticles",		Qt::FindChildOption::FindChildrenRecursively);
+	textBrowser			   = findChild<QTextBrowser*>("textBrowser",		Qt::FindChildOption::FindChildrenRecursively);
+	colorInDisplay		   = findChild<QLineEdit*>	("colorInDisplay",		Qt::FindChildOption::FindChildrenRecursively);
+	colorOutDisplay		   = findChild<QLineEdit*>	("colorOutDisplay",		Qt::FindChildOption::FindChildrenRecursively);
+	scaleBoxDisplay		   = findChild<QComboBox*>	("scaleBox",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldSizeX		   = findChild<QLineEdit*>	("sizeX",				Qt::FindChildOption::FindChildrenRecursively);
+	textFieldSizeY		   = findChild<QLineEdit*>	("sizeY",				Qt::FindChildOption::FindChildrenRecursively);
+	textFieldRectSizeX	   = findChild<QLineEdit*>	("rectSizeX",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldRectSizeZ	   = findChild<QLineEdit*>	("rectSizeZ",			Qt::FindChildOption::FindChildrenRecursively);
+	pointWidget			   = findChild<QWidget*>	("pointWidget",			Qt::FindChildOption::FindChildrenRecursively);
+	rectangleWidget		   = findChild<QWidget*>	("rectangleWidget",		Qt::FindChildOption::FindChildrenRecursively);
 }
 #pragma endregion
 
@@ -100,7 +102,8 @@ void MainContainer::save()
 	ps.colorOut = FLOAT4(mColorOut.redF(), mColorOut.greenF(), mColorOut.blueF(), mColorOut.alphaF());
 	ps.sizeX = mSizeX;
 	ps.sizeY = mSizeY;
-
+	ps.rectSizeX = mRectSizeX;
+	ps.rectSizeZ = mRectSizeZ;
 
 	FILE* file = fopen(exportPath.c_str(), "wb");
 	if (file != NULL)
@@ -180,16 +183,18 @@ void MainContainer::emitterTypeChanged(int mode)
 	
 	if (mode == EMITTER_TYPE::EMIT_POINT)
 	{
-		//UI->rectangleWidget->setEnabled(false);
-		//UI->pointWidget->setEnabled(true);
+		rectangleWidget->setEnabled(false);
+		pointWidget->setEnabled(true);
 	}
 	if (mode == EMITTER_TYPE::EMIT_RECTANGLE)
 	{
-		//UI->pointWidget->setEnabled(false);
-		//UI->rectangleWidget->setEnabled(true);
+		pointWidget->setEnabled(false);
+		rectangleWidget->setEnabled(true);
+		BuildParticleSystem();
 	}
 
-	BuildParticleSystem();
+	graphics->EmitterGizmo(mEmitterType);
+	particlesystem->SetProperty(PS_PROPERTY::PS_EMITTER_TYPE, &mEmitterType);
 }
 
 void MainContainer::sizeX()
@@ -211,6 +216,7 @@ void MainContainer::rectResize()
 	mRectSizeX = textFieldRectSizeX->text().toFloat();
 	mRectSizeZ = textFieldRectSizeZ->text().toFloat();
 	graphics->RescaleRectangle(mRectSizeX, mRectSizeZ);
+	particlesystem->EmitterSize(mRectSizeX, mRectSizeZ);
 	BuildParticleSystem();
 }
 
@@ -280,7 +286,7 @@ void MainContainer::BuildParticleSystem()
 		mVelocity, mEmissionDelay, mLifetime, mGravity,
 		FLOAT4(mColorIn.redF(), mColorIn.greenF(), mColorIn.blueF(), mColorIn.alphaF()),
 		FLOAT4(mColorOut.redF(), mColorOut.greenF(), mColorOut.blueF(), mColorOut.alphaF()),
-		mSizeX, mSizeY);
+		mSizeX, mSizeY, mRectSizeX, mRectSizeZ);
 
 	graphics->Rebuild(ps);
 }
