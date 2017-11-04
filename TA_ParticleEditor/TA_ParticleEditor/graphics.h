@@ -69,7 +69,8 @@ public:
 	void SetLastCameraRotation(Qt::Key key, bool released);
 	void LoadParticles();
 	void LoadDebugParticle();
-	void LoadGizmo(EMITTER_TYPE type);
+	void LoadPositionGizmo();
+	void LoadEmitterTypeGizmo(EMITTER_TYPE type);
 	void LoadTextures();
 	void ChangeRasterization(D3D11_FILL_MODE fillmode);
 
@@ -177,12 +178,14 @@ private:
 	FLOAT4 colOut= (FLOAT4(1, 1, 1, 1));
 
 	ID3D11Buffer* particleVertexBuffer;
-	ID3D11Buffer* emitterVertexBuffer;
+	ID3D11Buffer* positionGizmoVertexBuffer;
+	ID3D11Buffer* emitterTypeGizmoVertexBuffer;
 	ID3D11Buffer* particleDebugVertexBuffer;
 
 	int particleDebugID = -1;
 	//std::vector<POINT>	particleVertexData;
-	std::vector<GIZMO_VERTEX> emitterVertexData;
+	std::vector<GIZMO_VERTEX> positionGizmoVertexData;
+	std::vector<GIZMO_VERTEX> emitterTypeGizmoVertexData;
 	PARTICLE_VERTEX debugParticle;
 
 	std::vector<ID3D11ShaderResourceView*> textures;

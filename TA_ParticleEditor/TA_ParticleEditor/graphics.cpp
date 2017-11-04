@@ -187,7 +187,8 @@ void Graphics::Initialize()
 	particlesystem->Initialize();
 	LoadParticles();
 	LoadDebugParticle();
-	LoadGizmo(EMITTER_TYPE::EMIT_POINT);
+	LoadPositionGizmo();
+	LoadEmitterTypeGizmo(EMITTER_TYPE::EMIT_POINT);
 	emitterType = EMITTER_TYPE::EMIT_POINT;
 	LoadTextures();
 }
@@ -352,13 +353,52 @@ void Graphics::LoadDebugParticle()
 	hr = device->CreateBuffer(&vertexDesc, &vertexData, &particleDebugVertexBuffer);
 }
 
-void Graphics::LoadGizmo(EMITTER_TYPE type)
+void Graphics::LoadPositionGizmo()
+{
+	HRESULT hr;
+
+	positionGizmoVertexData =
+	{
+		{ 0, 0, 0,	1, 0, 0 },
+		
+		// R
+		{ 1, 0, 0,	1, 0, 0 },
+		{ 0, 0, 0,	1, 0, 0 },
+
+		// G
+		{ 0, 1, 0,	0, 1, 0 },
+		{ 0, 0, 0,	0, 1, 0 },
+
+		// B
+		{ 0, 0, 1,	0, 0, 1 },
+		{ 0, 0, 0,	0, 0, 1 }
+	};
+
+	D3D11_BUFFER_DESC vertexDesc;
+	ZeroMemory(&vertexDesc, sizeof(D3D11_BUFFER_DESC));
+	vertexDesc.ByteWidth = sizeof(GIZMO_VERTEX) * positionGizmoVertexData.size();
+	vertexDesc.Usage = D3D11_USAGE_DEFAULT;
+	vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	vertexDesc.CPUAccessFlags = 0;
+	vertexDesc.MiscFlags = 0;
+	vertexDesc.StructureByteStride = 0;
+
+	D3D11_SUBRESOURCE_DATA vertexData;
+	ZeroMemory(&vertexData, sizeof(vertexData));
+	vertexData.pSysMem = positionGizmoVertexData.data();
+	vertexData.SysMemPitch = 0;
+	vertexData.SysMemSlicePitch = 0;
+
+	hr = device->CreateBuffer(&vertexDesc, &vertexData, &positionGizmoVertexBuffer);
+}
+
+void Graphics::LoadEmitterTypeGizmo(EMITTER_TYPE type)
 {
 	HRESULT hr;
 
 	if (type == EMITTER_TYPE::EMIT_POINT)
 	{
-		emitterVertexData =
+		emitterTypeGizmoVertexData =
 		{
 			{ 
 				0, 0, 0, 
@@ -369,7 +409,7 @@ void Graphics::LoadGizmo(EMITTER_TYPE type)
 
 	if (type == EMITTER_TYPE::EMIT_RECTANGLE)
 	{
-		emitterVertexData =
+		emitterTypeGizmoVertexData =
 		{
 			// QUAD: (TRIANGLELIST W. INDICES)
 			// 0, 2, 1, 1, 2, 3 
@@ -418,7 +458,7 @@ void Graphics::LoadGizmo(EMITTER_TYPE type)
 
 	D3D11_BUFFER_DESC vertexDesc;
 	ZeroMemory(&vertexDesc, sizeof(D3D11_BUFFER_DESC));
-	vertexDesc.ByteWidth = sizeof(GIZMO_VERTEX) * emitterVertexData.size();
+	vertexDesc.ByteWidth = sizeof(GIZMO_VERTEX) * emitterTypeGizmoVertexData.size();
 	vertexDesc.Usage = D3D11_USAGE_DEFAULT;
 	vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	vertexDesc.CPUAccessFlags = 0;
@@ -427,11 +467,11 @@ void Graphics::LoadGizmo(EMITTER_TYPE type)
 
 	D3D11_SUBRESOURCE_DATA vertexData;
 	ZeroMemory(&vertexData, sizeof(vertexData));
-	vertexData.pSysMem = emitterVertexData.data();
+	vertexData.pSysMem = emitterTypeGizmoVertexData.data();
 	vertexData.SysMemPitch = 0;
 	vertexData.SysMemSlicePitch = 0;
 
-	hr = device->CreateBuffer(&vertexDesc, &vertexData, &emitterVertexBuffer);
+	hr = device->CreateBuffer(&vertexDesc, &vertexData, &emitterTypeGizmoVertexBuffer);
 }
 
 void Graphics::LoadTextures()
@@ -492,7 +532,7 @@ void Graphics::Retexture(std::string path)
 
 void Graphics::Rebuild(PARTICLESYSTEM ps)
 {
-	LoadGizmo(ps.emittertype);
+	LoadEmitterTypeGizmo(ps.emittertype);
 	particlesystem->Rebuild(ps);
 	LoadParticles();
 }
@@ -688,6 +728,17 @@ void Graphics::Render()
 	World = XMMatrixIdentity();
 	WVP = World * View * Projection;
 
+
+	// DRAW POSITION GIZMO
+	stride = sizeof(GIZMO_VERTEX);
+	offset = 0;
+	shaders.SetGizmoShader(context);
+	context->IASetVertexBuffers(0, 1, &positionGizmoVertexBuffer, &stride, &offset);
+	cBufferVertex.wvp = XMMatrixTranspose(WVP);
+	context->UpdateSubresource(constantBufferVertex, 0, NULL, &cBufferVertex, 0, 0);
+	context->VSSetConstantBuffers(0, 1, &constantBufferVertex);
+	RenderDebugObject(positionGizmoVertexData.size());
+
 	if (emitterType == EMITTER_TYPE::EMIT_POINT)
 	{
 		// SETUP & DRAW POINT EMITTER GIZMO
@@ -701,11 +752,11 @@ void Graphics::Render()
 		stride = sizeof(GIZMO_VERTEX);
 		offset = 0;
 		shaders.SetGizmoShader(context);
-		context->IASetVertexBuffers(0, 1, &emitterVertexBuffer, &stride, &offset);
+		context->IASetVertexBuffers(0, 1, &emitterTypeGizmoVertexBuffer, &stride, &offset);
 		cBufferVertex.wvp = XMMatrixTranspose(WVP);
 		context->UpdateSubresource(constantBufferVertex, 0, NULL, &cBufferVertex, 0, 0);
 		context->VSSetConstantBuffers(0, 1, &constantBufferVertex);
-		RenderDebugObject(emitterVertexData.size());
+		RenderDebugObject(emitterTypeGizmoVertexData.size());
 	}
 
 
