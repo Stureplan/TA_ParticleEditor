@@ -109,7 +109,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\x64\Debug\Data\object.hlsl">
+    <FxCompile Include="..\x64\Debug\Data\gizmo.hlsl">
       <Filter>Resource Files</Filter>
     </FxCompile>
   </ItemGroup>

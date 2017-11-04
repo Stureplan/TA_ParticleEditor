@@ -181,7 +181,7 @@ void Graphics::Initialize()
 				XMVectorSet(0, 1, -9,  0), //dir
 				XMVectorSet(0, 1, 0, 0));  //up
 
-	shaders.LoadObjectShader(device, context);
+	shaders.LoadGizmoShader(device, context);
 	shaders.LoadParticleShader(device, context);
 	
 	particlesystem->Initialize();
@@ -360,7 +360,10 @@ void Graphics::LoadGizmo(EMITTER_TYPE type)
 	{
 		emitterVertexData =
 		{
-			{ 0, 0, 0, 0, 0 }
+			{ 
+				0, 0, 0, 
+				0, 0, 0
+			}
 		};
 	}
 
@@ -376,11 +379,26 @@ void Graphics::LoadGizmo(EMITTER_TYPE type)
 			//{  5, 0,-5, 1, 1 }, // BOT RIGHT (3)
 
 			// QUAD: (LINESTRIP)
-			{ -2, 0, 2, 0, 0 }, // TOP LEFT  (0)
-			{ 2, 0, 2, 1, 0 }, // TOP RIGHT (2)
-			{ 2, 0,-2, 1, 1 }, // BOT RIGHT (3)
-			{ -2, 0,-2, 0, 1 }, // BOT LEFT  (1)
-			{ -2, 0, 2, 0, 0 }  // TOP LEFT  (0)
+			{ 
+				-2, 0, 2, 
+				 1, 0, 1 
+			}, // TOP LEFT  (0)
+			{ 
+				2, 0, 2, 
+				1, 0, 1 
+			}, // TOP RIGHT (2)
+			{ 
+				2, 0,-2, 
+				1, 0, 1 
+			}, // BOT RIGHT (3)
+			{ 
+				-2, 0,-2, 
+				1, 0, 1 
+			}, // BOT LEFT  (1)
+			{ 
+				-2, 0, 2, 
+				1, 0, 1 
+			}  // TOP LEFT  (0)
 
 			// QUAD: (TRIANGLELIST W/O INDICES)
 			// TRIANGLE 0
@@ -400,7 +418,7 @@ void Graphics::LoadGizmo(EMITTER_TYPE type)
 
 	D3D11_BUFFER_DESC vertexDesc;
 	ZeroMemory(&vertexDesc, sizeof(D3D11_BUFFER_DESC));
-	vertexDesc.ByteWidth = sizeof(VERTEX) * emitterVertexData.size();
+	vertexDesc.ByteWidth = sizeof(GIZMO_VERTEX) * emitterVertexData.size();
 	vertexDesc.Usage = D3D11_USAGE_DEFAULT;
 	vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	vertexDesc.CPUAccessFlags = 0;
@@ -680,7 +698,7 @@ void Graphics::Render()
 		// SETUP & DRAW EMITTER GIZMO
 		World = RectangleScale;
 		WVP = World * View * Projection;
-		stride = sizeof(VERTEX);
+		stride = sizeof(GIZMO_VERTEX);
 		offset = 0;
 		shaders.SetGizmoShader(context);
 		context->IASetVertexBuffers(0, 1, &emitterVertexBuffer, &stride, &offset);

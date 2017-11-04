@@ -10,16 +10,16 @@ class Shaders
 public:
 	enum RENDER_TYPE
 	{
-		OBJECT = 0,
+		GIZMO = 0,
 		PARTICLE
 	};
 
 
-	void LoadObjectShader(ID3D11Device* device, ID3D11DeviceContext* context)
+	void LoadGizmoShader(ID3D11Device* device, ID3D11DeviceContext* context)
 	{
 		std::string shaderpath = Utility::Path();
 
-		shaderpath.insert(shaderpath.size(), "Data\\object.hlsl");
+		shaderpath.insert(shaderpath.size(), "Data\\gizmo.hlsl");
 
 		HRESULT hr;
 		ID3D10Blob* blob;
@@ -51,7 +51,7 @@ public:
 		D3D11_INPUT_ELEMENT_DESC ied[] =
 		{
 			{ "POSITION",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "TEXCOORD",  0, DXGI_FORMAT_R32G32_FLOAT,    0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+			{ "COLOR",	   0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 
 		};
 

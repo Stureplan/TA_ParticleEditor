@@ -287,7 +287,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\x64\Debug\Data\object.hlsl">
+    <FxCompile Include="..\x64\Debug\Data\gizmo.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
   </ItemGroup>

@@ -6,18 +6,18 @@ cbuffer CBUFFER
 struct VOut
 {
 	float4 position : SV_POSITION;
-	float2 texcoord : TEXCOORD;
+	nointerpolation float3 color : COLOR;
 };
 
 Texture2D tex;
 SamplerState smp;
 
-VOut VShader(float4 position : POSITION, float2 texcoord : TEXCOORD)
+VOut VShader(float4 position : POSITION, float3 color : COLOR)
 {
 	VOut output;
 
 	output.position = mul(position, wvp);
-	output.texcoord = texcoord;
+	output.color = color;
 
 	return output;
 }
@@ -25,7 +25,7 @@ VOut VShader(float4 position : POSITION, float2 texcoord : TEXCOORD)
 float4 PShader(VOut input) : SV_TARGET
 {
 	float4 pos = input.position;
-	float2 uv = input.texcoord;
+	float3 col = input.color;
 
-	return tex.Sample(smp, uv);
+	return float4(col, 1.0);
 }

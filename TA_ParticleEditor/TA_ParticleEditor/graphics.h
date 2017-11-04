@@ -182,7 +182,7 @@ private:
 
 	int particleDebugID = -1;
 	//std::vector<POINT>	particleVertexData;
-	std::vector<VERTEX> emitterVertexData;
+	std::vector<GIZMO_VERTEX> emitterVertexData;
 	PARTICLE_VERTEX debugParticle;
 
 	std::vector<ID3D11ShaderResourceView*> textures;

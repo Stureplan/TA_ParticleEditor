@@ -126,20 +126,20 @@ struct PARTICLESYSTEM
 
 
 
-// Defines a point in world space, with UV coordinates (XYZ & UV).
+// Defines a point in world space, with colors (XYZ & RGB).
 // For our purposes it's a vertex that is used in combination with other
 // vertices to form a quad plane.
-struct VERTEX
+struct GIZMO_VERTEX
 {
-	VERTEX(float x, float y, float z,
-		float u, float v)
+	GIZMO_VERTEX(float x, float y, float z,
+				 float r, float g, float b)
 	{
 		X = x; Y = y; Z = z;
-		U = u; V = v;
+		R = r; G = g; B = b;
 	}
 
 	float X, Y, Z;
-	float U, V;
+	float R, G, B;
 };
 
 class Utility
