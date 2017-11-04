@@ -43,11 +43,12 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 	float percent  = input[0].currentLifetime / lifetime;
 
 
-	float lifetimeScale = (1 - percent) * scalemode;
+	float finalScale = 1-(percent);
+	//float lifetimeScale = (1 - percent) * scalemode;
 
 
-	float w = size.x + lifetimeScale;
-	float h = size.y + lifetimeScale;
+	float w = size.x + (size.x * finalScale * scalemode);
+	float h = size.y + (size.y * finalScale * scalemode);
 
 	float3 up;
 	float3 normal;
