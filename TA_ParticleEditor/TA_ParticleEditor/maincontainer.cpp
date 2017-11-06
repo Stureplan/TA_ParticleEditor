@@ -87,7 +87,15 @@ void MainContainer::setGravity()
 void MainContainer::save()
 {
 	std::string exportPath = QFileDialog::getSaveFileName(this).toStdString();
-	exportPath.append(".ps");
+	
+	size_t found = exportPath.find(".ps");
+	if (found != std::string::npos)
+	{
+		// Only add .ps extension if it isn't already in the filename
+		// (this is for overwriting already existing files)
+		exportPath.append(".ps");
+	}
+
 	//std::string exportPath = PathFindFileNameA(savePath.toStdString().c_str());
 	
 	PARTICLESYSTEM ps;
