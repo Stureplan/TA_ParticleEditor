@@ -24,6 +24,15 @@ struct FLOAT3
 		X = x; Y = y; Z = z;
 	}
 
+	FLOAT3 operator+(FLOAT3 const &F3)
+	{
+		return FLOAT3(X + F3.X, Y + F3.Y, Z + F3.Z);
+	}
+	FLOAT3 operator-(FLOAT3 const &F3)
+	{
+		return FLOAT3(X - F3.X, Y - F3.Y, Z - F3.Z);
+	}
+
 	float X, Y, Z;
 };
 
@@ -42,27 +51,31 @@ struct FLOAT4
 // For our purposes it's a particle that will be used as a vertex.
 struct PARTICLE_VERTEX
 {
-	PARTICLE_VERTEX() : position(0,0,0), currentlifetime(0) { }
-	PARTICLE_VERTEX(FLOAT3 pos, float cl)
+	PARTICLE_VERTEX() : position(0,0,0), direction(0,0,0), currentlifetime(0) { }
+	PARTICLE_VERTEX(FLOAT3 pos, FLOAT3 dir, float cl)
 	{
 		position = pos;
+		direction = dir;
 		currentlifetime = cl;
 	}
 
 	FLOAT3 position;
+	FLOAT3 direction;
 	float currentlifetime;
 };
 
 struct PARTICLE
 {
-	PARTICLE(FLOAT3 pos, float cl, bool a)
+	PARTICLE(FLOAT3 pos, FLOAT3 dir, float cl, bool a)
 	{ 
 		position = pos;
+		direction = dir;
 		currentlifetime = cl; 
 		alive = a;
 	}
 
 	FLOAT3 position;
+	FLOAT3 direction;
 	float currentlifetime;
 	bool alive;
 };

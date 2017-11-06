@@ -7,12 +7,14 @@ Graphics::Graphics(QWidget * parent)
 	setAttribute(Qt::WA_NativeWindow, true);
 	
 	particlesystem = new ParticleSystem();
+
+
+	Initialize();
+
 	timer = new QTimer;
 	timer->setInterval(16.666);
 	connect(timer, SIGNAL(timeout()), this, SLOT(Loop()));
 	timer->start(0);
-
-	Initialize();
 }
 
 void Graphics::Loop()
@@ -333,7 +335,7 @@ void Graphics::LoadDebugParticle()
 {
 	HRESULT hr;
 
-	debugParticle = { {0, 0, 0}, 0 };
+	debugParticle = { {0, 0, 0}, {0, 0, 0}, 0 };
 
 	D3D11_BUFFER_DESC vertexDesc;
 	ZeroMemory(&vertexDesc, sizeof(vertexDesc));

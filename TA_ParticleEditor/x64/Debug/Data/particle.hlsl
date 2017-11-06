@@ -14,22 +14,22 @@ cbuffer CBUFFER
 struct VOut
 {
 	float4 position : SV_POSITION;
+	float3 direction : DIRECTION;
 	float2 texcoord : TEXCOORD;
-	float3 worldPos : NORMAL;
 	float currentLifetime : LIFETIME;
 };
 
 Texture2D tex;
 SamplerState smp;
 
-VOut VShader(float4 position : POSITION, float lifetime : LIFETIME)
+VOut VShader(float4 position : POSITION, float3 direction : DIRECTION, float lifetime : LIFETIME)
 {
 	VOut output;
 
-	output.worldPos = position.xyz;
 	//output.position = mul(position, wvp);
 	//output.position = mul(position, wvp);
 	output.position = position;
+	output.direction = direction;
 	output.texcoord = float2(0,0);
 	output.currentLifetime = lifetime;
 
@@ -39,8 +39,9 @@ VOut VShader(float4 position : POSITION, float lifetime : LIFETIME)
 [maxvertexcount(4)]
 void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 {
-	float3 pos      = input[0].worldPos;
-	float percent  = input[0].currentLifetime / lifetime;
+	float3 pos      = input[0].position.xyz;
+	float3 dir		= input[0].direction.xyz;
+	float percent	= input[0].currentLifetime / lifetime;
 
 
 	float finalScale = 1-(percent);
@@ -55,7 +56,7 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 	float3 right;
 
 
-	up = normalize(camup.xyz);
+	up = normalize(dir);//normalize(camup.xyz);
 	up *= h;
 
 	normal = normalize(pos - campos.xyz);
@@ -80,9 +81,9 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 	{
 		output.position.w = input[0].position.w;
 		output.currentLifetime = percent;
+		output.direction = dir;
 
 		output.position.xyz = vtx[i];
-		output.worldPos = vtx[i];
 		output.position = mul(output.position, wvp);
 		output.texcoord = uv[i];
 		OutputStream.Append(output);

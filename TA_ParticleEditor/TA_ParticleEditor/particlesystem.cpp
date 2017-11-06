@@ -16,7 +16,7 @@ unsigned int ParticleSystem::ParticleCount()
 
 void ParticleSystem::AddParticle(FLOAT3 p)
 {
-	particles.push_back(PARTICLE(p,0.0f, true));
+	particles.push_back(PARTICLE(p, p, 0.0f, true));
 }
 
 void ParticleSystem::ModifyParticle(int id, FLOAT3 p)
@@ -37,7 +37,7 @@ std::vector<PARTICLE_VERTEX> ParticleSystem::ParticleData(unsigned int &count)
 	{
 		if (particles[i].alive)
 		{
-			particle_vertices.push_back(PARTICLE_VERTEX(particles[i].position, particles[i].currentlifetime));
+			particle_vertices.push_back(PARTICLE_VERTEX(particles[i].position, particles[i].direction, particles[i].currentlifetime));
 			actualCount++;
 		}
 	}
@@ -53,7 +53,7 @@ std::vector<PARTICLE_VERTEX> ParticleSystem::AllParticleData()
 
 	for (unsigned int i = 0; i < count; i++)
 	{
-		positions.push_back(PARTICLE_VERTEX(particles[i].position, particles[i].currentlifetime));
+		positions.push_back(PARTICLE_VERTEX(particles[i].position, particles[i].direction, particles[i].currentlifetime));
 	}
 
 	return positions;
@@ -68,13 +68,13 @@ PARTICLE_VERTEX ParticleSystem::GetParticle(unsigned int id)
 		{
 			if (aliveParticles == id)
 			{
-				return PARTICLE_VERTEX(particles[i].position, particles[i].currentlifetime);
+				return PARTICLE_VERTEX(particles[i].position, particles[i].direction, particles[i].currentlifetime);
 			}
 			aliveParticles++;
 		}
 	}
 
-	return PARTICLE_VERTEX(FLOAT3(0, 0, 0), 0);
+	return PARTICLE_VERTEX(FLOAT3(0, 0, 0), FLOAT3(0,0,0), 0);
 }
 
 void ParticleSystem::EmitterSize(float x, float z)
@@ -144,7 +144,7 @@ void ParticleSystem::Initialize()
 
 	for (unsigned int i = 0; i < ps->maxparticles; i++)
 	{
-		particles.push_back(PARTICLE(ps->position, 0, false));
+		particles.push_back(PARTICLE(ps->position, ps->position+FLOAT3(0, 1, 0), 0, false));
 	}
 
 
@@ -194,7 +194,7 @@ void ParticleSystem::Rebuild(PARTICLESYSTEM particlesystem)
 
 	for (unsigned int i = 0; i < ps->maxparticles; i++)
 	{
-		particles.push_back(PARTICLE(FLOAT3(0, 0, 0), 0, false));
+		particles.push_back(PARTICLE(FLOAT3(0, 0, 0), FLOAT3(0, 1, 0), 0, false));
 	}
 }
 
@@ -220,6 +220,7 @@ void ParticleSystem::Update(float dt)
 				if (p.currentlifetime < ps->lifetime)
 				{
 					FLOAT3 nPos = p.position;
+					FLOAT3 dir = p.position;
 
 					float percent = p.currentlifetime / ps->lifetime;
 
@@ -236,6 +237,7 @@ void ParticleSystem::Update(float dt)
 
 					// Move particle
 					particles[i].position = nPos;
+					particles[i].direction = nPos - dir;
 				}
 				else
 				{

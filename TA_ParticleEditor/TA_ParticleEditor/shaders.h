@@ -89,7 +89,7 @@ public:
 		{
 			// Something went wrong with the shader
 			std::string error = static_cast<char*>(blob->GetBufferPointer());
-			MessageBoxA(NULL, error.c_str(), "VS Error", MB_OK);
+			MessageBoxA(NULL, error.c_str(), "GS Error", MB_OK);
 		}
 
 		blob = NULL;
@@ -111,7 +111,8 @@ public:
 		D3D11_INPUT_ELEMENT_DESC ied[] =
 		{
 			{ "POSITION",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "LIFETIME",  0, DXGI_FORMAT_R32_FLOAT,	   0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+			{ "DIRECTION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "LIFETIME",  0, DXGI_FORMAT_R32_FLOAT,	   0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 		};
 
 		hr = device->CreateInputLayout(ied, sizeof(ied) / sizeof(ied[0]),
