@@ -91,7 +91,8 @@ enum PS_PROPERTY
 	PS_COLOR_OUT,
 	PS_SIZE_X,
 	PS_SIZE_Y,
-	PS_EMITTER_TYPE
+	PS_EMITTER_TYPE,
+	PS_SCALE_MODE
 };
 
 enum EMITTER_TYPE
@@ -103,7 +104,7 @@ enum EMITTER_TYPE
 struct PARTICLESYSTEM
 {
 	PARTICLESYSTEM(){}
-	PARTICLESYSTEM(EMITTER_TYPE e, FLOAT3 p, int m, FLOAT3 v, float ed, float lt, float grv, FLOAT4 colIn, FLOAT4 colOut, float sX, float sY, float rsX, float rsZ)
+	PARTICLESYSTEM(EMITTER_TYPE e, FLOAT3 p, int m, FLOAT3 v, float ed, float lt, float grv, FLOAT4 colIn, FLOAT4 colOut, float sX, float sY, float rsX, float rsZ, float sM)
 	{
 		emittertype = e;
 		maxparticles = m;
@@ -117,6 +118,7 @@ struct PARTICLESYSTEM
 		sizeY = sY;
 		rectSizeX = rsX;
 		rectSizeZ = rsZ;
+		scaleMode = sM;
 	}
 	// PS Export variables
 	EMITTER_TYPE emittertype;
@@ -132,6 +134,7 @@ struct PARTICLESYSTEM
 	float sizeY;
 	float rectSizeX;
 	float rectSizeZ;
+	float scaleMode;
 };
 
 

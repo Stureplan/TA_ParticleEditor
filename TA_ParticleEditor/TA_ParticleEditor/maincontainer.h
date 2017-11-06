@@ -110,4 +110,5 @@ private:
 	float mSizeY;
 	float mRectSizeX;
 	float mRectSizeZ;
+	float mScaleMode;
 };

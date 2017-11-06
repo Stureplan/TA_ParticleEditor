@@ -140,7 +140,7 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 
 void ParticleSystem::Initialize()
 {
-	ps = new PARTICLESYSTEM(EMITTER_TYPE::EMIT_POINT, FLOAT3(0,0,0),0, FLOAT3(0,0,0),0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f, 1.0f, 1.0f);
+	ps = new PARTICLESYSTEM(EMITTER_TYPE::EMIT_POINT, FLOAT3(0,0,0),0, FLOAT3(0,0,0),0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f, 1.0f, 1.0f, 0.0f);
 
 	for (unsigned int i = 0; i < ps->maxparticles; i++)
 	{

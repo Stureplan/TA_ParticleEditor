@@ -76,6 +76,8 @@ void MainContainer::Init()
 
 	mRectSizeX = 1.0f;
 	mRectSizeZ = 1.0f;
+
+	mScaleMode = 0;
 }
 
 void MainContainer::setGravity()
@@ -112,6 +114,7 @@ void MainContainer::save()
 	ps.sizeY = mSizeY;
 	ps.rectSizeX = mRectSizeX;
 	ps.rectSizeZ = mRectSizeZ;
+	ps.scaleMode = mScaleMode;
 
 	FILE* file = fopen(exportPath.c_str(), "wb");
 	if (file != NULL)
@@ -182,7 +185,13 @@ void MainContainer::colorOut()
 
 void MainContainer::scaleModeChanged(int mode)
 {
+	if (mode == 0) { mScaleMode = 0;  }
+	if (mode == 1) { mScaleMode = -1; }
+	if (mode == 2) { mScaleMode = 1;  }
+	else { mScaleMode = 0; }
+
 	graphics->ChangeScaleMode(mode);
+	particlesystem->SetProperty(PS_PROPERTY::PS_SCALE_MODE, &mScaleMode);
 }
 
 void MainContainer::emitterTypeChanged(int mode)
@@ -294,7 +303,7 @@ void MainContainer::BuildParticleSystem()
 		mVelocity, mEmissionDelay, mLifetime, mGravity,
 		FLOAT4(mColorIn.redF(), mColorIn.greenF(), mColorIn.blueF(), mColorIn.alphaF()),
 		FLOAT4(mColorOut.redF(), mColorOut.greenF(), mColorOut.blueF(), mColorOut.alphaF()),
-		mSizeX, mSizeY, mRectSizeX, mRectSizeZ);
+		mSizeX, mSizeY, mRectSizeX, mRectSizeZ, mScaleMode);
 
 	graphics->Rebuild(ps);
 }
