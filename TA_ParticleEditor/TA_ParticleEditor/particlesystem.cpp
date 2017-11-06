@@ -151,12 +151,6 @@ void ParticleSystem::Initialize()
 	rng = std::mt19937(rd());
 }
 
-float ParticleSystem::Random(float min, float max)
-{
-	std::uniform_real_distribution<float> dist(min, max);
-	return dist(rng);
-}
-
 FLOAT3 ParticleSystem::Position(EMITTER_TYPE type)
 {
 	if (type == EMITTER_TYPE::EMIT_POINT)
@@ -167,12 +161,19 @@ FLOAT3 ParticleSystem::Position(EMITTER_TYPE type)
 	{
 		FLOAT3 pos = ps->position;
 
-		pos.X = Random(-ps->rectSizeX*2, ps->rectSizeX*2);
-		pos.Z = Random(-ps->rectSizeZ*2, ps->rectSizeZ*2);
+		pos.X = Random(-ps->rectSizeX * 2, ps->rectSizeX * 2);
+		pos.Z = Random(-ps->rectSizeZ * 2, ps->rectSizeZ * 2);
 
 		return pos;
 	}
 }
+
+float ParticleSystem::Random(float min, float max)
+{
+	std::uniform_real_distribution<float> dist(min, max);
+	return dist(rng);
+}
+
 
 void ParticleSystem::Rebuild(PARTICLESYSTEM particlesystem)
 {

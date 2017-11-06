@@ -177,9 +177,9 @@ void Graphics::Initialize()
 	RectangleScale = XMMatrixIdentity();
 
 
-	SetupCamera(XMVectorSet(0, 1, -10, 0), //pos
-				XMVectorSet(0, 1, -9,  0), //dir
-				XMVectorSet(0, 1, 0, 0));  //up
+	SetupCamera(XMVectorSet(0, 1, -10.0f, 0), //pos
+				XMVectorSet(0, 1, -9.0f,  0), //dir
+				XMVectorSet(0, 2, 0, 0));  //up
 
 	shaders.LoadGizmoShader(device, context);
 	shaders.LoadParticleShader(device, context);
@@ -228,9 +228,9 @@ void Graphics::MoveCamera(float z)
 {
 	//TODO: Set up 
 	//GROUND PLANE: NONE, USE EMISSION TYPE BOX INSTEAD
-	float distance = XMVectorGetX(XMVector4Length(XMVectorSet(0,1,0,0) - (campos + (camdir*z))));
+	float distance = XMVectorGetX(XMVector4Length(XMVectorSet(0,1.0f,0.0f,0) - (campos + (camdir*z))));
 
-	if (distance > 10.0f && distance < 20.0f)
+	if (distance > 2.0f && distance < 40.0f)
 	{
 		campos += (camdir * z);
 		View = XMMatrixLookAtLH(campos, camdir, camup);
@@ -242,7 +242,7 @@ void Graphics::RotateCamera(float rot)
 	v = XMMatrixRotationY(rot);
 
 	campos = XMVector4Transform(campos, v);
-	camdir = XMVector4Transform(camdir, v);
+	camdir = XMVector4Normalize(XMVector4Transform(camdir, v));
 	View = XMMatrixLookAtLH(campos, camdir, camup);
 }
 
@@ -570,10 +570,6 @@ void Graphics::UpdateInspectorText()
 
 int Graphics::TestIntersection(int x, int y, XMFLOAT3 &particlePos)
 {
-	//particlesystem->ModifyParticle(0, POSITION(0, 1, 0));
-
-
-
 	//float nX = (2.0f * x / W - 1.0f);
 	//float nY = (-2.0f * y / H + 1.0f);
 	unsigned int count = -1;

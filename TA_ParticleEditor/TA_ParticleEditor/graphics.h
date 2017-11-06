@@ -159,7 +159,7 @@ private:
 	XMVECTOR camup;
 	Qt::Key lastMoveKey;
 	Qt::Key lastRotKey;
-	float movespeed = 2.0f;
+	float movespeed = 20.0f;
 	float rotspeed = 2.5f;
 
 	// Constant Buffer Vertices
