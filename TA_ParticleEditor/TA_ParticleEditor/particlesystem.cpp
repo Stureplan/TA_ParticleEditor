@@ -237,7 +237,7 @@ void ParticleSystem::Update(float dt)
 
 					// Move particle
 					particles[i].position = nPos;
-					particles[i].direction = nPos - dir;
+					particles[i].direction = nPos - (dir+FLOAT3(0, 0.001f, 0));
 				}
 				else
 				{

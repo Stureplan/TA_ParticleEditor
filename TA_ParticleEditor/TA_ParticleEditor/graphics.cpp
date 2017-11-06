@@ -709,8 +709,8 @@ void Graphics::Update()
 
 
 
-	if (frame == 0) { ms = 0.016f; }
-	particlesystem->Update(ms);
+	//if (frame == 0) { ms = 0.016f; }
+	particlesystem->Update(0.016f);
 }
 
 void Graphics::Render()
