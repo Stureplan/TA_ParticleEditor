@@ -4,6 +4,8 @@
 #include <Windows.h>
 #include <DirectXMath.h>
 
+#include "WICTextureLoader.h"
+#include "DDSTextureLoader.h"
 
 #pragma comment (lib, "Shlwapi.lib")
 
@@ -158,9 +160,12 @@ struct GIZMO_VERTEX
 	float R, G, B;
 };
 
+
+
 class Utility
 {
 public:
+
 	static std::string Path()
 	{
 		std::string path = "";
@@ -192,6 +197,32 @@ public:
 
 		return false;
 	}
+};
+
+
+class DX
+{
+public:
+
+	static bool LoadTexture(ID3D11Device* device, ID3D11Resource* resource, ID3D11ShaderResourceView* &texture, std::string path)
+	{
+		HRESULT hr;
+
+		std::wstring wide_path = std::wstring(path.begin(), path.end());
+		if (Utility::FindSubstring(wide_path, L".dds") || Utility::FindSubstring(wide_path, L".DDS"))
+		{
+			// Found DDS in texturename
+			hr = CreateDDSTextureFromFile(device, wide_path.c_str(), &resource, &texture);
+		}
+		else
+		{
+			// Didn't find DDS, so we assume it's PNG or something else
+			hr = CreateWICTextureFromFile(device, wide_path.c_str(), &resource, &texture);
+		}
+
+		if (hr == S_OK) { return true; }
+		return false;
+	}
 
 	static float Dot(XMVECTOR v1, XMVECTOR v2)
 	{
@@ -200,6 +231,4 @@ public:
 
 		return dest.x;
 	}
-
-
 };

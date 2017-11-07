@@ -490,64 +490,22 @@ void Graphics::LoadTextures()
 	std::string s2 = Utility::Path() + "Data\\Textures\\debug_transparent.png";
 	std::string s3 = Utility::Path() + "Data\\Textures\\debug_wireframe.png";
 
-
-	std::wstring w0 = std::wstring(s0.begin(), s0.end());
-	if (Utility::FindSubstring(w0, L".dds") || Utility::FindSubstring(w0, L".DDS"))
-	{
-		// Found DDS in texturename
-		hr = CreateDDSTextureFromFile(device, w0.c_str(), &textureResource, &textures[0]);
-	}
-	else
-	{
-		// Didn't find DDS, so we assume it's PNG or something else
-		hr = CreateWICTextureFromFile(device, w0.c_str(), &textureResource, &textures[0]);
-	}
-
-
-
-	std::wstring w1 = std::wstring(s1.begin(), s1.end());
-	if (Utility::FindSubstring(w1, L".dds") || Utility::FindSubstring(w1, L".DDS"))
-	{
-		// Found DDS in texturename
-		hr = CreateDDSTextureFromFile(device, w1.c_str(), &textureResource, &textures[1]);
-	}
-	else
-	{
-		// Didn't find DDS, so we assume it's PNG or something else
-		hr = CreateWICTextureFromFile(device, w1.c_str(), &textureResource, &textures[1]);
-	}
-
-
-
-	std::wstring w2 = std::wstring(s2.begin(), s2.end());
-	if (Utility::FindSubstring(w2, L".dds") || Utility::FindSubstring(w2, L".DDS"))
-	{
-		// Found DDS in texturename
-		hr = CreateDDSTextureFromFile(device, w2.c_str(), &textureResource, &textures[2]);
-	}
-	else
-	{
-		// Didn't find DDS, so we assume it's PNG or something else
-		hr = CreateWICTextureFromFile(device, w2.c_str(), &textureResource, &textures[2]);
-	}
-
-
-	std::wstring w3 = std::wstring(s3.begin(), s3.end());
-	if (Utility::FindSubstring(w3, L".dds") || Utility::FindSubstring(w3, L".DDS"))
-	{
-		// Found DDS in texturename
-		hr = CreateDDSTextureFromFile(device, w3.c_str(), &textureResource, &texture_debug);
-	}
-	else
-	{
-		// Didn't find DDS, so we assume it's PNG or something else
-		hr = CreateWICTextureFromFile(device, w3.c_str(), &textureResource, &texture_debug);
-	}
+	bool result = false;
+	result = DX::LoadTexture(device, textureResource, textures[0], Utility::Path() + "Data\\Textures\\debug.png");
+	result = DX::LoadTexture(device, textureResource, textures[1], Utility::Path() + "Data\\Textures\\plasmaball.png");
+	result = DX::LoadTexture(device, textureResource, textures[2], Utility::Path() + "Data\\Textures\\debug_transparent.png");
+	result = DX::LoadTexture(device, textureResource, texture_debug, Utility::Path() + "Data\\Textures\\debug_wireframe.png");
 
 	//hr = D3DX11CreateShaderResourceViewFromFileA(device, std::string(Utility::Path() + "Data\\Textures\\debug.png").c_str(),			NULL, NULL, &textures[0],  NULL);
 	//hr = D3DX11CreateShaderResourceViewFromFileA(device, std::string(Utility::Path() + "Data\\Textures\\plasmaball.png").c_str(),		NULL, NULL, &textures[1],  NULL);
 	//hr = D3DX11CreateShaderResourceViewFromFileA(device, std::string(Utility::Path() + "Data\\Textures\\debug_transparent.png").c_str(),NULL, NULL, &textures[2],  NULL);
 	//hr = D3DX11CreateShaderResourceViewFromFileA(device, std::string(Utility::Path() + "Data\\Textures\\debug_wireframe.png").c_str(),	NULL, NULL, &texture_debug,NULL);
+}
+
+void Graphics::Retexture(std::string path)
+{
+	HRESULT hr;
+	DX::LoadTexture(device, textureResource, textures[1], path);
 }
 
 void Graphics::ChangeRasterization(D3D11_FILL_MODE fillmode)
@@ -583,14 +541,7 @@ void Graphics::ChangeSize(float x, float y)
 	sizeX = x; sizeY = y;
 }
 
-void Graphics::Retexture(std::string path)
-{
-	HRESULT hr;
 
-	ID3D11ShaderResourceView* texture;
-
-	//hr = D3DX11CreateShaderResourceViewFromFileA(device, path.c_str(), NULL, NULL, &textures[1], NULL);
-}
 
 void Graphics::Rebuild(PARTICLESYSTEM ps)
 {
