@@ -21,8 +21,8 @@
 
 
 
-#define W width()
-#define H height()
+#define WIDTH width()
+#define HEIGHT height()
 
 #define VSYNC_1
 
