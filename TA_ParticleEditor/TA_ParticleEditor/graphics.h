@@ -12,8 +12,6 @@
 #include <d3d11.h>
 #include <DirectXMath.h>
 
-#include "WICTextureLoader.h"
-#include "DDSTextureLoader.h"
 
 #include "utility.h"
 #include "particlesystem.h"
