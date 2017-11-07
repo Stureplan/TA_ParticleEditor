@@ -90,6 +90,46 @@ void MainContainer::setGravity()
 void MainContainer::load()
 {
 	std::string loadPath = QFileDialog::getOpenFileName(this).toStdString();
+	unsigned int textureNameSize = 0;
+	PARTICLESYSTEM ps;
+	FILE* file = fopen(loadPath.c_str(), "rb");
+
+	if (file != NULL)
+	{
+		fread(&textureNameSize, sizeof(unsigned int), 1, file);
+	
+		std::string n(textureNameSize, '\0');
+		fread(&n[0], sizeof(char), textureNameSize, file);
+		fread(&ps, sizeof(PARTICLESYSTEM), 1, file);
+		mEmitterType = ps.emittertype;
+		mPosition = ps.position;
+		mMaxParticles = ps.maxparticles;
+		mVelocity = ps.velocity;
+		mEmissionDelay = ps.emissiondelay;
+		mLifetime = ps.lifetime;
+		mGravity = ps.gravity;
+		mColorIn.setRgbF(ps.colorIn.X, ps.colorIn.Y, ps.colorIn.Z, ps.colorIn.W);
+		mColorOut.setRgbF(ps.colorOut.X, ps.colorOut.Y, ps.colorOut.Z, ps.colorOut.W);
+		mSizeX = ps.sizeX;
+		mSizeY = ps.sizeY;
+		mRectSizeX = ps.rectSizeX;
+		mRectSizeZ = ps.rectSizeZ;
+		mScaleMode = ps.scaleMode;
+
+		SetUiElements();
+		BuildParticleSystem();
+	}
+}
+
+void MainContainer::SetUiElements()
+{
+	textFieldVelocityX->setText(QString::number(mVelocity.X));
+	textFieldVelocityY->setText(QString::number(mVelocity.Y));
+	textFieldVelocityZ->setText(QString::number(mVelocity.Z));
+	textFieldEmissionDelay->setText(QString::number(mEmissionDelay));
+	textFieldLifetime->setText(QString::number(mLifetime));
+	textFieldMaxParticles->setText(QString::number(mMaxParticles));
+	textFieldGravity->setText(QString::number(mGravity));
 }
 
 void MainContainer::save()

@@ -59,8 +59,8 @@ void Graphics::Initialize()
 	DXGI_SWAP_CHAIN_DESC swapDesc;
 	ZeroMemory(&swapDesc, sizeof(DXGI_SWAP_CHAIN_DESC));
 	swapDesc.BufferCount = 1;
-	swapDesc.BufferDesc.Width = W;
-	swapDesc.BufferDesc.Height = H;
+	swapDesc.BufferDesc.Width = WIDTH;
+	swapDesc.BufferDesc.Height = HEIGHT;
 	swapDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	swapDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 	swapDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
@@ -139,8 +139,8 @@ void Graphics::Initialize()
 	viewport.MaxDepth = 1.0f;
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
-	viewport.Width = W;
-	viewport.Height = H;
+	viewport.Width = WIDTH;
+	viewport.Height = HEIGHT;
 	context->RSSetViewports(1, &viewport);
 	/*===================================================================================*/
 
@@ -209,7 +209,7 @@ void Graphics::SetupCamera(XMVECTOR pos, XMVECTOR dir, XMVECTOR up)
 	
 	World = XMMatrixIdentity();
 	View = XMMatrixLookAtLH(campos, camdir, camup);
-	Projection = XMMatrixPerspectiveFovLH(0.4f * 3.14f, (float)W / (float)H, 1.0f, 1000.0f);
+	Projection = XMMatrixPerspectiveFovLH(0.4f * 3.14f, (float)WIDTH / (float)HEIGHT, 1.0f, 1000.0f);
 
 	v = XMMatrixIdentity();
 }
@@ -651,10 +651,10 @@ int Graphics::TestIntersection(int x, int y, XMFLOAT3 &particlePos)
 		XMVECTOR vec3 = pos + right - up; //XMVectorSet(5, -5, 0, 1);
 
 		World = XMMatrixIdentity();
-		XMVECTOR nVec0 = XMVector3Project(vec0, 0, 0, W, H, 0, 1, Projection, View, World);
-		XMVECTOR nVec1 = XMVector3Project(vec1, 0, 0, W, H, 0, 1, Projection, View, World);
-		XMVECTOR nVec2 = XMVector3Project(vec2, 0, 0, W, H, 0, 1, Projection, View, World);
-		XMVECTOR nVec3 = XMVector3Project(vec3, 0, 0, W, H, 0, 1, Projection, View, World);
+		XMVECTOR nVec0 = XMVector3Project(vec0, 0, 0, WIDTH, HEIGHT, 0, 1, Projection, View, World);
+		XMVECTOR nVec1 = XMVector3Project(vec1, 0, 0, WIDTH, HEIGHT, 0, 1, Projection, View, World);
+		XMVECTOR nVec2 = XMVector3Project(vec2, 0, 0, WIDTH, HEIGHT, 0, 1, Projection, View, World);
+		XMVECTOR nVec3 = XMVector3Project(vec3, 0, 0, WIDTH, HEIGHT, 0, 1, Projection, View, World);
 
 		XMFLOAT2 pixel0;
 		XMStoreFloat2(&pixel0, nVec0);

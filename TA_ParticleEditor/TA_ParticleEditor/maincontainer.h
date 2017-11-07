@@ -38,6 +38,7 @@ public:
 	void BuildParticleSystem();
 
 	float ErrorHandleUI(QString text, QPlainTextEdit* qpte);
+	void SetUiElements();
 	
 
 public slots:
