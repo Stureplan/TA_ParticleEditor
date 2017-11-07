@@ -14,28 +14,29 @@ MainContainer::~MainContainer()
 #pragma region POINTERS
 void MainContainer::SetPointers(ParticleSystem* ps)
 {
-	graphics			   = findChild<Graphics*>	("graphics",			Qt::FindChildOption::FindChildrenRecursively);
 	particlesystem = ps;
-	textFieldParticleInfo  = findChild<QLabel*>		("label_ParticleInfo",	Qt::FindChildOption::FindChildrenRecursively);
-	textFieldLifetime	   = findChild<QLineEdit*>	("lifetime",			Qt::FindChildOption::FindChildrenRecursively);
-	textFieldEmissionDelay = findChild<QLineEdit*>	("emissionDelay",		Qt::FindChildOption::FindChildrenRecursively);
-	textFieldVelocityX	   = findChild<QLineEdit*>	("velocityX",			Qt::FindChildOption::FindChildrenRecursively);
-	textFieldVelocityY	   = findChild<QLineEdit*>	("velocityY",			Qt::FindChildOption::FindChildrenRecursively);
-	textFieldVelocityZ	   = findChild<QLineEdit*>	("velocityZ",			Qt::FindChildOption::FindChildrenRecursively);
-	textFieldGravity	   = findChild<QLineEdit*>	("gravity",				Qt::FindChildOption::FindChildrenRecursively);
-	browseBtn			   = findChild<QPushButton*>("browsepath",			Qt::FindChildOption::FindChildrenRecursively);
-	saveBtn				   = findChild<QPushButton*>("savePS",				Qt::FindChildOption::FindChildrenRecursively);
-	textFieldMaxParticles  = findChild<QLineEdit*>	("maxParticles",		Qt::FindChildOption::FindChildrenRecursively);
+	graphics			   = findChild<Graphics*>	 ("graphics",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldParticleInfo  = findChild<QLabel*>		 ("label_ParticleInfo",	Qt::FindChildOption::FindChildrenRecursively);
+	textFieldLifetime	   = findChild<QLineEdit*>	 ("lifetime",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldEmissionDelay = findChild<QLineEdit*>	 ("emissionDelay",		Qt::FindChildOption::FindChildrenRecursively);
+	textFieldVelocityX	   = findChild<QLineEdit*>	 ("velocityX",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldVelocityY	   = findChild<QLineEdit*>	 ("velocityY",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldVelocityZ	   = findChild<QLineEdit*>	 ("velocityZ",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldGravity	   = findChild<QLineEdit*>	 ("gravity",			Qt::FindChildOption::FindChildrenRecursively);
+	browseBtn			   = findChild<QPushButton*> ("browsepath",			Qt::FindChildOption::FindChildrenRecursively);
+	saveBtn				   = findChild<QPushButton*> ("savePS",				Qt::FindChildOption::FindChildrenRecursively);
+	loadBtn				   = findChild<QPushButton*> ("loadPS",				Qt::FindChildOption::FindChildrenRecursively);
+	textFieldMaxParticles  = findChild<QLineEdit*>	 ("maxParticles",		Qt::FindChildOption::FindChildrenRecursively);
 	textBrowser			   = findChild<QTextBrowser*>("textBrowser",		Qt::FindChildOption::FindChildrenRecursively);
-	colorInDisplay		   = findChild<QLineEdit*>	("colorInDisplay",		Qt::FindChildOption::FindChildrenRecursively);
-	colorOutDisplay		   = findChild<QLineEdit*>	("colorOutDisplay",		Qt::FindChildOption::FindChildrenRecursively);
-	scaleBoxDisplay		   = findChild<QComboBox*>	("scaleBox",			Qt::FindChildOption::FindChildrenRecursively);
-	textFieldSizeX		   = findChild<QLineEdit*>	("sizeX",				Qt::FindChildOption::FindChildrenRecursively);
-	textFieldSizeY		   = findChild<QLineEdit*>	("sizeY",				Qt::FindChildOption::FindChildrenRecursively);
-	textFieldRectSizeX	   = findChild<QLineEdit*>	("rectSizeX",			Qt::FindChildOption::FindChildrenRecursively);
-	textFieldRectSizeZ	   = findChild<QLineEdit*>	("rectSizeZ",			Qt::FindChildOption::FindChildrenRecursively);
-	pointWidget			   = findChild<QWidget*>	("pointWidget",			Qt::FindChildOption::FindChildrenRecursively);
-	rectangleWidget		   = findChild<QWidget*>	("rectangleWidget",		Qt::FindChildOption::FindChildrenRecursively);
+	colorInDisplay		   = findChild<QLineEdit*>	 ("colorInDisplay",		Qt::FindChildOption::FindChildrenRecursively);
+	colorOutDisplay		   = findChild<QLineEdit*>	 ("colorOutDisplay",	Qt::FindChildOption::FindChildrenRecursively);
+	scaleBoxDisplay		   = findChild<QComboBox*>	 ("scaleBox",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldSizeX		   = findChild<QLineEdit*>	 ("sizeX",				Qt::FindChildOption::FindChildrenRecursively);
+	textFieldSizeY		   = findChild<QLineEdit*>	 ("sizeY",				Qt::FindChildOption::FindChildrenRecursively);
+	textFieldRectSizeX	   = findChild<QLineEdit*>	 ("rectSizeX",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldRectSizeZ	   = findChild<QLineEdit*>	 ("rectSizeZ",			Qt::FindChildOption::FindChildrenRecursively);
+	pointWidget			   = findChild<QWidget*>	 ("pointWidget",		Qt::FindChildOption::FindChildrenRecursively);
+	rectangleWidget		   = findChild<QWidget*>	 ("rectangleWidget",	Qt::FindChildOption::FindChildrenRecursively);
 }
 #pragma endregion
 
@@ -84,6 +85,11 @@ void MainContainer::setGravity()
 {
 	mGravity = textFieldGravity->text().toFloat();
 	particlesystem->SetProperty(PS_PROPERTY::PS_GRAVITY, &mGravity);
+}
+
+void MainContainer::load()
+{
+	std::string loadPath = QFileDialog::getOpenFileName(this).toStdString();
 }
 
 void MainContainer::save()
