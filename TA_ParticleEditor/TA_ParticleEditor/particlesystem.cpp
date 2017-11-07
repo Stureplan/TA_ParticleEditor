@@ -166,6 +166,7 @@ FLOAT3 ParticleSystem::Position(EMITTER_TYPE type)
 
 		return pos;
 	}
+	return FLOAT3(0, 0, 0);
 }
 
 float ParticleSystem::Random(float min, float max)

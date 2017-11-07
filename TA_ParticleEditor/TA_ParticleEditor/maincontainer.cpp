@@ -409,6 +409,7 @@ float MainContainer::ErrorHandleUI(QString text, QPlainTextEdit* qpte)
 		msgBox.setText("Input MUST be float, not character!");
 		msgBox.exec();*/
 	}
+	return 0.0f;
 }
 
 void MainContainer::keyPressEvent(QKeyEvent* evt)
