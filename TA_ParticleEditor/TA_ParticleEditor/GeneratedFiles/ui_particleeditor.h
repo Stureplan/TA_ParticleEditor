@@ -384,13 +384,13 @@ public:
         emitterTypeBox->setCurrentText(QApplication::translate("ParticleEditorClass", "Point", Q_NULLPTR));
         label_SizeY_2->setText(QApplication::translate("ParticleEditorClass", "Emitter Type", Q_NULLPTR));
         label_SizeY_3->setText(QApplication::translate("ParticleEditorClass", "Scale Mode", Q_NULLPTR));
-        velocityX->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
+        velocityX->setInputMask(QApplication::translate("ParticleEditorClass", "##0\\.00", Q_NULLPTR));
         velocityX->setText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
         velocityX->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
-        velocityY->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
+        velocityY->setInputMask(QApplication::translate("ParticleEditorClass", "##0\\.00", Q_NULLPTR));
         velocityY->setText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
         velocityY->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
-        velocityZ->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
+        velocityZ->setInputMask(QApplication::translate("ParticleEditorClass", "##0\\.00", Q_NULLPTR));
         velocityZ->setText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
         velocityZ->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
         gravity->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
