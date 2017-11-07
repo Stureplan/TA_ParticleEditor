@@ -228,9 +228,9 @@ void ParticleSystem::Update(float dt)
 					nPos.Y += ((GRAVITY - (percent * 10)) * dt) * ps->gravity;
 
 					// Add velocity
-					nPos.X += (ps->velocity.X);
-					nPos.Y += (ps->velocity.Y);
-					nPos.Z += (ps->velocity.Z);
+					nPos.X += ((ps->velocity.X) * dt);
+					nPos.Y += ((ps->velocity.Y) * dt);
+					nPos.Z += ((ps->velocity.Z) * dt);
 
 					// Add time to particle life
 					particles[i].currentlifetime += dt;

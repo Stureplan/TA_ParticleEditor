@@ -2,7 +2,10 @@
 
 #include <string>
 #include <d3d11.h>
-#include <d3dx11.h>
+#include <d3dcompiler.h>
+
+#pragma comment (lib, "D3DCompiler.lib")
+
 
 
 class Shaders
@@ -17,36 +20,39 @@ public:
 
 	void LoadGizmoShader(ID3D11Device* device, ID3D11DeviceContext* context)
 	{
-		std::string shaderpath = Utility::Path();
-
-		shaderpath.insert(shaderpath.size(), "Data\\gizmo.hlsl");
-
 		HRESULT hr;
-		ID3D10Blob* blob;
+		ID3DBlob* errorBlob;
+		
 
-		blob = NULL;
-		hr = D3DX11CompileFromFileA(shaderpath.c_str(), 0, 0, "VShader", "vs_4_0", 0, 0, 0, &ObjectVS, &blob, 0);
+		std::string shaderpath = Utility::Path() + "Data\\gizmo.hlsl";
+		std::wstring shaderpath_wide;
+		std::copy(shaderpath.begin(), shaderpath.end(), std::back_inserter(shaderpath_wide));
+
+
+
+		ObjectVS = NULL;
+		errorBlob = NULL;
+		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "VShader", "vs_4_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ObjectVS, &errorBlob);
 		if (hr != S_OK)
 		{
 			// Something went wrong with the shader
-			std::string error = static_cast<char*>(blob->GetBufferPointer());
+			std::string error = static_cast<char*>(errorBlob->GetBufferPointer());
 			MessageBoxA(NULL, error.c_str(), "VS Error", MB_OK);
 		}
 
-		blob = NULL;
-		hr = D3DX11CompileFromFileA(shaderpath.c_str(), 0, 0, "PShader", "ps_4_0", 0, 0, 0, &ObjectPS, &blob, 0);
+		ObjectPS = NULL;
+		errorBlob = NULL;
+		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "PShader", "ps_4_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ObjectPS, &errorBlob);
 		if (hr != S_OK)
 		{
 			// Something went wrong with the shader
-			std::string error = static_cast<char*>(blob->GetBufferPointer());
+			std::string error = static_cast<char*>(errorBlob->GetBufferPointer());
 			MessageBoxA(NULL, error.c_str(), "PS Error", MB_OK);
 		}
 
 
 		hr = device->CreateVertexShader(ObjectVS->GetBufferPointer(), ObjectVS->GetBufferSize(), NULL, &pObjectVS);
 		hr = device->CreatePixelShader(ObjectPS->GetBufferPointer(), ObjectPS->GetBufferSize(), NULL, &pObjectPS);
-
-
 
 		D3D11_INPUT_ELEMENT_DESC ied[] =
 		{
@@ -59,45 +65,46 @@ public:
 									   ObjectVS->GetBufferPointer(),
 									   ObjectVS->GetBufferSize(), 
 									   &pObjectLayout);
-		
-
-
 	}
 
 
 
 	void LoadParticleShader(ID3D11Device* device, ID3D11DeviceContext* context)
 	{
-		std::string shaderpath = Utility::Path();
-
-		shaderpath.insert(shaderpath.size(), "Data\\particle.hlsl");
-
 		HRESULT hr;
-		ID3D10Blob* blob;
+		ID3DBlob* errorBlob;
+		
+		std::string shaderpath = Utility::Path() + "Data\\particle.hlsl";
+		std::wstring shaderpath_wide;
+		std::copy(shaderpath.begin(), shaderpath.end(), std::back_inserter(shaderpath_wide));
 
-		blob = NULL;
-		hr = D3DX11CompileFromFileA(shaderpath.c_str(), 0, 0, "VShader", "vs_4_0", 0, 0, 0, &ParticleVS, &blob, 0);
+		ParticleVS = NULL;
+		errorBlob = NULL;
+		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "VShader", "vs_4_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ParticleVS, &errorBlob);
 		if (hr != S_OK)
 		{
 			// Something went wrong with the shader
-			std::string error = static_cast<char*>(blob->GetBufferPointer());
+			std::string error = static_cast<char*>(errorBlob->GetBufferPointer());
 			MessageBoxA(NULL, error.c_str(), "VS Error", MB_OK);
 		}
 
-		hr = D3DX11CompileFromFileA(shaderpath.c_str(), 0, 0, "GShader", "gs_4_0", 0, 0, 0, &ParticleGS, &blob, 0);
+		ParticleGS = NULL;
+		errorBlob = NULL;
+		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "GShader", "gs_4_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ParticleGS, &errorBlob);
 		if (hr != S_OK)
 		{
 			// Something went wrong with the shader
-			std::string error = static_cast<char*>(blob->GetBufferPointer());
+			std::string error = static_cast<char*>(errorBlob->GetBufferPointer());
 			MessageBoxA(NULL, error.c_str(), "GS Error", MB_OK);
 		}
 
-		blob = NULL;
-		hr = D3DX11CompileFromFileA(shaderpath.c_str(), 0, 0, "PShader", "ps_4_0", 0, 0, 0, &ParticlePS, &blob, 0);
+		ParticlePS = NULL;
+		errorBlob = NULL;
+		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "PShader", "ps_4_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ParticlePS, &errorBlob);
 		if (hr != S_OK)
 		{
 			// Something went wrong with the shader
-			std::string error = static_cast<char*>(blob->GetBufferPointer());
+			std::string error = static_cast<char*>(errorBlob->GetBufferPointer());
 			MessageBoxA(NULL, error.c_str(), "PS Error", MB_OK);
 		}
 
@@ -153,16 +160,16 @@ public:
 
 
 private:
-	ID3D10Blob* ObjectVS;
-	ID3D10Blob* ObjectPS;
+	ID3DBlob* ObjectVS;
+	ID3DBlob* ObjectPS;
 	ID3D11VertexShader*		pObjectVS;
 	ID3D11PixelShader*		pObjectPS;
 	ID3D11InputLayout*		pObjectLayout;
 
 
-	ID3D10Blob* ParticleVS;
-	ID3D10Blob* ParticleGS;
-	ID3D10Blob* ParticlePS;
+	ID3DBlob* ParticleVS;
+	ID3DBlob* ParticleGS;
+	ID3DBlob* ParticlePS;
 	ID3D11VertexShader*		pParticleVS;
 	ID3D11GeometryShader*	pParticleGS;
 	ID3D11PixelShader*		pParticlePS;

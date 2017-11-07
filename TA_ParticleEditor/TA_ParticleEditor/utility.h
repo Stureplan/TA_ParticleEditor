@@ -179,6 +179,20 @@ public:
 		return fullpath;
 	}
 
+	static bool FindSubstring(std::wstring str, std::wstring sub)
+	{
+		size_t index;
+
+		index = str.find(sub);
+		if (index != std::wstring::npos)
+		{
+			// Found substring
+			return true;
+		}
+
+		return false;
+	}
+
 	static float Dot(XMVECTOR v1, XMVECTOR v2)
 	{
 		XMFLOAT3 dest;

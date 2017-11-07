@@ -9,17 +9,18 @@
 #include <vector>
 #include <ctime>
 
-//#include <dxgi.h>
 #include <d3d11.h>
-#include <d3dx11.h>
 #include <DirectXMath.h>
+
+#include "WICTextureLoader.h"
+#include "DDSTextureLoader.h"
 
 #include "utility.h"
 #include "particlesystem.h"
 #include "shaders.h"
 
 #pragma comment (lib, "d3d11.lib")
-#pragma comment (lib, "d3dx11.lib")
+
 
 
 #define W width()
@@ -189,6 +190,7 @@ private:
 	PARTICLE_VERTEX debugParticle;
 
 	std::vector<ID3D11ShaderResourceView*> textures;
+	ID3D11Resource* textureResource;
 	ID3D11ShaderResourceView* texture_debug;
 
 
