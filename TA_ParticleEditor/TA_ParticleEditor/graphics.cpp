@@ -550,6 +550,23 @@ void Graphics::LoadTextures()
 	//hr = D3DX11CreateShaderResourceViewFromFileA(device, std::string(Utility::Path() + "Data\\Textures\\debug_wireframe.png").c_str(),	NULL, NULL, &texture_debug,NULL);
 }
 
+void Graphics::Retexture(std::string path)
+{
+	HRESULT hr;
+
+	std::wstring w0 = std::wstring(path.begin(), path.end());
+	if (Utility::FindSubstring(w0, L".dds") || Utility::FindSubstring(w0, L".DDS"))
+	{
+		// Found DDS in texturename
+		hr = CreateDDSTextureFromFile(device, w0.c_str(), &textureResource, &textures[1]);
+	}
+	else
+	{
+		// Didn't find DDS, so we assume it's PNG or something else
+		hr = CreateWICTextureFromFile(device, w0.c_str(), &textureResource, &textures[1]);
+	}
+}
+
 void Graphics::ChangeRasterization(D3D11_FILL_MODE fillmode)
 {
 	if (fillmode == D3D11_FILL_MODE::D3D11_FILL_WIREFRAME)
@@ -583,14 +600,7 @@ void Graphics::ChangeSize(float x, float y)
 	sizeX = x; sizeY = y;
 }
 
-void Graphics::Retexture(std::string path)
-{
-	HRESULT hr;
 
-	ID3D11ShaderResourceView* texture;
-
-	//hr = D3DX11CreateShaderResourceViewFromFileA(device, path.c_str(), NULL, NULL, &textures[1], NULL);
-}
 
 void Graphics::Rebuild(PARTICLESYSTEM ps)
 {

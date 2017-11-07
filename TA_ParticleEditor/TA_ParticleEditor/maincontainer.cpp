@@ -149,12 +149,6 @@ void MainContainer::save()
 			msg.exec();
 		}
 	}
-
-
-
-
-
-	//graphics->Export(savePath);
 }
 
 void MainContainer::colorIn()
