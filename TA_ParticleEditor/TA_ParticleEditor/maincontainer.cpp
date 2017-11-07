@@ -117,19 +117,41 @@ void MainContainer::load()
 		mScaleMode = ps.scaleMode;
 
 		SetUiElements();
+		std::string path = n;
+		graphics->Retexture(Utility::Path() + "Data\\Textures\\" + path);
 		BuildParticleSystem();
 	}
 }
 
 void MainContainer::SetUiElements()
 {
+	// Set UI textfields after loading a previously saved particle effect
+	
 	textFieldVelocityX->setText(QString::number(mVelocity.X));
 	textFieldVelocityY->setText(QString::number(mVelocity.Y));
 	textFieldVelocityZ->setText(QString::number(mVelocity.Z));
+
+	//need implementation of rectangle position for emitter etc
+
 	textFieldEmissionDelay->setText(QString::number(mEmissionDelay));
 	textFieldLifetime->setText(QString::number(mLifetime));
 	textFieldMaxParticles->setText(QString::number(mMaxParticles));
 	textFieldGravity->setText(QString::number(mGravity));
+	textFieldRectSizeX->setText(QString::number(mRectSizeX));
+	textFieldRectSizeZ->setText(QString::number(mRectSizeZ));
+	textFieldSizeX->setText(QString::number(mSizeX));
+	textFieldSizeY->setText(QString::number(mSizeY));
+
+	colorInDisplay->setStyleSheet("QLineEdit { background: " + mColorIn.name() + "; selection-background-color: rgb(233, 99, 0); }");
+	colorOutDisplay->setStyleSheet("QLineEdit { background: " + mColorOut.name() + "; selection-background-color: rgb(233, 99, 0); }");
+
+	FLOAT4 inColor = FLOAT4(mColorIn.redF(), mColorIn.greenF(), mColorIn.blueF(), mColorIn.alphaF());
+	particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_IN, &inColor);
+	
+	FLOAT4 outColor = FLOAT4(mColorOut.redF(), mColorOut.greenF(), mColorOut.blueF(), mColorOut.alphaF());
+	particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_OUT, &outColor);
+
+	//textBrowser->setText(mTexturePath); fix later when texture thing is done
 }
 
 void MainContainer::save()
