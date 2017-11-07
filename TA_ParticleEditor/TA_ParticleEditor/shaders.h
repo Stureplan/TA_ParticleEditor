@@ -1,8 +1,11 @@
 #pragma once
 
 #include <string>
+#include <iterator>
 #include <d3d11.h>
 #include <d3dcompiler.h>
+
+#include "utility.h"
 
 #pragma comment (lib, "D3DCompiler.lib")
 
