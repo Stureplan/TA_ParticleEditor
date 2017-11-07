@@ -91,6 +91,7 @@ private:
 	QLineEdit* colorInDisplay;
 	QLineEdit* colorOutDisplay;
 	QComboBox* scaleBoxDisplay;
+	QComboBox* emitterTypeDisplay;
 	QWidget* pointWidget;
 	QWidget* rectangleWidget;
 

@@ -31,6 +31,7 @@ void MainContainer::SetPointers(ParticleSystem* ps)
 	colorInDisplay		   = findChild<QLineEdit*>	 ("colorInDisplay",		Qt::FindChildOption::FindChildrenRecursively);
 	colorOutDisplay		   = findChild<QLineEdit*>	 ("colorOutDisplay",	Qt::FindChildOption::FindChildrenRecursively);
 	scaleBoxDisplay		   = findChild<QComboBox*>	 ("scaleBox",			Qt::FindChildOption::FindChildrenRecursively);
+	emitterTypeDisplay	   = findChild<QComboBox*>	 ("emitterTypeBox",			Qt::FindChildOption::FindChildrenRecursively);
 	textFieldSizeX		   = findChild<QLineEdit*>	 ("sizeX",				Qt::FindChildOption::FindChildrenRecursively);
 	textFieldSizeY		   = findChild<QLineEdit*>	 ("sizeY",				Qt::FindChildOption::FindChildrenRecursively);
 	textFieldRectSizeX	   = findChild<QLineEdit*>	 ("rectSizeX",			Qt::FindChildOption::FindChildrenRecursively);
@@ -155,6 +156,13 @@ void MainContainer::SetUiElements()
 	
 	FLOAT4 outColor = FLOAT4(mColorOut.redF(), mColorOut.greenF(), mColorOut.blueF(), mColorOut.alphaF());
 	particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_OUT, &outColor);
+
+	scaleBoxDisplay->setCurrentIndex(mode);
+	int test;
+
+	test = scaleBoxDisplay->currentIndex();
+	test = mEmitterType;
+	emitterTypeDisplay->setCurrentIndex(test);
 
 	graphics->ChangeSize(mSizeX, mSizeY);
 	emitterTypeChanged(mEmitterType);
