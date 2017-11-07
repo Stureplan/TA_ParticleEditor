@@ -220,8 +220,10 @@ public:
 			hr = CreateWICTextureFromFile(device, wide_path.c_str(), &resource, &texture);
 		}
 
-		if (hr == S_OK) { return true; }
-		return false;
+		if (hr == S_OK) 
+		{ 
+			return true; 
+		}
 	}
 
 	static float Dot(XMVECTOR v1, XMVECTOR v2)
