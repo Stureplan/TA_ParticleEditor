@@ -319,7 +319,7 @@ void MainContainer::rectResize()
 void MainContainer::browse()
 {
 	mTexturePath = QFileDialog::getOpenFileName(this,
-		tr("Open Image"), "", tr("Image Files (*.png)"));
+		tr("Open Image"), "", tr("Image Files (*.png *.PNG *.dds *.DDS)"));
 	textBrowser->setPlainText(PathFindFileNameA(mTexturePath.toStdString().c_str()));
 	graphics->Retexture(mTexturePath.toStdString());
 	//graphics->SetTexturePath(texturePath);
