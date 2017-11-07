@@ -50,6 +50,7 @@ public slots:
 	void setGravity();
 	void browse();
 	void save();
+	void load();
 
 	void colorIn();
 	void colorOut();
@@ -84,6 +85,7 @@ private:
 	QLineEdit* textFieldRectSizeZ;
 	QPushButton* browseBtn;
 	QPushButton* saveBtn;
+	QPushButton* loadBtn;
 	QTextBrowser* textBrowser;
 	QLineEdit* colorInDisplay;
 	QLineEdit* colorOutDisplay;

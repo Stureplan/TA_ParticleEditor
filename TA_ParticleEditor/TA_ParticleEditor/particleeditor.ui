@@ -949,6 +949,19 @@
      </property>
     </widget>
    </widget>
+   <widget class="QPushButton" name="loadPS">
+    <property name="geometry">
+     <rect>
+      <x>830</x>
+      <y>500</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Load Particle</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -1000,6 +1013,7 @@
     <slot>sizeY()</slot>
     <slot>emitterTypeChanged(int)</slot>
     <slot>rectResize()</slot>
+    <slot>load()</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -1272,6 +1286,22 @@
     <hint type="sourcelabel">
      <x>909</x>
      <y>402</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>332</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>loadPS</sender>
+   <signal>clicked()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>load()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>885</x>
+     <y>553</y>
     </hint>
     <hint type="destinationlabel">
      <x>474</x>

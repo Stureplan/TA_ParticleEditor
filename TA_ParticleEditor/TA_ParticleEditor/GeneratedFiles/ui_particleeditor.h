@@ -83,6 +83,7 @@ public:
     QLabel *label_SizeY_6;
     QLineEdit *rectSizeX;
     QLineEdit *rectSizeZ;
+    QPushButton *loadPS;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -309,6 +310,9 @@ public:
         rectSizeZ->setObjectName(QStringLiteral("rectSizeZ"));
         rectSizeZ->setGeometry(QRect(60, 60, 60, 20));
         rectSizeZ->setAlignment(Qt::AlignCenter);
+        loadPS = new QPushButton(maincontainer);
+        loadPS->setObjectName(QStringLiteral("loadPS"));
+        loadPS->setGeometry(QRect(830, 500, 111, 41));
         ParticleEditorClass->setCentralWidget(maincontainer);
         menuBar = new QMenuBar(ParticleEditorClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -339,6 +343,7 @@ public:
         QObject::connect(emitterTypeBox, SIGNAL(currentIndexChanged(int)), maincontainer, SLOT(emitterTypeChanged(int)));
         QObject::connect(rectSizeX, SIGNAL(editingFinished()), maincontainer, SLOT(rectResize()));
         QObject::connect(rectSizeZ, SIGNAL(editingFinished()), maincontainer, SLOT(rectResize()));
+        QObject::connect(loadPS, SIGNAL(clicked()), maincontainer, SLOT(load()));
 
         QMetaObject::connectSlotsByName(ParticleEditorClass);
     } // setupUi
@@ -435,6 +440,7 @@ public:
         rectSizeZ->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
         rectSizeZ->setText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
         rectSizeZ->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        loadPS->setText(QApplication::translate("ParticleEditorClass", "Load Particle", Q_NULLPTR));
     } // retranslateUi
 
 };
