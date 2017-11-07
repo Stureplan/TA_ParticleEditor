@@ -142,6 +142,11 @@ void MainContainer::SetUiElements()
 	textFieldSizeX->setText(QString::number(mSizeX));
 	textFieldSizeY->setText(QString::number(mSizeY));
 
+	int mode;
+	if (mScaleMode == 0) { mode = 0; }
+	if (mScaleMode == -1) { mode = 1; }
+	if (mScaleMode == 1) { mode = 2; }
+
 	colorInDisplay->setStyleSheet("QLineEdit { background: " + mColorIn.name() + "; selection-background-color: rgb(233, 99, 0); }");
 	colorOutDisplay->setStyleSheet("QLineEdit { background: " + mColorOut.name() + "; selection-background-color: rgb(233, 99, 0); }");
 
@@ -150,6 +155,10 @@ void MainContainer::SetUiElements()
 	
 	FLOAT4 outColor = FLOAT4(mColorOut.redF(), mColorOut.greenF(), mColorOut.blueF(), mColorOut.alphaF());
 	particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_OUT, &outColor);
+
+	graphics->ChangeSize(mSizeX, mSizeY);
+	emitterTypeChanged(mEmitterType);
+	scaleModeChanged(mode);
 
 	//textBrowser->setText(mTexturePath); fix later when texture thing is done
 }
@@ -248,8 +257,8 @@ void MainContainer::colorOut()
 void MainContainer::scaleModeChanged(int mode)
 {
 	if (mode == 0) { mScaleMode = 0;  }
-	if (mode == 1) { mScaleMode = -1; }
-	if (mode == 2) { mScaleMode = 1;  }
+	else if (mode == 1) { mScaleMode = -1; }
+	else if (mode == 2) { mScaleMode = 1;  }
 	else { mScaleMode = 0; }
 
 	graphics->ChangeScaleMode(mode);
