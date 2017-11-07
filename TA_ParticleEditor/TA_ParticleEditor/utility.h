@@ -224,6 +224,7 @@ public:
 		{ 
 			return true; 
 		}
+		return false;
 	}
 
 	static float Dot(XMVECTOR v1, XMVECTOR v2)
