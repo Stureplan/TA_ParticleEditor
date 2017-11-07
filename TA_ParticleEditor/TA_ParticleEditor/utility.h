@@ -220,7 +220,10 @@ public:
 			hr = CreateWICTextureFromFile(device, wide_path.c_str(), &resource, &texture);
 		}
 
-		if (hr == S_OK) { return true; }
+		if (hr == S_OK) 
+		{ 
+			return true; 
+		}
 		return false;
 	}
 

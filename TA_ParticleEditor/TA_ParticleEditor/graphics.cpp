@@ -485,16 +485,11 @@ void Graphics::LoadTextures()
 	textures.push_back(texture);
 	//TODO: Retexture doesn't work yet. Have to update it with this system
 	//...also: Make a Utility:: function or something. This shit's wack
-	std::string s0 = Utility::Path() + "Data\\Textures\\debug.png";
-	std::string s1 = Utility::Path() + "Data\\Textures\\plasmaball.png";
-	std::string s2 = Utility::Path() + "Data\\Textures\\debug_transparent.png";
-	std::string s3 = Utility::Path() + "Data\\Textures\\debug_wireframe.png";
 
-	bool result = false;
-	result = DX::LoadTexture(device, textureResource, textures[0], Utility::Path() + "Data\\Textures\\debug.png");
-	result = DX::LoadTexture(device, textureResource, textures[1], Utility::Path() + "Data\\Textures\\plasmaball.png");
-	result = DX::LoadTexture(device, textureResource, textures[2], Utility::Path() + "Data\\Textures\\debug_transparent.png");
-	result = DX::LoadTexture(device, textureResource, texture_debug, Utility::Path() + "Data\\Textures\\debug_wireframe.png");
+	DX::LoadTexture(device, textureResource, textures[0], Utility::Path() + "Data\\Textures\\debug.png");
+	DX::LoadTexture(device, textureResource, textures[1], Utility::Path() + "Data\\Textures\\plasmaball.png");
+	DX::LoadTexture(device, textureResource, textures[2], Utility::Path() + "Data\\Textures\\debug_transparent.png");
+	DX::LoadTexture(device, textureResource, texture_debug, Utility::Path() + "Data\\Textures\\debug_wireframe.png");
 
 	//hr = D3DX11CreateShaderResourceViewFromFileA(device, std::string(Utility::Path() + "Data\\Textures\\debug.png").c_str(),			NULL, NULL, &textures[0],  NULL);
 	//hr = D3DX11CreateShaderResourceViewFromFileA(device, std::string(Utility::Path() + "Data\\Textures\\plasmaball.png").c_str(),		NULL, NULL, &textures[1],  NULL);
@@ -504,8 +499,12 @@ void Graphics::LoadTextures()
 
 void Graphics::Retexture(std::string path)
 {
-	HRESULT hr;
-	DX::LoadTexture(device, textureResource, textures[1], path);
+	bool result = DX::LoadTexture(device, textureResource, textures[1], path);
+	if (result == false)
+	{
+		MessageBoxA(NULL, std::string("Texture at: " + path + " was not found!\nLoading default texture.").c_str(), "Texture Missing", MB_OK);
+		Retexture(Utility::Path() + "Data\\Textures\\plasmaball.png");
+	}
 }
 
 void Graphics::ChangeRasterization(D3D11_FILL_MODE fillmode)

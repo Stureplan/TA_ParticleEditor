@@ -187,6 +187,9 @@ void ParticleSystem::Rebuild(PARTICLESYSTEM particlesystem)
 	ps->gravity= particlesystem.gravity;
 	ps->sizeX = particlesystem.sizeX;
 	ps->sizeY = particlesystem.sizeY;
+	ps->rectSizeX = particlesystem.rectSizeX;
+	ps->rectSizeZ = particlesystem.rectSizeZ;
+	ps->scaleMode = particlesystem.scaleMode;
 
 	//TODO: Check if this is OK.
 	cooldown = ps->emissiondelay;
