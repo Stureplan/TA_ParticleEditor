@@ -789,6 +789,7 @@ void Graphics::Render()
 	cBufferParticle.colout = particlesystem->GetOutColor();
 	cBufferParticle.scale = scaleMode;
 	cBufferParticle.lifetime = particlesystem->Lifetime();
+	
 	context->UpdateSubresource(constantBufferParticle, 0, NULL, &cBufferParticle, 0, 0);
 	context->VSSetConstantBuffers(0, 1, &constantBufferParticle);
 	context->GSSetConstantBuffers(0, 1, &constantBufferParticle);

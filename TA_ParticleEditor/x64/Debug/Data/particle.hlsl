@@ -44,6 +44,11 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 	float percent	= input[0].currentLifetime / lifetime;
 
 
+	unsigned int row = 8;
+	unsigned int col = 8;
+	unsigned int totalframes = row * col;
+	unsigned int currentframe = totalframes * percent;
+
 	float finalScale = 1-(percent);
 	//float lifetimeScale = (1 - percent) * scalemode;
 
@@ -69,11 +74,23 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 	vtx[2] = pos + right + up;
 	vtx[3] = pos + right - up;
 
+	float2 cellUV;
+	cellUV.x = (float)(currentframe % row) / (float)row;
+	cellUV.y = floor(currentframe / col) / (float)col;
+
+	float2 cellDUV;
+	cellDUV.x = input[0].texcoord.x / (float)row;
+	cellDUV.y = input[0].texcoord.y / (float)col;
+
+
+
+
+
 	float2 uv[4];
-	uv[0] = float2(1, 0);
-	uv[1] = float2(1, 1);
-	uv[2] = float2(0, 0);
-	uv[3] = float2(0, 1);
+	uv[0] = cellUV + float2(1.0f / (float)row, 0.0f / (float)col);
+	uv[1] = cellUV + float2(1.0f / (float)row, 1.0f / (float)col);
+	uv[2] = cellUV + float2(0.0f / (float)row, 0.0f / (float)col);
+	uv[3] = cellUV + float2(0.0f / (float)row, 1.0f / (float)col);
 
 	VOut output;
 
