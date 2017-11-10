@@ -13,9 +13,17 @@
 
 #define GRAVITY -9.81f
 #define DELTA_TIME 0.016f
-#define COLOR_WHITE FLOAT4(1,1,1,1)
-#define COLOR_PINK  FLOAT4(1,0,1,1)
+#define COLOR_WHITE		FLOAT4(1,1,1,1)
+#define COLOR_PINK		FLOAT4(1,0,1,1)
 
+#define FLOAT3_ZERO		FLOAT3(0,0,0)
+#define FLOAT3_UP		FLOAT3(0,1,0)
+#define FLOAT3_DOWN		FLOAT3(0,-1,0)
+#define FLOAT3_LEFT		FLOAT3(-1,0,0)
+#define FLOAT3_RIGHT	FLOAT3(1,0,0)
+
+
+#define FLOAT4_0 FLOAT4(0,0,0,0)
 
 
 using namespace DirectX;
@@ -115,7 +123,7 @@ enum EMITTER_TYPE
 struct PARTICLESYSTEM
 {
 	PARTICLESYSTEM(){}
-	PARTICLESYSTEM(EMITTER_TYPE e, FLOAT3 p, int m, FLOAT3 v, float ed, float lt, float grv, FLOAT4 colIn, FLOAT4 colOut, float sX, float sY, float rsX, float rsZ, float sM)
+	PARTICLESYSTEM(EMITTER_TYPE e, int m, FLOAT3 v, float ed, float lt, float grv, FLOAT4 colIn, FLOAT4 colOut, float sX, float sY, float rsX, float rsZ, float sM)
 	{
 		emittertype = e;
 		maxparticles = m;
@@ -133,7 +141,6 @@ struct PARTICLESYSTEM
 	}
 	// PS Export variables
 	EMITTER_TYPE emittertype;
-	FLOAT3 position;
 	int maxparticles;
 	FLOAT3 velocity;
 	float emissiondelay;

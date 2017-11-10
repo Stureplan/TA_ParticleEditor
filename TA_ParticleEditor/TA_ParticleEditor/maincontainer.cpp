@@ -31,7 +31,7 @@ void MainContainer::SetPointers(ParticleSystem* ps)
 	colorInDisplay		   = findChild<QLineEdit*>	 ("colorInDisplay",		Qt::FindChildOption::FindChildrenRecursively);
 	colorOutDisplay		   = findChild<QLineEdit*>	 ("colorOutDisplay",	Qt::FindChildOption::FindChildrenRecursively);
 	scaleBoxDisplay		   = findChild<QComboBox*>	 ("scaleBox",			Qt::FindChildOption::FindChildrenRecursively);
-	emitterTypeDisplay	   = findChild<QComboBox*>	 ("emitterTypeBox",			Qt::FindChildOption::FindChildrenRecursively);
+	emitterTypeDisplay	   = findChild<QComboBox*>	 ("emitterTypeBox",		Qt::FindChildOption::FindChildrenRecursively);
 	textFieldSizeX		   = findChild<QLineEdit*>	 ("sizeX",				Qt::FindChildOption::FindChildrenRecursively);
 	textFieldSizeY		   = findChild<QLineEdit*>	 ("sizeY",				Qt::FindChildOption::FindChildrenRecursively);
 	textFieldRectSizeX	   = findChild<QLineEdit*>	 ("rectSizeX",			Qt::FindChildOption::FindChildrenRecursively);
@@ -44,8 +44,6 @@ void MainContainer::SetPointers(ParticleSystem* ps)
 void MainContainer::Init()
 {
 	mEmitterType = EMITTER_TYPE::EMIT_POINT;
-	mPosition = FLOAT3(0, 0, 0);
-
 
 	mTextFieldValue = 0.0f;
 
@@ -103,7 +101,6 @@ void MainContainer::load()
 		fread(&n[0], sizeof(char), textureNameSize, file);
 		fread(&ps, sizeof(PARTICLESYSTEM), 1, file);
 		mEmitterType = ps.emittertype;
-		mPosition = ps.position;
 		mMaxParticles = ps.maxparticles;
 		mVelocity = ps.velocity;
 		mEmissionDelay = ps.emissiondelay;
@@ -187,7 +184,6 @@ void MainContainer::save()
 	
 	PARTICLESYSTEM ps;
 	ps.emittertype = mEmitterType;
-	ps.position = mPosition;
 	ps.maxparticles = mMaxParticles;
 	ps.velocity = mVelocity;
 	ps.emissiondelay = mEmissionDelay;
@@ -378,7 +374,7 @@ void MainContainer::setMaxParticles()
 
 void MainContainer::BuildParticleSystem()
 {
-	PARTICLESYSTEM ps(mEmitterType, mPosition, mMaxParticles,
+	PARTICLESYSTEM ps(mEmitterType, mMaxParticles,
 		mVelocity, mEmissionDelay, mLifetime, mGravity,
 		FLOAT4(mColorIn.redF(), mColorIn.greenF(), mColorIn.blueF(), mColorIn.alphaF()),
 		FLOAT4(mColorOut.redF(), mColorOut.greenF(), mColorOut.blueF(), mColorOut.alphaF()),

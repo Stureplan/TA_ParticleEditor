@@ -74,7 +74,7 @@ PARTICLE_VERTEX ParticleSystem::GetParticle(unsigned int id)
 		}
 	}
 
-	return PARTICLE_VERTEX(FLOAT3(0, 0, 0), FLOAT3(0,0,0), 0);
+	return PARTICLE_VERTEX(FLOAT3_ZERO, FLOAT3_ZERO, 0);
 }
 
 void ParticleSystem::EmitterSize(float x, float z)
@@ -105,9 +105,6 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 {
 	switch (prop)
 	{
-	case PS_PROPERTY::PS_POSITION:
-		ps->position = *(FLOAT3*)data;
-		break;
 	case PS_PROPERTY::PS_VELOCITY:
 		ps->velocity = *(FLOAT3*)data;
 		break;
@@ -140,11 +137,11 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 
 void ParticleSystem::Initialize()
 {
-	ps = new PARTICLESYSTEM(EMITTER_TYPE::EMIT_POINT, FLOAT3(0,0,0),0, FLOAT3(0,0,0),0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f, 1.0f, 1.0f, 0.0f);
+	ps = new PARTICLESYSTEM(EMITTER_TYPE::EMIT_POINT,0, FLOAT3_ZERO, 0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f, 1.0f, 1.0f, 0.0f);
 
 	for (unsigned int i = 0; i < ps->maxparticles; i++)
 	{
-		particles.push_back(PARTICLE(ps->position, ps->position+FLOAT3(0, 1, 0), 0, false, RandomIntMinusPlus(), RandomIntMinusPlus()));
+		particles.push_back(PARTICLE(FLOAT3_ZERO, FLOAT3_ZERO + FLOAT3(0, 1, 0), 0, false, RandomIntMinusPlus(), RandomIntMinusPlus()));
 	}
 
 
@@ -155,11 +152,11 @@ FLOAT3 ParticleSystem::Position(EMITTER_TYPE type)
 {
 	if (type == EMITTER_TYPE::EMIT_POINT)
 	{
-		return ps->position;
+		return FLOAT3_ZERO;
 	}
 	if (type == EMITTER_TYPE::EMIT_RECTANGLE)
 	{
-		FLOAT3 pos = ps->position;
+		FLOAT3 pos = FLOAT3_ZERO;
 
 		pos.X = RandomFloat(-ps->rectSizeX * 2, ps->rectSizeX * 2);
 		pos.Z = RandomFloat(-ps->rectSizeZ * 2, ps->rectSizeZ * 2);
@@ -197,7 +194,6 @@ int ParticleSystem::RandomIntMinusPlus()
 void ParticleSystem::Rebuild(PARTICLESYSTEM particlesystem)
 {
 	ps->emittertype = particlesystem.emittertype;
-	ps->position = particlesystem.position;
 	ps->maxparticles = particlesystem.maxparticles;
 	ps->velocity= particlesystem.velocity;
 	ps->emissiondelay= particlesystem.emissiondelay;

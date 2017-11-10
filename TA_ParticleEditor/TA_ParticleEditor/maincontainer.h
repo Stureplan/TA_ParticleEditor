@@ -103,7 +103,6 @@ private:
 
 	// PS VARIABLES
 	EMITTER_TYPE mEmitterType;
-	FLOAT3 mPosition;
 	int mMaxParticles;
 	FLOAT3 mVelocity;
 	float mEmissionDelay;
