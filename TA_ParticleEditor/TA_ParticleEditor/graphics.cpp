@@ -228,8 +228,6 @@ void Graphics::SetupCamera(XMVECTOR pos, XMVECTOR dir, XMVECTOR up)
 
 void Graphics::MoveCamera(float z)
 {
-	//TODO: Set up 
-	//GROUND PLANE: NONE, USE EMISSION TYPE BOX INSTEAD
 	float distance = XMVectorGetX(XMVector4Length(XMVectorSet(0,1.0f,0.0f,0) - (campos + (camdir*z))));
 
 	if (distance > 2.0f && distance < 40.0f)
@@ -484,19 +482,12 @@ void Graphics::LoadTextures()
 	textures.push_back(texture);
 	textures.push_back(texture);
 	textures.push_back(texture);
-	//TODO: Retexture doesn't work yet. Have to update it with this system
-	//...also: Make a Utility:: function or something. This shit's wack
-
+	
 	DX::LoadTexture(device, textureResource, textures[0], Utility::Path() + "Data\\Textures\\debug.png");
 	DX::LoadTexture(device, textureResource, textures[1], Utility::Path() + "Data\\Textures\\plasmaball.png");
 	DX::LoadTexture(device, textureResource, textures[2], Utility::Path() + "Data\\Textures\\debug_transparent.png");
 	DX::LoadTexture(device, textureResource, textures[3], Utility::Path() + "Data\\Textures\\noise.png");
 	DX::LoadTexture(device, textureResource, texture_debug, Utility::Path() + "Data\\Textures\\debug_wireframe.png");
-
-	//hr = D3DX11CreateShaderResourceViewFromFileA(device, std::string(Utility::Path() + "Data\\Textures\\debug.png").c_str(),			NULL, NULL, &textures[0],  NULL);
-	//hr = D3DX11CreateShaderResourceViewFromFileA(device, std::string(Utility::Path() + "Data\\Textures\\plasmaball.png").c_str(),		NULL, NULL, &textures[1],  NULL);
-	//hr = D3DX11CreateShaderResourceViewFromFileA(device, std::string(Utility::Path() + "Data\\Textures\\debug_transparent.png").c_str(),NULL, NULL, &textures[2],  NULL);
-	//hr = D3DX11CreateShaderResourceViewFromFileA(device, std::string(Utility::Path() + "Data\\Textures\\debug_wireframe.png").c_str(),	NULL, NULL, &texture_debug,NULL);
 }
 
 void Graphics::Retexture(std::string path)
@@ -584,8 +575,6 @@ void Graphics::UpdateInspectorText()
 
 int Graphics::TestIntersection(int x, int y, XMFLOAT3 &particlePos)
 {
-	//float nX = (2.0f * x / W - 1.0f);
-	//float nY = (-2.0f * y / H + 1.0f);
 	unsigned int count = -1;
 	std::vector<PARTICLE_VERTEX> particles = particlesystem->ParticleData(count);
 

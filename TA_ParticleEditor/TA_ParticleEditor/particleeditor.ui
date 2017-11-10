@@ -104,9 +104,9 @@
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>460</y>
+      <y>439</y>
       <width>75</width>
-      <height>31</height>
+      <height>25</height>
      </rect>
     </property>
     <property name="text">
@@ -181,9 +181,9 @@
     <property name="geometry">
      <rect>
       <x>750</x>
-      <y>460</y>
+      <y>440</y>
       <width>191</width>
-      <height>31</height>
+      <height>23</height>
      </rect>
     </property>
     <property name="textInteractionFlags">
@@ -226,7 +226,7 @@
     <property name="geometry">
      <rect>
       <x>680</x>
-      <y>440</y>
+      <y>420</y>
       <width>91</width>
       <height>16</height>
      </rect>
@@ -955,15 +955,41 @@
    <widget class="QPushButton" name="loadPS">
     <property name="geometry">
      <rect>
-      <x>830</x>
-      <y>500</y>
+      <x>711</x>
+      <y>550</y>
       <width>111</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>Load Particle</string>
+     <string>Load</string>
     </property>
+   </widget>
+   <widget class="QComboBox" name="textureTypeBox">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>467</y>
+      <width>121</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="currentText">
+     <string>Single Sprite</string>
+    </property>
+    <item>
+     <property name="text">
+      <string>Single Sprite</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Sprite Sheet</string>
+     </property>
+    </item>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">

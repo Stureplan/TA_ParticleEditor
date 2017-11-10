@@ -209,7 +209,6 @@ void ParticleSystem::Rebuild(PARTICLESYSTEM particlesystem)
 	ps->rectSizeZ = particlesystem.rectSizeZ;
 	ps->scaleMode = particlesystem.scaleMode;
 
-	//TODO: Check if this is OK.
 	cooldown = ps->emissiondelay;
 
 	particles.clear();
