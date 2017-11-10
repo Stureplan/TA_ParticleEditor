@@ -13,6 +13,9 @@
 
 #define GRAVITY -9.81f
 #define DELTA_TIME 0.016f
+#define COLOR_WHITE FLOAT4(1,1,1,1)
+#define COLOR_PINK  FLOAT4(1,0,1,1)
+
 
 
 using namespace DirectX;
@@ -68,18 +71,24 @@ struct PARTICLE_VERTEX
 
 struct PARTICLE
 {
-	PARTICLE(FLOAT3 pos, FLOAT3 dir, float cl, bool a)
+	PARTICLE(FLOAT3 pos, FLOAT3 dir, float cl, bool a, int rX, int rY)
 	{ 
 		position = pos;
 		direction = dir;
 		currentlifetime = cl; 
 		alive = a;
+		
+		randX = rX;
+		randY = rY;
 	}
 
 	FLOAT3 position;
 	FLOAT3 direction;
 	float currentlifetime;
 	bool alive;
+
+	int randX;
+	int randY;
 };
 
 enum PS_PROPERTY

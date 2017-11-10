@@ -16,7 +16,7 @@ unsigned int ParticleSystem::ParticleCount()
 
 void ParticleSystem::AddParticle(FLOAT3 p)
 {
-	particles.push_back(PARTICLE(p, p, 0.0f, true));
+	particles.push_back(PARTICLE(p, p, 0.0f, true, 1, 1));
 }
 
 void ParticleSystem::ModifyParticle(int id, FLOAT3 p)
@@ -144,7 +144,7 @@ void ParticleSystem::Initialize()
 
 	for (unsigned int i = 0; i < ps->maxparticles; i++)
 	{
-		particles.push_back(PARTICLE(ps->position, ps->position+FLOAT3(0, 1, 0), 0, false));
+		particles.push_back(PARTICLE(ps->position, ps->position+FLOAT3(0, 1, 0), 0, false, RandomIntMinusPlus(), RandomIntMinusPlus()));
 	}
 
 
@@ -161,18 +161,36 @@ FLOAT3 ParticleSystem::Position(EMITTER_TYPE type)
 	{
 		FLOAT3 pos = ps->position;
 
-		pos.X = Random(-ps->rectSizeX * 2, ps->rectSizeX * 2);
-		pos.Z = Random(-ps->rectSizeZ * 2, ps->rectSizeZ * 2);
+		pos.X = RandomFloat(-ps->rectSizeX * 2, ps->rectSizeX * 2);
+		pos.Z = RandomFloat(-ps->rectSizeZ * 2, ps->rectSizeZ * 2);
 
 		return pos;
 	}
 	return FLOAT3(0, 0, 0);
 }
 
-float ParticleSystem::Random(float min, float max)
+float ParticleSystem::RandomFloat(float min, float max)
 {
 	std::uniform_real_distribution<float> dist(min, max);
 	return dist(rng);
+}
+
+int ParticleSystem::RandomInt(int min, int max)
+{
+	std::uniform_int_distribution<int> dist(min, max);
+	int r = dist(rng);
+	if (r == 0) { r = 1; }
+
+	return r;
+}
+
+int ParticleSystem::RandomIntMinusPlus()
+{
+	std::uniform_int_distribution<int> dist(0, 1);
+	int r = dist(rng);
+
+	if (r == 0) { r = -1; }
+	return r;
 }
 
 
@@ -198,7 +216,7 @@ void ParticleSystem::Rebuild(PARTICLESYSTEM particlesystem)
 
 	for (unsigned int i = 0; i < ps->maxparticles; i++)
 	{
-		particles.push_back(PARTICLE(FLOAT3(0, 0, 0), FLOAT3(0, 1, 0), 0, false));
+		particles.push_back(PARTICLE(FLOAT3(0, 0, 0), FLOAT3(0, 1, 0), 0, false, RandomIntMinusPlus(), RandomIntMinusPlus()));
 	}
 }
 
@@ -242,6 +260,9 @@ void ParticleSystem::Update(float dt)
 					// Move particle
 					particles[i].position = nPos;
 					particles[i].direction = nPos - (dir+FLOAT3(0, 0.001f, 0));
+
+					particles[i].direction.X *= particles[i].randX;
+					particles[i].direction.Y *= particles[i].randY;
 				}
 				else
 				{

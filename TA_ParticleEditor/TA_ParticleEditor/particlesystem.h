@@ -41,7 +41,9 @@ public:
 	PARTICLESYSTEM* GetParticleSystem() { return ps; }
 
 private:
-	float Random(float min, float max);
+	float RandomFloat(float min, float max);
+	int RandomInt(int min, int max);
+	int RandomIntMinusPlus();
 	FLOAT3 Position(EMITTER_TYPE type);
 
 private:

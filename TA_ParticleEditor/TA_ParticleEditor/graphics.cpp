@@ -483,12 +483,14 @@ void Graphics::LoadTextures()
 	textures.push_back(texture);
 	textures.push_back(texture);
 	textures.push_back(texture);
+	textures.push_back(texture);
 	//TODO: Retexture doesn't work yet. Have to update it with this system
 	//...also: Make a Utility:: function or something. This shit's wack
 
 	DX::LoadTexture(device, textureResource, textures[0], Utility::Path() + "Data\\Textures\\debug.png");
 	DX::LoadTexture(device, textureResource, textures[1], Utility::Path() + "Data\\Textures\\plasmaball.png");
 	DX::LoadTexture(device, textureResource, textures[2], Utility::Path() + "Data\\Textures\\debug_transparent.png");
+	DX::LoadTexture(device, textureResource, textures[3], Utility::Path() + "Data\\Textures\\noise.png");
 	DX::LoadTexture(device, textureResource, texture_debug, Utility::Path() + "Data\\Textures\\debug_wireframe.png");
 
 	//hr = D3DX11CreateShaderResourceViewFromFileA(device, std::string(Utility::Path() + "Data\\Textures\\debug.png").c_str(),			NULL, NULL, &textures[0],  NULL);
@@ -796,9 +798,16 @@ void Graphics::Render()
 	context->PSSetConstantBuffers(0, 1, &constantBufferParticle);
 	context->PSSetSamplers(0, 1, &textureSamplerState);
 
+
 	if (debug == true)
 	{
 		// Pink Debug texture
+		cBufferParticle.colin  = COLOR_WHITE;
+		cBufferParticle.colout = COLOR_WHITE;
+		context->UpdateSubresource(constantBufferParticle, 0, NULL, &cBufferParticle, 0, 0);
+		context->PSSetConstantBuffers(0, 1, &constantBufferParticle);
+
+
 		context->PSSetShaderResources(0, 1, &textures[0]);
 		RenderDebugObject(particlesystem->GetSize());
 	}
@@ -806,6 +815,7 @@ void Graphics::Render()
 	{
 		unsigned int particleCount = particlesystem->GetSize();
 		// Regular texture
+		context->VSSetShaderResources(0, 1, &textures[3]);
 		context->PSSetShaderResources(0, 1, &textures[1]);
 		context->Draw(particleCount, 0);
 	}
