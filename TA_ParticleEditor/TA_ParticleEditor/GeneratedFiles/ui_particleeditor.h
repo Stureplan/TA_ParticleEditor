@@ -132,7 +132,7 @@ public:
         line_4->setFrameShadow(QFrame::Sunken);
         browsepath = new QPushButton(maincontainer);
         browsepath->setObjectName(QStringLiteral("browsepath"));
-        browsepath->setGeometry(QRect(670, 439, 75, 25));
+        browsepath->setGeometry(QRect(670, 439, 91, 25));
         label_Lifetime = new QLabel(maincontainer);
         label_Lifetime->setObjectName(QStringLiteral("label_Lifetime"));
         label_Lifetime->setGeometry(QRect(780, 138, 51, 20));
@@ -151,7 +151,7 @@ public:
         label_MaxParticles->setAlignment(Qt::AlignCenter);
         textBrowser = new QTextBrowser(maincontainer);
         textBrowser->setObjectName(QStringLiteral("textBrowser"));
-        textBrowser->setGeometry(QRect(750, 440, 191, 23));
+        textBrowser->setGeometry(QRect(770, 440, 171, 23));
         textBrowser->setTextInteractionFlags(Qt::NoTextInteraction);
         savePS = new QPushButton(maincontainer);
         savePS->setObjectName(QStringLiteral("savePS"));
@@ -320,12 +320,12 @@ public:
         loadPS->setGeometry(QRect(711, 550, 111, 41));
         textureTypeBox = new QComboBox(maincontainer);
         textureTypeBox->setObjectName(QStringLiteral("textureTypeBox"));
-        textureTypeBox->setGeometry(QRect(670, 467, 181, 24));
+        textureTypeBox->setGeometry(QRect(670, 467, 91, 24));
         textureTypeBox->setLayoutDirection(Qt::LeftToRight);
         spriteSheetWidget = new QWidget(maincontainer);
         spriteSheetWidget->setObjectName(QStringLiteral("spriteSheetWidget"));
         spriteSheetWidget->setEnabled(false);
-        spriteSheetWidget->setGeometry(QRect(859, 467, 81, 24));
+        spriteSheetWidget->setGeometry(QRect(770, 467, 81, 24));
         spriteSheetColumns = new QLineEdit(spriteSheetWidget);
         spriteSheetColumns->setObjectName(QStringLiteral("spriteSheetColumns"));
         spriteSheetColumns->setGeometry(QRect(0, 0, 41, 24));
