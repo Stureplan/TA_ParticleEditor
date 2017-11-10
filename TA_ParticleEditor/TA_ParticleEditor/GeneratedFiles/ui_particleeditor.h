@@ -93,6 +93,7 @@ public:
         if (ParticleEditorClass->objectName().isEmpty())
             ParticleEditorClass->setObjectName(QStringLiteral("ParticleEditorClass"));
         ParticleEditorClass->resize(949, 653);
+        ParticleEditorClass->setTabShape(QTabWidget::Rounded);
         maincontainer = new MainContainer(ParticleEditorClass);
         maincontainer->setObjectName(QStringLiteral("maincontainer"));
         graphics = new Graphics(maincontainer);
@@ -350,7 +351,7 @@ public:
 
     void retranslateUi(QMainWindow *ParticleEditorClass)
     {
-        ParticleEditorClass->setWindowTitle(QApplication::translate("ParticleEditorClass", "ParticleEditor", Q_NULLPTR));
+        ParticleEditorClass->setWindowTitle(QApplication::translate("ParticleEditorClass", "Particle Editor (v. 0.1)", Q_NULLPTR));
         label_ParticleInfo->setText(QApplication::translate("ParticleEditorClass", "<no info>", Q_NULLPTR));
         browsepath->setText(QApplication::translate("ParticleEditorClass", "Browse", Q_NULLPTR));
         label_Lifetime->setText(QApplication::translate("ParticleEditorClass", "Lifetime", Q_NULLPTR));

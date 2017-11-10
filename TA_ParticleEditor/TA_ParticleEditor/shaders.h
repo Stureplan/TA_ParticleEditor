@@ -35,7 +35,7 @@ public:
 
 		ObjectVS = NULL;
 		errorBlob = NULL;
-		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "VShader", "vs_4_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ObjectVS, &errorBlob);
+		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "VShader", "vs_5_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ObjectVS, &errorBlob);
 		if (hr != S_OK)
 		{
 			// Something went wrong with the shader
@@ -45,7 +45,7 @@ public:
 
 		ObjectPS = NULL;
 		errorBlob = NULL;
-		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "PShader", "ps_4_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ObjectPS, &errorBlob);
+		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "PShader", "ps_5_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ObjectPS, &errorBlob);
 		if (hr != S_OK)
 		{
 			// Something went wrong with the shader
@@ -83,7 +83,7 @@ public:
 
 		ParticleVS = NULL;
 		errorBlob = NULL;
-		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "VShader", "vs_4_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ParticleVS, &errorBlob);
+		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "VShader", "vs_5_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ParticleVS, &errorBlob);
 		if (hr != S_OK)
 		{
 			// Something went wrong with the shader
@@ -93,7 +93,7 @@ public:
 
 		ParticleGS = NULL;
 		errorBlob = NULL;
-		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "GShader", "gs_4_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ParticleGS, &errorBlob);
+		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "GShader", "gs_5_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ParticleGS, &errorBlob);
 		if (hr != S_OK)
 		{
 			// Something went wrong with the shader
@@ -103,7 +103,7 @@ public:
 
 		ParticlePS = NULL;
 		errorBlob = NULL;
-		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "PShader", "ps_4_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ParticlePS, &errorBlob);
+		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "PShader", "ps_5_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ParticlePS, &errorBlob);
 		if (hr != S_OK)
 		{
 			// Something went wrong with the shader

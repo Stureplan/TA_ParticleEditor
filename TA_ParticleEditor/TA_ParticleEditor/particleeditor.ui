@@ -11,7 +11,10 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>ParticleEditor</string>
+   <string>Particle Editor (v. 0.1)</string>
+  </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Rounded</enum>
   </property>
   <widget class="MainContainer" name="maincontainer">
    <widget class="Graphics" name="graphics" native="true">
