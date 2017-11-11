@@ -53,12 +53,9 @@ public:
     QLineEdit *colorInDisplay;
     QLineEdit *colorOutDisplay;
     QPushButton *colorOutBtn;
-    QComboBox *scaleBox;
-    QLabel *label_SizeY;
-    QLabel *label_SizeX;
+    QLabel *label_StartSize;
     QComboBox *emitterTypeBox;
-    QLabel *label_SizeY_2;
-    QLabel *label_SizeY_3;
+    QLabel *label_EmitterType;
     QLineEdit *velocityX;
     QLineEdit *velocityY;
     QLineEdit *velocityZ;
@@ -79,6 +76,9 @@ public:
     QWidget *spriteSheetWidget;
     QLineEdit *spriteSheetColumns;
     QLineEdit *spriteSheetRows;
+    QLineEdit *sizeY_2;
+    QLabel *label_EndSize;
+    QLineEdit *sizeX_2;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -148,7 +148,7 @@ public:
         label_EmissionDelay->setAlignment(Qt::AlignCenter);
         label_MaxParticles = new QLabel(maincontainer);
         label_MaxParticles->setObjectName(QStringLiteral("label_MaxParticles"));
-        label_MaxParticles->setGeometry(QRect(856, 191, 70, 16));
+        label_MaxParticles->setGeometry(QRect(690, 350, 70, 16));
         label_MaxParticles->setAlignment(Qt::AlignCenter);
         textBrowser = new QTextBrowser(maincontainer);
         textBrowser->setObjectName(QStringLiteral("textBrowser"));
@@ -194,30 +194,18 @@ public:
         colorOutBtn = new QPushButton(maincontainer);
         colorOutBtn->setObjectName(QStringLiteral("colorOutBtn"));
         colorOutBtn->setGeometry(QRect(660, 50, 70, 30));
-        scaleBox = new QComboBox(maincontainer);
-        scaleBox->setObjectName(QStringLiteral("scaleBox"));
-        scaleBox->setGeometry(QRect(670, 260, 121, 24));
-        scaleBox->setLayoutDirection(Qt::LeftToRight);
-        label_SizeY = new QLabel(maincontainer);
-        label_SizeY->setObjectName(QStringLiteral("label_SizeY"));
-        label_SizeY->setGeometry(QRect(771, 191, 60, 16));
-        label_SizeY->setAlignment(Qt::AlignCenter);
-        label_SizeX = new QLabel(maincontainer);
-        label_SizeX->setObjectName(QStringLiteral("label_SizeX"));
-        label_SizeX->setGeometry(QRect(681, 191, 60, 16));
-        label_SizeX->setAlignment(Qt::AlignCenter);
+        label_StartSize = new QLabel(maincontainer);
+        label_StartSize->setObjectName(QStringLiteral("label_StartSize"));
+        label_StartSize->setGeometry(QRect(661, 191, 91, 16));
+        label_StartSize->setAlignment(Qt::AlignCenter);
         emitterTypeBox = new QComboBox(maincontainer);
         emitterTypeBox->setObjectName(QStringLiteral("emitterTypeBox"));
         emitterTypeBox->setGeometry(QRect(820, 260, 121, 24));
         emitterTypeBox->setLayoutDirection(Qt::LeftToRight);
-        label_SizeY_2 = new QLabel(maincontainer);
-        label_SizeY_2->setObjectName(QStringLiteral("label_SizeY_2"));
-        label_SizeY_2->setGeometry(QRect(830, 240, 100, 16));
-        label_SizeY_2->setAlignment(Qt::AlignCenter);
-        label_SizeY_3 = new QLabel(maincontainer);
-        label_SizeY_3->setObjectName(QStringLiteral("label_SizeY_3"));
-        label_SizeY_3->setGeometry(QRect(680, 240, 110, 16));
-        label_SizeY_3->setAlignment(Qt::AlignCenter);
+        label_EmitterType = new QLabel(maincontainer);
+        label_EmitterType->setObjectName(QStringLiteral("label_EmitterType"));
+        label_EmitterType->setGeometry(QRect(830, 240, 100, 16));
+        label_EmitterType->setAlignment(Qt::AlignCenter);
         velocityX = new QLineEdit(maincontainer);
         velocityX->setObjectName(QStringLiteral("velocityX"));
         velocityX->setGeometry(QRect(670, 110, 90, 20));
@@ -254,15 +242,15 @@ public:
         label_VelocityZ->setAlignment(Qt::AlignCenter);
         sizeX = new QLineEdit(maincontainer);
         sizeX->setObjectName(QStringLiteral("sizeX"));
-        sizeX->setGeometry(QRect(670, 210, 90, 20));
+        sizeX->setGeometry(QRect(670, 210, 35, 20));
         sizeX->setAlignment(Qt::AlignCenter);
         sizeY = new QLineEdit(maincontainer);
         sizeY->setObjectName(QStringLiteral("sizeY"));
-        sizeY->setGeometry(QRect(760, 210, 90, 20));
+        sizeY->setGeometry(QRect(707, 210, 35, 20));
         sizeY->setAlignment(Qt::AlignCenter);
         maxParticles = new QLineEdit(maincontainer);
         maxParticles->setObjectName(QStringLiteral("maxParticles"));
-        maxParticles->setGeometry(QRect(850, 210, 90, 20));
+        maxParticles->setGeometry(QRect(690, 369, 45, 20));
         maxParticles->setAlignment(Qt::AlignCenter);
         rectangleWidget = new QWidget(maincontainer);
         rectangleWidget->setObjectName(QStringLiteral("rectangleWidget"));
@@ -299,6 +287,18 @@ public:
         spriteSheetRows->setObjectName(QStringLiteral("spriteSheetRows"));
         spriteSheetRows->setGeometry(QRect(40, 0, 41, 24));
         spriteSheetRows->setAlignment(Qt::AlignCenter);
+        sizeY_2 = new QLineEdit(maincontainer);
+        sizeY_2->setObjectName(QStringLiteral("sizeY_2"));
+        sizeY_2->setGeometry(QRect(797, 210, 35, 20));
+        sizeY_2->setAlignment(Qt::AlignCenter);
+        label_EndSize = new QLabel(maincontainer);
+        label_EndSize->setObjectName(QStringLiteral("label_EndSize"));
+        label_EndSize->setGeometry(QRect(751, 191, 91, 16));
+        label_EndSize->setAlignment(Qt::AlignCenter);
+        sizeX_2 = new QLineEdit(maincontainer);
+        sizeX_2->setObjectName(QStringLiteral("sizeX_2"));
+        sizeX_2->setGeometry(QRect(760, 210, 35, 20));
+        sizeX_2->setAlignment(Qt::AlignCenter);
         ParticleEditorClass->setCentralWidget(maincontainer);
         menuBar = new QMenuBar(ParticleEditorClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -316,7 +316,6 @@ public:
         QObject::connect(savePS, SIGNAL(clicked()), maincontainer, SLOT(save()));
         QObject::connect(colorInBtn, SIGNAL(clicked()), maincontainer, SLOT(colorIn()));
         QObject::connect(colorOutBtn, SIGNAL(clicked()), maincontainer, SLOT(colorOut()));
-        QObject::connect(scaleBox, SIGNAL(currentIndexChanged(int)), maincontainer, SLOT(scaleModeChanged(int)));
         QObject::connect(velocityX, SIGNAL(editingFinished()), maincontainer, SLOT(setVelocityX()));
         QObject::connect(velocityY, SIGNAL(editingFinished()), maincontainer, SLOT(setVelocityY()));
         QObject::connect(velocityZ, SIGNAL(editingFinished()), maincontainer, SLOT(setVelocityZ()));
@@ -348,29 +347,20 @@ public:
         savePS->setText(QApplication::translate("ParticleEditorClass", "Save as...", Q_NULLPTR));
         label_Gravity->setText(QApplication::translate("ParticleEditorClass", "Gravity", Q_NULLPTR));
         label_Texture->setText(QApplication::translate("ParticleEditorClass", "Texture", Q_NULLPTR));
-        colorInBtn->setText(QApplication::translate("ParticleEditorClass", "Color Start", Q_NULLPTR));
-        colorInDisplay->setText(QString());
+        colorInBtn->setText(QApplication::translate("ParticleEditorClass", "Change", Q_NULLPTR));
+        colorInDisplay->setText(QApplication::translate("ParticleEditorClass", "Start Color", Q_NULLPTR));
         colorInDisplay->setPlaceholderText(QApplication::translate("ParticleEditorClass", "Color Start", Q_NULLPTR));
-        colorOutDisplay->setText(QString());
+        colorOutDisplay->setText(QApplication::translate("ParticleEditorClass", "End Color", Q_NULLPTR));
         colorOutDisplay->setPlaceholderText(QApplication::translate("ParticleEditorClass", "Color End", Q_NULLPTR));
-        colorOutBtn->setText(QApplication::translate("ParticleEditorClass", "Color End", Q_NULLPTR));
-        scaleBox->clear();
-        scaleBox->insertItems(0, QStringList()
-         << QApplication::translate("ParticleEditorClass", "Don't Scale", Q_NULLPTR)
-         << QApplication::translate("ParticleEditorClass", "Scale In", Q_NULLPTR)
-         << QApplication::translate("ParticleEditorClass", "Scale Out", Q_NULLPTR)
-        );
-        scaleBox->setCurrentText(QApplication::translate("ParticleEditorClass", "Don't Scale", Q_NULLPTR));
-        label_SizeY->setText(QApplication::translate("ParticleEditorClass", "Size Y", Q_NULLPTR));
-        label_SizeX->setText(QApplication::translate("ParticleEditorClass", "Size X", Q_NULLPTR));
+        colorOutBtn->setText(QApplication::translate("ParticleEditorClass", "Change", Q_NULLPTR));
+        label_StartSize->setText(QApplication::translate("ParticleEditorClass", "Start Size", Q_NULLPTR));
         emitterTypeBox->clear();
         emitterTypeBox->insertItems(0, QStringList()
          << QApplication::translate("ParticleEditorClass", "Point", Q_NULLPTR)
          << QApplication::translate("ParticleEditorClass", "Rectangle", Q_NULLPTR)
         );
         emitterTypeBox->setCurrentText(QApplication::translate("ParticleEditorClass", "Point", Q_NULLPTR));
-        label_SizeY_2->setText(QApplication::translate("ParticleEditorClass", "Emitter Type", Q_NULLPTR));
-        label_SizeY_3->setText(QApplication::translate("ParticleEditorClass", "Scale Mode", Q_NULLPTR));
+        label_EmitterType->setText(QApplication::translate("ParticleEditorClass", "Emitter Type", Q_NULLPTR));
         velocityX->setInputMask(QApplication::translate("ParticleEditorClass", "##0\\.00", Q_NULLPTR));
         velocityX->setText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
         velocityX->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
@@ -420,6 +410,13 @@ public:
         spriteSheetRows->setInputMask(QApplication::translate("ParticleEditorClass", "#9", Q_NULLPTR));
         spriteSheetRows->setText(QApplication::translate("ParticleEditorClass", "1", Q_NULLPTR));
         spriteSheetRows->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        sizeY_2->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
+        sizeY_2->setText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
+        sizeY_2->setPlaceholderText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
+        label_EndSize->setText(QApplication::translate("ParticleEditorClass", "End Size", Q_NULLPTR));
+        sizeX_2->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
+        sizeX_2->setText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
+        sizeX_2->setPlaceholderText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
     } // retranslateUi
 
 };
