@@ -77,7 +77,6 @@ public:
 	void Rebuild(PARTICLESYSTEM ps);
 	void PauseSimulation();
 
-	void RescaleRectangle(float x, float z);
 	void EmitterGizmo(EMITTER_TYPE type);
 
 	void ParticleInspectionLabel(QLabel* label);
@@ -113,7 +112,6 @@ private:
 	float ms = 0;
 
 	XMMATRIX v;
-	XMMATRIX RectangleScale;
 
 	EMITTER_TYPE emitterType;
 

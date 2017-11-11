@@ -176,9 +176,6 @@ void Graphics::Initialize()
 
 	cBufferVertex.wvp = XMMatrixIdentity();
 
-	RectangleScale = XMMatrixIdentity();
-
-
 	SetupCamera(XMVectorSet(0, 1, -10.0f, 0), //pos
 				XMVectorSet(0, 1, -9.0f,  0), //dir
 				XMVectorSet(0, 2, 0, 0));  //up
@@ -524,11 +521,6 @@ void Graphics::PauseSimulation()
 	paused = !paused;
 }
 
-void Graphics::RescaleRectangle(float x, float z)
-{
-	RectangleScale = XMMatrixScaling(x, 1.0f, z);
-}
-
 void Graphics::EmitterGizmo(EMITTER_TYPE type)
 {
 	emitterType = type;
@@ -727,7 +719,7 @@ void Graphics::Render()
 	if (emitterType == EMITTER_TYPE::EMIT_RECTANGLE)
 	{
 		// SETUP & DRAW EMITTER GIZMO
-		World = RectangleScale;
+		World = XMMatrixScaling(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_RECT_SIZE_X), 1.0f, *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_RECT_SIZE_X));
 		WVP = World * View * Projection;
 		stride = sizeof(GIZMO_VERTEX);
 		offset = 0;
@@ -756,10 +748,11 @@ void Graphics::Render()
 	cBufferParticle.world = XMMatrixTranspose(World);
 	cBufferParticle.campos = campos;
 	cBufferParticle.camup = XMVectorSet(0, 1, 0, 1);
-	cBufferParticle.size = XMFLOAT2(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_SIZE_X), *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_SIZE_Y));
-	cBufferParticle.colin = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_IN);
+	cBufferParticle.size.x = *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_SIZE_X);
+	cBufferParticle.size.y = *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_SIZE_Y);
+	cBufferParticle.colin =  *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_IN);
 	cBufferParticle.colout = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_OUT);
-	cBufferParticle.scale = *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_SCALE_MODE);
+	cBufferParticle.scale =  *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_SCALE_MODE);
 	cBufferParticle.lifetime = *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_LIFETIME);
 	
 	context->UpdateSubresource(constantBufferParticle, 0, NULL, &cBufferParticle, 0, 0);

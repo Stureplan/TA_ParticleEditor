@@ -77,11 +77,6 @@ PARTICLE_VERTEX ParticleSystem::GetParticle(unsigned int id)
 	return PARTICLE_VERTEX(FLOAT3_ZERO, FLOAT3_ZERO, 0);
 }
 
-void ParticleSystem::EmitterSize(float x, float z)
-{
-	ps->rectSizeX = x; ps->rectSizeZ = z;
-}
-
 unsigned int ParticleSystem::GetSize()
 {
 	unsigned int count = 0;
@@ -127,6 +122,12 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 	case PS_PROPERTY::PS_EMITTER_TYPE:
 		ps->emittertype = *(EMITTER_TYPE*)data;
 		break;
+	case PS_PROPERTY::PS_RECT_SIZE_X:
+		ps->rectSizeX = *(float*)data;
+		break;
+	case PS_PROPERTY::PS_RECT_SIZE_Z:
+		ps->rectSizeZ = *(float*)data;
+		break;
 	case PS_PROPERTY::PS_SCALE_MODE:
 		ps->scalemode = *(float*)data;
 		break;
@@ -163,6 +164,12 @@ void* ParticleSystem::GetProperty(PS_PROPERTY prop)
 		break;
 	case PS_PROPERTY::PS_EMITTER_TYPE:
 		return &ps->emittertype;
+		break;
+	case PS_PROPERTY::PS_RECT_SIZE_X:
+		return &ps->rectSizeX;
+		break;
+	case PS_PROPERTY::PS_RECT_SIZE_Z:
+		return &ps->rectSizeZ;
 		break;
 	case PS_PROPERTY::PS_SCALE_MODE:
 		return &ps->scalemode;

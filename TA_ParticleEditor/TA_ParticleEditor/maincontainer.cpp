@@ -36,7 +36,6 @@ void MainContainer::SetPointers(ParticleSystem* ps)
 	textFieldSizeY		   = findChild<QLineEdit*>	 ("sizeY",				Qt::FindChildOption::FindChildrenRecursively);
 	textFieldRectSizeX	   = findChild<QLineEdit*>	 ("rectSizeX",			Qt::FindChildOption::FindChildrenRecursively);
 	textFieldRectSizeZ	   = findChild<QLineEdit*>	 ("rectSizeZ",			Qt::FindChildOption::FindChildrenRecursively);
-	pointWidget			   = findChild<QWidget*>	 ("pointWidget",		Qt::FindChildOption::FindChildrenRecursively);
 	rectangleWidget		   = findChild<QWidget*>	 ("rectangleWidget",	Qt::FindChildOption::FindChildrenRecursively);
 	spriteSheetWidget	   = findChild<QWidget*>	 ("spriteSheetWidget",	Qt::FindChildOption::FindChildrenRecursively);
 
@@ -279,11 +278,9 @@ void MainContainer::emitterTypeChanged(int mode)
 	if (mode == EMITTER_TYPE::EMIT_POINT)
 	{
 		rectangleWidget->setEnabled(false);
-		pointWidget->setEnabled(true);
 	}
 	if (mode == EMITTER_TYPE::EMIT_RECTANGLE)
 	{
-		pointWidget->setEnabled(false);
 		rectangleWidget->setEnabled(true);
 		BuildParticleSystem();
 	}
@@ -322,8 +319,8 @@ void MainContainer::rectResize()
 {
 	mRectSizeX = textFieldRectSizeX->text().toFloat();
 	mRectSizeZ = textFieldRectSizeZ->text().toFloat();
-	graphics->RescaleRectangle(mRectSizeX, mRectSizeZ);
-	particlesystem->EmitterSize(mRectSizeX, mRectSizeZ);
+	particlesystem->SetProperty(PS_PROPERTY::PS_RECT_SIZE_X, &mRectSizeX);
+	particlesystem->SetProperty(PS_PROPERTY::PS_RECT_SIZE_Z, &mRectSizeZ);
 	BuildParticleSystem();
 }
 
