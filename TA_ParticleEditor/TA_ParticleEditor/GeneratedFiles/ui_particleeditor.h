@@ -88,6 +88,16 @@ public:
         if (ParticleEditorClass->objectName().isEmpty())
             ParticleEditorClass->setObjectName(QStringLiteral("ParticleEditorClass"));
         ParticleEditorClass->resize(949, 653);
+        QPalette palette;
+        QBrush brush(QColor(0, 0, 0, 255));
+        brush.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::WindowText, brush);
+        palette.setBrush(QPalette::Inactive, QPalette::WindowText, brush);
+        QBrush brush1(QColor(255, 255, 255, 255));
+        brush1.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Disabled, QPalette::WindowText, brush1);
+        ParticleEditorClass->setPalette(palette);
+        ParticleEditorClass->setStyleSheet(QStringLiteral(""));
         ParticleEditorClass->setTabShape(QTabWidget::Rounded);
         maincontainer = new MainContainer(ParticleEditorClass);
         maincontainer->setObjectName(QStringLiteral("maincontainer"));
@@ -320,6 +330,7 @@ public:
         QObject::connect(rectSizeX, SIGNAL(editingFinished()), maincontainer, SLOT(rectResize()));
         QObject::connect(rectSizeZ, SIGNAL(editingFinished()), maincontainer, SLOT(rectResize()));
         QObject::connect(loadPS, SIGNAL(clicked()), maincontainer, SLOT(load()));
+        QObject::connect(textureTypeBox, SIGNAL(currentIndexChanged(int)), maincontainer, SLOT(textureTypeChanged(int)));
 
         QMetaObject::connectSlotsByName(ParticleEditorClass);
     } // setupUi
@@ -403,11 +414,11 @@ public:
          << QApplication::translate("ParticleEditorClass", "Sprite Sheet", Q_NULLPTR)
         );
         textureTypeBox->setCurrentText(QApplication::translate("ParticleEditorClass", "Single Sprite", Q_NULLPTR));
-        spriteSheetColumns->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
-        spriteSheetColumns->setText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
+        spriteSheetColumns->setInputMask(QApplication::translate("ParticleEditorClass", "#9", Q_NULLPTR));
+        spriteSheetColumns->setText(QApplication::translate("ParticleEditorClass", "1", Q_NULLPTR));
         spriteSheetColumns->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
-        spriteSheetRows->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
-        spriteSheetRows->setText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
+        spriteSheetRows->setInputMask(QApplication::translate("ParticleEditorClass", "#9", Q_NULLPTR));
+        spriteSheetRows->setText(QApplication::translate("ParticleEditorClass", "1", Q_NULLPTR));
         spriteSheetRows->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
     } // retranslateUi
 

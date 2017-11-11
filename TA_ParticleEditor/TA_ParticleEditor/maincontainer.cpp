@@ -38,6 +38,8 @@ void MainContainer::SetPointers(ParticleSystem* ps)
 	textFieldRectSizeZ	   = findChild<QLineEdit*>	 ("rectSizeZ",			Qt::FindChildOption::FindChildrenRecursively);
 	pointWidget			   = findChild<QWidget*>	 ("pointWidget",		Qt::FindChildOption::FindChildrenRecursively);
 	rectangleWidget		   = findChild<QWidget*>	 ("rectangleWidget",	Qt::FindChildOption::FindChildrenRecursively);
+	spriteSheetWidget	   = findChild<QWidget*>	 ("spriteSheetWidget",	Qt::FindChildOption::FindChildrenRecursively);
+
 }
 #pragma endregion
 
@@ -287,6 +289,20 @@ void MainContainer::emitterTypeChanged(int mode)
 
 	graphics->EmitterGizmo(mEmitterType);
 	particlesystem->SetProperty(PS_PROPERTY::PS_EMITTER_TYPE, &mEmitterType);
+}
+
+void MainContainer::textureTypeChanged(int mode)
+{
+	if (mode == 0)
+	{
+		//single sprite
+	}
+	if (mode == 1)
+	{
+		//spritesheet
+	}
+
+	mTextureType = mode;
 }
 
 void MainContainer::sizeX()

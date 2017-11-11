@@ -10,8 +10,48 @@
     <height>653</height>
    </rect>
   </property>
+  <property name="palette">
+   <palette>
+    <active>
+     <colorrole role="WindowText">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>0</red>
+        <green>0</green>
+        <blue>0</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </active>
+    <inactive>
+     <colorrole role="WindowText">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>0</red>
+        <green>0</green>
+        <blue>0</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </inactive>
+    <disabled>
+     <colorrole role="WindowText">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </disabled>
+   </palette>
+  </property>
   <property name="windowTitle">
    <string>Particle Editor (v. 0.1)</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <property name="tabShape">
    <enum>QTabWidget::Rounded</enum>
@@ -836,10 +876,10 @@
       </rect>
      </property>
      <property name="inputMask">
-      <string>#0\.00</string>
+      <string>#9</string>
      </property>
      <property name="text">
-      <string>1.0</string>
+      <string>1</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -858,10 +898,10 @@
       </rect>
      </property>
      <property name="inputMask">
-      <string>#0\.00</string>
+      <string>#9</string>
      </property>
      <property name="text">
-      <string>1.0</string>
+      <string>1</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -923,6 +963,7 @@
     <slot>emitterTypeChanged(int)</slot>
     <slot>rectResize()</slot>
     <slot>load()</slot>
+    <slot>textureTypeChanged(int)</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -1211,6 +1252,22 @@
     <hint type="sourcelabel">
      <x>885</x>
      <y>553</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>332</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>textureTypeBox</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>maincontainer</receiver>
+   <slot>textureTypeChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>715</x>
+     <y>511</y>
     </hint>
     <hint type="destinationlabel">
      <x>474</x>

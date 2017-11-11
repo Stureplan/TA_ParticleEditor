@@ -2,6 +2,7 @@
 #define PARTICLEEDITOR_H
 
 #include <QtWidgets/QMainWindow>
+#include <QStyleFactory>
 #include "ui_particleeditor.h"
 
 class ParticleEditor : public QMainWindow

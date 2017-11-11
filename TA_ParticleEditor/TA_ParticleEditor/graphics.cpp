@@ -382,7 +382,7 @@ void Graphics::LoadPositionGizmo()
 	vertexDesc.CPUAccessFlags = 0;
 	vertexDesc.MiscFlags = 0;
 	vertexDesc.StructureByteStride = 0;
-
+	
 	D3D11_SUBRESOURCE_DATA vertexData;
 	ZeroMemory(&vertexData, sizeof(vertexData));
 	vertexData.pSysMem = positionGizmoVertexData.data();

@@ -57,6 +57,7 @@ public slots:
 	void colorOut();
 	void scaleModeChanged(int index);
 	void emitterTypeChanged(int index);
+	void textureTypeChanged(int index);
 	void sizeX();
 	void sizeY();
 
@@ -94,6 +95,7 @@ private:
 	QComboBox* emitterTypeDisplay;
 	QWidget* pointWidget;
 	QWidget* rectangleWidget;
+	QWidget* spriteSheetWidget;
 
 	// QT VARIABLES
 	QString mTexturePath;
@@ -114,4 +116,5 @@ private:
 	float mRectSizeX;
 	float mRectSizeZ;
 	float mScaleMode;
+	int mTextureType;
 };
