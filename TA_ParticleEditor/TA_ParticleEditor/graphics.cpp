@@ -512,29 +512,6 @@ void Graphics::ChangeRasterization(D3D11_FILL_MODE fillmode)
 	}
 }
 
-void Graphics::ChangeScaleMode(int mode)
-{
-	if (mode == 0) // Don't scale
-	{
-		scaleMode = 0;
-	}
-	if (mode == 1) // Scale in
-	{
-		scaleMode = -1;
-	}
-	if (mode == 2) // Scale out
-	{
-		scaleMode = 1;
-	}
-}
-
-void Graphics::ChangeSize(float x, float y)
-{
-	sizeX = x; sizeY = y;
-}
-
-
-
 void Graphics::Rebuild(PARTICLESYSTEM ps)
 {
 	LoadEmitterTypeGizmo(ps.emittertype);
@@ -544,7 +521,7 @@ void Graphics::Rebuild(PARTICLESYSTEM ps)
 
 void Graphics::PauseSimulation()
 {
-	particlesystem->Pause();
+	paused = !paused;
 }
 
 void Graphics::RescaleRectangle(float x, float z)
@@ -582,9 +559,9 @@ int Graphics::TestIntersection(int x, int y, XMFLOAT3 &particlePos)
 	{
 		// FIND ORIGINAL PARTICLE POS
 		XMVECTOR pos = XMVectorSet(particles[i].position.X, particles[i].position.Y, particles[i].position.Z, 1.0f);
-		XMVECTOR up = XMVector3Normalize(camup) * sizeY;
+		XMVECTOR up = XMVector3Normalize(camup) * *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_SIZE_Y);
 		XMVECTOR normal = XMVector3Normalize(pos - campos);
-		XMVECTOR right = XMVector3Normalize(XMVector3Cross(normal, up)) * sizeX;
+		XMVECTOR right = XMVector3Normalize(XMVector3Cross(normal, up)) * *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_SIZE_X);
 
 		XMVECTOR vec0 = pos - right + up; //XMVectorSet(-5, 5, 0, 1);
 		XMVECTOR vec1 = pos - right - up; //XMVectorSet(-5,-5, 0, 1);
@@ -711,7 +688,11 @@ void Graphics::Update()
 
 
 	//if (frame == 0) { ms = 0.016f; }
-	particlesystem->Update(0.016f);
+
+	if (paused == false)
+	{
+		particlesystem->Update(0.016f);
+	}
 }
 
 void Graphics::Render()
@@ -775,11 +756,11 @@ void Graphics::Render()
 	cBufferParticle.world = XMMatrixTranspose(World);
 	cBufferParticle.campos = campos;
 	cBufferParticle.camup = XMVectorSet(0, 1, 0, 1);
-	cBufferParticle.size = XMFLOAT2(sizeX, sizeY);
-	cBufferParticle.colin = particlesystem->GetInColor();
-	cBufferParticle.colout = particlesystem->GetOutColor();
-	cBufferParticle.scale = scaleMode;
-	cBufferParticle.lifetime = particlesystem->Lifetime();
+	cBufferParticle.size = XMFLOAT2(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_SIZE_X), *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_SIZE_Y));
+	cBufferParticle.colin = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_IN);
+	cBufferParticle.colout = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_OUT);
+	cBufferParticle.scale = *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_SCALE_MODE);
+	cBufferParticle.lifetime = *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_LIFETIME);
 	
 	context->UpdateSubresource(constantBufferParticle, 0, NULL, &cBufferParticle, 0, 0);
 	context->VSSetConstantBuffers(0, 1, &constantBufferParticle);

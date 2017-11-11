@@ -137,7 +137,7 @@ struct PARTICLESYSTEM
 		sizeY = sY;
 		rectSizeX = rsX;
 		rectSizeZ = rsZ;
-		scaleMode = sM;
+		scalemode = sM;
 	}
 	// PS Export variables
 	EMITTER_TYPE emittertype;
@@ -152,7 +152,7 @@ struct PARTICLESYSTEM
 	float sizeY;
 	float rectSizeX;
 	float rectSizeZ;
-	float scaleMode;
+	float scalemode;
 };
 
 

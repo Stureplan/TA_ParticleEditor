@@ -73,8 +73,6 @@ public:
 	void LoadTextures();
 	void ChangeRasterization(D3D11_FILL_MODE fillmode);
 
-	void ChangeSize(float x, float y);
-	void ChangeScaleMode(int mode);
 	void Retexture(std::string path);
 	void Rebuild(PARTICLESYSTEM ps);
 	void PauseSimulation();
@@ -102,6 +100,7 @@ public:
 	virtual QPaintEngine* paintEngine() const { return NULL; }
 
 private:
+	bool paused = false;
 	bool debug = false;
 	int amt = 0;
 	unsigned int frame = 0;
@@ -170,9 +169,6 @@ private:
 	CBUFFER_PARTICLESYSTEM cBufferParticle;
 
 	// Constant Buffer Variables
-	float sizeX = 1.0f;
-	float sizeY = 1.0f;
-	float scaleMode = 0;
 	FLOAT4 colIn = (FLOAT4(1, 1, 1, 1));
 	FLOAT4 colOut= (FLOAT4(1, 1, 1, 1));
 

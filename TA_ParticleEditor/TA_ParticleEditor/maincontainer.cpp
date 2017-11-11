@@ -114,7 +114,7 @@ void MainContainer::load()
 		mSizeY = ps.sizeY;
 		mRectSizeX = ps.rectSizeX;
 		mRectSizeZ = ps.rectSizeZ;
-		mScaleMode = ps.scaleMode;
+		mScaleMode = ps.scalemode;
 
 		SetUiElements();
 		std::string path = n;
@@ -163,7 +163,9 @@ void MainContainer::SetUiElements()
 	test = mEmitterType;
 	emitterTypeDisplay->setCurrentIndex(test);
 
-	graphics->ChangeSize(mSizeX, mSizeY);
+	particlesystem->SetProperty(PS_PROPERTY::PS_SIZE_X, &mSizeX);
+	particlesystem->SetProperty(PS_PROPERTY::PS_SIZE_Y, &mSizeY);
+
 	emitterTypeChanged(mEmitterType);
 	scaleModeChanged(mode);
 
@@ -197,7 +199,7 @@ void MainContainer::save()
 	ps.sizeY = mSizeY;
 	ps.rectSizeX = mRectSizeX;
 	ps.rectSizeZ = mRectSizeZ;
-	ps.scaleMode = mScaleMode;
+	ps.scalemode = mScaleMode;
 
 	FILE* file = fopen(exportPath.c_str(), "wb");
 	if (file != NULL)
@@ -267,7 +269,6 @@ void MainContainer::scaleModeChanged(int mode)
 	else if (mode == 2) { mScaleMode = 1;  }
 	else { mScaleMode = 0; }
 
-	graphics->ChangeScaleMode(mode);
 	particlesystem->SetProperty(PS_PROPERTY::PS_SCALE_MODE, &mScaleMode);
 }
 
@@ -309,14 +310,12 @@ void MainContainer::sizeX()
 {
 	mSizeX = textFieldSizeX->text().toFloat();
 	particlesystem->SetProperty(PS_PROPERTY::PS_SIZE_X, &mSizeX);
-	graphics->ChangeSize(mSizeX, mSizeY);
 }
 
 void MainContainer::sizeY()
 {
 	mSizeY = textFieldSizeY->text().toFloat();
 	particlesystem->SetProperty(PS_PROPERTY::PS_SIZE_Y, &mSizeY);
-	graphics->ChangeSize(mSizeX, mSizeY);
 }
 
 void MainContainer::rectResize()

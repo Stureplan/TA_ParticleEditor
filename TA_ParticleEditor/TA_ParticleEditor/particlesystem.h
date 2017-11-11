@@ -1,6 +1,5 @@
 #pragma once
 #include <d3d11.h>
-//#include <d3dX11.h>
 #include <DirectXMath.h>
 #include <string>
 #include <vector>
@@ -24,20 +23,18 @@ public:
 	std::vector<PARTICLE_VERTEX> AllParticleData();
 	PARTICLE_VERTEX GetParticle(unsigned int id);
 	void EmitterSize(float x, float z);
-	FLOAT4 GetInColor() { return ps->colorIn; }
-	FLOAT4 GetOutColor() { return ps->colorOut; }
 	bool IsAlive(unsigned int id) { return particles[id].alive; }
 	unsigned int GetSize();
 	void Pause();
 
 	void SetProperty(PS_PROPERTY prop, void* data);
+	void* GetProperty(PS_PROPERTY prop);
+
 
 	void Initialize();
 	void Rebuild(PARTICLESYSTEM particlesystem);
 	void Update(float dt);
 
-	bool Paused()						{ return paused; }
-	float Lifetime()					{ return ps->lifetime; }
 	PARTICLESYSTEM* GetParticleSystem() { return ps; }
 
 private:
@@ -50,7 +47,6 @@ private:
 	// Private variables
 	PARTICLESYSTEM* ps;
 	std::vector<PARTICLE> particles;
-	bool paused = false;
 	float cooldown = 0.0f;
 
 

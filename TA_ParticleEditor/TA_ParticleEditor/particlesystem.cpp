@@ -10,7 +10,7 @@ ParticleSystem::~ParticleSystem()
 }
 
 unsigned int ParticleSystem::ParticleCount()
-{
+{ 
 	return particles.size();
 }
 
@@ -96,11 +96,6 @@ unsigned int ParticleSystem::GetSize()
 	return count;
 }
 
-void ParticleSystem::Pause()
-{
-	paused = !paused;
-}
-
 void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 {
 	switch (prop)
@@ -132,7 +127,49 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 	case PS_PROPERTY::PS_EMITTER_TYPE:
 		ps->emittertype = *(EMITTER_TYPE*)data;
 		break;
+	case PS_PROPERTY::PS_SCALE_MODE:
+		ps->scalemode = *(float*)data;
+		break;
 	}
+}
+
+void* ParticleSystem::GetProperty(PS_PROPERTY prop)
+{
+	switch (prop)
+	{
+	case PS_PROPERTY::PS_VELOCITY:
+		return &ps->velocity;
+		break;
+	case PS_PROPERTY::PS_EMISSIONDELAY:
+		return &ps->emissiondelay;
+		break;
+	case PS_PROPERTY::PS_LIFETIME:
+		return &ps->lifetime;
+		break;
+	case PS_PROPERTY::PS_GRAVITY:
+		return &ps->gravity;
+		break;
+	case PS_PROPERTY::PS_COLOR_IN:
+		return &ps->colorIn;
+		break;
+	case PS_PROPERTY::PS_COLOR_OUT:
+		return &ps->colorOut;
+		break;
+	case PS_PROPERTY::PS_SIZE_X:
+		return &ps->sizeX;
+		break;
+	case PS_PROPERTY::PS_SIZE_Y:
+		return &ps->sizeY;
+		break;
+	case PS_PROPERTY::PS_EMITTER_TYPE:
+		return &ps->emittertype;
+		break;
+	case PS_PROPERTY::PS_SCALE_MODE:
+		return &ps->scalemode;
+		break;
+	}
+
+	return NULL;
 }
 
 void ParticleSystem::Initialize()
@@ -203,7 +240,7 @@ void ParticleSystem::Rebuild(PARTICLESYSTEM particlesystem)
 	ps->sizeY = particlesystem.sizeY;
 	ps->rectSizeX = particlesystem.rectSizeX;
 	ps->rectSizeZ = particlesystem.rectSizeZ;
-	ps->scaleMode = particlesystem.scaleMode;
+	ps->scalemode = particlesystem.scalemode;
 
 	cooldown = ps->emissiondelay;
 
@@ -217,69 +254,66 @@ void ParticleSystem::Rebuild(PARTICLESYSTEM particlesystem)
 
 void ParticleSystem::Update(float dt)
 {
-	if (paused == false)
+	cooldown += dt;
+
+	unsigned int max = particles.size();
+	//unsigned int max = ps->maxparticles;
+
+
+
+	for (unsigned int i = 0; i < max; i++)
 	{
-		cooldown += dt;
-
-		unsigned int max = particles.size();
-		//unsigned int max = ps->maxparticles;
+		PARTICLE p = particles[i];
 
 
-
-		for (unsigned int i = 0; i < max; i++)
+		// Check for dead/alive
+		if (p.alive == true)
 		{
-			PARTICLE p = particles[i];
-
-
-			// Check for dead/alive
-			if (p.alive == true)
+			if (p.currentlifetime < ps->lifetime)
 			{
-				if (p.currentlifetime < ps->lifetime)
-				{
-					FLOAT3 nPos = p.position;
-					FLOAT3 dir = p.position;
+				FLOAT3 nPos = p.position;
+				FLOAT3 dir = p.position;
 
-					float percent = p.currentlifetime / ps->lifetime;
+				float percent = p.currentlifetime / ps->lifetime;
 
-					// Add gravity
-					nPos.Y += ((GRAVITY - (percent * 10)) * dt) * ps->gravity;
+				// Add gravity
+				nPos.Y += ((GRAVITY - (percent * 10)) * dt) * ps->gravity;
 
-					// Add velocity
-					nPos.X += ((ps->velocity.X) * dt);
-					nPos.Y += ((ps->velocity.Y) * dt);
-					nPos.Z += ((ps->velocity.Z) * dt);
+				// Add velocity
+				nPos.X += ((ps->velocity.X) * dt);
+				nPos.Y += ((ps->velocity.Y) * dt);
+				nPos.Z += ((ps->velocity.Z) * dt);
 
-					// Add time to particle life
-					particles[i].currentlifetime += dt;
+				// Add time to particle life
+				particles[i].currentlifetime += dt;
 
-					// Move particle
-					particles[i].position = nPos;
-					particles[i].direction = nPos - (dir+FLOAT3(0, 0.001f, 0));
+				// Move particle
+				particles[i].position = nPos;
+				particles[i].direction = nPos - (dir+FLOAT3(0, 0.001f, 0));
 
-					particles[i].direction.X *= particles[i].randX;
-					particles[i].direction.Y *= particles[i].randY;
-				}
-				else
-				{
-					// Particle died by lifetime, reset
-					particles[i].currentlifetime = 0;
-					particles[i].alive = false;
-
-					// Move particle back to PS origin
-					particles[i].position = Position(ps->emittertype);
-				}
+				particles[i].direction.X *= particles[i].randX;
+				particles[i].direction.Y *= particles[i].randY;
 			}
 			else
 			{
-				// This particle is dead already since before.
-				// Find out if we should emit it again!
-				if (cooldown > ps->emissiondelay)
-				{
-					particles[i].position = Position(ps->emittertype);
-					particles[i].alive = true;
+				// Particle died by lifetime, reset
+				particles[i].currentlifetime = 0;
+				particles[i].alive = false;
 
-					cooldown = 0.0f;
-				}
+				// Move particle back to PS origin
+				particles[i].position = Position(ps->emittertype);
+			}
+		}
+		else
+		{
+			// This particle is dead already since before.
+			// Find out if we should emit it again!
+			if (cooldown > ps->emissiondelay)
+			{
+				particles[i].position = Position(ps->emittertype);
+				particles[i].alive = true;
+
+				cooldown = 0.0f;
 			}
 		}
 	}
