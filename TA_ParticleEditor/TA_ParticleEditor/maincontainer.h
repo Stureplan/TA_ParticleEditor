@@ -55,12 +55,12 @@ public slots:
 
 	void colorIn();
 	void colorOut();
-	void scaleModeChanged(int index);
 	void emitterTypeChanged(int index);
 	void textureTypeChanged(int index);
-	void sizeX();
-	void sizeY();
-
+	void startSizeX();
+	void startSizeY();
+	void endSizeX();
+	void endSizeY();
 	void rectResize();
 
 protected:
@@ -81,8 +81,10 @@ private:
 	QLineEdit* textFieldVelocityZ;
 	QLineEdit* textFieldMaxParticles;
 	QLineEdit* textFieldGravity;
-	QLineEdit* textFieldSizeX;
-	QLineEdit* textFieldSizeY;
+	QLineEdit* textFieldStartSizeX;
+	QLineEdit* textFieldStartSizeY;
+	QLineEdit* textFieldEndSizeX;
+	QLineEdit* textFieldEndSizeY;
 	QLineEdit* textFieldRectSizeX;
 	QLineEdit* textFieldRectSizeZ;
 	QPushButton* browseBtn;
@@ -110,10 +112,11 @@ private:
 	float mLifetime;
 	float mGravity;
 	float mTextFieldValue;
-	float mSizeX;
-	float mSizeY;
+	float mStartSizeX;
+	float mStartSizeY;
+	float mEndSizeX;
+	float mEndSizeY;
 	float mRectSizeX;
 	float mRectSizeZ;
-	float mScaleMode;
 	int mTextureType;
 };

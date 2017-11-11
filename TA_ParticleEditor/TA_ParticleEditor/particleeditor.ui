@@ -613,7 +613,7 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLineEdit" name="sizeX">
+   <widget class="QLineEdit" name="startSizeX">
     <property name="geometry">
      <rect>
       <x>670</x>
@@ -635,7 +635,7 @@
      <string>1.0</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="sizeY">
+   <widget class="QLineEdit" name="startSizeY">
     <property name="geometry">
      <rect>
       <x>707</x>
@@ -848,10 +848,10 @@
      </property>
     </widget>
    </widget>
-   <widget class="QLineEdit" name="sizeY_2">
+   <widget class="QLineEdit" name="endSizeY">
     <property name="geometry">
      <rect>
-      <x>797</x>
+      <x>787</x>
       <y>210</y>
       <width>35</width>
       <height>20</height>
@@ -873,7 +873,7 @@
    <widget class="QLabel" name="label_EndSize">
     <property name="geometry">
      <rect>
-      <x>751</x>
+      <x>741</x>
       <y>191</y>
       <width>91</width>
       <height>16</height>
@@ -886,10 +886,10 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLineEdit" name="sizeX_2">
+   <widget class="QLineEdit" name="endSizeX">
     <property name="geometry">
      <rect>
-      <x>760</x>
+      <x>750</x>
       <y>210</y>
       <width>35</width>
       <height>20</height>
@@ -955,12 +955,14 @@
     <slot>colorIn()</slot>
     <slot>colorOut()</slot>
     <slot>scaleModeChanged(int)</slot>
-    <slot>sizeX()</slot>
-    <slot>sizeY()</slot>
+    <slot>startSizeX()</slot>
+    <slot>startSizeY()</slot>
     <slot>emitterTypeChanged(int)</slot>
     <slot>rectResize()</slot>
     <slot>load()</slot>
     <slot>textureTypeChanged(int)</slot>
+    <slot>endSizeX()</slot>
+    <slot>endSizeY()</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -1129,10 +1131,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>sizeX</sender>
+   <sender>startSizeX</sender>
    <signal>editingFinished()</signal>
    <receiver>maincontainer</receiver>
-   <slot>sizeX()</slot>
+   <slot>startSizeX()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>714</x>
@@ -1145,10 +1147,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>sizeY</sender>
+   <sender>startSizeY</sender>
    <signal>editingFinished()</signal>
    <receiver>maincontainer</receiver>
-   <slot>sizeY()</slot>
+   <slot>startSizeY()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>804</x>
@@ -1249,6 +1251,38 @@
     <hint type="sourcelabel">
      <x>715</x>
      <y>511</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>332</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>endSizeX</sender>
+   <signal>editingFinished()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>endSizeX()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>767</x>
+     <y>252</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>332</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>endSizeY</sender>
+   <signal>editingFinished()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>endSizeY()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>804</x>
+     <y>252</y>
     </hint>
     <hint type="destinationlabel">
      <x>474</x>

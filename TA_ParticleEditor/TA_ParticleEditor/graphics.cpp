@@ -551,9 +551,9 @@ int Graphics::TestIntersection(int x, int y, XMFLOAT3 &particlePos)
 	{
 		// FIND ORIGINAL PARTICLE POS
 		XMVECTOR pos = XMVectorSet(particles[i].position.X, particles[i].position.Y, particles[i].position.Z, 1.0f);
-		XMVECTOR up = XMVector3Normalize(camup) * *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_SIZE_Y);
+		XMVECTOR up = XMVector3Normalize(camup) * *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_START_SIZE_Y);
 		XMVECTOR normal = XMVector3Normalize(pos - campos);
-		XMVECTOR right = XMVector3Normalize(XMVector3Cross(normal, up)) * *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_SIZE_X);
+		XMVECTOR right = XMVector3Normalize(XMVector3Cross(normal, up)) * *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_START_SIZE_X);
 
 		XMVECTOR vec0 = pos - right + up; //XMVectorSet(-5, 5, 0, 1);
 		XMVECTOR vec1 = pos - right - up; //XMVectorSet(-5,-5, 0, 1);
@@ -744,16 +744,15 @@ void Graphics::Render()
 	World = XMMatrixIdentity();
 	WVP = World * View * Projection;
 	
-	cBufferParticle.wvp = XMMatrixTranspose(WVP);
-	cBufferParticle.world = XMMatrixTranspose(World);
-	cBufferParticle.campos = campos;
-	cBufferParticle.camup = XMVectorSet(0, 1, 0, 1);
-	cBufferParticle.size.x = *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_SIZE_X);
-	cBufferParticle.size.y = *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_SIZE_Y);
-	cBufferParticle.colin =  *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_IN);
-	cBufferParticle.colout = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_OUT);
-	cBufferParticle.scale =  *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_SCALE_MODE);
-	cBufferParticle.lifetime = *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_LIFETIME);
+	cBufferParticle.wvp			= XMMatrixTranspose(WVP);
+	cBufferParticle.world		= XMMatrixTranspose(World);
+	cBufferParticle.campos		= campos;
+	cBufferParticle.camup		= XMVectorSet(0, 1, 0, 1);
+	cBufferParticle.startsize	= XMFLOAT2(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_START_SIZE_X), *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_START_SIZE_Y));
+	cBufferParticle.endsize		= XMFLOAT2(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_END_SIZE_X), *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_END_SIZE_Y));
+	cBufferParticle.colin		= *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_IN);
+	cBufferParticle.colout		= *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_OUT);
+	cBufferParticle.lifetime	= *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_LIFETIME);
 	
 	context->UpdateSubresource(constantBufferParticle, 0, NULL, &cBufferParticle, 0, 0);
 	context->VSSetConstantBuffers(0, 1, &constantBufferParticle);

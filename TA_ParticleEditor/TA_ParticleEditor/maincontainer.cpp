@@ -15,29 +15,31 @@ MainContainer::~MainContainer()
 void MainContainer::SetPointers(ParticleSystem* ps)
 {
 	particlesystem = ps;
-	graphics			   = findChild<Graphics*>	 ("graphics",			Qt::FindChildOption::FindChildrenRecursively);
-	textFieldParticleInfo  = findChild<QLabel*>		 ("label_ParticleInfo",	Qt::FindChildOption::FindChildrenRecursively);
-	textFieldLifetime	   = findChild<QLineEdit*>	 ("lifetime",			Qt::FindChildOption::FindChildrenRecursively);
-	textFieldEmissionDelay = findChild<QLineEdit*>	 ("emissionDelay",		Qt::FindChildOption::FindChildrenRecursively);
-	textFieldVelocityX	   = findChild<QLineEdit*>	 ("velocityX",			Qt::FindChildOption::FindChildrenRecursively);
-	textFieldVelocityY	   = findChild<QLineEdit*>	 ("velocityY",			Qt::FindChildOption::FindChildrenRecursively);
-	textFieldVelocityZ	   = findChild<QLineEdit*>	 ("velocityZ",			Qt::FindChildOption::FindChildrenRecursively);
-	textFieldGravity	   = findChild<QLineEdit*>	 ("gravity",			Qt::FindChildOption::FindChildrenRecursively);
-	browseBtn			   = findChild<QPushButton*> ("browsepath",			Qt::FindChildOption::FindChildrenRecursively);
-	saveBtn				   = findChild<QPushButton*> ("savePS",				Qt::FindChildOption::FindChildrenRecursively);
-	loadBtn				   = findChild<QPushButton*> ("loadPS",				Qt::FindChildOption::FindChildrenRecursively);
-	textFieldMaxParticles  = findChild<QLineEdit*>	 ("maxParticles",		Qt::FindChildOption::FindChildrenRecursively);
-	textBrowser			   = findChild<QTextBrowser*>("textBrowser",		Qt::FindChildOption::FindChildrenRecursively);
-	colorInDisplay		   = findChild<QLineEdit*>	 ("colorInDisplay",		Qt::FindChildOption::FindChildrenRecursively);
-	colorOutDisplay		   = findChild<QLineEdit*>	 ("colorOutDisplay",	Qt::FindChildOption::FindChildrenRecursively);
-	scaleBoxDisplay		   = findChild<QComboBox*>	 ("scaleBox",			Qt::FindChildOption::FindChildrenRecursively);
-	emitterTypeDisplay	   = findChild<QComboBox*>	 ("emitterTypeBox",		Qt::FindChildOption::FindChildrenRecursively);
-	textFieldSizeX		   = findChild<QLineEdit*>	 ("sizeX",				Qt::FindChildOption::FindChildrenRecursively);
-	textFieldSizeY		   = findChild<QLineEdit*>	 ("sizeY",				Qt::FindChildOption::FindChildrenRecursively);
-	textFieldRectSizeX	   = findChild<QLineEdit*>	 ("rectSizeX",			Qt::FindChildOption::FindChildrenRecursively);
-	textFieldRectSizeZ	   = findChild<QLineEdit*>	 ("rectSizeZ",			Qt::FindChildOption::FindChildrenRecursively);
-	rectangleWidget		   = findChild<QWidget*>	 ("rectangleWidget",	Qt::FindChildOption::FindChildrenRecursively);
-	spriteSheetWidget	   = findChild<QWidget*>	 ("spriteSheetWidget",	Qt::FindChildOption::FindChildrenRecursively);
+	graphics				= findChild<Graphics*>		("graphics",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldParticleInfo	= findChild<QLabel*>		("label_ParticleInfo",	Qt::FindChildOption::FindChildrenRecursively);
+	textFieldLifetime		= findChild<QLineEdit*>		("lifetime",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldEmissionDelay	= findChild<QLineEdit*>		("emissionDelay",		Qt::FindChildOption::FindChildrenRecursively);
+	textFieldVelocityX		= findChild<QLineEdit*>		("velocityX",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldVelocityY		= findChild<QLineEdit*>		("velocityY",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldVelocityZ		= findChild<QLineEdit*>		("velocityZ",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldGravity		= findChild<QLineEdit*>		("gravity",				Qt::FindChildOption::FindChildrenRecursively);
+	browseBtn				= findChild<QPushButton*>	("browsepath",			Qt::FindChildOption::FindChildrenRecursively);
+	saveBtn					= findChild<QPushButton*>	("savePS",				Qt::FindChildOption::FindChildrenRecursively);
+	loadBtn					= findChild<QPushButton*>	("loadPS",				Qt::FindChildOption::FindChildrenRecursively);
+	textFieldMaxParticles	= findChild<QLineEdit*>		("maxParticles",		Qt::FindChildOption::FindChildrenRecursively);
+	textBrowser				= findChild<QTextBrowser*>	("textBrowser",			Qt::FindChildOption::FindChildrenRecursively);
+	colorInDisplay			= findChild<QLineEdit*>		("colorInDisplay",		Qt::FindChildOption::FindChildrenRecursively);
+	colorOutDisplay			= findChild<QLineEdit*>		("colorOutDisplay",		Qt::FindChildOption::FindChildrenRecursively);
+	scaleBoxDisplay			= findChild<QComboBox*>		("scaleBox",			Qt::FindChildOption::FindChildrenRecursively);
+	emitterTypeDisplay		= findChild<QComboBox*>		("emitterTypeBox",		Qt::FindChildOption::FindChildrenRecursively);
+	textFieldStartSizeX		= findChild<QLineEdit*>		("startSizeX",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldStartSizeY		= findChild<QLineEdit*>		("startSizeY",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldEndSizeX		= findChild<QLineEdit*>		("endSizeX",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldEndSizeY		= findChild<QLineEdit*>		("endSizeY",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldRectSizeX		= findChild<QLineEdit*>	 ("rectSizeX",				Qt::FindChildOption::FindChildrenRecursively);
+	textFieldRectSizeZ		= findChild<QLineEdit*>	 ("rectSizeZ",				Qt::FindChildOption::FindChildrenRecursively);
+	rectangleWidget			= findChild<QWidget*>	 ("rectangleWidget",		Qt::FindChildOption::FindChildrenRecursively);
+	spriteSheetWidget		= findChild<QWidget*>	 ("spriteSheetWidget",		Qt::FindChildOption::FindChildrenRecursively);
 
 }
 #pragma endregion
@@ -65,10 +67,16 @@ void MainContainer::Init()
 	mMaxParticles = DEFAULT_MAXPARTICLES;
 	textFieldMaxParticles->setPlaceholderText(std::to_string(DEFAULT_MAXPARTICLES).c_str());
 
-	mSizeX = DEFAULT_SIZE;
-	mSizeY = DEFAULT_SIZE;
-	textFieldSizeX->setPlaceholderText(std::to_string(DEFAULT_SIZE).c_str());
-	textFieldSizeY->setPlaceholderText(std::to_string(DEFAULT_SIZE).c_str());
+	mStartSizeX = DEFAULT_SIZE;
+	mStartSizeY = DEFAULT_SIZE;
+	textFieldStartSizeX->setPlaceholderText(std::to_string(DEFAULT_SIZE).c_str());
+	textFieldStartSizeY->setPlaceholderText(std::to_string(DEFAULT_SIZE).c_str());
+
+	mEndSizeX = DEFAULT_SIZE;
+	mEndSizeY = DEFAULT_SIZE;
+	textFieldEndSizeX->setPlaceholderText(std::to_string(DEFAULT_SIZE).c_str());
+	textFieldEndSizeY->setPlaceholderText(std::to_string(DEFAULT_SIZE).c_str());
+
 
 	mTexturePath = DEFAULT_TEXTURE;
 
@@ -77,8 +85,6 @@ void MainContainer::Init()
 
 	mRectSizeX = 1.0f;
 	mRectSizeZ = 1.0f;
-
-	mScaleMode = 0;
 }
 
 void MainContainer::setGravity()
@@ -109,11 +115,12 @@ void MainContainer::load()
 		mGravity = ps.gravity;
 		mColorIn.setRgbF(ps.colorIn.X, ps.colorIn.Y, ps.colorIn.Z, ps.colorIn.W);
 		mColorOut.setRgbF(ps.colorOut.X, ps.colorOut.Y, ps.colorOut.Z, ps.colorOut.W);
-		mSizeX = ps.sizeX;
-		mSizeY = ps.sizeY;
+		mStartSizeX = ps.startSizeX;
+		mStartSizeY = ps.startSizeY;
+		mEndSizeX = ps.endSizeX;
+		mEndSizeY = ps.endSizeY;
 		mRectSizeX = ps.rectSizeX;
 		mRectSizeZ = ps.rectSizeZ;
-		mScaleMode = ps.scalemode;
 
 		SetUiElements();
 		std::string path = n;
@@ -138,13 +145,11 @@ void MainContainer::SetUiElements()
 	textFieldGravity->setText(QString::number(mGravity));
 	textFieldRectSizeX->setText(QString::number(mRectSizeX));
 	textFieldRectSizeZ->setText(QString::number(mRectSizeZ));
-	textFieldSizeX->setText(QString::number(mSizeX));
-	textFieldSizeY->setText(QString::number(mSizeY));
+	textFieldStartSizeX->setText(QString::number(mStartSizeX));
+	textFieldStartSizeY->setText(QString::number(mStartSizeY));
+	textFieldEndSizeX->setText(QString::number(mEndSizeX));
+	textFieldEndSizeY->setText(QString::number(mEndSizeY));
 
-	int mode;
-	if (mScaleMode == 0) { mode = 0; }
-	if (mScaleMode == -1) { mode = 1; }
-	if (mScaleMode == 1) { mode = 2; }
 
 	colorInDisplay->setStyleSheet("QLineEdit { background: " + mColorIn.name() + "; selection-background-color: rgb(233, 99, 0); }");
 	colorOutDisplay->setStyleSheet("QLineEdit { background: " + mColorOut.name() + "; selection-background-color: rgb(233, 99, 0); }");
@@ -155,18 +160,16 @@ void MainContainer::SetUiElements()
 	FLOAT4 outColor = FLOAT4(mColorOut.redF(), mColorOut.greenF(), mColorOut.blueF(), mColorOut.alphaF());
 	particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_OUT, &outColor);
 
-	scaleBoxDisplay->setCurrentIndex(mode);
 	int test;
 
 	test = scaleBoxDisplay->currentIndex();
 	test = mEmitterType;
 	emitterTypeDisplay->setCurrentIndex(test);
 
-	particlesystem->SetProperty(PS_PROPERTY::PS_SIZE_X, &mSizeX);
-	particlesystem->SetProperty(PS_PROPERTY::PS_SIZE_Y, &mSizeY);
+	particlesystem->SetProperty(PS_PROPERTY::PS_START_SIZE_X, &mStartSizeX);
+	particlesystem->SetProperty(PS_PROPERTY::PS_START_SIZE_Y, &mStartSizeY);
 
 	emitterTypeChanged(mEmitterType);
-	scaleModeChanged(mode);
 
 	//textBrowser->setText(mTexturePath); fix later when texture thing is done
 }
@@ -194,11 +197,13 @@ void MainContainer::save()
 	ps.gravity = mGravity;
 	ps.colorIn  = FLOAT4(mColorIn.redF(), mColorIn.greenF(), mColorIn.blueF(), mColorIn.alphaF());
 	ps.colorOut = FLOAT4(mColorOut.redF(), mColorOut.greenF(), mColorOut.blueF(), mColorOut.alphaF());
-	ps.sizeX = mSizeX;
-	ps.sizeY = mSizeY;
+	ps.startSizeX = mStartSizeX;
+	ps.startSizeY = mStartSizeY;
+	ps.endSizeX = mEndSizeX;
+	ps.endSizeY = mEndSizeY;
+
 	ps.rectSizeX = mRectSizeX;
 	ps.rectSizeZ = mRectSizeZ;
-	ps.scalemode = mScaleMode;
 
 	FILE* file = fopen(exportPath.c_str(), "wb");
 	if (file != NULL)
@@ -261,16 +266,6 @@ void MainContainer::colorOut()
 	}
 }
 
-void MainContainer::scaleModeChanged(int mode)
-{
-	if (mode == 0) { mScaleMode = 0;  }
-	else if (mode == 1) { mScaleMode = -1; }
-	else if (mode == 2) { mScaleMode = 1;  }
-	else { mScaleMode = 0; }
-
-	particlesystem->SetProperty(PS_PROPERTY::PS_SCALE_MODE, &mScaleMode);
-}
-
 void MainContainer::emitterTypeChanged(int mode)
 {
 	mEmitterType = (EMITTER_TYPE)mode;
@@ -303,16 +298,28 @@ void MainContainer::textureTypeChanged(int mode)
 	mTextureType = mode;
 }
 
-void MainContainer::sizeX()
+void MainContainer::startSizeX()
 {
-	mSizeX = textFieldSizeX->text().toFloat();
-	particlesystem->SetProperty(PS_PROPERTY::PS_SIZE_X, &mSizeX);
+	mStartSizeX = textFieldStartSizeX->text().toFloat();
+	particlesystem->SetProperty(PS_PROPERTY::PS_START_SIZE_X, &mStartSizeX);
 }
 
-void MainContainer::sizeY()
+void MainContainer::startSizeY()
 {
-	mSizeY = textFieldSizeY->text().toFloat();
-	particlesystem->SetProperty(PS_PROPERTY::PS_SIZE_Y, &mSizeY);
+	mStartSizeY = textFieldStartSizeY->text().toFloat();
+	particlesystem->SetProperty(PS_PROPERTY::PS_START_SIZE_Y, &mStartSizeY);
+}
+
+void MainContainer::endSizeX()
+{
+	mEndSizeX = textFieldEndSizeX->text().toFloat();
+	particlesystem->SetProperty(PS_PROPERTY::PS_END_SIZE_X, &mEndSizeX);
+}
+
+void MainContainer::endSizeY()
+{
+	mEndSizeY = textFieldEndSizeY->text().toFloat();
+	particlesystem->SetProperty(PS_PROPERTY::PS_END_SIZE_Y, &mEndSizeY);
 }
 
 void MainContainer::rectResize()
@@ -390,7 +397,7 @@ void MainContainer::BuildParticleSystem()
 		mVelocity, mEmissionDelay, mLifetime, mGravity,
 		FLOAT4(mColorIn.redF(), mColorIn.greenF(), mColorIn.blueF(), mColorIn.alphaF()),
 		FLOAT4(mColorOut.redF(), mColorOut.greenF(), mColorOut.blueF(), mColorOut.alphaF()),
-		mSizeX, mSizeY, mRectSizeX, mRectSizeZ, mScaleMode);
+		mStartSizeX, mStartSizeY, mEndSizeX, mEndSizeY, mRectSizeX, mRectSizeZ);
 
 	graphics->Rebuild(ps);
 }

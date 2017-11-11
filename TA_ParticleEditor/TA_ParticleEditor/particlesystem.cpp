@@ -113,11 +113,17 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 	case PS_PROPERTY::PS_COLOR_OUT:
 		ps->colorOut = *(FLOAT4*)data;
 		break;
-	case PS_PROPERTY::PS_SIZE_X:
-		ps->sizeX = *(float*)data;
+	case PS_PROPERTY::PS_START_SIZE_X:
+		ps->startSizeX = *(float*)data;
 		break;
-	case PS_PROPERTY::PS_SIZE_Y:
-		ps->sizeY = *(float*)data;
+	case PS_PROPERTY::PS_START_SIZE_Y:
+		ps->startSizeY = *(float*)data;
+		break;
+	case PS_PROPERTY::PS_END_SIZE_X:
+		ps->endSizeX = *(float*)data;
+		break;
+	case PS_PROPERTY::PS_END_SIZE_Y:
+		ps->endSizeY = *(float*)data;
 		break;
 	case PS_PROPERTY::PS_EMITTER_TYPE:
 		ps->emittertype = *(EMITTER_TYPE*)data;
@@ -127,9 +133,6 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 		break;
 	case PS_PROPERTY::PS_RECT_SIZE_Z:
 		ps->rectSizeZ = *(float*)data;
-		break;
-	case PS_PROPERTY::PS_SCALE_MODE:
-		ps->scalemode = *(float*)data;
 		break;
 	}
 }
@@ -156,11 +159,17 @@ void* ParticleSystem::GetProperty(PS_PROPERTY prop)
 	case PS_PROPERTY::PS_COLOR_OUT:
 		return &ps->colorOut;
 		break;
-	case PS_PROPERTY::PS_SIZE_X:
-		return &ps->sizeX;
+	case PS_PROPERTY::PS_START_SIZE_X:
+		return &ps->startSizeX;
 		break;
-	case PS_PROPERTY::PS_SIZE_Y:
-		return &ps->sizeY;
+	case PS_PROPERTY::PS_START_SIZE_Y:
+		return &ps->startSizeY;
+		break;
+	case PS_PROPERTY::PS_END_SIZE_X:
+		return &ps->endSizeX;
+		break;
+	case PS_PROPERTY::PS_END_SIZE_Y:
+		return &ps->endSizeY;
 		break;
 	case PS_PROPERTY::PS_EMITTER_TYPE:
 		return &ps->emittertype;
@@ -171,9 +180,6 @@ void* ParticleSystem::GetProperty(PS_PROPERTY prop)
 	case PS_PROPERTY::PS_RECT_SIZE_Z:
 		return &ps->rectSizeZ;
 		break;
-	case PS_PROPERTY::PS_SCALE_MODE:
-		return &ps->scalemode;
-		break;
 	}
 
 	return NULL;
@@ -181,7 +187,7 @@ void* ParticleSystem::GetProperty(PS_PROPERTY prop)
 
 void ParticleSystem::Initialize()
 {
-	ps = new PARTICLESYSTEM(EMITTER_TYPE::EMIT_POINT,0, FLOAT3_ZERO, 0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f, 1.0f, 1.0f, 0.0f);
+	ps = new PARTICLESYSTEM(EMITTER_TYPE::EMIT_POINT,0, FLOAT3_ZERO, 0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
 
 	for (unsigned int i = 0; i < ps->maxparticles; i++)
 	{
@@ -243,11 +249,12 @@ void ParticleSystem::Rebuild(PARTICLESYSTEM particlesystem)
 	ps->emissiondelay= particlesystem.emissiondelay;
 	ps->lifetime= particlesystem.lifetime;
 	ps->gravity= particlesystem.gravity;
-	ps->sizeX = particlesystem.sizeX;
-	ps->sizeY = particlesystem.sizeY;
+	ps->startSizeX = particlesystem.startSizeX;
+	ps->startSizeY = particlesystem.startSizeY;
+	ps->endSizeX = particlesystem.endSizeX;
+	ps->endSizeY = particlesystem.endSizeY;
 	ps->rectSizeX = particlesystem.rectSizeX;
 	ps->rectSizeZ = particlesystem.rectSizeZ;
-	ps->scalemode = particlesystem.scalemode;
 
 	cooldown = ps->emissiondelay;
 
@@ -298,8 +305,8 @@ void ParticleSystem::Update(float dt)
 				particles[i].position = nPos;
 				particles[i].direction = nPos - (dir+FLOAT3(0, 0.001f, 0));
 
-				particles[i].direction.X *= particles[i].randX;
-				particles[i].direction.Y *= particles[i].randY;
+				//particles[i].direction.X *= particles[i].randX;
+				//particles[i].direction.Y *= particles[i].randY;
 			}
 			else
 			{

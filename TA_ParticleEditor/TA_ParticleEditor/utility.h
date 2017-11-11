@@ -108,12 +108,13 @@ enum PS_PROPERTY
 	PS_GRAVITY,
 	PS_COLOR_IN,
 	PS_COLOR_OUT,
-	PS_SIZE_X,
-	PS_SIZE_Y,
+	PS_START_SIZE_X,
+	PS_START_SIZE_Y,
+	PS_END_SIZE_X,
+	PS_END_SIZE_Y,
 	PS_EMITTER_TYPE,
 	PS_RECT_SIZE_X,
 	PS_RECT_SIZE_Z,
-	PS_SCALE_MODE
 };
 
 enum EMITTER_TYPE
@@ -125,7 +126,7 @@ enum EMITTER_TYPE
 struct PARTICLESYSTEM
 {
 	PARTICLESYSTEM(){}
-	PARTICLESYSTEM(EMITTER_TYPE e, int m, FLOAT3 v, float ed, float lt, float grv, FLOAT4 colIn, FLOAT4 colOut, float sX, float sY, float rsX, float rsZ, float sM)
+	PARTICLESYSTEM(EMITTER_TYPE e, int m, FLOAT3 v, float ed, float lt, float grv, FLOAT4 colIn, FLOAT4 colOut, float sX, float sY, float eX, float eY, float rsX, float rsZ)
 	{
 		emittertype = e;
 		maxparticles = m;
@@ -135,11 +136,12 @@ struct PARTICLESYSTEM
 		gravity = grv;
 		colorIn = colIn;
 		colorOut = colOut;
-		sizeX = sX;
-		sizeY = sY;
+		startSizeX = sX;
+		startSizeY = sY;
+		endSizeX = eX;
+		endSizeY = eY;
 		rectSizeX = rsX;
 		rectSizeZ = rsZ;
-		scalemode = sM;
 	}
 	// PS Export variables
 	EMITTER_TYPE emittertype;
@@ -150,11 +152,12 @@ struct PARTICLESYSTEM
 	float gravity;
 	FLOAT4 colorIn;
 	FLOAT4 colorOut;
-	float sizeX;
-	float sizeY;
+	float startSizeX;
+	float startSizeY;
+	float endSizeX;
+	float endSizeY;
 	float rectSizeX;
 	float rectSizeZ;
-	float scalemode;
 };
 
 

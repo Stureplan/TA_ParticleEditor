@@ -35,8 +35,6 @@ class Graphics : public QWidget
 
 
 public:
-
-
 	struct CBUFFER_PARTICLESYSTEM
 	{
 		XMMATRIX wvp;
@@ -45,8 +43,8 @@ public:
 		XMVECTOR camup;
 		FLOAT4 colin;
 		FLOAT4 colout;
-		XMFLOAT2 size;
-		float scale;
+		XMFLOAT2 startsize;
+		XMFLOAT2 endsize;
 		float lifetime;
 	};
 

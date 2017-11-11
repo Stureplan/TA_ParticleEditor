@@ -6,8 +6,8 @@ cbuffer CBUFFER
 	float4 camup;
 	float4 colin;
 	float4 colout;
-	float2 size;
-	float scalemode;
+	float2 startsize;
+	float2 endsize;
 	float lifetime;
 };
 
@@ -58,12 +58,12 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 	//dir.y = c.y;
 	//dir.z = c.z;
 
-	float finalScale = 1-(percent);
-	//float lifetimeScale = (1 - percent) * scalemode;
+
+	float2 scale = lerp(startsize, endsize, percent);
 
 
-	float w = size.x + (size.x * finalScale * scalemode);
-	float h = size.y + (size.y * finalScale * scalemode);
+	float w = scale.x;
+	float h = scale.y;
 
 	float3 up;
 	float3 normal;

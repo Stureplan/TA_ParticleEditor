@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainContainer_t {
-    QByteArrayData data[21];
-    char stringdata0[228];
+    QByteArrayData data[22];
+    char stringdata0[239];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -45,21 +45,23 @@ QT_MOC_LITERAL(10, 117, 4), // "save"
 QT_MOC_LITERAL(11, 122, 4), // "load"
 QT_MOC_LITERAL(12, 127, 7), // "colorIn"
 QT_MOC_LITERAL(13, 135, 8), // "colorOut"
-QT_MOC_LITERAL(14, 144, 16), // "scaleModeChanged"
-QT_MOC_LITERAL(15, 161, 5), // "index"
-QT_MOC_LITERAL(16, 167, 18), // "emitterTypeChanged"
-QT_MOC_LITERAL(17, 186, 18), // "textureTypeChanged"
-QT_MOC_LITERAL(18, 205, 5), // "sizeX"
-QT_MOC_LITERAL(19, 211, 5), // "sizeY"
-QT_MOC_LITERAL(20, 217, 10) // "rectResize"
+QT_MOC_LITERAL(14, 144, 18), // "emitterTypeChanged"
+QT_MOC_LITERAL(15, 163, 5), // "index"
+QT_MOC_LITERAL(16, 169, 18), // "textureTypeChanged"
+QT_MOC_LITERAL(17, 188, 10), // "startSizeX"
+QT_MOC_LITERAL(18, 199, 10), // "startSizeY"
+QT_MOC_LITERAL(19, 210, 8), // "endSizeX"
+QT_MOC_LITERAL(20, 219, 8), // "endSizeY"
+QT_MOC_LITERAL(21, 228, 10) // "rectResize"
 
     },
     "MainContainer\0setLifetime\0\0setEmissionDelay\0"
     "setVelocityX\0setVelocityY\0setVelocityZ\0"
     "setMaxParticles\0setGravity\0browse\0"
-    "save\0load\0colorIn\0colorOut\0scaleModeChanged\0"
-    "index\0emitterTypeChanged\0textureTypeChanged\0"
-    "sizeX\0sizeY\0rectResize"
+    "save\0load\0colorIn\0colorOut\0"
+    "emitterTypeChanged\0index\0textureTypeChanged\0"
+    "startSizeX\0startSizeY\0endSizeX\0endSizeY\0"
+    "rectResize"
 };
 #undef QT_MOC_LITERAL
 
@@ -69,7 +71,7 @@ static const uint qt_meta_data_MainContainer[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      18,   14, // methods
+      19,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -77,24 +79,25 @@ static const uint qt_meta_data_MainContainer[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,  104,    2, 0x0a /* Public */,
-       3,    0,  105,    2, 0x0a /* Public */,
-       4,    0,  106,    2, 0x0a /* Public */,
-       5,    0,  107,    2, 0x0a /* Public */,
-       6,    0,  108,    2, 0x0a /* Public */,
-       7,    0,  109,    2, 0x0a /* Public */,
-       8,    0,  110,    2, 0x0a /* Public */,
-       9,    0,  111,    2, 0x0a /* Public */,
-      10,    0,  112,    2, 0x0a /* Public */,
-      11,    0,  113,    2, 0x0a /* Public */,
-      12,    0,  114,    2, 0x0a /* Public */,
-      13,    0,  115,    2, 0x0a /* Public */,
-      14,    1,  116,    2, 0x0a /* Public */,
-      16,    1,  119,    2, 0x0a /* Public */,
-      17,    1,  122,    2, 0x0a /* Public */,
-      18,    0,  125,    2, 0x0a /* Public */,
-      19,    0,  126,    2, 0x0a /* Public */,
-      20,    0,  127,    2, 0x0a /* Public */,
+       1,    0,  109,    2, 0x0a /* Public */,
+       3,    0,  110,    2, 0x0a /* Public */,
+       4,    0,  111,    2, 0x0a /* Public */,
+       5,    0,  112,    2, 0x0a /* Public */,
+       6,    0,  113,    2, 0x0a /* Public */,
+       7,    0,  114,    2, 0x0a /* Public */,
+       8,    0,  115,    2, 0x0a /* Public */,
+       9,    0,  116,    2, 0x0a /* Public */,
+      10,    0,  117,    2, 0x0a /* Public */,
+      11,    0,  118,    2, 0x0a /* Public */,
+      12,    0,  119,    2, 0x0a /* Public */,
+      13,    0,  120,    2, 0x0a /* Public */,
+      14,    1,  121,    2, 0x0a /* Public */,
+      16,    1,  124,    2, 0x0a /* Public */,
+      17,    0,  127,    2, 0x0a /* Public */,
+      18,    0,  128,    2, 0x0a /* Public */,
+      19,    0,  129,    2, 0x0a /* Public */,
+      20,    0,  130,    2, 0x0a /* Public */,
+      21,    0,  131,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -111,7 +114,8 @@ static const uint qt_meta_data_MainContainer[] = {
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int,   15,
     QMetaType::Void, QMetaType::Int,   15,
-    QMetaType::Void, QMetaType::Int,   15,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -137,12 +141,13 @@ void MainContainer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 9: _t->load(); break;
         case 10: _t->colorIn(); break;
         case 11: _t->colorOut(); break;
-        case 12: _t->scaleModeChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 13: _t->emitterTypeChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 14: _t->textureTypeChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 15: _t->sizeX(); break;
-        case 16: _t->sizeY(); break;
-        case 17: _t->rectResize(); break;
+        case 12: _t->emitterTypeChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 13: _t->textureTypeChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 14: _t->startSizeX(); break;
+        case 15: _t->startSizeY(); break;
+        case 16: _t->endSizeX(); break;
+        case 17: _t->endSizeY(); break;
+        case 18: _t->rectResize(); break;
         default: ;
         }
     }
@@ -173,13 +178,13 @@ int MainContainer::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 18)
+        if (_id < 19)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 18;
+        _id -= 19;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 18)
+        if (_id < 19)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 18;
+        _id -= 19;
     }
     return _id;
 }
