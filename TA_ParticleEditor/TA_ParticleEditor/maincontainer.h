@@ -12,6 +12,7 @@
 #include <QLineEdit>
 #include <QComboBox>
 #include <QPushButton>
+#include <QImageReader>
 
 #include "utility.h"
 #include "graphics.h"
@@ -21,11 +22,11 @@
 #define DEFAULT_EMISSIONDELAY 0.1f
 #define DEFAULT_VELOCITY FLOAT3(0,0,0)
 #define DEFAULT_GRAVITY 1.0f
-#define DEFAULT_TEXTURE "plasmaball.png"
-#define DEFAULT_TEXTUREPATH std::string(Utility::Path() + "Data\\Textures\\plasmaball.png").c_str()
+#define DEFAULT_TEXTUREPATH "plasmaball.png"
+#define DEFAULT_DDS_TEXTUREPATH std::string(Utility::Path() + "Data\\Textures\\ddstexture.png").c_str()
 #define DEFAULT_SIZE 1.0f
 
-class MainContainer : public QWidget 
+class MainContainer : public QWidget
 {
 	Q_OBJECT
 	Q_DISABLE_COPY(MainContainer)
