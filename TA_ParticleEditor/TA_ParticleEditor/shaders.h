@@ -14,6 +14,24 @@
 class Shaders
 {
 public:
+	~Shaders()
+	{
+		ObjectVS->Release();
+		ObjectPS->Release();
+		pObjectVS->Release();
+		pObjectPS->Release();
+
+		ParticleVS->Release();
+		ParticleGS->Release();
+		ParticlePS->Release();
+		pParticleVS->Release();
+		pParticleGS->Release();
+		pParticlePS->Release();
+
+		pObjectLayout->Release();
+		pParticleLayout->Release();
+	}
+
 	enum RENDER_TYPE
 	{
 		GIZMO = 0,
@@ -227,7 +245,6 @@ private:
 	ID3D11PixelShader*		pObjectPS;
 	ID3D11InputLayout*		pObjectLayout;
 
-
 	ID3DBlob* ParticleVS;
 	ID3DBlob* ParticleGS;
 	ID3DBlob* ParticlePS;
@@ -235,5 +252,4 @@ private:
 	ID3D11GeometryShader*	pParticleGS;
 	ID3D11PixelShader*		pParticlePS;
 	ID3D11InputLayout*		pParticleLayout;
-
 };

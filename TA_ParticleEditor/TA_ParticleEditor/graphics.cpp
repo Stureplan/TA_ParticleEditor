@@ -41,11 +41,13 @@ Graphics::~Graphics()
 	emitterTypeGizmoVertexBuffer->Release();
 	particleDebugVertexBuffer->Release();
 
+
 	for (unsigned int i = 0; i < textures.size(); i++)
 	{
 		textures[i]->Release();
 	}
 	texture_debug->Release();
+
 	//textureResource->Release();
 }
 
@@ -230,6 +232,7 @@ void Graphics::Initialize()
 	LoadDebugParticle();
 	LoadPositionGizmo();
 	LoadEmitterTypeGizmo(EMITTER_TYPE::EMIT_POINT);
+
 	LoadTextures();
 }
 
@@ -514,12 +517,10 @@ void Graphics::LoadEmitterTypeGizmo(EMITTER_TYPE type)
 
 void Graphics::LoadTextures()
 {
-	HRESULT hr;
-	ID3D11ShaderResourceView* texture;
-	textures.push_back(texture);
-	textures.push_back(texture);
-	textures.push_back(texture);
-	textures.push_back(texture);
+	textures.push_back(nullptr);
+	textures.push_back(nullptr);
+	textures.push_back(nullptr);
+	textures.push_back(nullptr);
 	
 	DX::LoadTexture(device, textureResource, textures[0], Utility::Path() + "Data\\Textures\\debug.png");
 	DX::LoadTexture(device, textureResource, textures[1], Utility::Path() + "Data\\Textures\\plasmaball.png");
