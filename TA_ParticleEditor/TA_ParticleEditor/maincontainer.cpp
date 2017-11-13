@@ -135,7 +135,11 @@ void MainContainer::load()
 		std::string path = n;
 		graphics->Retexture(Utility::Path() + "Data\\Textures\\" + path);
 		BuildParticleSystem();
+
+		fclose(file);
 	}
+
+
 }
 
 void MainContainer::SetUiElements()
@@ -246,7 +250,10 @@ void MainContainer::save()
 			msg.setText(QString("File: " + QString(exportPath.c_str()) + " failed on export."));
 			msg.exec();
 		}
+
+		fclose(file);
 	}
+
 }
 
 void MainContainer::colorIn()

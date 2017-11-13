@@ -234,8 +234,10 @@ class DX
 {
 public:
 
-	static bool LoadTexture(ID3D11Device* device, ID3D11Resource* resource, ID3D11ShaderResourceView* &texture, std::string path)
+	static bool LoadTexture(ID3D11Device* device, ID3D11ShaderResourceView* &texture, std::string path)
 	{
+		ID3D11Resource* resource;
+
 		HRESULT hr;
 
 		std::wstring wide_path = std::wstring(path.begin(), path.end());
@@ -250,6 +252,7 @@ public:
 			hr = CreateWICTextureFromFile(device, wide_path.c_str(), &resource, &texture);
 		}
 
+		resource->Release();
 		if (hr == S_OK) 
 		{ 
 			return true; 

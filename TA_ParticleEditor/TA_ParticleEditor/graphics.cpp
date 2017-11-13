@@ -48,7 +48,6 @@ Graphics::~Graphics()
 	}
 	texture_debug->Release();
 
-	//textureResource->Release();
 }
 
 void Graphics::Loop()
@@ -521,17 +520,17 @@ void Graphics::LoadTextures()
 	textures.push_back(nullptr);
 	textures.push_back(nullptr);
 	textures.push_back(nullptr);
-	
-	DX::LoadTexture(device, textureResource, textures[0], Utility::Path() + "Data\\Textures\\debug.png");
-	DX::LoadTexture(device, textureResource, textures[1], Utility::Path() + "Data\\Textures\\plasmaball.png");
-	DX::LoadTexture(device, textureResource, textures[2], Utility::Path() + "Data\\Textures\\debug_transparent.png");
-	DX::LoadTexture(device, textureResource, textures[3], Utility::Path() + "Data\\Textures\\noise.png");
-	DX::LoadTexture(device, textureResource, texture_debug, Utility::Path() + "Data\\Textures\\debug_wireframe.png");
+
+	DX::LoadTexture(device, textures[0], Utility::Path() + "Data\\Textures\\debug.png");
+	DX::LoadTexture(device, textures[1], Utility::Path() + "Data\\Textures\\plasmaball.png");
+	DX::LoadTexture(device, textures[2], Utility::Path() + "Data\\Textures\\debug_transparent.png");
+	DX::LoadTexture(device, textures[3], Utility::Path() + "Data\\Textures\\noise.png");
+	DX::LoadTexture(device, texture_debug, Utility::Path() + "Data\\Textures\\debug_wireframe.png");
 }
 
 void Graphics::Retexture(std::string path)
 {
-	bool result = DX::LoadTexture(device, textureResource, textures[1], path);
+	bool result = DX::LoadTexture(device, textures[1], path);
 	if (result == false)
 	{
 		MessageBoxA(NULL, std::string("Texture at: " + path + " was not found!\nLoading default texture.").c_str(), "Texture Missing", MB_OK);

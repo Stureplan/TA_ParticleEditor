@@ -185,7 +185,6 @@ private:
 	PARTICLE_VERTEX debugParticle;
 
 	std::vector<ID3D11ShaderResourceView*> textures;
-	ID3D11Resource* textureResource;
 	ID3D11ShaderResourceView* texture_debug;
 
 
