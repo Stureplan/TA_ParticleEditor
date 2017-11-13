@@ -17,6 +17,12 @@ Graphics::Graphics(QWidget * parent)
 	timer->start(0);
 }
 
+Graphics::~Graphics()
+{
+	delete timer;
+	delete particlesystem;
+}
+
 void Graphics::Loop()
 {
 
@@ -45,9 +51,6 @@ void Graphics::Loop()
 	//qint64 time = t.nsecsElapsed();
 }
 
-Graphics::~Graphics()
-{
-}
 
 void Graphics::Initialize()
 {

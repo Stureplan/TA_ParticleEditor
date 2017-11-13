@@ -6,7 +6,7 @@ ParticleSystem::ParticleSystem()
 
 ParticleSystem::~ParticleSystem()
 {
-
+	delete ps;
 }
 
 unsigned int ParticleSystem::ParticleCount()

@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿
+
+#pragma once
 #include <QWidget>
 #include <QKeyEvent>
 #include <QCoreApplication>
