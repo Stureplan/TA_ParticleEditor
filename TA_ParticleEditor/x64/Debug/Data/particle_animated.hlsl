@@ -9,6 +9,9 @@ cbuffer CBUFFER
 	float2 startsize;
 	float2 endsize;
 	float lifetime;
+
+	int columns;
+	int rows;
 };
 
 struct VOut
@@ -44,6 +47,10 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 	float3 dir		= input[0].direction.xyz;
 	float percent	= input[0].currentLifetime / lifetime;
 
+	unsigned int totalframes = columns * rows;
+	unsigned int currentframe = totalframes * percent;
+
+
 	//uint3 sam = uint3(currentframe, 0, 0);
 	//float4 c = noiseTexture.Load(sam);
 	//	
@@ -76,11 +83,23 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 	vtx[2] = pos + right + up;
 	vtx[3] = pos + right - up;
 
+	float2 cellUV;
+	cellUV.x = (float)(currentframe % rows) / (float)rows;
+	cellUV.y = floor(currentframe / columns) / (float)columns;
+
+	float2 cellDUV;
+	cellDUV.x = input[0].texcoord.x / (float)rows;
+	cellDUV.y = input[0].texcoord.y / (float)columns;
+
+
+
+
+
 	float2 uv[4];
-	uv[0] = float2(1, 0);
-	uv[1] = float2(1, 1);
-	uv[2] = float2(0, 0);
-	uv[3] = float2(0, 1);
+	uv[0] = cellUV + float2(1.0f / (float)rows, 0.0f / (float)columns);
+	uv[1] = cellUV + float2(1.0f / (float)rows, 1.0f / (float)columns);
+	uv[2] = cellUV + float2(0.0f / (float)rows, 0.0f / (float)columns);
+	uv[3] = cellUV + float2(0.0f / (float)rows, 1.0f / (float)columns);
 
 	VOut output;
 

@@ -32,15 +32,18 @@ void MainContainer::SetPointers(ParticleSystem* ps)
 	colorOutDisplay			= findChild<QLineEdit*>		("colorOutDisplay",		Qt::FindChildOption::FindChildrenRecursively);
 	scaleBoxDisplay			= findChild<QComboBox*>		("scaleBox",			Qt::FindChildOption::FindChildrenRecursively);
 	emitterTypeDisplay		= findChild<QComboBox*>		("emitterTypeBox",		Qt::FindChildOption::FindChildrenRecursively);
+	textureTypeBox			= findChild<QComboBox*>		("textureTypeBox",		Qt::FindChildOption::FindChildrenRecursively);
 	textFieldStartSizeX		= findChild<QLineEdit*>		("startSizeX",			Qt::FindChildOption::FindChildrenRecursively);
 	textFieldStartSizeY		= findChild<QLineEdit*>		("startSizeY",			Qt::FindChildOption::FindChildrenRecursively);
 	textFieldEndSizeX		= findChild<QLineEdit*>		("endSizeX",			Qt::FindChildOption::FindChildrenRecursively);
 	textFieldEndSizeY		= findChild<QLineEdit*>		("endSizeY",			Qt::FindChildOption::FindChildrenRecursively);
-	textFieldRectSizeX		= findChild<QLineEdit*>	 ("rectSizeX",				Qt::FindChildOption::FindChildrenRecursively);
-	textFieldRectSizeZ		= findChild<QLineEdit*>	 ("rectSizeZ",				Qt::FindChildOption::FindChildrenRecursively);
-	rectangleWidget			= findChild<QWidget*>	 ("rectangleWidget",		Qt::FindChildOption::FindChildrenRecursively);
-	spriteSheetWidget		= findChild<QWidget*>	 ("spriteSheetWidget",		Qt::FindChildOption::FindChildrenRecursively);
-
+	textFieldRectSizeX		= findChild<QLineEdit*>		("rectSizeX",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldRectSizeZ		= findChild<QLineEdit*>		("rectSizeZ",			Qt::FindChildOption::FindChildrenRecursively);
+	rectangleWidget			= findChild<QWidget*>		("rectangleWidget",		Qt::FindChildOption::FindChildrenRecursively);
+	spriteSheetWidget		= findChild<QWidget*>		("spriteSheetWidget",	Qt::FindChildOption::FindChildrenRecursively);
+	textureView				= findChild<QLabel*>		("textureView",			Qt::FindChildOption::FindChildrenRecursively);
+	spriteColumns			= findChild<QLineEdit*>		("spriteColumns",		Qt::FindChildOption::FindChildrenRecursively);
+	spriteRows				= findChild<QLineEdit*>		("spriteRows",			Qt::FindChildOption::FindChildrenRecursively);
 }
 #pragma endregion
 
@@ -78,13 +81,18 @@ void MainContainer::Init()
 	textFieldEndSizeY->setPlaceholderText(std::to_string(DEFAULT_SIZE).c_str());
 
 
-	mTexturePath = DEFAULT_TEXTURE;
+	mTexturePath = DEFAULT_TEXTUREPATH;
+	textureView->setPixmap(mTexturePath);
 
 	mColorIn  = Qt::white;
 	mColorOut = Qt::white;
 
 	mRectSizeX = 1.0f;
 	mRectSizeZ = 1.0f;
+
+	mTextureType = 0;
+	mTextureRows = 4;
+	mTextureColumns = 4;
 }
 
 void MainContainer::setGravity()
@@ -139,16 +147,16 @@ void MainContainer::SetUiElements()
 
 	//need implementation of rectangle position for emitter etc
 
-	textFieldEmissionDelay->setText(QString::number(mEmissionDelay));
-	textFieldLifetime->setText(QString::number(mLifetime));
-	textFieldMaxParticles->setText(QString::number(mMaxParticles));
-	textFieldGravity->setText(QString::number(mGravity));
-	textFieldRectSizeX->setText(QString::number(mRectSizeX));
-	textFieldRectSizeZ->setText(QString::number(mRectSizeZ));
-	textFieldStartSizeX->setText(QString::number(mStartSizeX));
-	textFieldStartSizeY->setText(QString::number(mStartSizeY));
-	textFieldEndSizeX->setText(QString::number(mEndSizeX));
-	textFieldEndSizeY->setText(QString::number(mEndSizeY));
+	textFieldEmissionDelay	->setText(QString::number(mEmissionDelay));
+	textFieldLifetime		->setText(QString::number(mLifetime));
+	textFieldMaxParticles	->setText(QString::number(mMaxParticles));
+	textFieldGravity		->setText(QString::number(mGravity));
+	textFieldRectSizeX		->setText(QString::number(mRectSizeX));
+	textFieldRectSizeZ		->setText(QString::number(mRectSizeZ));
+	textFieldStartSizeX		->setText(QString::number(mStartSizeX));
+	textFieldStartSizeY		->setText(QString::number(mStartSizeY));
+	textFieldEndSizeX		->setText(QString::number(mEndSizeX));
+	textFieldEndSizeY		->setText(QString::number(mEndSizeY));
 
 
 	colorInDisplay->setStyleSheet("QLineEdit { background: " + mColorIn.name() + "; selection-background-color: rgb(233, 99, 0); }");
@@ -288,14 +296,17 @@ void MainContainer::textureTypeChanged(int mode)
 {
 	if (mode == 0)
 	{
-		//single sprite
+		spriteSheetWidget->setEnabled(false);
 	}
 	if (mode == 1)
 	{
-		//spritesheet
+		spriteSheetWidget->setEnabled(true);
+		setColumnsRows();
 	}
 
 	mTextureType = mode;
+	particlesystem->SetProperty(PS_PROPERTY::PS_TEXTURE_TYPE, &mTextureType);
+	graphics->ChangeTextureType(mTextureType, mTextureColumns, mTextureRows);
 }
 
 void MainContainer::startSizeX()
@@ -335,9 +346,14 @@ void MainContainer::browse()
 {
 	mTexturePath = QFileDialog::getOpenFileName(this,
 		tr("Open Image"), "", tr("Image Files (*.png *.PNG *.dds *.DDS)"));
-	textBrowser->setPlainText(PathFindFileNameA(mTexturePath.toStdString().c_str()));
-	graphics->Retexture(mTexturePath.toStdString());
-	//graphics->SetTexturePath(texturePath);
+
+	if (mTexturePath != "")
+	{
+		textBrowser->setPlainText(PathFindFileNameA(mTexturePath.toStdString().c_str()));
+		textureView->setPixmap(mTexturePath);
+		graphics->Retexture(mTexturePath.toStdString());
+		//graphics->SetTexturePath(texturePath);
+	}
 }
 
 void MainContainer::setMaxParticles()
@@ -397,7 +413,8 @@ void MainContainer::BuildParticleSystem()
 		mVelocity, mEmissionDelay, mLifetime, mGravity,
 		FLOAT4(mColorIn.redF(), mColorIn.greenF(), mColorIn.blueF(), mColorIn.alphaF()),
 		FLOAT4(mColorOut.redF(), mColorOut.greenF(), mColorOut.blueF(), mColorOut.alphaF()),
-		mStartSizeX, mStartSizeY, mEndSizeX, mEndSizeY, mRectSizeX, mRectSizeZ);
+		mStartSizeX, mStartSizeY, mEndSizeX, mEndSizeY, mRectSizeX, mRectSizeZ,
+		mTextureType, mTextureColumns, mTextureRows);
 
 	graphics->Rebuild(ps);
 }
@@ -448,6 +465,18 @@ void MainContainer::setLifetime()
 {
 	mLifetime = textFieldLifetime->text().toFloat();
 	particlesystem->SetProperty(PS_PROPERTY::PS_LIFETIME, &mLifetime);
+}
+
+void MainContainer::setColumnsRows()
+{
+	mTextureColumns = abs(spriteColumns->text().toInt());
+	mTextureRows = abs(spriteRows->text().toInt());
+
+	spriteColumns->setText(QString::number(mTextureColumns));
+	spriteRows->setText(QString::number(mTextureRows));
+
+	particlesystem->SetProperty(PS_PROPERTY::PS_TEXTURE_COLUMNS, &mTextureColumns);
+	particlesystem->SetProperty(PS_PROPERTY::PS_TEXTURE_ROWS,	 &mTextureRows);
 }
 
 float MainContainer::ErrorHandleUI(QString text, QPlainTextEdit* qpte)

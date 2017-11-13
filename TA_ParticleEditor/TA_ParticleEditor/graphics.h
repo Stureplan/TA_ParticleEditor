@@ -48,6 +48,21 @@ public:
 		float lifetime;
 	};
 
+	struct CBUFFER_PARTICLESYSTEM_ANIMATED
+	{
+		XMMATRIX wvp;
+		XMMATRIX world;
+		XMVECTOR campos;
+		XMVECTOR camup;
+		FLOAT4 colin;
+		FLOAT4 colout;
+		XMFLOAT2 startsize;
+		XMFLOAT2 endsize;
+		float lifetime;
+		int columns;
+		int rows;
+	};
+
 	struct CBUFFER_VERTEX
 	{
 		XMMATRIX wvp;
@@ -72,6 +87,7 @@ public:
 	void ChangeRasterization(D3D11_FILL_MODE fillmode);
 
 	void Retexture(std::string path);
+	void ChangeTextureType(int type, int rows, int cols);
 	void Rebuild(PARTICLESYSTEM ps);
 	void PauseSimulation();
 
@@ -164,6 +180,10 @@ private:
 	ID3D11Buffer* constantBufferParticle;
 	CBUFFER_PARTICLESYSTEM cBufferParticle;
 
+	// Constant Buffer Particles Animated
+	ID3D11Buffer* constantBufferParticleAnimated;
+	CBUFFER_PARTICLESYSTEM_ANIMATED cBufferParticleAnimated;
+	
 	// Constant Buffer Variables
 	FLOAT4 colIn = (FLOAT4(1, 1, 1, 1));
 	FLOAT4 colOut= (FLOAT4(1, 1, 1, 1));

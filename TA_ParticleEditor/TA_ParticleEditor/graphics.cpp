@@ -174,6 +174,19 @@ void Graphics::Initialize()
 	hr = device->CreateBuffer(&cb_particle_Desc, NULL, &constantBufferParticle);
 	/*===================================================================================*/
 
+	/*===================================================================================*/
+	// CONSTANT BUFFER PARTICLE ANIMATED SETUP
+	D3D11_BUFFER_DESC cb_particle_animated_Desc;
+	ZeroMemory(&cb_particle_animated_Desc, sizeof(D3D11_BUFFER_DESC));
+	cb_particle_animated_Desc.Usage = D3D11_USAGE_DEFAULT;
+	cb_particle_animated_Desc.ByteWidth = sizeof(cBufferParticleAnimated);
+	cb_particle_animated_Desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	cb_particle_animated_Desc.CPUAccessFlags = 0;
+	cb_particle_animated_Desc.MiscFlags = 0;
+	cb_particle_animated_Desc.StructureByteStride = 0;
+	hr = device->CreateBuffer(&cb_particle_animated_Desc, NULL, &constantBufferParticleAnimated);
+	/*===================================================================================*/
+
 	cBufferVertex.wvp = XMMatrixIdentity();
 
 	SetupCamera(XMVectorSet(0, 1, -10.0f, 0), //pos
@@ -497,6 +510,20 @@ void Graphics::Retexture(std::string path)
 	}
 }
 
+void Graphics::ChangeTextureType(int type, int rows, int cols)
+{
+	if (type == 0)
+	{
+		// single sprite
+		shaders.LoadParticleShader(device, context);
+	}
+	if (type == 1)
+	{
+		// sprite sheet
+		shaders.LoadAnimatedParticleShader(device, context);
+	}
+}
+
 void Graphics::ChangeRasterization(D3D11_FILL_MODE fillmode)
 {
 	if (fillmode == D3D11_FILL_MODE::D3D11_FILL_WIREFRAME)
@@ -743,22 +770,50 @@ void Graphics::Render()
 	
 	World = XMMatrixIdentity();
 	WVP = World * View * Projection;
+
+	//TODO: Move entire rendering garbage to particlsystem
+	//TODO: Decide if we want to move entire rendering garbage to particlesystem
+	int textureType = *(int*)particlesystem->GetProperty(PS_PROPERTY::PS_TEXTURE_TYPE);
+	if (textureType == 0)
+	{
+		cBufferParticle.wvp = XMMatrixTranspose(WVP);
+		cBufferParticle.world = XMMatrixTranspose(World);
+		cBufferParticle.campos = campos;
+		cBufferParticle.camup = XMVectorSet(0, 1, 0, 1);
+		cBufferParticle.startsize = XMFLOAT2(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_START_SIZE_X), *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_START_SIZE_Y));
+		cBufferParticle.endsize = XMFLOAT2(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_END_SIZE_X), *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_END_SIZE_Y));
+		cBufferParticle.colin = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_IN);
+		cBufferParticle.colout = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_OUT);
+		cBufferParticle.lifetime = *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_LIFETIME);
+
+		context->UpdateSubresource(constantBufferParticle, 0, NULL, &cBufferParticle, 0, 0);
+		context->VSSetConstantBuffers(0, 1, &constantBufferParticle);
+		context->GSSetConstantBuffers(0, 1, &constantBufferParticle);
+		context->PSSetConstantBuffers(0, 1, &constantBufferParticle);
+		context->PSSetSamplers(0, 1, &textureSamplerState);
+	}
 	
-	cBufferParticle.wvp			= XMMatrixTranspose(WVP);
-	cBufferParticle.world		= XMMatrixTranspose(World);
-	cBufferParticle.campos		= campos;
-	cBufferParticle.camup		= XMVectorSet(0, 1, 0, 1);
-	cBufferParticle.startsize	= XMFLOAT2(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_START_SIZE_X), *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_START_SIZE_Y));
-	cBufferParticle.endsize		= XMFLOAT2(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_END_SIZE_X), *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_END_SIZE_Y));
-	cBufferParticle.colin		= *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_IN);
-	cBufferParticle.colout		= *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_OUT);
-	cBufferParticle.lifetime	= *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_LIFETIME);
-	
-	context->UpdateSubresource(constantBufferParticle, 0, NULL, &cBufferParticle, 0, 0);
-	context->VSSetConstantBuffers(0, 1, &constantBufferParticle);
-	context->GSSetConstantBuffers(0, 1, &constantBufferParticle);
-	context->PSSetConstantBuffers(0, 1, &constantBufferParticle);
-	context->PSSetSamplers(0, 1, &textureSamplerState);
+	if (textureType == 1)
+	{
+		cBufferParticleAnimated.wvp = XMMatrixTranspose(WVP);
+		cBufferParticleAnimated.world = XMMatrixTranspose(World);
+		cBufferParticleAnimated.campos = campos;
+		cBufferParticleAnimated.camup = XMVectorSet(0, 1, 0, 1);
+		cBufferParticleAnimated.startsize = XMFLOAT2(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_START_SIZE_X), *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_START_SIZE_Y));
+		cBufferParticleAnimated.endsize = XMFLOAT2(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_END_SIZE_X), *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_END_SIZE_Y));
+		cBufferParticleAnimated.colin = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_IN);
+		cBufferParticleAnimated.colout = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_OUT);
+		cBufferParticleAnimated.lifetime = *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_LIFETIME);
+		cBufferParticleAnimated.columns = *(int*)particlesystem->GetProperty(PS_PROPERTY::PS_TEXTURE_COLUMNS);
+		cBufferParticleAnimated.rows = *(int*)particlesystem->GetProperty(PS_PROPERTY::PS_TEXTURE_ROWS);
+
+
+		context->UpdateSubresource(constantBufferParticleAnimated, 0, NULL, &cBufferParticleAnimated, 0, 0);
+		context->VSSetConstantBuffers(0, 1, &constantBufferParticleAnimated);
+		context->GSSetConstantBuffers(0, 1, &constantBufferParticleAnimated);
+		context->PSSetConstantBuffers(0, 1, &constantBufferParticleAnimated);
+		context->PSSetSamplers(0, 1, &textureSamplerState);
+	}
 
 
 	if (debug == true)

@@ -134,6 +134,15 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 	case PS_PROPERTY::PS_RECT_SIZE_Z:
 		ps->rectSizeZ = *(float*)data;
 		break;
+	case PS_PROPERTY::PS_TEXTURE_TYPE:
+		ps->textureType = *(int*)data;
+		break;
+	case PS_PROPERTY::PS_TEXTURE_COLUMNS:
+		ps->textureColumns = *(int*)data;
+		break;
+	case PS_PROPERTY::PS_TEXTURE_ROWS:
+		ps->textureRows = *(int*)data;
+		break;
 	}
 }
 
@@ -180,6 +189,15 @@ void* ParticleSystem::GetProperty(PS_PROPERTY prop)
 	case PS_PROPERTY::PS_RECT_SIZE_Z:
 		return &ps->rectSizeZ;
 		break;
+	case PS_PROPERTY::PS_TEXTURE_TYPE:
+		return &ps->textureType;
+		break;
+	case PS_PROPERTY::PS_TEXTURE_COLUMNS:
+		return &ps->textureColumns;
+		break;
+	case PS_PROPERTY::PS_TEXTURE_ROWS:
+		return &ps->textureRows;
+		break;
 	}
 
 	return NULL;
@@ -187,7 +205,7 @@ void* ParticleSystem::GetProperty(PS_PROPERTY prop)
 
 void ParticleSystem::Initialize()
 {
-	ps = new PARTICLESYSTEM(EMITTER_TYPE::EMIT_POINT,0, FLOAT3_ZERO, 0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
+	ps = new PARTICLESYSTEM(EMITTER_TYPE::EMIT_POINT,0, FLOAT3_ZERO, 0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 4, 4);
 
 	for (unsigned int i = 0; i < ps->maxparticles; i++)
 	{
@@ -255,6 +273,9 @@ void ParticleSystem::Rebuild(PARTICLESYSTEM particlesystem)
 	ps->endSizeY = particlesystem.endSizeY;
 	ps->rectSizeX = particlesystem.rectSizeX;
 	ps->rectSizeZ = particlesystem.rectSizeZ;
+	ps->textureType = particlesystem.textureType;
+	ps->textureColumns = particlesystem.textureColumns;
+	ps->textureRows = particlesystem.textureRows;
 
 	cooldown = ps->emissiondelay;
 
@@ -305,6 +326,7 @@ void ParticleSystem::Update(float dt)
 				particles[i].position = nPos;
 				particles[i].direction = nPos - (dir+FLOAT3(0, 0.001f, 0));
 
+				//TODO: Find a good way to incorporate random directions without fucking too much shit up.
 				//particles[i].direction.X *= particles[i].randX;
 				//particles[i].direction.Y *= particles[i].randY;
 			}

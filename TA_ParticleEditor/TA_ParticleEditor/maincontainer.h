@@ -22,6 +22,7 @@
 #define DEFAULT_VELOCITY FLOAT3(0,0,0)
 #define DEFAULT_GRAVITY 1.0f
 #define DEFAULT_TEXTURE "plasmaball.png"
+#define DEFAULT_TEXTUREPATH std::string(Utility::Path() + "Data\\Textures\\plasmaball.png").c_str()
 #define DEFAULT_SIZE 1.0f
 
 class MainContainer : public QWidget 
@@ -62,6 +63,7 @@ public slots:
 	void endSizeX();
 	void endSizeY();
 	void rectResize();
+	void setColumnsRows();
 
 protected:
 	virtual void keyPressEvent(QKeyEvent* evt);
@@ -95,8 +97,12 @@ private:
 	QLineEdit* colorOutDisplay;
 	QComboBox* scaleBoxDisplay;
 	QComboBox* emitterTypeDisplay;
+	QComboBox* textureTypeBox;
 	QWidget* rectangleWidget;
 	QWidget* spriteSheetWidget;
+	QLabel* textureView;
+	QLineEdit* spriteColumns;
+	QLineEdit* spriteRows;
 
 	// QT VARIABLES
 	QString mTexturePath;
@@ -119,4 +125,6 @@ private:
 	float mRectSizeX;
 	float mRectSizeZ;
 	int mTextureType;
+	int mTextureColumns;
+	int mTextureRows;
 };

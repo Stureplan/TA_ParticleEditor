@@ -74,11 +74,12 @@ public:
     QPushButton *loadPS;
     QComboBox *textureTypeBox;
     QWidget *spriteSheetWidget;
-    QLineEdit *spriteSheetColumns;
-    QLineEdit *spriteSheetRows;
+    QLineEdit *spriteColumns;
+    QLineEdit *spriteRows;
     QLineEdit *endSizeY;
     QLabel *label_EndSize;
     QLineEdit *endSizeX;
+    QLabel *textureView;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -106,7 +107,7 @@ public:
         graphics->setGeometry(QRect(9, 9, 640, 480));
         label_ParticleInfo = new QLabel(maincontainer);
         label_ParticleInfo->setObjectName(QStringLiteral("label_ParticleInfo"));
-        label_ParticleInfo->setGeometry(QRect(10, 500, 361, 71));
+        label_ParticleInfo->setGeometry(QRect(10, 500, 361, 91));
         QFont font;
         font.setPointSize(12);
         label_ParticleInfo->setFont(font);
@@ -148,7 +149,7 @@ public:
         label_EmissionDelay->setAlignment(Qt::AlignCenter);
         label_MaxParticles = new QLabel(maincontainer);
         label_MaxParticles->setObjectName(QStringLiteral("label_MaxParticles"));
-        label_MaxParticles->setGeometry(QRect(690, 350, 70, 16));
+        label_MaxParticles->setGeometry(QRect(860, 191, 70, 16));
         label_MaxParticles->setAlignment(Qt::AlignCenter);
         textBrowser = new QTextBrowser(maincontainer);
         textBrowser->setObjectName(QStringLiteral("textBrowser"));
@@ -250,7 +251,7 @@ public:
         startSizeY->setAlignment(Qt::AlignCenter);
         maxParticles = new QLineEdit(maincontainer);
         maxParticles->setObjectName(QStringLiteral("maxParticles"));
-        maxParticles->setGeometry(QRect(690, 369, 45, 20));
+        maxParticles->setGeometry(QRect(870, 210, 45, 20));
         maxParticles->setAlignment(Qt::AlignCenter);
         rectangleWidget = new QWidget(maincontainer);
         rectangleWidget->setObjectName(QStringLiteral("rectangleWidget"));
@@ -279,14 +280,14 @@ public:
         spriteSheetWidget->setObjectName(QStringLiteral("spriteSheetWidget"));
         spriteSheetWidget->setEnabled(false);
         spriteSheetWidget->setGeometry(QRect(770, 467, 81, 24));
-        spriteSheetColumns = new QLineEdit(spriteSheetWidget);
-        spriteSheetColumns->setObjectName(QStringLiteral("spriteSheetColumns"));
-        spriteSheetColumns->setGeometry(QRect(0, 0, 41, 24));
-        spriteSheetColumns->setAlignment(Qt::AlignCenter);
-        spriteSheetRows = new QLineEdit(spriteSheetWidget);
-        spriteSheetRows->setObjectName(QStringLiteral("spriteSheetRows"));
-        spriteSheetRows->setGeometry(QRect(40, 0, 41, 24));
-        spriteSheetRows->setAlignment(Qt::AlignCenter);
+        spriteColumns = new QLineEdit(spriteSheetWidget);
+        spriteColumns->setObjectName(QStringLiteral("spriteColumns"));
+        spriteColumns->setGeometry(QRect(0, 0, 41, 24));
+        spriteColumns->setAlignment(Qt::AlignCenter);
+        spriteRows = new QLineEdit(spriteSheetWidget);
+        spriteRows->setObjectName(QStringLiteral("spriteRows"));
+        spriteRows->setGeometry(QRect(40, 0, 41, 24));
+        spriteRows->setAlignment(Qt::AlignCenter);
         endSizeY = new QLineEdit(maincontainer);
         endSizeY->setObjectName(QStringLiteral("endSizeY"));
         endSizeY->setGeometry(QRect(787, 210, 35, 20));
@@ -299,6 +300,10 @@ public:
         endSizeX->setObjectName(QStringLiteral("endSizeX"));
         endSizeX->setGeometry(QRect(750, 210, 35, 20));
         endSizeX->setAlignment(Qt::AlignCenter);
+        textureView = new QLabel(maincontainer);
+        textureView->setObjectName(QStringLiteral("textureView"));
+        textureView->setGeometry(QRect(870, 470, 64, 64));
+        textureView->setScaledContents(true);
         ParticleEditorClass->setCentralWidget(maincontainer);
         menuBar = new QMenuBar(ParticleEditorClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -332,6 +337,8 @@ public:
         QObject::connect(textureTypeBox, SIGNAL(currentIndexChanged(int)), maincontainer, SLOT(textureTypeChanged(int)));
         QObject::connect(endSizeX, SIGNAL(editingFinished()), maincontainer, SLOT(endSizeX()));
         QObject::connect(endSizeY, SIGNAL(editingFinished()), maincontainer, SLOT(endSizeY()));
+        QObject::connect(spriteColumns, SIGNAL(editingFinished()), maincontainer, SLOT(setColumnsRows()));
+        QObject::connect(spriteRows, SIGNAL(editingFinished()), maincontainer, SLOT(setColumnsRows()));
 
         QMetaObject::connectSlotsByName(ParticleEditorClass);
     } // setupUi
@@ -406,12 +413,12 @@ public:
          << QApplication::translate("ParticleEditorClass", "Sprite Sheet", Q_NULLPTR)
         );
         textureTypeBox->setCurrentText(QApplication::translate("ParticleEditorClass", "Single Sprite", Q_NULLPTR));
-        spriteSheetColumns->setInputMask(QApplication::translate("ParticleEditorClass", "#9", Q_NULLPTR));
-        spriteSheetColumns->setText(QApplication::translate("ParticleEditorClass", "1", Q_NULLPTR));
-        spriteSheetColumns->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
-        spriteSheetRows->setInputMask(QApplication::translate("ParticleEditorClass", "#9", Q_NULLPTR));
-        spriteSheetRows->setText(QApplication::translate("ParticleEditorClass", "1", Q_NULLPTR));
-        spriteSheetRows->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        spriteColumns->setInputMask(QApplication::translate("ParticleEditorClass", "90", Q_NULLPTR));
+        spriteColumns->setText(QApplication::translate("ParticleEditorClass", "4", Q_NULLPTR));
+        spriteColumns->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        spriteRows->setInputMask(QApplication::translate("ParticleEditorClass", "90", Q_NULLPTR));
+        spriteRows->setText(QApplication::translate("ParticleEditorClass", "4", Q_NULLPTR));
+        spriteRows->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
         endSizeY->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
         endSizeY->setText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
         endSizeY->setPlaceholderText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
@@ -419,6 +426,7 @@ public:
         endSizeX->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
         endSizeX->setText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
         endSizeX->setPlaceholderText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
+        textureView->setText(QString());
     } // retranslateUi
 
 };
