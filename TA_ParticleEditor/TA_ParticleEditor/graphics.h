@@ -122,12 +122,9 @@ private:
 	QLabel* inspectorLabel;
 
 	ULONGLONG last = 0;
-
 	float ms = 0;
 
 	XMMATRIX v;
-
-	EMITTER_TYPE emitterType;
 
 private slots:
 	void Loop();

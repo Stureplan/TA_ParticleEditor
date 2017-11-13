@@ -290,7 +290,6 @@ void MainContainer::emitterTypeChanged(int mode)
 		BuildParticleSystem();
 	}
 
-	graphics->EmitterGizmo(mEmitterType);
 	particlesystem->SetProperty(PS_PROPERTY::PS_EMITTER_TYPE, &mEmitterType);
 }
 

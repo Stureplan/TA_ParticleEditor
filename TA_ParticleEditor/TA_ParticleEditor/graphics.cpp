@@ -204,7 +204,6 @@ void Graphics::Initialize()
 	LoadDebugParticle();
 	LoadPositionGizmo();
 	LoadEmitterTypeGizmo(EMITTER_TYPE::EMIT_POINT);
-	emitterType = EMITTER_TYPE::EMIT_POINT;
 	LoadTextures();
 }
 
@@ -551,11 +550,6 @@ void Graphics::PauseSimulation()
 	paused = !paused;
 }
 
-void Graphics::EmitterGizmo(EMITTER_TYPE type)
-{
-	emitterType = type;
-}
-
 void Graphics::ParticleInspectionLabel(QLabel* label)
 {
 	inspectorLabel = label;
@@ -741,6 +735,7 @@ void Graphics::Render()
 	context->VSSetConstantBuffers(0, 1, &constantBufferVertex);
 	RenderDebugObject(positionGizmoVertexData.size());
 
+	EMITTER_TYPE emitterType = *(EMITTER_TYPE*)particlesystem->GetProperty(PS_PROPERTY::PS_EMITTER_TYPE);
 	if (emitterType == EMITTER_TYPE::EMIT_POINT)
 	{
 		// SETUP & DRAW POINT EMITTER GIZMO
