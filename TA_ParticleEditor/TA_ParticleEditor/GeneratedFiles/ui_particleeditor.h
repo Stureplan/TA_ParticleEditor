@@ -21,6 +21,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSlider>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QToolBar>
@@ -80,6 +81,8 @@ public:
     QLabel *label_EndSize;
     QLineEdit *endSizeX;
     QLabel *textureView;
+    QSlider *emissionDelaySlider;
+    QLabel *label_EmDelaySlide;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -304,6 +307,15 @@ public:
         textureView->setObjectName(QStringLiteral("textureView"));
         textureView->setGeometry(QRect(870, 470, 64, 64));
         textureView->setScaledContents(true);
+        emissionDelaySlider = new QSlider(maincontainer);
+        emissionDelaySlider->setObjectName(QStringLiteral("emissionDelaySlider"));
+        emissionDelaySlider->setGeometry(QRect(500, 530, 91, 22));
+        emissionDelaySlider->setMinimum(1);
+        emissionDelaySlider->setMaximum(100);
+        emissionDelaySlider->setOrientation(Qt::Horizontal);
+        label_EmDelaySlide = new QLabel(maincontainer);
+        label_EmDelaySlide->setObjectName(QStringLiteral("label_EmDelaySlide"));
+        label_EmDelaySlide->setGeometry(QRect(520, 510, 47, 13));
         ParticleEditorClass->setCentralWidget(maincontainer);
         menuBar = new QMenuBar(ParticleEditorClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -339,6 +351,7 @@ public:
         QObject::connect(endSizeY, SIGNAL(editingFinished()), maincontainer, SLOT(endSizeY()));
         QObject::connect(spriteColumns, SIGNAL(editingFinished()), maincontainer, SLOT(setColumnsRows()));
         QObject::connect(spriteRows, SIGNAL(editingFinished()), maincontainer, SLOT(setColumnsRows()));
+        QObject::connect(emissionDelaySlider, SIGNAL(valueChanged(int)), maincontainer, SLOT(emissionDelaySlide(int)));
 
         QMetaObject::connectSlotsByName(ParticleEditorClass);
     } // setupUi
@@ -427,6 +440,7 @@ public:
         endSizeX->setText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
         endSizeX->setPlaceholderText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
         textureView->setText(QString());
+        label_EmDelaySlide->setText(QString());
     } // retranslateUi
 
 };

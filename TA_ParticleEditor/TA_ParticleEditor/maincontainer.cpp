@@ -25,6 +25,8 @@ void MainContainer::SetPointers(ParticleSystem* ps)
 	textFieldVelocityY		= findChild<QLineEdit*>		("velocityY",			Qt::FindChildOption::FindChildrenRecursively);
 	textFieldVelocityZ		= findChild<QLineEdit*>		("velocityZ",			Qt::FindChildOption::FindChildrenRecursively);
 	textFieldGravity		= findChild<QLineEdit*>		("gravity",				Qt::FindChildOption::FindChildrenRecursively);
+	emissionDelaySlider		= findChild<QSlider*>		("emissionDelaySlider",	Qt::FindChildOption::FindChildrenRecursively);
+	emissionDelaySlider_label = findChild<QLabel*>		("label_EmDelaySlide",	Qt::FindChildOption::FindChildrenRecursively);
 	browseBtn				= findChild<QPushButton*>	("browsepath",			Qt::FindChildOption::FindChildrenRecursively);
 	saveBtn					= findChild<QPushButton*>	("savePS",				Qt::FindChildOption::FindChildrenRecursively);
 	loadBtn					= findChild<QPushButton*>	("loadPS",				Qt::FindChildOption::FindChildrenRecursively);
@@ -366,51 +368,6 @@ void MainContainer::browse()
 void MainContainer::setMaxParticles()
 {
 	mMaxParticles = textFieldMaxParticles->text().toInt();
-	/*QString text = textFieldMaxParticles->toPlainText();
-	bool newline = text.contains("\n");
-	if (newline)
-	{
-		QString oldText = text;
-		oldText.remove("\n");
-		textFieldMaxParticles->document()->setPlainText(oldText);
-	}
-	bool space = text.contains(" ");
-	if (space)
-	{
-		QString oldText = text;
-		oldText.remove(" ");
-
-		textFieldMaxParticles->document()->setPlainText(oldText);
-	}
-	bool ok;
-	int t;
-
-	t = text.toInt(&ok);
-
-	if (ok == true)
-	{
-		if (t > 999)
-		{
-			textFieldMaxParticles->setPlainText("999");// document()->setPlainText("999");
-			mMaxParticles = 999;
-		}
-		else
-		{
-			mMaxParticles = t;
-		}
-			
-	}
-	if (ok == false && text != NULL)
-	{
-		QString oldText = text;
-		oldText.chop(1);
-		textFieldMaxParticles->document()->setPlainText(oldText);
-	}
-	if (ok == false)
-	{
-		mMaxParticles = DEFAULT_MAXPARTICLES;
-	}
-	*/
 	BuildParticleSystem();
 }
 
@@ -430,10 +387,8 @@ void MainContainer::BuildParticleSystem()
 void MainContainer::setVelocityX()
 {
 	float x = textFieldVelocityX->text().toFloat();
-	//float x = ErrorHandleUI(text, textFieldVelocityX);
 
 	mVelocity.X = x;
-	//BuildParticleSystem();
 	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mVelocity);
 
 }
@@ -441,10 +396,8 @@ void MainContainer::setVelocityX()
 void MainContainer::setVelocityY()
 {
 	float y = textFieldVelocityY->text().toFloat();
-	//float y = ErrorHandleUI(text, textFieldVelocityY);
 
 	mVelocity.Y = y;
-	//BuildParticleSystem();
 	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mVelocity);
 
 }
@@ -452,18 +405,23 @@ void MainContainer::setVelocityY()
 void MainContainer::setVelocityZ()
 {
 	float z = textFieldVelocityZ->text().toFloat();
-	//float z = ErrorHandleUI(text, textFieldVelocityZ);
 	
 	mVelocity.Z = z;
-	//BuildParticleSystem();
 	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mVelocity);
+}
+
+void MainContainer::emissionDelaySlide(int value)
+{
+	int a = emissionDelaySlider->value();
+	float b = a / 100.0f;
+	emissionDelaySlider_label->setText(QString::number(b, 'f', 2));
 }
 
 
 void MainContainer::setEmissionDelay()
 {
 	mEmissionDelay = textFieldEmissionDelay->text().toFloat();
-	
+
 	particlesystem->SetProperty(PS_PROPERTY::PS_EMISSIONDELAY, &mEmissionDelay);
 	BuildParticleSystem();
 }
@@ -484,62 +442,6 @@ void MainContainer::setColumnsRows()
 
 	particlesystem->SetProperty(PS_PROPERTY::PS_TEXTURE_COLUMNS, &mTextureColumns);
 	particlesystem->SetProperty(PS_PROPERTY::PS_TEXTURE_ROWS,	 &mTextureRows);
-}
-
-float MainContainer::ErrorHandleUI(QString text, QPlainTextEdit* qpte)
-{
-	if (text == "-")
-	{
-		return 0;
-	}
-
-	bool ok;
-	float t;
-
-	bool newline = text.contains("\n");
-	if (newline)
-	{
-		QString oldText = text;
-		oldText.remove("\n");
-
-		// check if has focus or not
-		//textField->hasFocus()
-		qpte->document()->setPlainText(oldText);
-	}
-
-	bool space = text.contains(" ");
-	if (space)
-	{
-		QString oldText = text;
-		oldText.remove(" ");
-
-		qpte->document()->setPlainText(oldText);
-	}
-
-	t = text.toFloat(&ok);
-	if (ok == true)
-	{
-		mTextFieldValue = t;
-		return mTextFieldValue;
-	}
-
-	if (ok == false && text != NULL)
-	{
-		QString oldText = text;
-		oldText.chop(1);
-		qpte->document()->setPlainText(oldText);
-
-
-
-		return oldText.toFloat(&ok);
-
-
-		/*QMessageBox msgBox;
-		msgBox.setWindowTitle("Float ERROR");
-		msgBox.setText("Input MUST be float, not character!");
-		msgBox.exec();*/
-	}
-	return 0.0f;
 }
 
 void MainContainer::keyPressEvent(QKeyEvent* evt)
