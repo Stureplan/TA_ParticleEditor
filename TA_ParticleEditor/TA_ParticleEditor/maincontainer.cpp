@@ -1,4 +1,6 @@
-﻿#include "maincontainer.h"
+﻿#include "vld.h"
+
+#include "maincontainer.h"
 
 MainContainer::MainContainer(QWidget* parent)
 {
@@ -91,7 +93,7 @@ void MainContainer::Init()
 
 	mRectSizeX = 1.0f;
 	mRectSizeZ = 1.0f;
-
+	
 	mTextureType = 0;
 	mTextureRows = 4;
 	mTextureColumns = 4;
@@ -352,7 +354,14 @@ void MainContainer::browse()
 	if (mTexturePath != "")
 	{
 		textBrowser->setPlainText(PathFindFileNameA(mTexturePath.toStdString().c_str()));
-		textureView->setPixmap(mTexturePath);
+		if (mTexturePath.contains(".DDS") || mTexturePath.contains(".dds"))
+		{
+			textureView->setPixmap(QString(DEFAULT_DDS_TEXTUREPATH));
+		}
+		else
+		{
+			textureView->setPixmap(mTexturePath);
+		}
 		graphics->Retexture(mTexturePath.toStdString());
 	}
 }

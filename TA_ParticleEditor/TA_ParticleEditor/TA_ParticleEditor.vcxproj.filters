@@ -116,10 +116,9 @@
     <None Include="..\x64\Debug\Data\particle.hlsl">
       <Filter>Resource Files</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="..\x64\Debug\Data\gizmo.hlsl">
+    <None Include="..\x64\Debug\Data\gizmo.hlsl" />
+    <None Include="..\x64\Debug\Data\particle_animated.hlsl">
       <Filter>Resource Files</Filter>
-    </FxCompile>
+    </None>
   </ItemGroup>
 </Project>

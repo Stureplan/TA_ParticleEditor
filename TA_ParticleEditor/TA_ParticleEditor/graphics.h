@@ -30,51 +30,12 @@ using namespace DirectX;
 
 class Graphics : public QWidget 
 {
-	Q_OBJECT
-	Q_DISABLE_COPY(Graphics)
-
-
-public:
-	struct CBUFFER_PARTICLESYSTEM
-	{
-		XMMATRIX wvp;
-		XMMATRIX world;
-		XMVECTOR campos;
-		XMVECTOR camup;
-		FLOAT4 colin;
-		FLOAT4 colout;
-		XMFLOAT2 startsize;
-		XMFLOAT2 endsize;
-		float lifetime;
-	};
-
-	struct CBUFFER_PARTICLESYSTEM_ANIMATED
-	{
-		XMMATRIX wvp;
-		XMMATRIX world;
-		XMVECTOR campos;
-		XMVECTOR camup;
-		FLOAT4 colin;
-		FLOAT4 colout;
-		XMFLOAT2 startsize;
-		XMFLOAT2 endsize;
-		float lifetime;
-		int columns;
-		int rows;
-	};
-
-	struct CBUFFER_VERTEX
-	{
-		XMMATRIX wvp;
-	};
-
 public:
 	Graphics(QWidget* parent = Q_NULLPTR);
 	~Graphics();
 
 	void Initialize();
 	void SetupCamera(XMVECTOR pos, XMVECTOR dir, XMVECTOR up);
-	void MoveBack();
 	void MoveCamera(float z);
 	void RotateCamera(float rot);
 	void SetLastCameraMovement(Qt::Key key, bool released);
@@ -111,6 +72,45 @@ public:
 	ParticleSystem* ParticleSystemPtr() { return particlesystem; }
 
 	virtual QPaintEngine* paintEngine() const { return NULL; }
+
+	Q_OBJECT
+	Q_DISABLE_COPY(Graphics)
+
+public:
+	struct CBUFFER_PARTICLESYSTEM
+	{
+		XMMATRIX wvp;
+		XMMATRIX world;
+		XMVECTOR campos;
+		XMVECTOR camup;
+		FLOAT4 colin;
+		FLOAT4 colout;
+		XMFLOAT2 startsize;
+		XMFLOAT2 endsize;
+		float lifetime;
+	};
+
+	struct CBUFFER_PARTICLESYSTEM_ANIMATED
+	{
+		XMMATRIX wvp;
+		XMMATRIX world;
+		XMVECTOR campos;
+		XMVECTOR camup;
+		FLOAT4 colin;
+		FLOAT4 colout;
+		XMFLOAT2 startsize;
+		XMFLOAT2 endsize;
+		float lifetime;
+		int columns;
+		int rows;
+	};
+
+	struct CBUFFER_VERTEX
+	{
+		XMMATRIX wvp;
+	};
+
+
 
 private:
 	bool paused = false;
