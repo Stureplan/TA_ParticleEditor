@@ -18,7 +18,6 @@ void MainContainer::SetPointers(ParticleSystem* ps)
 	graphics				= findChild<Graphics*>		("graphics",			Qt::FindChildOption::FindChildrenRecursively);
 	textFieldParticleInfo	= findChild<QLabel*>		("label_ParticleInfo",	Qt::FindChildOption::FindChildrenRecursively);
 	textFieldLifetime		= findChild<QLineEdit*>		("lifetime",			Qt::FindChildOption::FindChildrenRecursively);
-	textFieldEmissionDelay	= findChild<QLineEdit*>		("emissionDelay",		Qt::FindChildOption::FindChildrenRecursively);
 	textFieldVelocityX		= findChild<QLineEdit*>		("velocityX",			Qt::FindChildOption::FindChildrenRecursively);
 	textFieldVelocityY		= findChild<QLineEdit*>		("velocityY",			Qt::FindChildOption::FindChildrenRecursively);
 	textFieldVelocityZ		= findChild<QLineEdit*>		("velocityZ",			Qt::FindChildOption::FindChildrenRecursively);
@@ -59,7 +58,7 @@ void MainContainer::Init()
 	textFieldLifetime->setPlaceholderText(std::to_string(DEFAULT_LIFETIME).c_str());
 
 	mEmissionDelay = DEFAULT_EMISSIONDELAY;
-	textFieldEmissionDelay->setPlaceholderText(std::to_string(DEFAULT_EMISSIONDELAY).c_str());
+	emissionDelaySlider_label->setText(QString::number(DEFAULT_EMISSIONDELAY, 'f', 1));
 
 	mVelocity = DEFAULT_VELOCITY;
 	textFieldVelocityX->setPlaceholderText(std::to_string(DEFAULT_VELOCITY.X).c_str());
@@ -408,20 +407,15 @@ void MainContainer::setVelocityZ()
 	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mVelocity);
 }
 
-void MainContainer::emissionDelaySlide(int value)
+void MainContainer::setEmissionDelay(int value)
 {
+	//mEmissionDelay = textFieldEmissionDelay->text().toFloat();
 	int a = emissionDelaySlider->value();
-	float b = a / 100.0f;
-	emissionDelaySlider_label->setText(QString::number(b, 'f', 2));
-}
-
-
-void MainContainer::setEmissionDelay()
-{
-	mEmissionDelay = textFieldEmissionDelay->text().toFloat();
+	mEmissionDelay = a / 100.0f;
+	emissionDelaySlider_label->setText(QString::number(mEmissionDelay, 'f', 2));
 
 	particlesystem->SetProperty(PS_PROPERTY::PS_EMISSIONDELAY, &mEmissionDelay);
-	BuildParticleSystem();
+	//BuildParticleSystem();
 }
 
 void MainContainer::setLifetime()

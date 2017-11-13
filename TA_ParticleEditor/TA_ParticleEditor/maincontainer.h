@@ -46,7 +46,7 @@ public:
 
 public slots:
 	void setLifetime();
-	void setEmissionDelay();
+	void setEmissionDelay(int value);
 	void setVelocityX();
 	void setVelocityY();
 	void setVelocityZ();
@@ -55,7 +55,6 @@ public slots:
 	void browse();
 	void save();
 	void load();
-	void emissionDelaySlide(int value);
 
 	void colorIn();
 	void colorOut();

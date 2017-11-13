@@ -553,28 +553,6 @@
      <string>0.0</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="emissionDelay">
-    <property name="geometry">
-     <rect>
-      <x>850</x>
-      <y>160</y>
-      <width>90</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="inputMask">
-     <string>#0\.00</string>
-    </property>
-    <property name="text">
-     <string>0.1</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-    <property name="placeholderText">
-     <string>0.0</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_VelocityY">
     <property name="geometry">
      <rect>
@@ -927,9 +905,9 @@
    <widget class="QSlider" name="emissionDelaySlider">
     <property name="geometry">
      <rect>
-      <x>500</x>
-      <y>530</y>
-      <width>91</width>
+      <x>880</x>
+      <y>160</y>
+      <width>60</width>
       <height>22</height>
      </rect>
     </property>
@@ -946,14 +924,17 @@
    <widget class="QLabel" name="label_EmDelaySlide">
     <property name="geometry">
      <rect>
-      <x>520</x>
-      <y>510</y>
-      <width>47</width>
+      <x>857</x>
+      <y>164</y>
+      <width>30</width>
       <height>13</height>
      </rect>
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="textInteractionFlags">
+     <set>Qt::NoTextInteraction</set>
     </property>
    </widget>
   </widget>
@@ -992,7 +973,7 @@
    <container>1</container>
    <slots>
     <slot>setLifetime()</slot>
-    <slot>setEmissionDelay()</slot>
+    <slot>setEmissionDelay(int)</slot>
     <slot>setVelocityX()</slot>
     <slot>setVelocityY()</slot>
     <slot>setVelocityZ()</slot>
@@ -1012,7 +993,6 @@
     <slot>endSizeX()</slot>
     <slot>endSizeY()</slot>
     <slot>setColumnsRows()</slot>
-    <slot>emissionDelaySlide(int)</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -1156,22 +1136,6 @@
    <hints>
     <hint type="sourcelabel">
      <x>804</x>
-     <y>202</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>474</x>
-     <y>332</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>emissionDelay</sender>
-   <signal>editingFinished()</signal>
-   <receiver>maincontainer</receiver>
-   <slot>setEmissionDelay()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>894</x>
      <y>202</y>
     </hint>
     <hint type="destinationlabel">
@@ -1376,7 +1340,7 @@
    <sender>emissionDelaySlider</sender>
    <signal>valueChanged(int)</signal>
    <receiver>maincontainer</receiver>
-   <slot>emissionDelaySlide(int)</slot>
+   <slot>setEmissionDelay(int)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>545</x>

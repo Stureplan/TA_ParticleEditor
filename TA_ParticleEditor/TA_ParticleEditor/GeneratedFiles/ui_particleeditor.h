@@ -62,7 +62,6 @@ public:
     QLineEdit *velocityZ;
     QLineEdit *gravity;
     QLineEdit *lifetime;
-    QLineEdit *emissionDelay;
     QLabel *label_VelocityY;
     QLabel *label_VelocityZ;
     QLineEdit *startSizeX;
@@ -230,10 +229,6 @@ public:
         lifetime->setObjectName(QStringLiteral("lifetime"));
         lifetime->setGeometry(QRect(760, 160, 90, 20));
         lifetime->setAlignment(Qt::AlignCenter);
-        emissionDelay = new QLineEdit(maincontainer);
-        emissionDelay->setObjectName(QStringLiteral("emissionDelay"));
-        emissionDelay->setGeometry(QRect(850, 160, 90, 20));
-        emissionDelay->setAlignment(Qt::AlignCenter);
         label_VelocityY = new QLabel(maincontainer);
         label_VelocityY->setObjectName(QStringLiteral("label_VelocityY"));
         label_VelocityY->setGeometry(QRect(770, 87, 71, 20));
@@ -309,13 +304,14 @@ public:
         textureView->setScaledContents(true);
         emissionDelaySlider = new QSlider(maincontainer);
         emissionDelaySlider->setObjectName(QStringLiteral("emissionDelaySlider"));
-        emissionDelaySlider->setGeometry(QRect(500, 530, 91, 22));
+        emissionDelaySlider->setGeometry(QRect(880, 160, 60, 22));
         emissionDelaySlider->setMinimum(1);
         emissionDelaySlider->setMaximum(100);
         emissionDelaySlider->setOrientation(Qt::Horizontal);
         label_EmDelaySlide = new QLabel(maincontainer);
         label_EmDelaySlide->setObjectName(QStringLiteral("label_EmDelaySlide"));
-        label_EmDelaySlide->setGeometry(QRect(520, 510, 47, 13));
+        label_EmDelaySlide->setGeometry(QRect(857, 164, 30, 13));
+        label_EmDelaySlide->setTextInteractionFlags(Qt::NoTextInteraction);
         ParticleEditorClass->setCentralWidget(maincontainer);
         menuBar = new QMenuBar(ParticleEditorClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -338,7 +334,6 @@ public:
         QObject::connect(velocityZ, SIGNAL(editingFinished()), maincontainer, SLOT(setVelocityZ()));
         QObject::connect(gravity, SIGNAL(editingFinished()), maincontainer, SLOT(setGravity()));
         QObject::connect(lifetime, SIGNAL(editingFinished()), maincontainer, SLOT(setLifetime()));
-        QObject::connect(emissionDelay, SIGNAL(editingFinished()), maincontainer, SLOT(setEmissionDelay()));
         QObject::connect(startSizeX, SIGNAL(editingFinished()), maincontainer, SLOT(startSizeX()));
         QObject::connect(startSizeY, SIGNAL(editingFinished()), maincontainer, SLOT(startSizeY()));
         QObject::connect(maxParticles, SIGNAL(editingFinished()), maincontainer, SLOT(setMaxParticles()));
@@ -351,7 +346,7 @@ public:
         QObject::connect(endSizeY, SIGNAL(editingFinished()), maincontainer, SLOT(endSizeY()));
         QObject::connect(spriteColumns, SIGNAL(editingFinished()), maincontainer, SLOT(setColumnsRows()));
         QObject::connect(spriteRows, SIGNAL(editingFinished()), maincontainer, SLOT(setColumnsRows()));
-        QObject::connect(emissionDelaySlider, SIGNAL(valueChanged(int)), maincontainer, SLOT(emissionDelaySlide(int)));
+        QObject::connect(emissionDelaySlider, SIGNAL(valueChanged(int)), maincontainer, SLOT(setEmissionDelay(int)));
 
         QMetaObject::connectSlotsByName(ParticleEditorClass);
     } // setupUi
@@ -398,9 +393,6 @@ public:
         lifetime->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
         lifetime->setText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
         lifetime->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
-        emissionDelay->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
-        emissionDelay->setText(QApplication::translate("ParticleEditorClass", "0.1", Q_NULLPTR));
-        emissionDelay->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
         label_VelocityY->setText(QApplication::translate("ParticleEditorClass", "Velocity Y", Q_NULLPTR));
         label_VelocityZ->setText(QApplication::translate("ParticleEditorClass", "Velocity Z", Q_NULLPTR));
         startSizeX->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
