@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainContainer_t {
-    QByteArrayData data[23];
-    char stringdata0[254];
+    QByteArrayData data[25];
+    char stringdata0[279];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -43,26 +43,29 @@ QT_MOC_LITERAL(8, 99, 10), // "setGravity"
 QT_MOC_LITERAL(9, 110, 6), // "browse"
 QT_MOC_LITERAL(10, 117, 4), // "save"
 QT_MOC_LITERAL(11, 122, 4), // "load"
-QT_MOC_LITERAL(12, 127, 7), // "colorIn"
-QT_MOC_LITERAL(13, 135, 8), // "colorOut"
-QT_MOC_LITERAL(14, 144, 18), // "emitterTypeChanged"
-QT_MOC_LITERAL(15, 163, 5), // "index"
-QT_MOC_LITERAL(16, 169, 18), // "textureTypeChanged"
-QT_MOC_LITERAL(17, 188, 10), // "startSizeX"
-QT_MOC_LITERAL(18, 199, 10), // "startSizeY"
-QT_MOC_LITERAL(19, 210, 8), // "endSizeX"
-QT_MOC_LITERAL(20, 219, 8), // "endSizeY"
-QT_MOC_LITERAL(21, 228, 10), // "rectResize"
-QT_MOC_LITERAL(22, 239, 14) // "setColumnsRows"
+QT_MOC_LITERAL(12, 127, 18), // "emissionDelaySlide"
+QT_MOC_LITERAL(13, 146, 5), // "value"
+QT_MOC_LITERAL(14, 152, 7), // "colorIn"
+QT_MOC_LITERAL(15, 160, 8), // "colorOut"
+QT_MOC_LITERAL(16, 169, 18), // "emitterTypeChanged"
+QT_MOC_LITERAL(17, 188, 5), // "index"
+QT_MOC_LITERAL(18, 194, 18), // "textureTypeChanged"
+QT_MOC_LITERAL(19, 213, 10), // "startSizeX"
+QT_MOC_LITERAL(20, 224, 10), // "startSizeY"
+QT_MOC_LITERAL(21, 235, 8), // "endSizeX"
+QT_MOC_LITERAL(22, 244, 8), // "endSizeY"
+QT_MOC_LITERAL(23, 253, 10), // "rectResize"
+QT_MOC_LITERAL(24, 264, 14) // "setColumnsRows"
 
     },
     "MainContainer\0setLifetime\0\0setEmissionDelay\0"
     "setVelocityX\0setVelocityY\0setVelocityZ\0"
     "setMaxParticles\0setGravity\0browse\0"
-    "save\0load\0colorIn\0colorOut\0"
-    "emitterTypeChanged\0index\0textureTypeChanged\0"
-    "startSizeX\0startSizeY\0endSizeX\0endSizeY\0"
-    "rectResize\0setColumnsRows"
+    "save\0load\0emissionDelaySlide\0value\0"
+    "colorIn\0colorOut\0emitterTypeChanged\0"
+    "index\0textureTypeChanged\0startSizeX\0"
+    "startSizeY\0endSizeX\0endSizeY\0rectResize\0"
+    "setColumnsRows"
 };
 #undef QT_MOC_LITERAL
 
@@ -72,7 +75,7 @@ static const uint qt_meta_data_MainContainer[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      20,   14, // methods
+      21,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -80,26 +83,27 @@ static const uint qt_meta_data_MainContainer[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,  114,    2, 0x0a /* Public */,
-       3,    0,  115,    2, 0x0a /* Public */,
-       4,    0,  116,    2, 0x0a /* Public */,
-       5,    0,  117,    2, 0x0a /* Public */,
-       6,    0,  118,    2, 0x0a /* Public */,
-       7,    0,  119,    2, 0x0a /* Public */,
-       8,    0,  120,    2, 0x0a /* Public */,
-       9,    0,  121,    2, 0x0a /* Public */,
-      10,    0,  122,    2, 0x0a /* Public */,
-      11,    0,  123,    2, 0x0a /* Public */,
-      12,    0,  124,    2, 0x0a /* Public */,
-      13,    0,  125,    2, 0x0a /* Public */,
-      14,    1,  126,    2, 0x0a /* Public */,
-      16,    1,  129,    2, 0x0a /* Public */,
-      17,    0,  132,    2, 0x0a /* Public */,
-      18,    0,  133,    2, 0x0a /* Public */,
-      19,    0,  134,    2, 0x0a /* Public */,
-      20,    0,  135,    2, 0x0a /* Public */,
-      21,    0,  136,    2, 0x0a /* Public */,
-      22,    0,  137,    2, 0x0a /* Public */,
+       1,    0,  119,    2, 0x0a /* Public */,
+       3,    0,  120,    2, 0x0a /* Public */,
+       4,    0,  121,    2, 0x0a /* Public */,
+       5,    0,  122,    2, 0x0a /* Public */,
+       6,    0,  123,    2, 0x0a /* Public */,
+       7,    0,  124,    2, 0x0a /* Public */,
+       8,    0,  125,    2, 0x0a /* Public */,
+       9,    0,  126,    2, 0x0a /* Public */,
+      10,    0,  127,    2, 0x0a /* Public */,
+      11,    0,  128,    2, 0x0a /* Public */,
+      12,    1,  129,    2, 0x0a /* Public */,
+      14,    0,  132,    2, 0x0a /* Public */,
+      15,    0,  133,    2, 0x0a /* Public */,
+      16,    1,  134,    2, 0x0a /* Public */,
+      18,    1,  137,    2, 0x0a /* Public */,
+      19,    0,  140,    2, 0x0a /* Public */,
+      20,    0,  141,    2, 0x0a /* Public */,
+      21,    0,  142,    2, 0x0a /* Public */,
+      22,    0,  143,    2, 0x0a /* Public */,
+      23,    0,  144,    2, 0x0a /* Public */,
+      24,    0,  145,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -112,10 +116,11 @@ static const uint qt_meta_data_MainContainer[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,   13,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int,   15,
-    QMetaType::Void, QMetaType::Int,   15,
+    QMetaType::Void, QMetaType::Int,   17,
+    QMetaType::Void, QMetaType::Int,   17,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -142,16 +147,17 @@ void MainContainer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 7: _t->browse(); break;
         case 8: _t->save(); break;
         case 9: _t->load(); break;
-        case 10: _t->colorIn(); break;
-        case 11: _t->colorOut(); break;
-        case 12: _t->emitterTypeChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 13: _t->textureTypeChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 14: _t->startSizeX(); break;
-        case 15: _t->startSizeY(); break;
-        case 16: _t->endSizeX(); break;
-        case 17: _t->endSizeY(); break;
-        case 18: _t->rectResize(); break;
-        case 19: _t->setColumnsRows(); break;
+        case 10: _t->emissionDelaySlide((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 11: _t->colorIn(); break;
+        case 12: _t->colorOut(); break;
+        case 13: _t->emitterTypeChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 14: _t->textureTypeChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 15: _t->startSizeX(); break;
+        case 16: _t->startSizeY(); break;
+        case 17: _t->endSizeX(); break;
+        case 18: _t->endSizeY(); break;
+        case 19: _t->rectResize(); break;
+        case 20: _t->setColumnsRows(); break;
         default: ;
         }
     }
@@ -182,13 +188,13 @@ int MainContainer::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 20)
+        if (_id < 21)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 20;
+        _id -= 21;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 20)
+        if (_id < 21)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 20;
+        _id -= 21;
     }
     return _id;
 }

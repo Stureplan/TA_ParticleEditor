@@ -12,6 +12,7 @@
 #include <QLineEdit>
 #include <QComboBox>
 #include <QPushButton>
+#include <QSlider>
 
 #include "utility.h"
 #include "graphics.h"
@@ -37,8 +38,6 @@ public:
 	void SetPointers(ParticleSystem* ps);
 	void Init();
 	void BuildParticleSystem();
-
-	float ErrorHandleUI(QString text, QPlainTextEdit* qpte);
 	void SetUiElements();
 	
 
@@ -53,6 +52,7 @@ public slots:
 	void browse();
 	void save();
 	void load();
+	void emissionDelaySlide(int value);
 
 	void colorIn();
 	void colorOut();
@@ -103,6 +103,8 @@ private:
 	QLabel* textureView;
 	QLineEdit* spriteColumns;
 	QLineEdit* spriteRows;
+	QSlider* emissionDelaySlider;
+	QLabel*  emissionDelaySlider_label;
 
 	// QT VARIABLES
 	QString mTexturePath;
