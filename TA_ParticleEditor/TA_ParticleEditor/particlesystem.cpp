@@ -100,6 +100,7 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 		break;
 	case PS_PROPERTY::PS_EMISSIONDELAY:
 		ps->emissiondelay = *(float*)data;
+		cooldown = ps->emissiondelay;
 		break;
 	case PS_PROPERTY::PS_LIFETIME:
 		ps->lifetime = *(float*)data;

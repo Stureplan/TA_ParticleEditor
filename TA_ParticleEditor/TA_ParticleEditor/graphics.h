@@ -52,8 +52,6 @@ public:
 	void Rebuild(PARTICLESYSTEM ps);
 	void PauseSimulation();
 
-	void EmitterGizmo(EMITTER_TYPE type);
-
 	void ParticleInspectionLabel(QLabel* label);
 	void UpdateInspectorText();
 	int TestIntersection(int x, int y, XMFLOAT3 &particlePos);
@@ -144,15 +142,6 @@ private:
 	ID3D11BlendState* blendState;
 	ID3D11RasterizerState* rasterizerState;
 
-	// Shaders
-	ID3D11InputLayout*		pLayout;
-	ID3D11VertexShader*		pVS;
-	ID3D11PixelShader*		pPS;
-	ID3D11GeometryShader*	pGS;
-	ID3D10Blob*				VS;
-	ID3D10Blob*				PS;
-	ID3D10Blob*				GS;
-
 	// Camera & matrices
 	XMMATRIX WVP;
 	XMMATRIX World;
@@ -191,7 +180,6 @@ private:
 	ID3D11Buffer* particleDebugVertexBuffer;
 
 	int particleDebugID = -1;
-	//std::vector<POINT>	particleVertexData;
 	std::vector<GIZMO_VERTEX> positionGizmoVertexData;
 	std::vector<GIZMO_VERTEX> emitterTypeGizmoVertexData;
 	PARTICLE_VERTEX debugParticle;

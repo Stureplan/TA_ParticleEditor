@@ -21,6 +21,32 @@ Graphics::~Graphics()
 {
 	delete timer;
 	delete particlesystem;
+
+
+	device->Release();
+	context->Release();
+	swapChain->Release();
+	renderTargetView->Release();
+	backBuffer->Release();
+	textureSamplerState->Release();
+	blendState->Release();
+	rasterizerState->Release();
+
+	constantBufferVertex->Release();
+	constantBufferParticle->Release();
+	constantBufferParticleAnimated->Release();
+
+	particleVertexBuffer->Release();
+	positionGizmoVertexBuffer->Release();
+	emitterTypeGizmoVertexBuffer->Release();
+	particleDebugVertexBuffer->Release();
+
+	for (unsigned int i = 0; i < textures.size(); i++)
+	{
+		textures[i]->Release();
+	}
+	texture_debug->Release();
+	//textureResource->Release();
 }
 
 void Graphics::Loop()
