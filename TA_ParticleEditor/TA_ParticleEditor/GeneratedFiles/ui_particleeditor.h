@@ -22,7 +22,6 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSlider>
-#include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
@@ -84,13 +83,17 @@ public:
     QLabel *label_EmDelaySlide;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
-    QStatusBar *statusBar;
 
     void setupUi(QMainWindow *ParticleEditorClass)
     {
         if (ParticleEditorClass->objectName().isEmpty())
             ParticleEditorClass->setObjectName(QStringLiteral("ParticleEditorClass"));
-        ParticleEditorClass->resize(949, 653);
+        ParticleEditorClass->resize(1125, 653);
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(ParticleEditorClass->sizePolicy().hasHeightForWidth());
+        ParticleEditorClass->setSizePolicy(sizePolicy);
         QPalette palette;
         QBrush brush(QColor(0, 0, 0, 255));
         brush.setStyle(Qt::SolidPattern);
@@ -261,7 +264,7 @@ public:
         label_SizeY_6->setAlignment(Qt::AlignCenter);
         rectSizeX = new QLineEdit(rectangleWidget);
         rectSizeX->setObjectName(QStringLiteral("rectSizeX"));
-        rectSizeX->setGeometry(QRect(-1, 19, 61, 21));
+        rectSizeX->setGeometry(QRect(0, 20, 60, 20));
         rectSizeX->setAlignment(Qt::AlignCenter);
         rectSizeZ = new QLineEdit(rectangleWidget);
         rectSizeZ->setObjectName(QStringLiteral("rectSizeZ"));
@@ -315,14 +318,11 @@ public:
         ParticleEditorClass->setCentralWidget(maincontainer);
         menuBar = new QMenuBar(ParticleEditorClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 949, 21));
+        menuBar->setGeometry(QRect(0, 0, 1125, 21));
         ParticleEditorClass->setMenuBar(menuBar);
         mainToolBar = new QToolBar(ParticleEditorClass);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
         ParticleEditorClass->addToolBar(Qt::TopToolBarArea, mainToolBar);
-        statusBar = new QStatusBar(ParticleEditorClass);
-        statusBar->setObjectName(QStringLiteral("statusBar"));
-        ParticleEditorClass->setStatusBar(statusBar);
 
         retranslateUi(ParticleEditorClass);
         QObject::connect(browsepath, SIGNAL(clicked()), maincontainer, SLOT(browse()));

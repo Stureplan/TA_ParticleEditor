@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>949</width>
+    <width>1125</width>
     <height>653</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="palette">
    <palette>
@@ -688,10 +694,10 @@
     <widget class="QLineEdit" name="rectSizeX">
      <property name="geometry">
       <rect>
-       <x>-1</x>
-       <y>19</y>
-       <width>61</width>
-       <height>21</height>
+       <x>0</x>
+       <y>20</y>
+       <width>60</width>
+       <height>20</height>
       </rect>
      </property>
      <property name="inputMask">
@@ -943,7 +949,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>949</width>
+     <width>1125</width>
      <height>21</height>
     </rect>
    </property>
@@ -956,7 +962,6 @@
     <bool>false</bool>
    </attribute>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
