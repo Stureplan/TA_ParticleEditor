@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>984</width>
-    <height>653</height>
+    <height>638</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -98,7 +98,7 @@
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>552</y>
+      <y>532</y>
       <width>91</width>
       <height>25</height>
      </rect>
@@ -175,7 +175,7 @@
     <property name="geometry">
      <rect>
       <x>510</x>
-      <y>553</y>
+      <y>533</y>
       <width>171</width>
       <height>23</height>
      </rect>
@@ -220,7 +220,7 @@
     <property name="geometry">
      <rect>
       <x>420</x>
-      <y>533</y>
+      <y>513</y>
       <width>91</width>
       <height>16</height>
      </rect>
@@ -701,7 +701,7 @@
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>580</y>
+      <y>560</y>
       <width>91</width>
       <height>24</height>
      </rect>
@@ -730,7 +730,7 @@
     <property name="geometry">
      <rect>
       <x>510</x>
-      <y>580</y>
+      <y>560</y>
       <width>81</width>
       <height>24</height>
      </rect>
@@ -843,10 +843,10 @@
    <widget class="QLabel" name="textureView">
     <property name="geometry">
      <rect>
-      <x>570</x>
-      <y>550</y>
-      <width>64</width>
-      <height>64</height>
+      <x>615</x>
+      <y>560</y>
+      <width>50</width>
+      <height>50</height>
      </rect>
     </property>
     <property name="text">
@@ -900,8 +900,27 @@
       <height>22</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">selection-background-color: rgb(53, 53, 53);
+gridline-color: rgb(57, 57, 57);</string>
+    </property>
+    <property name="minimum">
+     <number>-99</number>
+    </property>
+    <property name="value">
+     <number>0</number>
+    </property>
+    <property name="sliderPosition">
+     <number>0</number>
+    </property>
+    <property name="tracking">
+     <bool>true</bool>
+    </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
+    </property>
+    <property name="invertedAppearance">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QSlider" name="velocityYSlider">
@@ -972,24 +991,6 @@
      </attribute>
     </widget>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>984</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

@@ -18,12 +18,10 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
-#include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSlider>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTextBrowser>
-#include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
 #include "graphics.h"
 #include "maincontainer.h"
@@ -82,15 +80,12 @@ public:
     QSlider *velocityZSlider;
     QTabWidget *tabWidget;
     QWidget *tab;
-    QWidget *tab_2;
-    QMenuBar *menuBar;
-    QToolBar *mainToolBar;
 
     void setupUi(QMainWindow *ParticleEditorClass)
     {
         if (ParticleEditorClass->objectName().isEmpty())
             ParticleEditorClass->setObjectName(QStringLiteral("ParticleEditorClass"));
-        ParticleEditorClass->resize(984, 653);
+        ParticleEditorClass->resize(984, 638);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -121,7 +116,7 @@ public:
         label_ParticleInfo->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
         browsepath = new QPushButton(maincontainer);
         browsepath->setObjectName(QStringLiteral("browsepath"));
-        browsepath->setGeometry(QRect(410, 552, 91, 25));
+        browsepath->setGeometry(QRect(410, 532, 91, 25));
         label_Lifetime = new QLabel(maincontainer);
         label_Lifetime->setObjectName(QStringLiteral("label_Lifetime"));
         label_Lifetime->setGeometry(QRect(780, 268, 51, 20));
@@ -140,7 +135,7 @@ public:
         label_MaxParticles->setAlignment(Qt::AlignCenter);
         textBrowser = new QTextBrowser(maincontainer);
         textBrowser->setObjectName(QStringLiteral("textBrowser"));
-        textBrowser->setGeometry(QRect(510, 553, 171, 23));
+        textBrowser->setGeometry(QRect(510, 533, 171, 23));
         textBrowser->setTextInteractionFlags(Qt::NoTextInteraction);
         savePS = new QPushButton(maincontainer);
         savePS->setObjectName(QStringLiteral("savePS"));
@@ -151,7 +146,7 @@ public:
         label_Gravity->setAlignment(Qt::AlignCenter);
         label_Texture = new QLabel(maincontainer);
         label_Texture->setObjectName(QStringLiteral("label_Texture"));
-        label_Texture->setGeometry(QRect(420, 533, 91, 16));
+        label_Texture->setGeometry(QRect(420, 513, 91, 16));
         colorInBtn = new QPushButton(maincontainer);
         colorInBtn->setObjectName(QStringLiteral("colorInBtn"));
         colorInBtn->setGeometry(QRect(660, 10, 70, 30));
@@ -257,12 +252,12 @@ public:
         loadPS->setGeometry(QRect(750, 570, 111, 41));
         textureTypeBox = new QComboBox(maincontainer);
         textureTypeBox->setObjectName(QStringLiteral("textureTypeBox"));
-        textureTypeBox->setGeometry(QRect(410, 580, 91, 24));
+        textureTypeBox->setGeometry(QRect(410, 560, 91, 24));
         textureTypeBox->setLayoutDirection(Qt::LeftToRight);
         spriteSheetWidget = new QWidget(maincontainer);
         spriteSheetWidget->setObjectName(QStringLiteral("spriteSheetWidget"));
         spriteSheetWidget->setEnabled(false);
-        spriteSheetWidget->setGeometry(QRect(510, 580, 81, 24));
+        spriteSheetWidget->setGeometry(QRect(510, 560, 81, 24));
         spriteColumns = new QLineEdit(spriteSheetWidget);
         spriteColumns->setObjectName(QStringLiteral("spriteColumns"));
         spriteColumns->setGeometry(QRect(0, 0, 41, 24));
@@ -285,7 +280,7 @@ public:
         endSizeX->setAlignment(Qt::AlignCenter);
         textureView = new QLabel(maincontainer);
         textureView->setObjectName(QStringLiteral("textureView"));
-        textureView->setGeometry(QRect(570, 550, 64, 64));
+        textureView->setGeometry(QRect(615, 560, 50, 50));
         textureView->setScaledContents(true);
         emissionDelaySlider = new QSlider(maincontainer);
         emissionDelaySlider->setObjectName(QStringLiteral("emissionDelaySlider"));
@@ -300,7 +295,14 @@ public:
         velocityXSlider = new QSlider(maincontainer);
         velocityXSlider->setObjectName(QStringLiteral("velocityXSlider"));
         velocityXSlider->setGeometry(QRect(780, 125, 200, 22));
+        velocityXSlider->setStyleSheet(QLatin1String("selection-background-color: rgb(53, 53, 53);\n"
+"gridline-color: rgb(57, 57, 57);"));
+        velocityXSlider->setMinimum(-99);
+        velocityXSlider->setValue(0);
+        velocityXSlider->setSliderPosition(0);
+        velocityXSlider->setTracking(true);
         velocityXSlider->setOrientation(Qt::Horizontal);
+        velocityXSlider->setInvertedAppearance(false);
         velocityYSlider = new QSlider(maincontainer);
         velocityYSlider->setObjectName(QStringLiteral("velocityYSlider"));
         velocityYSlider->setGeometry(QRect(780, 172, 200, 22));
@@ -316,20 +318,13 @@ public:
         tabWidget->setTabShape(QTabWidget::Rounded);
         tabWidget->setIconSize(QSize(16, 16));
         tabWidget->setElideMode(Qt::ElideNone);
+        tabWidget->setTabsClosable(false);
+        tabWidget->setMovable(false);
+        tabWidget->setTabBarAutoHide(false);
         tab = new QWidget();
         tab->setObjectName(QStringLiteral("tab"));
         tabWidget->addTab(tab, QString());
-        tab_2 = new QWidget();
-        tab_2->setObjectName(QStringLiteral("tab_2"));
-        tabWidget->addTab(tab_2, QString());
         ParticleEditorClass->setCentralWidget(maincontainer);
-        menuBar = new QMenuBar(ParticleEditorClass);
-        menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 984, 21));
-        ParticleEditorClass->setMenuBar(menuBar);
-        mainToolBar = new QToolBar(ParticleEditorClass);
-        mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
-        ParticleEditorClass->addToolBar(Qt::TopToolBarArea, mainToolBar);
 
         retranslateUi(ParticleEditorClass);
         QObject::connect(browsepath, SIGNAL(clicked()), maincontainer, SLOT(browse()));
@@ -358,7 +353,7 @@ public:
         QObject::connect(velocityYSlider, SIGNAL(valueChanged(int)), maincontainer, SLOT(setVelocityYSlider(int)));
         QObject::connect(velocityZSlider, SIGNAL(valueChanged(int)), maincontainer, SLOT(setVelocityZSlider(int)));
 
-        tabWidget->setCurrentIndex(1);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(ParticleEditorClass);
@@ -446,8 +441,7 @@ public:
         endSizeX->setPlaceholderText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
         textureView->setText(QString());
         label_EmDelaySlide->setText(QString());
-        tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("ParticleEditorClass", "Tab 1", Q_NULLPTR));
-        tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("ParticleEditorClass", "Tab 2", Q_NULLPTR));
+        tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("ParticleEditorClass", "Particle System 1", Q_NULLPTR));
     } // retranslateUi
 
 };
