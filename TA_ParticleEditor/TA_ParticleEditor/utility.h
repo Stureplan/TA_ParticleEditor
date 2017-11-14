@@ -254,15 +254,15 @@ public:
 
 		if (hr == S_OK) 
 		{
+			// Texture loaded OK
 			resource->Release();
 			return true;
 		}
 		else
 		{
+			// Something's bad, let's just load a default 4x4 black texture and warn the user
 			std::string error = path + " not found! \nUsing a black default texture instead.";
-
 			MessageBoxA(NULL, error.c_str(), "Texture not found!", MB_OK);
-
 			Create4x4BlackTexture(device, texture);
 			return false;
 		}
@@ -304,10 +304,9 @@ public:
 		desc.MiscFlags = 0;
 
 		hr = device->CreateTexture2D(&desc, &data, &tex);
+		hr = device->CreateShaderResourceView(tex, NULL, &texture);
 
 		delete[] buffer;
-
-		hr = device->CreateShaderResourceView(tex, NULL, &texture);
 	}
 
 	static float Dot(XMVECTOR v1, XMVECTOR v2)
