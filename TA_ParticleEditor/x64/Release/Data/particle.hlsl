@@ -6,8 +6,8 @@ cbuffer CBUFFER
 	float4 camup;
 	float4 colin;
 	float4 colout;
-	float2 size;
-	float scalemode;
+	float2 startsize;
+	float2 endsize;
 	float lifetime;
 };
 
@@ -19,7 +19,8 @@ struct VOut
 	float currentLifetime : LIFETIME;
 };
 
-Texture2D tex;
+Texture2D particleTexture;
+Texture2D noiseTexture;
 SamplerState smp;
 
 VOut VShader(float4 position : POSITION, float3 direction : DIRECTION, float lifetime : LIFETIME)
@@ -43,13 +44,19 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 	float3 dir		= input[0].direction.xyz;
 	float percent	= input[0].currentLifetime / lifetime;
 
+	//uint3 sam = uint3(currentframe, 0, 0);
+	//float4 c = noiseTexture.Load(sam);
+	//	
+	//dir.x = c.x;
+	//dir.y = c.y;
+	//dir.z = c.z;
 
-	float finalScale = 1-(percent);
-	//float lifetimeScale = (1 - percent) * scalemode;
+
+	float2 scale = lerp(startsize, endsize, percent);
 
 
-	float w = size.x + (size.x * finalScale * scalemode);
-	float h = size.y + (size.y * finalScale * scalemode);
+	float w = scale.x;
+	float h = scale.y;
 
 	float3 up;
 	float3 normal;
@@ -118,7 +125,7 @@ float4 PShader(VOut input) : SV_TARGET
 	float2 uv = input.texcoord;
 	float lt = 1 - input.currentLifetime;
 	
-	float4 color = tex.Sample(smp, uv) * lerp(colin, colout, 1-lt);
+	float4 color = particleTexture.Sample(smp, uv) * lerp(colin, colout, 1-lt);
 	
 	return color;
 }
