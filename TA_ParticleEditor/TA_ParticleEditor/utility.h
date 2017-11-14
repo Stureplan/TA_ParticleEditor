@@ -259,6 +259,10 @@ public:
 		}
 		else
 		{
+			std::string error = path + " not found! \nUsing a black default texture instead.";
+
+			MessageBoxA(NULL, error.c_str(), "Texture not found!", MB_OK);
+
 			Create4x4BlackTexture(device, texture);
 			return false;
 		}
