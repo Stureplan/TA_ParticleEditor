@@ -48,8 +48,11 @@ public slots:
 	void setLifetime();
 	void setEmissionDelay(int value);
 	void setVelocityX();
+	void setVelocityXSlider(int value);
 	void setVelocityY();
+	void setVelocityYSlider(int value);
 	void setVelocityZ();
+	void setVelocityZSlider(int value);
 	void setMaxParticles();
 	void setGravity();
 	void browse();
@@ -105,6 +108,9 @@ private:
 	QLabel* textureView;
 	QLineEdit* spriteColumns;
 	QLineEdit* spriteRows;
+	QSlider* velocityXSlider;
+	QSlider* velocityYSlider;
+	QSlider* velocityZSlider;
 	QSlider* emissionDelaySlider;
 	QLabel*  emissionDelaySlider_label;
 

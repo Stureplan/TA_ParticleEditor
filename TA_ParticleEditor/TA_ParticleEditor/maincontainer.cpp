@@ -19,8 +19,11 @@ void MainContainer::SetPointers(ParticleSystem* ps)
 	textFieldParticleInfo	= findChild<QLabel*>		("label_ParticleInfo",	Qt::FindChildOption::FindChildrenRecursively);
 	textFieldLifetime		= findChild<QLineEdit*>		("lifetime",			Qt::FindChildOption::FindChildrenRecursively);
 	textFieldVelocityX		= findChild<QLineEdit*>		("velocityX",			Qt::FindChildOption::FindChildrenRecursively);
+	velocityXSlider			= findChild<QSlider*>		("velocityXSlider",		Qt::FindChildOption::FindChildrenRecursively);
 	textFieldVelocityY		= findChild<QLineEdit*>		("velocityY",			Qt::FindChildOption::FindChildrenRecursively);
+	velocityYSlider			= findChild<QSlider*>		("velocityYSlider",		Qt::FindChildOption::FindChildrenRecursively);
 	textFieldVelocityZ		= findChild<QLineEdit*>		("velocityZ",			Qt::FindChildOption::FindChildrenRecursively);
+	velocityZSlider			= findChild<QSlider*>		("velocityZSlider",		Qt::FindChildOption::FindChildrenRecursively);
 	textFieldGravity		= findChild<QLineEdit*>		("gravity",				Qt::FindChildOption::FindChildrenRecursively);
 	emissionDelaySlider		= findChild<QSlider*>		("emissionDelaySlider",	Qt::FindChildOption::FindChildrenRecursively);
 	emissionDelaySlider_label = findChild<QLabel*>		("label_EmDelaySlide",	Qt::FindChildOption::FindChildrenRecursively);
@@ -418,13 +421,38 @@ void MainContainer::setVelocityZ()
 
 void MainContainer::setEmissionDelay(int value)
 {
-	//mEmissionDelay = textFieldEmissionDelay->text().toFloat();
 	int a = emissionDelaySlider->value();
 	mEmissionDelay = a / 100.0f;
 	emissionDelaySlider_label->setText(QString::number(mEmissionDelay, 'f', 2));
 
 	particlesystem->SetProperty(PS_PROPERTY::PS_EMISSIONDELAY, &mEmissionDelay);
-	//BuildParticleSystem();
+}
+
+void MainContainer::setVelocityXSlider(int value)
+{
+	int a = velocityXSlider->value();
+	mVelocity.X = a;
+	textFieldVelocityX->setText(QString::number(mVelocity.X));
+
+	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mVelocity);
+}
+
+void MainContainer::setVelocityYSlider(int value)
+{
+	int a = velocityYSlider->value();
+	mVelocity.Y = a;
+	textFieldVelocityY->setText(QString::number(mVelocity.Y));
+
+	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mVelocity);
+}
+
+void MainContainer::setVelocityZSlider(int value)
+{
+	int a = velocityZSlider->value();
+	mVelocity.Z = a;
+	textFieldVelocityX->setText(QString::number(mVelocity.Z));
+
+	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mVelocity);
 }
 
 void MainContainer::setLifetime()
