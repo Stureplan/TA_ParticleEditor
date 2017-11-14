@@ -153,6 +153,8 @@ void MainContainer::SetUiElements()
 	//need implementation of rectangle position for emitter etc
 
 	textFieldEmissionDelay	->setText(QString::number(mEmissionDelay));
+	int value = mEmissionDelay * 100;
+	emissionDelaySlider->setValue(value);
 	textFieldLifetime		->setText(QString::number(mLifetime));
 	textFieldMaxParticles	->setText(QString::number(mMaxParticles));
 	textFieldGravity		->setText(QString::number(mGravity));

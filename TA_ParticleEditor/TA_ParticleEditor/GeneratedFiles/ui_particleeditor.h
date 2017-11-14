@@ -261,7 +261,7 @@ public:
         label_SizeY_6->setAlignment(Qt::AlignCenter);
         rectSizeX = new QLineEdit(rectangleWidget);
         rectSizeX->setObjectName(QStringLiteral("rectSizeX"));
-        rectSizeX->setGeometry(QRect(0, 20, 60, 20));
+        rectSizeX->setGeometry(QRect(-1, 19, 61, 21));
         rectSizeX->setAlignment(Qt::AlignCenter);
         rectSizeZ = new QLineEdit(rectangleWidget);
         rectSizeZ->setObjectName(QStringLiteral("rectSizeZ"));
