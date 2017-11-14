@@ -236,7 +236,7 @@ public:
 
 	static bool LoadTexture(ID3D11Device* device, ID3D11ShaderResourceView* &texture, std::string path)
 	{
-		ID3D11Resource* resource;
+		ID3D11Resource* resource = nullptr;
 
 		HRESULT hr;
 
@@ -252,12 +252,58 @@ public:
 			hr = CreateWICTextureFromFile(device, wide_path.c_str(), &resource, &texture);
 		}
 
-		resource->Release();
 		if (hr == S_OK) 
-		{ 
-			return true; 
+		{
+			resource->Release();
+			return true;
 		}
-		return false;
+		else
+		{
+			Create4x4BlackTexture(device, texture);
+			return false;
+		}
+	}
+
+	static void Create4x4BlackTexture(ID3D11Device* device, ID3D11ShaderResourceView* &texture)
+	{
+		HRESULT hr;
+
+		ID3D11Texture2D* tex;
+		D3D11_TEXTURE2D_DESC desc;
+		D3D11_SUBRESOURCE_DATA data;
+
+		unsigned int w = 4;
+		unsigned int h = 4;
+		int* buffer = new int[w*h];
+		for (unsigned int x = 0; x < w; x++)
+		{
+			for (unsigned int y = 0; y < h; y++)
+			{
+				buffer[x*w + y] = 0xFF000000;
+			}
+		}
+
+		data.pSysMem = (void*)buffer;
+		data.SysMemPitch = w * 4;
+		data.SysMemSlicePitch = w * h * 4;
+
+		desc.Width = w;
+		desc.Height = h;
+		desc.MipLevels = 1;
+		desc.ArraySize = 1;
+		desc.SampleDesc.Count = 1;
+		desc.SampleDesc.Quality = 0;
+		desc.Usage = D3D11_USAGE_DEFAULT;
+		desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+		desc.CPUAccessFlags = 0;
+		desc.MiscFlags = 0;
+
+		hr = device->CreateTexture2D(&desc, &data, &tex);
+
+		delete[] buffer;
+
+		hr = device->CreateShaderResourceView(tex, NULL, &texture);
 	}
 
 	static float Dot(XMVECTOR v1, XMVECTOR v2)
