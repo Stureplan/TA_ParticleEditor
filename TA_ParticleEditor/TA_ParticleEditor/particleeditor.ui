@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1125</width>
+    <width>984</width>
     <height>653</height>
    </rect>
   </property>
@@ -149,8 +149,8 @@
    <widget class="QPushButton" name="browsepath">
     <property name="geometry">
      <rect>
-      <x>670</x>
-      <y>409</y>
+      <x>370</x>
+      <y>509</y>
       <width>91</width>
       <height>25</height>
      </rect>
@@ -163,7 +163,7 @@
     <property name="geometry">
      <rect>
       <x>780</x>
-      <y>264</y>
+      <y>268</y>
       <width>51</width>
       <height>20</height>
      </rect>
@@ -194,7 +194,7 @@
    <widget class="QLabel" name="label_EmissionDelay">
     <property name="geometry">
      <rect>
-      <x>854</x>
+      <x>857</x>
       <y>264</y>
       <width>80</width>
       <height>20</height>
@@ -210,7 +210,7 @@
    <widget class="QLabel" name="label_MaxParticles">
     <property name="geometry">
      <rect>
-      <x>860</x>
+      <x>863</x>
       <y>317</y>
       <width>70</width>
       <height>16</height>
@@ -226,8 +226,8 @@
    <widget class="QTextBrowser" name="textBrowser">
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>410</y>
+      <x>470</x>
+      <y>510</y>
       <width>171</width>
       <height>23</height>
      </rect>
@@ -242,8 +242,8 @@
    <widget class="QPushButton" name="savePS">
     <property name="geometry">
      <rect>
-      <x>830</x>
-      <y>530</y>
+      <x>869</x>
+      <y>570</y>
       <width>111</width>
       <height>41</height>
      </rect>
@@ -256,7 +256,7 @@
     <property name="geometry">
      <rect>
       <x>689</x>
-      <y>264</y>
+      <y>268</y>
       <width>51</width>
       <height>20</height>
      </rect>
@@ -271,8 +271,8 @@
    <widget class="QLabel" name="label_Texture">
     <property name="geometry">
      <rect>
-      <x>680</x>
-      <y>390</y>
+      <x>380</x>
+      <y>490</y>
       <width>91</width>
       <height>16</height>
      </rect>
@@ -395,7 +395,7 @@
     <property name="geometry">
      <rect>
       <x>661</x>
-      <y>317</y>
+      <y>321</y>
       <width>91</width>
       <height>16</height>
      </rect>
@@ -410,8 +410,8 @@
    <widget class="QComboBox" name="emitterTypeBox">
     <property name="geometry">
      <rect>
-      <x>990</x>
-      <y>286</y>
+      <x>670</x>
+      <y>386</y>
       <width>121</width>
       <height>24</height>
      </rect>
@@ -436,8 +436,8 @@
    <widget class="QLabel" name="label_EmitterType">
     <property name="geometry">
      <rect>
-      <x>1000</x>
-      <y>266</y>
+      <x>680</x>
+      <y>366</y>
       <width>100</width>
       <height>16</height>
      </rect>
@@ -519,7 +519,7 @@
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>286</y>
+      <y>290</y>
       <width>90</width>
       <height>20</height>
      </rect>
@@ -541,7 +541,7 @@
     <property name="geometry">
      <rect>
       <x>760</x>
-      <y>286</y>
+      <y>290</y>
       <width>90</width>
       <height>20</height>
      </rect>
@@ -601,7 +601,7 @@
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>336</y>
+      <y>340</y>
       <width>35</width>
       <height>20</height>
      </rect>
@@ -623,7 +623,7 @@
     <property name="geometry">
      <rect>
       <x>707</x>
-      <y>336</y>
+      <y>340</y>
       <width>35</width>
       <height>20</height>
      </rect>
@@ -644,7 +644,7 @@
    <widget class="QLineEdit" name="maxParticles">
     <property name="geometry">
      <rect>
-      <x>870</x>
+      <x>873</x>
       <y>336</y>
       <width>45</width>
       <height>20</height>
@@ -669,10 +669,10 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>990</x>
-      <y>326</y>
+      <x>670</x>
+      <y>426</y>
       <width>120</width>
-      <height>110</height>
+      <height>50</height>
      </rect>
     </property>
     <widget class="QLabel" name="label_SizeY_6">
@@ -739,8 +739,8 @@
    <widget class="QPushButton" name="loadPS">
     <property name="geometry">
      <rect>
-      <x>711</x>
-      <y>530</y>
+      <x>750</x>
+      <y>570</y>
       <width>111</width>
       <height>41</height>
      </rect>
@@ -752,8 +752,8 @@
    <widget class="QComboBox" name="textureTypeBox">
     <property name="geometry">
      <rect>
-      <x>670</x>
-      <y>437</y>
+      <x>370</x>
+      <y>537</y>
       <width>91</width>
       <height>24</height>
      </rect>
@@ -781,8 +781,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>437</y>
+      <x>470</x>
+      <y>537</y>
       <width>81</width>
       <height>24</height>
      </rect>
@@ -836,7 +836,7 @@
     <property name="geometry">
      <rect>
       <x>787</x>
-      <y>336</y>
+      <y>340</y>
       <width>35</width>
       <height>20</height>
      </rect>
@@ -858,7 +858,7 @@
     <property name="geometry">
      <rect>
       <x>741</x>
-      <y>317</y>
+      <y>321</y>
       <width>91</width>
       <height>16</height>
      </rect>
@@ -874,7 +874,7 @@
     <property name="geometry">
      <rect>
       <x>750</x>
-      <y>336</y>
+      <y>340</y>
       <width>35</width>
       <height>20</height>
      </rect>
@@ -895,8 +895,8 @@
    <widget class="QLabel" name="textureView">
     <property name="geometry">
      <rect>
-      <x>870</x>
-      <y>450</y>
+      <x>570</x>
+      <y>550</y>
       <width>64</width>
       <height>64</height>
      </rect>
@@ -911,7 +911,7 @@
    <widget class="QSlider" name="emissionDelaySlider">
     <property name="geometry">
      <rect>
-      <x>880</x>
+      <x>883</x>
       <y>286</y>
       <width>60</width>
       <height>22</height>
@@ -930,7 +930,7 @@
    <widget class="QLabel" name="label_EmDelaySlide">
     <property name="geometry">
      <rect>
-      <x>857</x>
+      <x>860</x>
       <y>290</y>
       <width>30</width>
       <height>13</height>
@@ -988,7 +988,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1125</width>
+     <width>984</width>
      <height>21</height>
     </rect>
    </property>
