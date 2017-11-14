@@ -111,6 +111,8 @@ public:
 
 
 private:
+	//TODO: Implement the array of all particle systems here. Use functions to add() and remove().
+	//std::vector<ParticleSystem*> allParticleSystems;
 	bool paused = false;
 	bool debug = false;
 	int amt = 0;

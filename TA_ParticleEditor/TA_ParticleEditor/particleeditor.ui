@@ -946,7 +946,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <property name="iconSize">
      <size>
@@ -957,14 +957,18 @@
     <property name="elideMode">
      <enum>Qt::ElideNone</enum>
     </property>
+    <property name="tabsClosable">
+     <bool>false</bool>
+    </property>
+    <property name="movable">
+     <bool>false</bool>
+    </property>
+    <property name="tabBarAutoHide">
+     <bool>false</bool>
+    </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
       <string>Particle System 1</string>
-     </attribute>
-    </widget>
-    <widget class="QWidget" name="tab_2">
-     <attribute name="title">
-      <string>+</string>
      </attribute>
     </widget>
    </widget>
