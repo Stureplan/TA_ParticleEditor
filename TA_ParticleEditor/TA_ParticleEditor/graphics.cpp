@@ -550,6 +550,11 @@ void Graphics::ChangeTextureType(int type, int rows, int cols)
 		// sprite sheet
 		shaders.LoadAnimatedParticleShader(device, context);
 	}
+	if (type == 2)
+	{
+		// sprite sheet (faded)
+		shaders.LoadAnimatedFadedParticleShader(device, context);
+	}
 }
 
 void Graphics::ChangeRasterization(D3D11_FILL_MODE fillmode)

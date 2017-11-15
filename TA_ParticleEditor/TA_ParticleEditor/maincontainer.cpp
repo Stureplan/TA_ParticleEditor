@@ -315,6 +315,11 @@ void MainContainer::textureTypeChanged(int mode)
 		spriteSheetWidget->setEnabled(true);
 		setColumnsRows();
 	}
+	if (mode == 2)
+	{
+		spriteSheetWidget->setEnabled(true);
+		setColumnsRows();
+	}
 
 	mTextureType = mode;
 	particlesystem->SetProperty(PS_PROPERTY::PS_TEXTURE_TYPE, &mTextureType);
