@@ -1,0 +1,5 @@
+Start och End Velocity
+
+3 (eller fler) inputs på saker som sedan lerpas, ex fade in, 100% alpha, fade out
+
+random rotation och random rotation rate på sprites

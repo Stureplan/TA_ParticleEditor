@@ -865,6 +865,9 @@
       <height>22</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">selection-background-color: rgb(53, 53, 53);</string>
+    </property>
     <property name="minimum">
      <number>1</number>
     </property>
@@ -901,8 +904,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">selection-background-color: rgb(53, 53, 53);
-gridline-color: rgb(57, 57, 57);</string>
+     <string notr="true">selection-background-color: rgb(53, 53, 53);</string>
     </property>
     <property name="minimum">
      <number>-99</number>
@@ -932,6 +934,12 @@ gridline-color: rgb(57, 57, 57);</string>
       <height>22</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">selection-background-color: rgb(53, 53, 53);</string>
+    </property>
+    <property name="minimum">
+     <number>-99</number>
+    </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
     </property>
@@ -944,6 +952,12 @@ gridline-color: rgb(57, 57, 57);</string>
       <width>200</width>
       <height>22</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">selection-background-color: rgb(53, 53, 53);</string>
+    </property>
+    <property name="minimum">
+     <number>-99</number>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>

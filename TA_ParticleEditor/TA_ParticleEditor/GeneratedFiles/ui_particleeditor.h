@@ -285,6 +285,7 @@ public:
         emissionDelaySlider = new QSlider(maincontainer);
         emissionDelaySlider->setObjectName(QStringLiteral("emissionDelaySlider"));
         emissionDelaySlider->setGeometry(QRect(883, 286, 60, 22));
+        emissionDelaySlider->setStyleSheet(QStringLiteral("selection-background-color: rgb(53, 53, 53);"));
         emissionDelaySlider->setMinimum(1);
         emissionDelaySlider->setMaximum(100);
         emissionDelaySlider->setOrientation(Qt::Horizontal);
@@ -295,8 +296,7 @@ public:
         velocityXSlider = new QSlider(maincontainer);
         velocityXSlider->setObjectName(QStringLiteral("velocityXSlider"));
         velocityXSlider->setGeometry(QRect(780, 125, 200, 22));
-        velocityXSlider->setStyleSheet(QLatin1String("selection-background-color: rgb(53, 53, 53);\n"
-"gridline-color: rgb(57, 57, 57);"));
+        velocityXSlider->setStyleSheet(QStringLiteral("selection-background-color: rgb(53, 53, 53);"));
         velocityXSlider->setMinimum(-99);
         velocityXSlider->setValue(0);
         velocityXSlider->setSliderPosition(0);
@@ -306,10 +306,14 @@ public:
         velocityYSlider = new QSlider(maincontainer);
         velocityYSlider->setObjectName(QStringLiteral("velocityYSlider"));
         velocityYSlider->setGeometry(QRect(780, 172, 200, 22));
+        velocityYSlider->setStyleSheet(QStringLiteral("selection-background-color: rgb(53, 53, 53);"));
+        velocityYSlider->setMinimum(-99);
         velocityYSlider->setOrientation(Qt::Horizontal);
         velocityZSlider = new QSlider(maincontainer);
         velocityZSlider->setObjectName(QStringLiteral("velocityZSlider"));
         velocityZSlider->setGeometry(QRect(780, 222, 200, 22));
+        velocityZSlider->setStyleSheet(QStringLiteral("selection-background-color: rgb(53, 53, 53);"));
+        velocityZSlider->setMinimum(-99);
         velocityZSlider->setOrientation(Qt::Horizontal);
         tabWidget = new QTabWidget(maincontainer);
         tabWidget->setObjectName(QStringLiteral("tabWidget"));

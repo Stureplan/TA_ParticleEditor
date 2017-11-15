@@ -450,7 +450,7 @@ void MainContainer::setVelocityZSlider(int value)
 {
 	int a = velocityZSlider->value();
 	mVelocity.Z = a;
-	textFieldVelocityX->setText(QString::number(mVelocity.Z));
+	textFieldVelocityZ->setText(QString::number(mVelocity.Z));
 
 	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mVelocity);
 }
