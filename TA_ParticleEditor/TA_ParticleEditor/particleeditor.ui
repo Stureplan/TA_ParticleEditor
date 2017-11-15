@@ -111,7 +111,7 @@
     <property name="geometry">
      <rect>
       <x>780</x>
-      <y>268</y>
+      <y>318</y>
       <width>51</width>
       <height>20</height>
      </rect>
@@ -142,8 +142,8 @@
    <widget class="QLabel" name="label_EmissionDelay">
     <property name="geometry">
      <rect>
-      <x>857</x>
-      <y>264</y>
+      <x>667</x>
+      <y>254</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -158,8 +158,8 @@
    <widget class="QLabel" name="label_MaxParticles">
     <property name="geometry">
      <rect>
-      <x>863</x>
-      <y>317</y>
+      <x>880</x>
+      <y>261</y>
       <width>70</width>
       <height>16</height>
      </rect>
@@ -204,7 +204,7 @@
     <property name="geometry">
      <rect>
       <x>689</x>
-      <y>268</y>
+      <y>318</y>
       <width>51</width>
       <height>20</height>
      </rect>
@@ -343,7 +343,7 @@
     <property name="geometry">
      <rect>
       <x>661</x>
-      <y>321</y>
+      <y>371</y>
       <width>91</width>
       <height>16</height>
      </rect>
@@ -359,7 +359,7 @@
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>386</y>
+      <y>436</y>
       <width>121</width>
       <height>24</height>
      </rect>
@@ -385,7 +385,7 @@
     <property name="geometry">
      <rect>
       <x>680</x>
-      <y>366</y>
+      <y>416</y>
       <width>100</width>
       <height>16</height>
      </rect>
@@ -467,7 +467,7 @@
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>290</y>
+      <y>340</y>
       <width>90</width>
       <height>20</height>
      </rect>
@@ -489,7 +489,7 @@
     <property name="geometry">
      <rect>
       <x>760</x>
-      <y>290</y>
+      <y>340</y>
       <width>90</width>
       <height>20</height>
      </rect>
@@ -549,7 +549,7 @@
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>340</y>
+      <y>390</y>
       <width>35</width>
       <height>20</height>
      </rect>
@@ -571,7 +571,7 @@
     <property name="geometry">
      <rect>
       <x>707</x>
-      <y>340</y>
+      <y>390</y>
       <width>35</width>
       <height>20</height>
      </rect>
@@ -592,8 +592,8 @@
    <widget class="QLineEdit" name="maxParticles">
     <property name="geometry">
      <rect>
-      <x>873</x>
-      <y>336</y>
+      <x>890</x>
+      <y>280</y>
       <width>45</width>
       <height>20</height>
      </rect>
@@ -618,7 +618,7 @@
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>426</y>
+      <y>476</y>
       <width>120</width>
       <height>50</height>
      </rect>
@@ -712,6 +712,9 @@
     <property name="currentText">
      <string>Single Sprite</string>
     </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
     <item>
      <property name="text">
       <string>Single Sprite</string>
@@ -720,6 +723,11 @@
     <item>
      <property name="text">
       <string>Sprite Sheet</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Sprite Sheet Faded</string>
      </property>
     </item>
    </widget>
@@ -784,7 +792,7 @@
     <property name="geometry">
      <rect>
       <x>787</x>
-      <y>340</y>
+      <y>390</y>
       <width>35</width>
       <height>20</height>
      </rect>
@@ -806,7 +814,7 @@
     <property name="geometry">
      <rect>
       <x>741</x>
-      <y>321</y>
+      <y>371</y>
       <width>91</width>
       <height>16</height>
      </rect>
@@ -822,7 +830,7 @@
     <property name="geometry">
      <rect>
       <x>750</x>
-      <y>340</y>
+      <y>390</y>
       <width>35</width>
       <height>20</height>
      </rect>
@@ -859,9 +867,9 @@
    <widget class="QSlider" name="emissionDelaySlider">
     <property name="geometry">
      <rect>
-      <x>883</x>
-      <y>286</y>
-      <width>60</width>
+      <x>693</x>
+      <y>276</y>
+      <width>150</width>
       <height>22</height>
      </rect>
     </property>
@@ -881,8 +889,8 @@
    <widget class="QLabel" name="label_EmDelaySlide">
     <property name="geometry">
      <rect>
-      <x>860</x>
-      <y>290</y>
+      <x>670</x>
+      <y>280</y>
       <width>30</width>
       <height>13</height>
      </rect>
