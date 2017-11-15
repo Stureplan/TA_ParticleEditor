@@ -23,8 +23,7 @@
 
 #define WIDTH width()
 #define HEIGHT height()
-
-#define VSYNC_1
+#define VSYNC 1
 
 using namespace DirectX;
 

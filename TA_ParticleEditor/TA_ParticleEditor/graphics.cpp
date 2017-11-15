@@ -871,14 +871,8 @@ void Graphics::Render()
 		context->IASetVertexBuffers(0, 1, &particleDebugVertexBuffer, &stride, &offset);
 		RenderDebugParticle(particleDebugID);
 	}
-
-	//if (debug == true) { RenderDebug(particleData.size()); }
-
-	int vsync = 0;
-#ifdef VSYNC_1
-	vsync = 1;
-#endif
-	swapChain->Present(vsync, 0);
+	
+	swapChain->Present(VSYNC, 0);
 }
 
 void Graphics::RenderDebugObject(unsigned int vtxcount)
