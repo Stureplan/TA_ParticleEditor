@@ -95,37 +95,22 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 		output.texcoord = uv[i];
 		OutputStream.Append(output);
 	}
-
-	//OutputStream.RestartStrip();
-
-	// 0
-/*	output.position.xyz = vtx[0];
-	output.texcoord = uv[0];
-	OutputStream.Append(output);
-
-	// 1
-	output.position.xyz = vtx[1];
-	output.texcoord = uv[1];
-	OutputStream.Append(output);
-
-	// 2
-	output.position.xyz = vtx[2];
-	output.texcoord = uv[2];
-	OutputStream.Append(output);
-
-	 // 3
-	output.position.xyz = vtx[3];
-	output.texcoord = uv[3];
-	OutputStream.Append(output);*/
 }
 
 float4 PShader(VOut input) : SV_TARGET
 {
 	float4 pos = input.position;
 	float2 uv = input.texcoord;
+
 	float lt = 1 - input.currentLifetime;
 	
 	float4 color = particleTexture.Sample(smp, uv) * lerp(colin, colout, 1-lt);
 	
 	return color;
+	
+	//float2 v = normalize(float2(0.5, 0.5) - uv);
+	//float2 uv2 = 2.0 * uv - 1.0;
+	//float ci = 1-(uv2.x * uv2.x + uv2.y * uv2.y);
+	//float4 c = float4(ci, ci, ci, ci);
+	//return lerp(color, c,1-color.a);
 }
