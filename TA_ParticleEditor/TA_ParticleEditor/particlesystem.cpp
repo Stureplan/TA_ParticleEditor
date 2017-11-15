@@ -1,4 +1,8 @@
+
+
 #include "particlesystem.h"
+
+#include "utility.h"
 
 ParticleSystem::ParticleSystem()
 {
@@ -75,6 +79,11 @@ PARTICLE_VERTEX ParticleSystem::GetParticle(unsigned int id)
 	}
 
 	return PARTICLE_VERTEX(FLOAT3_ZERO, FLOAT3_ZERO, 0);
+}
+
+bool ParticleSystem::IsAlive(unsigned int id)
+{
+	return particles[id].alive;
 }
 
 unsigned int ParticleSystem::GetSize()

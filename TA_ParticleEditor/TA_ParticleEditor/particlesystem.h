@@ -1,14 +1,15 @@
 #pragma once
 #include <d3d11.h>
-#include <DirectXMath.h>
-#include <string>
 #include <vector>
 #include <random>
 
-#include "utility.h"
-
-using namespace DirectX;
-
+// FORWARD DECLARATIONS
+struct FLOAT3;
+struct PARTICLE;
+struct PARTICLE_VERTEX;
+struct PARTICLESYSTEM;
+enum PS_PROPERTY;
+enum EMITTER_TYPE;
 
 class ParticleSystem
 {
@@ -22,7 +23,7 @@ public:
 	std::vector<PARTICLE_VERTEX> ParticleData(unsigned int &count);
 	std::vector<PARTICLE_VERTEX> AllParticleData();
 	PARTICLE_VERTEX GetParticle(unsigned int id);
-	bool IsAlive(unsigned int id) { return particles[id].alive; }
+	bool IsAlive(unsigned int id);
 	unsigned int GetSize();
 
 	void SetProperty(PS_PROPERTY prop, void* data);
