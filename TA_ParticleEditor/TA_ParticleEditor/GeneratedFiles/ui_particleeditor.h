@@ -298,6 +298,8 @@ public:
         velocityXSlider->setGeometry(QRect(780, 125, 200, 22));
         velocityXSlider->setStyleSheet(QStringLiteral("selection-background-color: rgb(53, 53, 53);"));
         velocityXSlider->setMinimum(-99);
+        velocityXSlider->setMaximum(99);
+        velocityXSlider->setSingleStep(1);
         velocityXSlider->setValue(0);
         velocityXSlider->setSliderPosition(0);
         velocityXSlider->setTracking(true);

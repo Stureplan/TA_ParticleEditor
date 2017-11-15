@@ -917,6 +917,12 @@
     <property name="minimum">
      <number>-99</number>
     </property>
+    <property name="maximum">
+     <number>99</number>
+    </property>
+    <property name="singleStep">
+     <number>1</number>
+    </property>
     <property name="value">
      <number>0</number>
     </property>

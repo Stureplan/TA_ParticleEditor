@@ -432,7 +432,7 @@ void MainContainer::setVelocityXSlider(int value)
 {
 	int a = velocityXSlider->value();
 	mVelocity.X = a;
-	textFieldVelocityX->setText(QString::number(mVelocity.X));
+	textFieldVelocityX->setText(QString::number(mVelocity.X, 'f', 1));
 
 	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mVelocity);
 }
@@ -441,7 +441,7 @@ void MainContainer::setVelocityYSlider(int value)
 {
 	int a = velocityYSlider->value();
 	mVelocity.Y = a;
-	textFieldVelocityY->setText(QString::number(mVelocity.Y));
+	textFieldVelocityY->setText(QString::number(mVelocity.Y, 'f', 1));
 
 	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mVelocity);
 }
@@ -450,7 +450,7 @@ void MainContainer::setVelocityZSlider(int value)
 {
 	int a = velocityZSlider->value();
 	mVelocity.Z = a;
-	textFieldVelocityZ->setText(QString::number(mVelocity.Z));
+	textFieldVelocityZ->setText(QString::number(mVelocity.Z, 'f', 1));
 
 	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mVelocity);
 }
