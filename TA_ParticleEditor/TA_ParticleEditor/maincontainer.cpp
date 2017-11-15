@@ -61,7 +61,7 @@ void MainContainer::Init()
 	textFieldLifetime->setPlaceholderText(std::to_string(DEFAULT_LIFETIME).c_str());
 
 	mEmissionDelay = DEFAULT_EMISSIONDELAY;
-	emissionDelaySlider_label->setText(QString::number(DEFAULT_EMISSIONDELAY, 'f', 1));
+	emissionDelaySlider->setValue(10);
 
 	mVelocity = DEFAULT_VELOCITY;
 	textFieldVelocityX->setPlaceholderText(std::to_string(DEFAULT_VELOCITY.X).c_str());

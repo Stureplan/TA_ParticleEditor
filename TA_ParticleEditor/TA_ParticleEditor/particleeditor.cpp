@@ -32,6 +32,8 @@ ParticleEditor::ParticleEditor(QWidget *parent, Qt::WindowFlags flags)	: QMainWi
 	ui.maincontainer->Init();
 	ui.maincontainer->BuildParticleSystem();
 	ui.graphics->LoadParticles();
+
+	//setWindowTitle("New title"); // <------ change title of entire program here, for version handling etc
 }
 
 ParticleEditor::~ParticleEditor()
