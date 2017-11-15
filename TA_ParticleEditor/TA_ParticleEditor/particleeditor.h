@@ -13,6 +13,9 @@ public:
 	ParticleEditor(QWidget *parent = 0, Qt::WindowFlags flags = 0);
 	~ParticleEditor();
 
+public slots:
+	void onApplicationFocusChanged(QWidget*, QWidget*);
+
 private:
 	Ui::ParticleEditorClass ui;
 };

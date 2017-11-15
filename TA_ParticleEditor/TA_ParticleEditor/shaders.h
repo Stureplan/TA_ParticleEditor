@@ -134,8 +134,6 @@ public:
 		hr = device->CreateGeometryShader(ParticleGS->GetBufferPointer(), ParticleGS->GetBufferSize(), NULL, &pParticleGS);
 		hr = device->CreatePixelShader	 (ParticlePS->GetBufferPointer(), ParticlePS->GetBufferSize(), NULL, &pParticlePS);
 
-
-
 		D3D11_INPUT_ELEMENT_DESC ied[] =
 		{
 			{ "POSITION",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
