@@ -538,7 +538,7 @@ void Graphics::Retexture(std::string path)
 	}
 }
 
-void Graphics::ChangeTextureType(int type, int rows, int cols)
+void Graphics::ChangeTextureType(int type)
 {
 	if (type == 0)
 	{
@@ -549,6 +549,11 @@ void Graphics::ChangeTextureType(int type, int rows, int cols)
 	{
 		// sprite sheet
 		shaders.LoadAnimatedParticleShader(device, context);
+	}
+	if (type == 2)
+	{
+		// sprite sheet (faded)
+		shaders.LoadAnimatedFadedParticleShader(device, context);
 	}
 }
 
@@ -817,7 +822,7 @@ void Graphics::Render()
 		context->PSSetSamplers(0, 1, &textureSamplerState);
 	}
 	
-	if (textureType == 1)
+	if (textureType == 1 || textureType == 2)
 	{
 		cBufferParticleAnimated.wvp = XMMatrixTranspose(WVP);
 		cBufferParticleAnimated.world = XMMatrixTranspose(World);
@@ -866,14 +871,8 @@ void Graphics::Render()
 		context->IASetVertexBuffers(0, 1, &particleDebugVertexBuffer, &stride, &offset);
 		RenderDebugParticle(particleDebugID);
 	}
-
-	//if (debug == true) { RenderDebug(particleData.size()); }
-
-	int vsync = 0;
-#ifdef VSYNC_1
-	vsync = 1;
-#endif
-	swapChain->Present(vsync, 0);
+	
+	swapChain->Present(VSYNC, 0);
 }
 
 void Graphics::RenderDebugObject(unsigned int vtxcount)

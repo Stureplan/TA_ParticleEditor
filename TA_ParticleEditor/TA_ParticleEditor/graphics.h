@@ -23,8 +23,7 @@
 
 #define WIDTH width()
 #define HEIGHT height()
-
-#define VSYNC_1
+#define VSYNC 1
 
 using namespace DirectX;
 
@@ -48,7 +47,7 @@ public:
 	void ChangeRasterization(D3D11_FILL_MODE fillmode);
 
 	void Retexture(std::string path);
-	void ChangeTextureType(int type, int rows, int cols);
+	void ChangeTextureType(int type);
 	void Rebuild(PARTICLESYSTEM ps);
 	void PauseSimulation();
 

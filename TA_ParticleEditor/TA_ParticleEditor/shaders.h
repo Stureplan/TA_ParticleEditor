@@ -208,6 +208,65 @@ public:
 			&pParticleLayout);
 	}
 
+	void LoadAnimatedFadedParticleShader(ID3D11Device* device, ID3D11DeviceContext* context)
+	{
+		HRESULT hr;
+		ID3DBlob* errorBlob;
+
+		std::string shaderpath = Utility::Path() + "Data\\particle_animated_faded.hlsl";
+		std::wstring shaderpath_wide;
+		std::copy(shaderpath.begin(), shaderpath.end(), std::back_inserter(shaderpath_wide));
+
+		ParticleVS = NULL;
+		errorBlob = NULL;
+		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "VShader", "vs_5_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ParticleVS, &errorBlob);
+		if (hr != S_OK)
+		{
+			// Something went wrong with the shader
+			std::string error = static_cast<char*>(errorBlob->GetBufferPointer());
+			MessageBoxA(NULL, error.c_str(), "VS Error", MB_OK);
+		}
+
+		ParticleGS = NULL;
+		errorBlob = NULL;
+		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "GShader", "gs_5_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ParticleGS, &errorBlob);
+		if (hr != S_OK)
+		{
+			// Something went wrong with the shader
+			std::string error = static_cast<char*>(errorBlob->GetBufferPointer());
+			MessageBoxA(NULL, error.c_str(), "GS Error", MB_OK);
+		}
+
+		ParticlePS = NULL;
+		errorBlob = NULL;
+		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "PShader", "ps_5_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ParticlePS, &errorBlob);
+		if (hr != S_OK)
+		{
+			// Something went wrong with the shader
+			std::string error = static_cast<char*>(errorBlob->GetBufferPointer());
+			MessageBoxA(NULL, error.c_str(), "PS Error", MB_OK);
+		}
+
+
+		hr = device->CreateVertexShader	 (ParticleVS->GetBufferPointer(), ParticleVS->GetBufferSize(), NULL, &pParticleVS);
+		hr = device->CreateGeometryShader(ParticleGS->GetBufferPointer(), ParticleGS->GetBufferSize(), NULL, &pParticleGS);
+		hr = device->CreatePixelShader	 (ParticlePS->GetBufferPointer(), ParticlePS->GetBufferSize(), NULL, &pParticlePS);
+
+
+
+		D3D11_INPUT_ELEMENT_DESC ied[] =
+		{
+			{ "POSITION",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "DIRECTION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "LIFETIME",  0, DXGI_FORMAT_R32_FLOAT,	   0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+		};
+
+		hr = device->CreateInputLayout(ied, sizeof(ied) / sizeof(ied[0]),
+			ParticleVS->GetBufferPointer(),
+			ParticleVS->GetBufferSize(),
+			&pParticleLayout);
+	}
+
 	void SetObjectShader(ID3D11DeviceContext* context)
 	{
 		// set to this before render
