@@ -323,7 +323,7 @@ void MainContainer::textureTypeChanged(int mode)
 
 	mTextureType = mode;
 	particlesystem->SetProperty(PS_PROPERTY::PS_TEXTURE_TYPE, &mTextureType);
-	graphics->ChangeTextureType(mTextureType, mTextureColumns, mTextureRows);
+	graphics->ChangeTextureType(mTextureType);
 }
 
 void MainContainer::startSizeX()

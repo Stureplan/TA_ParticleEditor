@@ -538,7 +538,7 @@ void Graphics::Retexture(std::string path)
 	}
 }
 
-void Graphics::ChangeTextureType(int type, int rows, int cols)
+void Graphics::ChangeTextureType(int type)
 {
 	if (type == 0)
 	{
@@ -822,7 +822,7 @@ void Graphics::Render()
 		context->PSSetSamplers(0, 1, &textureSamplerState);
 	}
 	
-	if (textureType == 1)
+	if (textureType == 1 || textureType == 2)
 	{
 		cBufferParticleAnimated.wvp = XMMatrixTranspose(WVP);
 		cBufferParticleAnimated.world = XMMatrixTranspose(World);
