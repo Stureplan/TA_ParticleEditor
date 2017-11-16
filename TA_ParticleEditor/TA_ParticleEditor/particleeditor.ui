@@ -123,17 +123,17 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_VelocityX">
+   <widget class="QLabel" name="label_Velocity">
     <property name="geometry">
      <rect>
       <x>680</x>
-      <y>103</y>
+      <y>77</y>
       <width>71</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Velocity X</string>
+     <string>Velocity</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -285,7 +285,7 @@
     <property name="geometry">
      <rect>
       <x>730</x>
-      <y>50</y>
+      <y>43</y>
       <width>211</width>
       <height>30</height>
      </rect>
@@ -330,7 +330,7 @@
     <property name="geometry">
      <rect>
       <x>660</x>
-      <y>50</y>
+      <y>43</y>
       <width>70</width>
       <height>30</height>
      </rect>
@@ -401,7 +401,7 @@
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>126</y>
+      <y>100</y>
       <width>90</width>
       <height>20</height>
      </rect>
@@ -423,7 +423,7 @@
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>173</y>
+      <y>124</y>
       <width>90</width>
       <height>20</height>
      </rect>
@@ -445,7 +445,7 @@
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>223</y>
+      <y>148</y>
       <width>90</width>
       <height>20</height>
      </rect>
@@ -510,9 +510,9 @@
    <widget class="QLabel" name="label_VelocityY">
     <property name="geometry">
      <rect>
-      <x>680</x>
-      <y>150</y>
-      <width>71</width>
+      <x>650</x>
+      <y>124</y>
+      <width>21</width>
       <height>20</height>
      </rect>
     </property>
@@ -520,26 +520,7 @@
      <enum>Qt::LeftToRight</enum>
     </property>
     <property name="text">
-     <string>Velocity Y</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_VelocityZ">
-    <property name="geometry">
-     <rect>
-      <x>680</x>
-      <y>200</y>
-      <width>71</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
-    </property>
-    <property name="text">
-     <string>Velocity Z</string>
+     <string>Y</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -906,7 +887,7 @@
     <property name="geometry">
      <rect>
       <x>780</x>
-      <y>125</y>
+      <y>99</y>
       <width>200</width>
       <height>22</height>
      </rect>
@@ -943,7 +924,7 @@
     <property name="geometry">
      <rect>
       <x>780</x>
-      <y>172</y>
+      <y>123</y>
       <width>200</width>
       <height>22</height>
      </rect>
@@ -962,7 +943,7 @@
     <property name="geometry">
      <rect>
       <x>780</x>
-      <y>222</y>
+      <y>147</y>
       <width>200</width>
       <height>22</height>
      </rect>
@@ -983,7 +964,7 @@
       <x>10</x>
       <y>491</y>
       <width>641</width>
-      <height>31</height>
+      <height>24</height>
      </rect>
     </property>
     <property name="layoutDirection">
@@ -1026,6 +1007,44 @@
       <string>Add...</string>
      </attribute>
     </widget>
+   </widget>
+   <widget class="QLabel" name="label_VelocityX">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>100</y>
+      <width>21</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>X</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_VelocityZ">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>148</y>
+      <width>21</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>Z</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
   </widget>
  </widget>
