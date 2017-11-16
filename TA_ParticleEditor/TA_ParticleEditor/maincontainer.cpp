@@ -48,6 +48,8 @@ void MainContainer::SetPointers(ParticleSystem* ps)
 	textureView				= findChild<QLabel*>		("textureView",			Qt::FindChildOption::FindChildrenRecursively);
 	spriteColumns			= findChild<QLineEdit*>		("spriteColumns",		Qt::FindChildOption::FindChildrenRecursively);
 	spriteRows				= findChild<QLineEdit*>		("spriteRows",			Qt::FindChildOption::FindChildrenRecursively);
+	psTabs					= findChild<QTabWidget*>	("psTabs",				Qt::FindChildOption::FindChildrenRecursively);
+
 }
 #pragma endregion
 
@@ -476,6 +478,24 @@ void MainContainer::setColumnsRows()
 
 	particlesystem->SetProperty(PS_PROPERTY::PS_TEXTURE_COLUMNS, &mTextureColumns);
 	particlesystem->SetProperty(PS_PROPERTY::PS_TEXTURE_ROWS,	 &mTextureRows);
+}
+
+void MainContainer::addTab(int index)
+{
+	int max = psTabs->count()-1;
+	if (index == max && max < 4)
+	{
+		psTabs->insertTab(index, new QWidget(), QString("Particle System %0").arg(max + 1));
+	}
+}
+
+void MainContainer::removeTab(int index)
+{
+	int max = psTabs->count() - 1;
+	if (index != max && max > 1)
+	{
+		psTabs->removeTab(index);
+	}
 }
 
 void MainContainer::keyPressEvent(QKeyEvent* evt)

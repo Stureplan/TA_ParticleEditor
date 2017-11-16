@@ -2,14 +2,15 @@
 #include <d3d11.h>
 #include <vector>
 #include <random>
+#include "utility.h"
 
 // FORWARD DECLARATIONS
-struct FLOAT3;
-struct PARTICLE;
-struct PARTICLE_VERTEX;
-struct PARTICLESYSTEM;
-enum PS_PROPERTY;
-enum EMITTER_TYPE;
+//struct FLOAT3;
+//struct PARTICLE;
+//struct PARTICLE_VERTEX;
+//struct PARTICLESYSTEM;
+//enum PS_PROPERTY;
+//enum EMITTER_TYPE;
 
 class ParticleSystem
 {
@@ -34,8 +35,6 @@ public:
 	void Rebuild(PARTICLESYSTEM particlesystem);
 	void Update(float dt);
 
-	PARTICLESYSTEM* GetParticleSystem() { return ps; }
-
 private:
 	float RandomFloat(float min, float max);
 	int RandomInt(int min, int max);
@@ -44,7 +43,7 @@ private:
 
 private:
 	// Private variables
-	PARTICLESYSTEM* ps;
+	PARTICLESYSTEM ps;
 	std::vector<PARTICLE> particles;
 	float cooldown = 0.0f;
 

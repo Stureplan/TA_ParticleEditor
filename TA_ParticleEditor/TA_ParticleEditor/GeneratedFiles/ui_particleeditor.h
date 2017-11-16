@@ -78,8 +78,9 @@ public:
     QSlider *velocityXSlider;
     QSlider *velocityYSlider;
     QSlider *velocityZSlider;
-    QTabWidget *tabWidget;
+    QTabWidget *psTabs;
     QWidget *tab;
+    QWidget *tab_2;
 
     void setupUi(QMainWindow *ParticleEditorClass)
     {
@@ -317,19 +318,23 @@ public:
         velocityZSlider->setStyleSheet(QStringLiteral("selection-background-color: rgb(53, 53, 53);"));
         velocityZSlider->setMinimum(-99);
         velocityZSlider->setOrientation(Qt::Horizontal);
-        tabWidget = new QTabWidget(maincontainer);
-        tabWidget->setObjectName(QStringLiteral("tabWidget"));
-        tabWidget->setGeometry(QRect(10, 489, 641, 21));
-        tabWidget->setTabPosition(QTabWidget::South);
-        tabWidget->setTabShape(QTabWidget::Rounded);
-        tabWidget->setIconSize(QSize(16, 16));
-        tabWidget->setElideMode(Qt::ElideNone);
-        tabWidget->setTabsClosable(false);
-        tabWidget->setMovable(false);
-        tabWidget->setTabBarAutoHide(false);
+        psTabs = new QTabWidget(maincontainer);
+        psTabs->setObjectName(QStringLiteral("psTabs"));
+        psTabs->setGeometry(QRect(10, 491, 641, 31));
+        psTabs->setLayoutDirection(Qt::LeftToRight);
+        psTabs->setTabPosition(QTabWidget::South);
+        psTabs->setTabShape(QTabWidget::Rounded);
+        psTabs->setIconSize(QSize(16, 16));
+        psTabs->setElideMode(Qt::ElideNone);
+        psTabs->setTabsClosable(true);
+        psTabs->setMovable(false);
+        psTabs->setTabBarAutoHide(false);
         tab = new QWidget();
         tab->setObjectName(QStringLiteral("tab"));
-        tabWidget->addTab(tab, QString());
+        psTabs->addTab(tab, QString());
+        tab_2 = new QWidget();
+        tab_2->setObjectName(QStringLiteral("tab_2"));
+        psTabs->addTab(tab_2, QString());
         ParticleEditorClass->setCentralWidget(maincontainer);
 
         retranslateUi(ParticleEditorClass);
@@ -358,9 +363,11 @@ public:
         QObject::connect(velocityXSlider, SIGNAL(valueChanged(int)), maincontainer, SLOT(setVelocityXSlider(int)));
         QObject::connect(velocityYSlider, SIGNAL(valueChanged(int)), maincontainer, SLOT(setVelocityYSlider(int)));
         QObject::connect(velocityZSlider, SIGNAL(valueChanged(int)), maincontainer, SLOT(setVelocityZSlider(int)));
+        QObject::connect(psTabs, SIGNAL(tabBarClicked(int)), maincontainer, SLOT(addTab(int)));
+        QObject::connect(psTabs, SIGNAL(tabCloseRequested(int)), maincontainer, SLOT(removeTab(int)));
 
         textureTypeBox->setCurrentIndex(0);
-        tabWidget->setCurrentIndex(0);
+        psTabs->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(ParticleEditorClass);
@@ -449,7 +456,8 @@ public:
         endSizeX->setPlaceholderText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
         textureView->setText(QString());
         label_EmDelaySlide->setText(QString());
-        tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("ParticleEditorClass", "Particle System 1", Q_NULLPTR));
+        psTabs->setTabText(psTabs->indexOf(tab), QApplication::translate("ParticleEditorClass", "Particle System 1", Q_NULLPTR));
+        psTabs->setTabText(psTabs->indexOf(tab_2), QApplication::translate("ParticleEditorClass", "Add...", Q_NULLPTR));
     } // retranslateUi
 
 };

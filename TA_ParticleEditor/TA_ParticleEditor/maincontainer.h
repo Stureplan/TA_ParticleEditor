@@ -16,6 +16,7 @@
 #include <QPushButton>
 #include <QSlider>
 #include <QImageReader>
+#include <QTabWidget>
 
 #include "utility.h"
 #include "graphics.h"
@@ -70,6 +71,9 @@ public slots:
 	void rectResize();
 	void setColumnsRows();
 
+	void addTab(int index);
+	void removeTab(int index);
+
 protected:
 	virtual void keyPressEvent(QKeyEvent* evt);
 	virtual void keyReleaseEvent(QKeyEvent* evt);
@@ -113,6 +117,7 @@ private:
 	QSlider* velocityZSlider;
 	QSlider* emissionDelaySlider;
 	QLabel*  emissionDelaySlider_label;
+	QTabWidget* psTabs;
 
 	// QT VARIABLES
 	QString mTexturePath;

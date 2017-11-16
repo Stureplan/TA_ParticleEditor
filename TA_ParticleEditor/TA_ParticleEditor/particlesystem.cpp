@@ -1,8 +1,4 @@
-
-
 #include "particlesystem.h"
-
-#include "utility.h"
 
 ParticleSystem::ParticleSystem()
 {
@@ -10,7 +6,7 @@ ParticleSystem::ParticleSystem()
 
 ParticleSystem::~ParticleSystem()
 {
-	delete ps;
+	//delete ps;
 }
 
 unsigned int ParticleSystem::ParticleCount()
@@ -105,53 +101,53 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 	switch (prop)
 	{
 	case PS_PROPERTY::PS_VELOCITY:
-		ps->velocity = *(FLOAT3*)data;
+		ps.velocity= *((FLOAT3*)data);
 		break;
 	case PS_PROPERTY::PS_EMISSIONDELAY:
-		ps->emissiondelay = *(float*)data;
-		cooldown = ps->emissiondelay;
+		ps.emissiondelay = *((float*)data);
+		cooldown = ps.emissiondelay;
 		break;
 	case PS_PROPERTY::PS_LIFETIME:
-		ps->lifetime = *(float*)data;
+		ps.lifetime = *((float*)data);
 		break;
 	case PS_PROPERTY::PS_GRAVITY:
-		ps->gravity = *(float*)data;
+		ps.gravity = *((float*)data);
 		break;
 	case PS_PROPERTY::PS_COLOR_IN:
-		ps->colorIn = *(FLOAT4*)data;
+		ps.colorIn = *((FLOAT4*)data);
 		break;
 	case PS_PROPERTY::PS_COLOR_OUT:
-		ps->colorOut = *(FLOAT4*)data;
+		ps.colorOut = *((FLOAT4*)data);
 		break;
 	case PS_PROPERTY::PS_START_SIZE_X:
-		ps->startSizeX = *(float*)data;
+		ps.startSizeX = *((float*)data);
 		break;
 	case PS_PROPERTY::PS_START_SIZE_Y:
-		ps->startSizeY = *(float*)data;
+		ps.startSizeY = *((float*)data);
 		break;
 	case PS_PROPERTY::PS_END_SIZE_X:
-		ps->endSizeX = *(float*)data;
+		ps.endSizeX = *((float*)data);
 		break;
 	case PS_PROPERTY::PS_END_SIZE_Y:
-		ps->endSizeY = *(float*)data;
+		ps.endSizeY = *((float*)data);
 		break;
 	case PS_PROPERTY::PS_EMITTER_TYPE:
-		ps->emittertype = *(EMITTER_TYPE*)data;
+		ps.emittertype = *((EMITTER_TYPE*)data);
 		break;
 	case PS_PROPERTY::PS_RECT_SIZE_X:
-		ps->rectSizeX = *(float*)data;
+		ps.rectSizeX = *((float*)data);
 		break;
 	case PS_PROPERTY::PS_RECT_SIZE_Z:
-		ps->rectSizeZ = *(float*)data;
+		ps.rectSizeZ = *((float*)data);
 		break;
 	case PS_PROPERTY::PS_TEXTURE_TYPE:
-		ps->textureType = *(int*)data;
+		ps.textureType = *((int*)data);
 		break;
 	case PS_PROPERTY::PS_TEXTURE_COLUMNS:
-		ps->textureColumns = *(int*)data;
+		ps.textureColumns = *((int*)data);
 		break;
 	case PS_PROPERTY::PS_TEXTURE_ROWS:
-		ps->textureRows = *(int*)data;
+		ps.textureRows = *((int*)data);
 		break;
 	}
 }
@@ -161,52 +157,52 @@ void* ParticleSystem::GetProperty(PS_PROPERTY prop)
 	switch (prop)
 	{
 	case PS_PROPERTY::PS_VELOCITY:
-		return &ps->velocity;
+		return &ps.velocity;
 		break;
 	case PS_PROPERTY::PS_EMISSIONDELAY:
-		return &ps->emissiondelay;
+		return &ps.emissiondelay;
 		break;
 	case PS_PROPERTY::PS_LIFETIME:
-		return &ps->lifetime;
+		return &ps.lifetime;
 		break;
 	case PS_PROPERTY::PS_GRAVITY:
-		return &ps->gravity;
+		return &ps.gravity;
 		break;
 	case PS_PROPERTY::PS_COLOR_IN:
-		return &ps->colorIn;
+		return &ps.colorIn;
 		break;
 	case PS_PROPERTY::PS_COLOR_OUT:
-		return &ps->colorOut;
+		return &ps.colorOut;
 		break;
 	case PS_PROPERTY::PS_START_SIZE_X:
-		return &ps->startSizeX;
+		return &ps.startSizeX;
 		break;
 	case PS_PROPERTY::PS_START_SIZE_Y:
-		return &ps->startSizeY;
+		return &ps.startSizeY;
 		break;
 	case PS_PROPERTY::PS_END_SIZE_X:
-		return &ps->endSizeX;
+		return &ps.endSizeX;
 		break;
 	case PS_PROPERTY::PS_END_SIZE_Y:
-		return &ps->endSizeY;
+		return &ps.endSizeY;
 		break;
 	case PS_PROPERTY::PS_EMITTER_TYPE:
-		return &ps->emittertype;
+		return &ps.emittertype;
 		break;
 	case PS_PROPERTY::PS_RECT_SIZE_X:
-		return &ps->rectSizeX;
+		return &ps.rectSizeX;
 		break;
 	case PS_PROPERTY::PS_RECT_SIZE_Z:
-		return &ps->rectSizeZ;
+		return &ps.rectSizeZ;
 		break;
 	case PS_PROPERTY::PS_TEXTURE_TYPE:
-		return &ps->textureType;
+		return &ps.textureType;
 		break;
 	case PS_PROPERTY::PS_TEXTURE_COLUMNS:
-		return &ps->textureColumns;
+		return &ps.textureColumns;
 		break;
 	case PS_PROPERTY::PS_TEXTURE_ROWS:
-		return &ps->textureRows;
+		return &ps.textureRows;
 		break;
 	}
 
@@ -215,9 +211,9 @@ void* ParticleSystem::GetProperty(PS_PROPERTY prop)
 
 void ParticleSystem::Initialize()
 {
-	ps = new PARTICLESYSTEM(EMITTER_TYPE::EMIT_POINT,0, FLOAT3_ZERO, 0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 4, 4);
+	ps = PARTICLESYSTEM(EMITTER_TYPE::EMIT_POINT,0, FLOAT3_ZERO, 0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 4, 4);
 
-	for (unsigned int i = 0; i < ps->maxparticles; i++)
+	for (unsigned int i = 0; i < ps.maxparticles; i++)
 	{
 		particles.push_back(PARTICLE(FLOAT3_ZERO, FLOAT3_ZERO + FLOAT3(0, 1, 0), 0, false, RandomIntMinusPlus(), RandomIntMinusPlus()));
 	}
@@ -236,8 +232,8 @@ FLOAT3 ParticleSystem::Position(EMITTER_TYPE type)
 	{
 		FLOAT3 pos = FLOAT3_ZERO;
 
-		pos.X = RandomFloat(-ps->rectSizeX * 2, ps->rectSizeX * 2);
-		pos.Z = RandomFloat(-ps->rectSizeZ * 2, ps->rectSizeZ * 2);
+		pos.X = RandomFloat(-ps.rectSizeX * 2, ps.rectSizeX * 2);
+		pos.Z = RandomFloat(-ps.rectSizeZ * 2, ps.rectSizeZ * 2);
 
 		return pos;
 	}
@@ -271,27 +267,12 @@ int ParticleSystem::RandomIntMinusPlus()
 
 void ParticleSystem::Rebuild(PARTICLESYSTEM particlesystem)
 {
-	ps->emittertype = particlesystem.emittertype;
-	ps->maxparticles = particlesystem.maxparticles;
-	ps->velocity= particlesystem.velocity;
-	ps->emissiondelay= particlesystem.emissiondelay;
-	ps->lifetime= particlesystem.lifetime;
-	ps->gravity= particlesystem.gravity;
-	ps->startSizeX = particlesystem.startSizeX;
-	ps->startSizeY = particlesystem.startSizeY;
-	ps->endSizeX = particlesystem.endSizeX;
-	ps->endSizeY = particlesystem.endSizeY;
-	ps->rectSizeX = particlesystem.rectSizeX;
-	ps->rectSizeZ = particlesystem.rectSizeZ;
-	ps->textureType = particlesystem.textureType;
-	ps->textureColumns = particlesystem.textureColumns;
-	ps->textureRows = particlesystem.textureRows;
-
-	cooldown = ps->emissiondelay;
+	ps = particlesystem;
+	cooldown = ps.emissiondelay;
 
 	particles.clear();
 
-	for (unsigned int i = 0; i < ps->maxparticles; i++)
+	for (unsigned int i = 0; i < ps.maxparticles; i++)
 	{
 		particles.push_back(PARTICLE(FLOAT3(0, 0, 0), FLOAT3(0, 1, 0), 0, false, RandomIntMinusPlus(), RandomIntMinusPlus()));
 	}
@@ -302,8 +283,6 @@ void ParticleSystem::Update(float dt)
 	cooldown += dt;
 
 	unsigned int max = particles.size();
-	//unsigned int max = ps->maxparticles;
-
 
 
 	for (unsigned int i = 0; i < max; i++)
@@ -314,20 +293,20 @@ void ParticleSystem::Update(float dt)
 		// Check for dead/alive
 		if (p.alive == true)
 		{
-			if (p.currentlifetime < ps->lifetime)
+			if (p.currentlifetime < ps.lifetime)
 			{
 				FLOAT3 nPos = p.position;
 				FLOAT3 dir = p.position;
 
-				float percent = p.currentlifetime / ps->lifetime;
+				float percent = p.currentlifetime / ps.lifetime;
 
 				// Add gravity
-				nPos.Y += ((GRAVITY - (percent * 10)) * dt) * ps->gravity;
+				nPos.Y += ((GRAVITY - (percent * 10)) * dt) * ps.gravity;
 
 				// Add velocity
-				nPos.X += ((ps->velocity.X) * dt);
-				nPos.Y += ((ps->velocity.Y) * dt);
-				nPos.Z += ((ps->velocity.Z) * dt);
+				nPos.X += ((ps.velocity.X) * dt);
+				nPos.Y += ((ps.velocity.Y) * dt);
+				nPos.Z += ((ps.velocity.Z) * dt);
 
 				// Add time to particle life
 				particles[i].currentlifetime += dt;
@@ -347,16 +326,16 @@ void ParticleSystem::Update(float dt)
 				particles[i].alive = false;
 
 				// Move particle back to PS origin
-				particles[i].position = Position(ps->emittertype);
+				particles[i].position = Position(ps.emittertype);
 			}
 		}
 		else
 		{
 			// This particle is dead already since before.
 			// Find out if we should emit it again!
-			if (cooldown > ps->emissiondelay)
+			if (cooldown > ps.emissiondelay)
 			{
-				particles[i].position = Position(ps->emittertype);
+				particles[i].position = Position(ps.emittertype);
 				particles[i].alive = true;
 
 				cooldown = 0.0f;

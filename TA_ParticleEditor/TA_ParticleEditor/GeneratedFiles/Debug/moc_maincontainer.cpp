@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainContainer_t {
-    QByteArrayData data[27];
-    char stringdata0[317];
+    QByteArrayData data[29];
+    char stringdata0[334];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -57,7 +57,9 @@ QT_MOC_LITERAL(22, 262, 10), // "startSizeY"
 QT_MOC_LITERAL(23, 273, 8), // "endSizeX"
 QT_MOC_LITERAL(24, 282, 8), // "endSizeY"
 QT_MOC_LITERAL(25, 291, 10), // "rectResize"
-QT_MOC_LITERAL(26, 302, 14) // "setColumnsRows"
+QT_MOC_LITERAL(26, 302, 14), // "setColumnsRows"
+QT_MOC_LITERAL(27, 317, 6), // "addTab"
+QT_MOC_LITERAL(28, 324, 9) // "removeTab"
 
     },
     "MainContainer\0setLifetime\0\0setEmissionDelay\0"
@@ -68,7 +70,8 @@ QT_MOC_LITERAL(26, 302, 14) // "setColumnsRows"
     "save\0load\0colorIn\0colorOut\0"
     "emitterTypeChanged\0index\0textureTypeChanged\0"
     "startSizeX\0startSizeY\0endSizeX\0endSizeY\0"
-    "rectResize\0setColumnsRows"
+    "rectResize\0setColumnsRows\0addTab\0"
+    "removeTab"
 };
 #undef QT_MOC_LITERAL
 
@@ -78,7 +81,7 @@ static const uint qt_meta_data_MainContainer[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      23,   14, // methods
+      25,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -86,29 +89,31 @@ static const uint qt_meta_data_MainContainer[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,  129,    2, 0x0a /* Public */,
-       3,    1,  130,    2, 0x0a /* Public */,
-       5,    0,  133,    2, 0x0a /* Public */,
-       6,    1,  134,    2, 0x0a /* Public */,
-       7,    0,  137,    2, 0x0a /* Public */,
-       8,    1,  138,    2, 0x0a /* Public */,
-       9,    0,  141,    2, 0x0a /* Public */,
-      10,    1,  142,    2, 0x0a /* Public */,
-      11,    0,  145,    2, 0x0a /* Public */,
-      12,    0,  146,    2, 0x0a /* Public */,
-      13,    0,  147,    2, 0x0a /* Public */,
-      14,    0,  148,    2, 0x0a /* Public */,
-      15,    0,  149,    2, 0x0a /* Public */,
-      16,    0,  150,    2, 0x0a /* Public */,
-      17,    0,  151,    2, 0x0a /* Public */,
-      18,    1,  152,    2, 0x0a /* Public */,
-      20,    1,  155,    2, 0x0a /* Public */,
-      21,    0,  158,    2, 0x0a /* Public */,
-      22,    0,  159,    2, 0x0a /* Public */,
-      23,    0,  160,    2, 0x0a /* Public */,
-      24,    0,  161,    2, 0x0a /* Public */,
-      25,    0,  162,    2, 0x0a /* Public */,
-      26,    0,  163,    2, 0x0a /* Public */,
+       1,    0,  139,    2, 0x0a /* Public */,
+       3,    1,  140,    2, 0x0a /* Public */,
+       5,    0,  143,    2, 0x0a /* Public */,
+       6,    1,  144,    2, 0x0a /* Public */,
+       7,    0,  147,    2, 0x0a /* Public */,
+       8,    1,  148,    2, 0x0a /* Public */,
+       9,    0,  151,    2, 0x0a /* Public */,
+      10,    1,  152,    2, 0x0a /* Public */,
+      11,    0,  155,    2, 0x0a /* Public */,
+      12,    0,  156,    2, 0x0a /* Public */,
+      13,    0,  157,    2, 0x0a /* Public */,
+      14,    0,  158,    2, 0x0a /* Public */,
+      15,    0,  159,    2, 0x0a /* Public */,
+      16,    0,  160,    2, 0x0a /* Public */,
+      17,    0,  161,    2, 0x0a /* Public */,
+      18,    1,  162,    2, 0x0a /* Public */,
+      20,    1,  165,    2, 0x0a /* Public */,
+      21,    0,  168,    2, 0x0a /* Public */,
+      22,    0,  169,    2, 0x0a /* Public */,
+      23,    0,  170,    2, 0x0a /* Public */,
+      24,    0,  171,    2, 0x0a /* Public */,
+      25,    0,  172,    2, 0x0a /* Public */,
+      26,    0,  173,    2, 0x0a /* Public */,
+      27,    1,  174,    2, 0x0a /* Public */,
+      28,    1,  177,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -134,6 +139,8 @@ static const uint qt_meta_data_MainContainer[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,   19,
+    QMetaType::Void, QMetaType::Int,   19,
 
        0        // eod
 };
@@ -167,6 +174,8 @@ void MainContainer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 20: _t->endSizeY(); break;
         case 21: _t->rectResize(); break;
         case 22: _t->setColumnsRows(); break;
+        case 23: _t->addTab((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 24: _t->removeTab((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -197,13 +206,13 @@ int MainContainer::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 23)
+        if (_id < 25)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 23;
+        _id -= 25;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 23)
+        if (_id < 25)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 23;
+        _id -= 25;
     }
     return _id;
 }
