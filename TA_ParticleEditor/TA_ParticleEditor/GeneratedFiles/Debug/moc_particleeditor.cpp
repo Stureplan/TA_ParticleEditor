@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_ParticleEditor_t {
-    QByteArrayData data[4];
-    char stringdata0[51];
+    QByteArrayData data[6];
+    char stringdata0[55];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -34,11 +34,13 @@ static const qt_meta_stringdata_ParticleEditor_t qt_meta_stringdata_ParticleEdit
 QT_MOC_LITERAL(0, 0, 14), // "ParticleEditor"
 QT_MOC_LITERAL(1, 15, 25), // "onApplicationFocusChanged"
 QT_MOC_LITERAL(2, 41, 0), // ""
-QT_MOC_LITERAL(3, 42, 8) // "QWidget*"
+QT_MOC_LITERAL(3, 42, 8), // "QWidget*"
+QT_MOC_LITERAL(4, 51, 1), // "d"
+QT_MOC_LITERAL(5, 53, 1) // "s"
 
     },
     "ParticleEditor\0onApplicationFocusChanged\0"
-    "\0QWidget*"
+    "\0QWidget*\0d\0s"
 };
 #undef QT_MOC_LITERAL
 
@@ -59,7 +61,7 @@ static const uint qt_meta_data_ParticleEditor[] = {
        1,    2,   19,    2, 0x0a /* Public */,
 
  // slots: parameters
-    QMetaType::Void, 0x80000000 | 3, 0x80000000 | 3,    2,    2,
+    QMetaType::Void, 0x80000000 | 3, 0x80000000 | 3,    4,    5,
 
        0        // eod
 };

@@ -46,6 +46,7 @@ public:
 	void LoadTextures();
 	void ChangeRasterization(D3D11_FILL_MODE fillmode);
 
+	void GainedFocus();
 	void Retexture(std::string path);
 	void ChangeTextureType(int type);
 	void Rebuild(PARTICLESYSTEM ps);
@@ -72,7 +73,7 @@ public:
 
 	Q_OBJECT
 	Q_DISABLE_COPY(Graphics)
-
+	
 public:
 	struct CBUFFER_PARTICLESYSTEM
 	{

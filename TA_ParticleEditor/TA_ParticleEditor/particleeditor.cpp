@@ -34,8 +34,10 @@ ParticleEditor::ParticleEditor(QWidget *parent, Qt::WindowFlags flags)	: QMainWi
 	ui.graphics->LoadParticles();
 
 
+
 	connect(qApp, SIGNAL(focusChanged(QWidget*, QWidget*)),
 		this, SLOT(onApplicationFocusChanged(QWidget*, QWidget*)));
+
 	//setWindowTitle("New title"); // <------ change title of entire program here, for version handling etc
 }
 
@@ -46,7 +48,7 @@ void ParticleEditor::onApplicationFocusChanged(QWidget* d, QWidget* s)
 		//TODO: Shader Reloading. (use enum{SHADER_TYPE::PARTICLE_ANIMATED_FADED} etc... to check what shader to reload)
 		//Also pass that enum to the shader when loading it, and use a variable SHADER_TYPE CURRENT_SHADER to check what shader is active
 		//This slot function should probably be in Graphics or something instead though.
-		qDebug("Gained focus");
+		ui.graphics->GainedFocus();
 	}
 }
 

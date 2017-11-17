@@ -14,7 +14,7 @@ public:
 	~ParticleEditor();
 
 public slots:
-	void onApplicationFocusChanged(QWidget*, QWidget*);
+	void onApplicationFocusChanged(QWidget* d, QWidget* s);
 
 private:
 	Ui::ParticleEditorClass ui;

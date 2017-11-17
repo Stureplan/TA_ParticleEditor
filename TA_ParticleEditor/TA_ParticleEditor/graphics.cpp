@@ -15,7 +15,10 @@ Graphics::Graphics(QWidget * parent)
 	timer->setInterval(16.666);
 	connect(timer, SIGNAL(timeout()), this, SLOT(Loop()));
 	timer->start(0);
+
 }
+
+
 
 Graphics::~Graphics()
 {
@@ -224,7 +227,7 @@ void Graphics::Initialize()
 				XMVectorSet(0, 2, 0, 0));  //up
 
 	shaders.LoadGizmoShader(device, context);
-	shaders.LoadParticleShader(device, context);
+	shaders.LoadParticleShader(device, context, "particle.hlsl");
 	
 	particlesystem->Initialize();
 	LoadParticles();
@@ -514,6 +517,11 @@ void Graphics::LoadEmitterTypeGizmo(EMITTER_TYPE type)
 	hr = device->CreateBuffer(&vertexDesc, &vertexData, &emitterTypeGizmoVertexBuffer);
 }
 
+void Graphics::GainedFocus()
+{
+	shaders.ReloadLastShader(device, context);
+}
+
 void Graphics::LoadTextures()
 {
 	textures.push_back(nullptr);
@@ -543,17 +551,17 @@ void Graphics::ChangeTextureType(int type)
 	if (type == 0)
 	{
 		// single sprite
-		shaders.LoadParticleShader(device, context);
+		shaders.LoadParticleShader(device, context, "particle.hlsl");
 	}
 	if (type == 1)
 	{
 		// sprite sheet
-		shaders.LoadAnimatedParticleShader(device, context);
+		shaders.LoadParticleShader(device, context, "particle_animated.hlsl");
 	}
 	if (type == 2)
 	{
 		// sprite sheet (faded)
-		shaders.LoadAnimatedFadedParticleShader(device, context);
+		shaders.LoadParticleShader(device, context, "particle_animated_faded.hlsl");
 	}
 }
 

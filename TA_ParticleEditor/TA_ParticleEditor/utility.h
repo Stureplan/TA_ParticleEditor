@@ -214,6 +214,27 @@ public:
 		return fullpath;
 	}
 
+	static std::string DataPath()
+	{
+		std::string path = "Data\\";
+
+		// Full path to program
+		char p[MAX_PATH];
+		GetModuleFileNameA(NULL, p, MAX_PATH + 1);
+		std::string fullpath = p;
+
+		// Only the .exe
+		std::string f = PathFindFileNameA(fullpath.c_str());
+
+		// Remove program.exe from full path
+		fullpath.erase(fullpath.size() - f.size(), f.size());
+
+		// Insert Data folder
+		fullpath += path;
+
+		return fullpath;
+	}
+
 	static bool FindSubstring(std::wstring str, std::wstring sub)
 	{
 		size_t index;
