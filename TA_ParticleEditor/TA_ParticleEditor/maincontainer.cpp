@@ -544,6 +544,14 @@ void MainContainer::keyPressEvent(QKeyEvent* evt)
 			graphics->SetLastCameraRotation(key, false);
 		}
 	}
+
+	if (key == Qt::Key::Key_Shift || key == Qt::Key::Key_Control)
+	{
+		if (evt->isAutoRepeat() == false)
+		{
+			graphics->SetLastCameraRotation(key, false);
+		}
+	}
 }
 
 void MainContainer::keyReleaseEvent(QKeyEvent* evt)
@@ -559,6 +567,14 @@ void MainContainer::keyReleaseEvent(QKeyEvent* evt)
 	}
 
 	if (key == Qt::Key::Key_A || key == Qt::Key::Key_D)
+	{
+		if (evt->isAutoRepeat() == false)
+		{
+			graphics->SetLastCameraRotation(key, true);
+		}
+	}
+
+	if (key == Qt::Key::Key_Shift || key == Qt::Key::Key_Control)
 	{
 		if (evt->isAutoRepeat() == false)
 		{

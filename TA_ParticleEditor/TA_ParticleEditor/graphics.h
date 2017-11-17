@@ -36,7 +36,7 @@ public:
 	void Initialize();
 	void SetupCamera(XMVECTOR pos, XMVECTOR dir, XMVECTOR up);
 	void MoveCamera(float z);
-	void RotateCamera(float rot);
+	void RotateCamera(float rotX, float rotY);
 	void SetLastCameraMovement(Qt::Key key, bool released);
 	void SetLastCameraRotation(Qt::Key key, bool released);
 	void LoadParticles();
@@ -151,7 +151,8 @@ private:
 	XMMATRIX Projection;
 
 	float camvel;
-	float camrot;
+	float camrotX;
+	float camrotY;
 	XMVECTOR campos;
 	XMVECTOR camdir;
 	XMVECTOR camup;

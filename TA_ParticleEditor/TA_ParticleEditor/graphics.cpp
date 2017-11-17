@@ -64,7 +64,7 @@ void Graphics::Loop()
 	//camvel = XMVector4Transform(camvel, v);
 	
 	MoveCamera  (camvel * ms * movespeed);
-	RotateCamera(camrot * ms * rotspeed);
+	RotateCamera(camrotX * ms * rotspeed, camrotY * ms * rotspeed);
 	Update();
 	Render();
 
@@ -241,7 +241,8 @@ void Graphics::Initialize()
 void Graphics::SetupCamera(XMVECTOR pos, XMVECTOR dir, XMVECTOR up)
 {
 	camvel = 0.0f;
-	camrot = 0.0f;
+	camrotX = 0.0f;
+	camrotY = 0.0f;
 
 	lastMoveKey = Qt::Key::Key_0;
 	lastRotKey  = Qt::Key::Key_0;
@@ -257,18 +258,6 @@ void Graphics::SetupCamera(XMVECTOR pos, XMVECTOR dir, XMVECTOR up)
 	v = XMMatrixIdentity();
 }
 
-//void Graphics::MoveCamera(XMVECTOR pos)
-//{
-	//XMVECTOR dir = XMVector4Normalize(camdir - campos);
-	
-	//pos = XMVector4Transform(pos, v);
-
-	//campos += pos;
-	//camdir += pos;
-	
-	//View = XMMatrixLookAtLH(campos, camdir, camup);
-//}
-
 void Graphics::MoveCamera(float z)
 {
 	float distance = XMVectorGetX(XMVector4Length(XMVectorSet(0,1.0f,0.0f,0) - (campos + (camdir*z))));
@@ -280,9 +269,9 @@ void Graphics::MoveCamera(float z)
 	}
 }
 
-void Graphics::RotateCamera(float rot)
+void Graphics::RotateCamera(float rotX, float rotY)
 {
-	v = XMMatrixRotationY(rot);
+	v = XMMatrixRotationX(rotX) * XMMatrixRotationY(rotY);
 
 	campos = XMVector4Transform(campos, v);
 	camdir = XMVector4Normalize(XMVector4Transform(camdir, v));
@@ -322,7 +311,8 @@ void Graphics::SetLastCameraRotation(Qt::Key key, bool released)
 {
 	if (released == true && key == lastRotKey)
 	{
-		camrot = 0.0f;
+		camrotX = 0.0f;
+		camrotY = 0.0f;
 		return;
 	}
 
@@ -331,11 +321,19 @@ void Graphics::SetLastCameraRotation(Qt::Key key, bool released)
 		switch (key)
 		{
 		case Qt::Key::Key_A:
-			camrot = 1.0f;
+			camrotY = 1.0f;
 			break;
 
 		case Qt::Key::Key_D:
-			camrot = -1.0f;
+			camrotY = -1.0f;
+			break;
+
+		case Qt::Key::Key_Shift:
+			camrotX = 1.0f;
+			break;
+
+		case Qt::Key::Key_Control:
+			camrotX = -1.0f;
 			break;
 
 		default:
