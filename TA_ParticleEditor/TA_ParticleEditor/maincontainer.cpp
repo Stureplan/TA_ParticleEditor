@@ -485,7 +485,7 @@ void MainContainer::addTab(int index)
 	int max = psTabs->count()-1;
 	if (index == max && max < 4)
 	{
-		psTabs->insertTab(index, new QWidget(), QString("Particle System %0").arg(max + 1));
+		psTabs->insertTab(index, new QWidget(this), QString("Particle System %0").arg(max + 1));
 	}
 }
 
