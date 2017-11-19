@@ -1088,6 +1088,7 @@
     <slot>setVelocityZSlider(int)</slot>
     <slot>addTab(int)</slot>
     <slot>removeTab(int)</slot>
+    <slot>selectTab(int)</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -1520,6 +1521,22 @@
     <hint type="sourcelabel">
      <x>330</x>
      <y>505</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>491</x>
+     <y>318</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>psTabs</sender>
+   <signal>tabBarClicked(int)</signal>
+   <receiver>maincontainer</receiver>
+   <slot>selectTab(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>330</x>
+     <y>502</y>
     </hint>
     <hint type="destinationlabel">
      <x>491</x>

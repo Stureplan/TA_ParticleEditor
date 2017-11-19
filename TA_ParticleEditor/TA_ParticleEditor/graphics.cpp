@@ -665,6 +665,11 @@ void Graphics::ResizeParticleSystem(unsigned int count)
 	//This function clears every particle and recreates the data.
 }
 
+PARTICLESYSTEM Graphics::ParticleSystemByIndex(int index)
+{
+	return particlesystems.at(index);
+}
+
 void Graphics::AddParticle(FLOAT3 p)
 {
 	//This function adds ONE particle to the existing particle amount.

@@ -68,6 +68,7 @@ public:
 	void RenderDebugParticle(unsigned int particleID);
 
 	ParticleSystem* ParticleSystemPtr() { return particlesystem; }
+	PARTICLESYSTEM ParticleSystemByIndex(int index);
 
 	virtual QPaintEngine* paintEngine() const { return NULL; }
 
@@ -192,5 +193,6 @@ private:
 
 
 	ParticleSystem* particlesystem;
+	std::vector<PARTICLESYSTEM> particlesystems;
 	Shaders shaders;
 };

@@ -371,6 +371,7 @@ public:
         QObject::connect(velocityZSlider, SIGNAL(valueChanged(int)), maincontainer, SLOT(setVelocityZSlider(int)));
         QObject::connect(psTabs, SIGNAL(tabBarClicked(int)), maincontainer, SLOT(addTab(int)));
         QObject::connect(psTabs, SIGNAL(tabCloseRequested(int)), maincontainer, SLOT(removeTab(int)));
+        QObject::connect(psTabs, SIGNAL(tabBarClicked(int)), maincontainer, SLOT(selectTab(int)));
 
         textureTypeBox->setCurrentIndex(0);
         psTabs->setCurrentIndex(0);

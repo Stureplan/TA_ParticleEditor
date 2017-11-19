@@ -71,6 +71,7 @@ public slots:
 	void rectResize();
 	void setColumnsRows();
 
+	void selectTab(int index);
 	void addTab(int index);
 	void removeTab(int index);
 
@@ -79,6 +80,8 @@ protected:
 	virtual void keyReleaseEvent(QKeyEvent* evt);
 	virtual void mousePressEvent(QMouseEvent* evt);
 private:
+	void FillValues(PARTICLESYSTEM fromPS);
+
 	// PROGRAM POINTERS
 	Graphics* graphics;
 	ParticleSystem* particlesystem;
@@ -126,7 +129,7 @@ private:
 	QColor mColorOut;
 
 	// PS VARIABLES
-	EMITTER_TYPE mEmitterType;
+	/*EMITTER_TYPE mEmitterType;
 	int mMaxParticles;
 	FLOAT3 mVelocity;
 	float mEmissionDelay;
@@ -141,5 +144,7 @@ private:
 	float mRectSizeZ;
 	int mTextureType;
 	int mTextureColumns;
-	int mTextureRows;
+	int mTextureRows;*/
+
+	PARTICLESYSTEM mPS;
 };
