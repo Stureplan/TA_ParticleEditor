@@ -68,6 +68,8 @@ public:
 	void RenderDebugParticle(unsigned int particleID);
 
 	ParticleSystem* ParticleSystemPtr() { return particlesystem; }
+	void AddParticleSystem(PARTICLESYSTEM ps);
+	void RemoveParticleSystem(int index);
 	PARTICLESYSTEM ParticleSystemByIndex(int index);
 
 	virtual QPaintEngine* paintEngine() const { return NULL; }

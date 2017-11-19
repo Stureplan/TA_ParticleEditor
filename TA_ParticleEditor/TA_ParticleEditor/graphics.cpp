@@ -665,6 +665,16 @@ void Graphics::ResizeParticleSystem(unsigned int count)
 	//This function clears every particle and recreates the data.
 }
 
+void Graphics::AddParticleSystem(PARTICLESYSTEM ps)
+{
+	particlesystems.push_back(ps);
+}
+
+void Graphics::RemoveParticleSystem(int index)
+{
+	particlesystems.erase(particlesystems.begin() + index);
+}
+
 PARTICLESYSTEM Graphics::ParticleSystemByIndex(int index)
 {
 	return particlesystems.at(index);

@@ -146,5 +146,6 @@ private:
 	int mTextureColumns;
 	int mTextureRows;*/
 
-	PARTICLESYSTEM mPS;
+	PARTICLESYSTEM mCurrentPS;
+	int mCurrentPSIndex = 0;
 };

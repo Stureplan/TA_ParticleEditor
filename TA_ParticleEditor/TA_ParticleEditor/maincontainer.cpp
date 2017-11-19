@@ -55,31 +55,31 @@ void MainContainer::SetPointers(ParticleSystem* ps)
 
 void MainContainer::Init()
 {
-	mPS.emittertype = EMITTER_TYPE::EMIT_POINT;
-	mPS.lifetime = DEFAULT_LIFETIME;
+	mCurrentPS.emittertype = EMITTER_TYPE::EMIT_POINT;
+	mCurrentPS.lifetime = DEFAULT_LIFETIME;
 	textFieldLifetime->setPlaceholderText(std::to_string(DEFAULT_LIFETIME).c_str());
 
-	mPS.emissiondelay = DEFAULT_EMISSIONDELAY;
+	mCurrentPS.emissiondelay = DEFAULT_EMISSIONDELAY;
 	emissionDelaySlider->setValue(10);
 
-	mPS.velocity = DEFAULT_VELOCITY;
+	mCurrentPS.velocity = DEFAULT_VELOCITY;
 	textFieldVelocityX->setPlaceholderText(std::to_string(DEFAULT_VELOCITY.X).c_str());
 	textFieldVelocityY->setPlaceholderText(std::to_string(DEFAULT_VELOCITY.Y).c_str());
 	textFieldVelocityZ->setPlaceholderText(std::to_string(DEFAULT_VELOCITY.Z).c_str());
 
-	mPS.gravity = DEFAULT_GRAVITY;
+	mCurrentPS.gravity = DEFAULT_GRAVITY;
 	textFieldGravity->setPlaceholderText(std::to_string(DEFAULT_GRAVITY).c_str());
 
-	mPS.maxparticles = DEFAULT_MAXPARTICLES;
+	mCurrentPS.maxparticles = DEFAULT_MAXPARTICLES;
 	textFieldMaxParticles->setPlaceholderText(std::to_string(DEFAULT_MAXPARTICLES).c_str());
 
-	mPS.startSizeX = DEFAULT_SIZE;
-	mPS.startSizeY = DEFAULT_SIZE;
+	mCurrentPS.startSizeX = DEFAULT_SIZE;
+	mCurrentPS.startSizeY = DEFAULT_SIZE;
 	textFieldStartSizeX->setPlaceholderText(std::to_string(DEFAULT_SIZE).c_str());
 	textFieldStartSizeY->setPlaceholderText(std::to_string(DEFAULT_SIZE).c_str());
 
-	mPS.endSizeX = DEFAULT_SIZE;
-	mPS.endSizeY = DEFAULT_SIZE;
+	mCurrentPS.endSizeX = DEFAULT_SIZE;
+	mCurrentPS.endSizeY = DEFAULT_SIZE;
 	textFieldEndSizeX->setPlaceholderText(std::to_string(DEFAULT_SIZE).c_str());
 	textFieldEndSizeY->setPlaceholderText(std::to_string(DEFAULT_SIZE).c_str());
 
@@ -90,18 +90,18 @@ void MainContainer::Init()
 	mColorIn  = Qt::white;
 	mColorOut = Qt::white;
 
-	mPS.rectSizeX = 1.0f;
-	mPS.rectSizeZ = 1.0f;
+	mCurrentPS.rectSizeX = 1.0f;
+	mCurrentPS.rectSizeZ = 1.0f;
 	
-	mPS.textureType = 0;
-	mPS.textureRows = 4;
-	mPS.textureColumns = 4;
+	mCurrentPS.textureType = 0;
+	mCurrentPS.textureRows = 4;
+	mCurrentPS.textureColumns = 4;
 }
 
 void MainContainer::setGravity()
 {
-	mPS.gravity = textFieldGravity->text().toFloat();
-	particlesystem->SetProperty(PS_PROPERTY::PS_GRAVITY, &mPS.gravity);
+	mCurrentPS.gravity = textFieldGravity->text().toFloat();
+	particlesystem->SetProperty(PS_PROPERTY::PS_GRAVITY, &mCurrentPS.gravity);
 }
 
 void MainContainer::load()
@@ -118,20 +118,20 @@ void MainContainer::load()
 		std::string n(textureNameSize, '\0');
 		fread(&n[0], sizeof(char), textureNameSize, file);
 		fread(&ps, sizeof(PARTICLESYSTEM), 1, file);
-		mPS.emittertype = ps.emittertype;
-		mPS.maxparticles = ps.maxparticles;
-		mPS.velocity = ps.velocity;
-		mPS.emissiondelay = ps.emissiondelay;
-		mPS.lifetime = ps.lifetime;
-		mPS.gravity = ps.gravity;
+		mCurrentPS.emittertype = ps.emittertype;
+		mCurrentPS.maxparticles = ps.maxparticles;
+		mCurrentPS.velocity = ps.velocity;
+		mCurrentPS.emissiondelay = ps.emissiondelay;
+		mCurrentPS.lifetime = ps.lifetime;
+		mCurrentPS.gravity = ps.gravity;
 		mColorIn.setRgbF(ps.colorIn.X, ps.colorIn.Y, ps.colorIn.Z, ps.colorIn.W);
 		mColorOut.setRgbF(ps.colorOut.X, ps.colorOut.Y, ps.colorOut.Z, ps.colorOut.W);
-		mPS.startSizeX = ps.startSizeX;
-		mPS.startSizeY = ps.startSizeY;
-		mPS.endSizeX = ps.endSizeX;
-		mPS.endSizeY = ps.endSizeY;
-		mPS.rectSizeX = ps.rectSizeX;
-		mPS.rectSizeZ = ps.rectSizeZ;
+		mCurrentPS.startSizeX = ps.startSizeX;
+		mCurrentPS.startSizeY = ps.startSizeY;
+		mCurrentPS.endSizeX = ps.endSizeX;
+		mCurrentPS.endSizeY = ps.endSizeY;
+		mCurrentPS.rectSizeX = ps.rectSizeX;
+		mCurrentPS.rectSizeZ = ps.rectSizeZ;
 
 		SetUiElements();
 		std::string path = n;
@@ -148,24 +148,24 @@ void MainContainer::SetUiElements()
 {
 	// Set UI textfields after loading a previously saved particle effect
 	
-	textFieldVelocityX->setText(QString::number(mPS.velocity.X));
-	textFieldVelocityY->setText(QString::number(mPS.velocity.Y));
-	textFieldVelocityZ->setText(QString::number(mPS.velocity.Z));
+	textFieldVelocityX->setText(QString::number(mCurrentPS.velocity.X));
+	textFieldVelocityY->setText(QString::number(mCurrentPS.velocity.Y));
+	textFieldVelocityZ->setText(QString::number(mCurrentPS.velocity.Z));
 
 	//need implementation of rectangle position for emitter etc
 
-	textFieldEmissionDelay	->setText(QString::number(mPS.emissiondelay));
-	int value = mPS.emissiondelay * 100;
+	textFieldEmissionDelay	->setText(QString::number(mCurrentPS.emissiondelay));
+	int value = mCurrentPS.emissiondelay * 100;
 	emissionDelaySlider->setValue(value);
-	textFieldLifetime		->setText(QString::number(mPS.lifetime));
-	textFieldMaxParticles	->setText(QString::number(mPS.maxparticles));
-	textFieldGravity		->setText(QString::number(mPS.gravity));
-	textFieldRectSizeX		->setText(QString::number(mPS.rectSizeX));
-	textFieldRectSizeZ		->setText(QString::number(mPS.rectSizeZ));
-	textFieldStartSizeX		->setText(QString::number(mPS.startSizeX));
-	textFieldStartSizeY		->setText(QString::number(mPS.startSizeY));
-	textFieldEndSizeX		->setText(QString::number(mPS.endSizeX));
-	textFieldEndSizeY		->setText(QString::number(mPS.endSizeY));
+	textFieldLifetime		->setText(QString::number(mCurrentPS.lifetime));
+	textFieldMaxParticles	->setText(QString::number(mCurrentPS.maxparticles));
+	textFieldGravity		->setText(QString::number(mCurrentPS.gravity));
+	textFieldRectSizeX		->setText(QString::number(mCurrentPS.rectSizeX));
+	textFieldRectSizeZ		->setText(QString::number(mCurrentPS.rectSizeZ));
+	textFieldStartSizeX		->setText(QString::number(mCurrentPS.startSizeX));
+	textFieldStartSizeY		->setText(QString::number(mCurrentPS.startSizeY));
+	textFieldEndSizeX		->setText(QString::number(mCurrentPS.endSizeX));
+	textFieldEndSizeY		->setText(QString::number(mCurrentPS.endSizeY));
 
 
 	colorInDisplay->setStyleSheet("QLineEdit { background: " + mColorIn.name() + "; selection-background-color: rgb(233, 99, 0); }");
@@ -180,13 +180,13 @@ void MainContainer::SetUiElements()
 	int test;
 
 	test = scaleBoxDisplay->currentIndex();
-	test = mPS.emittertype;
+	test = mCurrentPS.emittertype;
 	emitterTypeDisplay->setCurrentIndex(test);
 
-	particlesystem->SetProperty(PS_PROPERTY::PS_START_SIZE_X, &mPS.startSizeX);
-	particlesystem->SetProperty(PS_PROPERTY::PS_START_SIZE_Y, &mPS.startSizeY);
+	particlesystem->SetProperty(PS_PROPERTY::PS_START_SIZE_X, &mCurrentPS.startSizeX);
+	particlesystem->SetProperty(PS_PROPERTY::PS_START_SIZE_Y, &mCurrentPS.startSizeY);
 
-	emitterTypeChanged(mPS.emittertype);
+	emitterTypeChanged(mCurrentPS.emittertype);
 
 	//textBrowser->setText(mTexturePath); fix later when texture thing is done
 }
@@ -206,21 +206,21 @@ void MainContainer::save()
 	//std::string exportPath = PathFindFileNameA(savePath.toStdString().c_str());
 	
 	PARTICLESYSTEM ps;
-	ps.emittertype = mPS.emittertype;
-	ps.maxparticles = mPS.maxparticles;
-	ps.velocity = mPS.velocity;
-	ps.emissiondelay = mPS.emissiondelay;
-	ps.lifetime = mPS.lifetime;
-	ps.gravity = mPS.gravity;
+	ps.emittertype = mCurrentPS.emittertype;
+	ps.maxparticles = mCurrentPS.maxparticles;
+	ps.velocity = mCurrentPS.velocity;
+	ps.emissiondelay = mCurrentPS.emissiondelay;
+	ps.lifetime = mCurrentPS.lifetime;
+	ps.gravity = mCurrentPS.gravity;
 	ps.colorIn  = FLOAT4(mColorIn.redF(), mColorIn.greenF(), mColorIn.blueF(), mColorIn.alphaF());
 	ps.colorOut = FLOAT4(mColorOut.redF(), mColorOut.greenF(), mColorOut.blueF(), mColorOut.alphaF());
-	ps.startSizeX = mPS.startSizeX;
-	ps.startSizeY = mPS.startSizeY;
-	ps.endSizeX = mPS.endSizeX;
-	ps.endSizeY = mPS.endSizeY;
+	ps.startSizeX = mCurrentPS.startSizeX;
+	ps.startSizeY = mCurrentPS.startSizeY;
+	ps.endSizeX = mCurrentPS.endSizeX;
+	ps.endSizeY = mCurrentPS.endSizeY;
 
-	ps.rectSizeX = mPS.rectSizeX;
-	ps.rectSizeZ = mPS.rectSizeZ;
+	ps.rectSizeX = mCurrentPS.rectSizeX;
+	ps.rectSizeZ = mCurrentPS.rectSizeZ;
 
 	FILE* file = fopen(exportPath.c_str(), "wb");
 	if (file != NULL)
@@ -288,7 +288,7 @@ void MainContainer::colorOut()
 
 void MainContainer::emitterTypeChanged(int mode)
 {
-	mPS.emittertype = (EMITTER_TYPE)mode;
+	mCurrentPS.emittertype = (EMITTER_TYPE)mode;
 	
 	if (mode == EMITTER_TYPE::EMIT_POINT)
 	{
@@ -300,7 +300,7 @@ void MainContainer::emitterTypeChanged(int mode)
 		BuildParticleSystem();
 	}
 
-	particlesystem->SetProperty(PS_PROPERTY::PS_EMITTER_TYPE, &mPS.emittertype);
+	particlesystem->SetProperty(PS_PROPERTY::PS_EMITTER_TYPE, &mCurrentPS.emittertype);
 }
 
 void MainContainer::textureTypeChanged(int mode)
@@ -320,41 +320,41 @@ void MainContainer::textureTypeChanged(int mode)
 		setColumnsRows();
 	}
 
-	mPS.textureType = mode;
-	particlesystem->SetProperty(PS_PROPERTY::PS_TEXTURE_TYPE, &mPS.textureType);
-	graphics->ChangeTextureType(mPS.textureType);
+	mCurrentPS.textureType = mode;
+	particlesystem->SetProperty(PS_PROPERTY::PS_TEXTURE_TYPE, &mCurrentPS.textureType);
+	graphics->ChangeTextureType(mCurrentPS.textureType);
 }
 
 void MainContainer::startSizeX()
 {
-	mPS.startSizeX = textFieldStartSizeX->text().toFloat();
-	particlesystem->SetProperty(PS_PROPERTY::PS_START_SIZE_X, &mPS.startSizeX);
+	mCurrentPS.startSizeX = textFieldStartSizeX->text().toFloat();
+	particlesystem->SetProperty(PS_PROPERTY::PS_START_SIZE_X, &mCurrentPS.startSizeX);
 }
 
 void MainContainer::startSizeY()
 {
-	mPS.startSizeY = textFieldStartSizeY->text().toFloat();
-	particlesystem->SetProperty(PS_PROPERTY::PS_START_SIZE_Y, &mPS.startSizeY);
+	mCurrentPS.startSizeY = textFieldStartSizeY->text().toFloat();
+	particlesystem->SetProperty(PS_PROPERTY::PS_START_SIZE_Y, &mCurrentPS.startSizeY);
 }
 
 void MainContainer::endSizeX()
 {
-	mPS.endSizeX = textFieldEndSizeX->text().toFloat();
-	particlesystem->SetProperty(PS_PROPERTY::PS_END_SIZE_X, &mPS.endSizeX);
+	mCurrentPS.endSizeX = textFieldEndSizeX->text().toFloat();
+	particlesystem->SetProperty(PS_PROPERTY::PS_END_SIZE_X, &mCurrentPS.endSizeX);
 }
 
 void MainContainer::endSizeY()
 {
-	mPS.endSizeY = textFieldEndSizeY->text().toFloat();
-	particlesystem->SetProperty(PS_PROPERTY::PS_END_SIZE_Y, &mPS.endSizeY);
+	mCurrentPS.endSizeY = textFieldEndSizeY->text().toFloat();
+	particlesystem->SetProperty(PS_PROPERTY::PS_END_SIZE_Y, &mCurrentPS.endSizeY);
 }
 
 void MainContainer::rectResize()
 {
-	mPS.rectSizeX = textFieldRectSizeX->text().toFloat();
-	mPS.rectSizeZ = textFieldRectSizeZ->text().toFloat();
-	particlesystem->SetProperty(PS_PROPERTY::PS_RECT_SIZE_X, &mPS.rectSizeX);
-	particlesystem->SetProperty(PS_PROPERTY::PS_RECT_SIZE_Z, &mPS.rectSizeZ);
+	mCurrentPS.rectSizeX = textFieldRectSizeX->text().toFloat();
+	mCurrentPS.rectSizeZ = textFieldRectSizeZ->text().toFloat();
+	particlesystem->SetProperty(PS_PROPERTY::PS_RECT_SIZE_X, &mCurrentPS.rectSizeX);
+	particlesystem->SetProperty(PS_PROPERTY::PS_RECT_SIZE_Z, &mCurrentPS.rectSizeZ);
 	BuildParticleSystem();
 }
 
@@ -380,18 +380,18 @@ void MainContainer::browse()
 
 void MainContainer::setMaxParticles()
 {
-	mPS.maxparticles = textFieldMaxParticles->text().toInt();
+	mCurrentPS.maxparticles = textFieldMaxParticles->text().toInt();
 	BuildParticleSystem();
 }
 
 void MainContainer::BuildParticleSystem()
 {
-	PARTICLESYSTEM ps(mPS.emittertype, mPS.maxparticles,
-		mPS.velocity, mPS.emissiondelay, mPS.lifetime, mPS.gravity,
+	PARTICLESYSTEM ps(mCurrentPS.emittertype, mCurrentPS.maxparticles,
+		mCurrentPS.velocity, mCurrentPS.emissiondelay, mCurrentPS.lifetime, mCurrentPS.gravity,
 		FLOAT4(mColorIn.redF(), mColorIn.greenF(), mColorIn.blueF(), mColorIn.alphaF()),
 		FLOAT4(mColorOut.redF(), mColorOut.greenF(), mColorOut.blueF(), mColorOut.alphaF()),
-		mPS.startSizeX, mPS.startSizeY, mPS.endSizeX, mPS.endSizeY, mPS.rectSizeX, mPS.rectSizeZ,
-		mPS.textureType, mPS.textureColumns, mPS.textureRows);
+		mCurrentPS.startSizeX, mCurrentPS.startSizeY, mCurrentPS.endSizeX, mCurrentPS.endSizeY, mCurrentPS.rectSizeX, mCurrentPS.rectSizeZ,
+		mCurrentPS.textureType, mCurrentPS.textureColumns, mCurrentPS.textureRows);
 
 	graphics->Rebuild(ps);
 }
@@ -401,8 +401,8 @@ void MainContainer::setVelocityX()
 {
 	float x = textFieldVelocityX->text().toFloat();
 
-	mPS.velocity.X = x;
-	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mPS.velocity);
+	mCurrentPS.velocity.X = x;
+	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mCurrentPS.velocity);
 
 }
 
@@ -410,8 +410,8 @@ void MainContainer::setVelocityY()
 {
 	float y = textFieldVelocityY->text().toFloat();
 
-	mPS.velocity.Y = y;
-	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mPS.velocity);
+	mCurrentPS.velocity.Y = y;
+	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mCurrentPS.velocity);
 
 }
 
@@ -419,62 +419,62 @@ void MainContainer::setVelocityZ()
 {
 	float z = textFieldVelocityZ->text().toFloat();
 	
-	mPS.velocity.Z = z;
-	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mPS.velocity);
+	mCurrentPS.velocity.Z = z;
+	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mCurrentPS.velocity);
 }
 
 void MainContainer::setEmissionDelay(int value)
 {
 	int a = emissionDelaySlider->value();
-	mPS.emissiondelay = a / 100.0f;
-	emissionDelaySlider_label->setText(QString::number(mPS.emissiondelay, 'f', 2));
+	mCurrentPS.emissiondelay = a / 100.0f;
+	emissionDelaySlider_label->setText(QString::number(mCurrentPS.emissiondelay, 'f', 2));
 
-	particlesystem->SetProperty(PS_PROPERTY::PS_EMISSIONDELAY, &mPS.emissiondelay);
+	particlesystem->SetProperty(PS_PROPERTY::PS_EMISSIONDELAY, &mCurrentPS.emissiondelay);
 }
 
 void MainContainer::setVelocityXSlider(int value)
 {
 	int a = velocityXSlider->value();
-	mPS.velocity.X = a;
-	textFieldVelocityX->setText(QString::number(mPS.velocity.X, 'f', 1));
+	mCurrentPS.velocity.X = a;
+	textFieldVelocityX->setText(QString::number(mCurrentPS.velocity.X, 'f', 1));
 
-	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mPS.velocity);
+	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mCurrentPS.velocity);
 }
 
 void MainContainer::setVelocityYSlider(int value)
 {
 	int a = velocityYSlider->value();
-	mPS.velocity.Y = a;
-	textFieldVelocityY->setText(QString::number(mPS.velocity.Y, 'f', 1));
+	mCurrentPS.velocity.Y = a;
+	textFieldVelocityY->setText(QString::number(mCurrentPS.velocity.Y, 'f', 1));
 
-	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mPS.velocity);
+	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mCurrentPS.velocity);
 }
 
 void MainContainer::setVelocityZSlider(int value)
 {
 	int a = velocityZSlider->value();
-	mPS.velocity.Z = a;
-	textFieldVelocityZ->setText(QString::number(mPS.velocity.Z, 'f', 1));
+	mCurrentPS.velocity.Z = a;
+	textFieldVelocityZ->setText(QString::number(mCurrentPS.velocity.Z, 'f', 1));
 
-	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mPS.velocity);
+	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mCurrentPS.velocity);
 }
 
 void MainContainer::setLifetime()
 {
-	mPS.lifetime = textFieldLifetime->text().toFloat();
-	particlesystem->SetProperty(PS_PROPERTY::PS_LIFETIME, &mPS.lifetime);
+	mCurrentPS.lifetime = textFieldLifetime->text().toFloat();
+	particlesystem->SetProperty(PS_PROPERTY::PS_LIFETIME, &mCurrentPS.lifetime);
 }
 
 void MainContainer::setColumnsRows()
 {
-	mPS.textureColumns = abs(spriteColumns->text().toInt());
-	mPS.textureRows = abs(spriteRows->text().toInt());
+	mCurrentPS.textureColumns = abs(spriteColumns->text().toInt());
+	mCurrentPS.textureRows = abs(spriteRows->text().toInt());
 
-	spriteColumns->setText(QString::number(mPS.textureColumns));
-	spriteRows->setText(QString::number(mPS.textureRows));
+	spriteColumns->setText(QString::number(mCurrentPS.textureColumns));
+	spriteRows->setText(QString::number(mCurrentPS.textureRows));
 
-	particlesystem->SetProperty(PS_PROPERTY::PS_TEXTURE_COLUMNS, &mPS.textureColumns);
-	particlesystem->SetProperty(PS_PROPERTY::PS_TEXTURE_ROWS,	 &mPS.textureRows);
+	particlesystem->SetProperty(PS_PROPERTY::PS_TEXTURE_COLUMNS, &mCurrentPS.textureColumns);
+	particlesystem->SetProperty(PS_PROPERTY::PS_TEXTURE_ROWS,	 &mCurrentPS.textureRows);
 }
 
 void MainContainer::selectTab(int index)
@@ -483,6 +483,7 @@ void MainContainer::selectTab(int index)
 	if (index != max)
 	{
 		// PS selected, change all values in maincontainer to reflect it.
+		mCurrentPSIndex = index;
 		FillValues(graphics->ParticleSystemByIndex(index));
 	}
 }
@@ -493,8 +494,7 @@ void MainContainer::addTab(int index)
 	if (index == max && max < 4)
 	{
 		psTabs->insertTab(index, new QWidget(this), QString("Particle System %0").arg(max + 1));
-
-		//graphics->AddParticleSystem();
+		graphics->AddParticleSystem(mCurrentPS);
 	}
 }
 
@@ -504,14 +504,16 @@ void MainContainer::removeTab(int index)
 	if (index != max && max > 1)
 	{
 		psTabs->removeTab(index);
-
-		//graphics->RemoveParticleSystem(index);
+		graphics->RemoveParticleSystem(index);
 	}
 }
 
-void MainContainer::FillValues(PARTICLESYSTEM fromPS)
+void MainContainer::FillValues(PARTICLESYSTEM fromCurrentPS)
 {
-	mPS = fromPS;
+	mCurrentPS = fromCurrentPS;
+
+	// TODO: Fill UI pointers with values...
+	// Actually just make an UpdateUI() function which fills UI pointers with mCurrentPS values.
 }
 
 void MainContainer::keyPressEvent(QKeyEvent* evt)
