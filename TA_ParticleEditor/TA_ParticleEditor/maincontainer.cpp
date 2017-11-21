@@ -34,7 +34,6 @@ void MainContainer::SetPointers(ParticleSystem* ps)
 	textBrowser				= findChild<QTextBrowser*>	("textBrowser",			Qt::FindChildOption::FindChildrenRecursively);
 	colorInDisplay			= findChild<QLineEdit*>		("colorInDisplay",		Qt::FindChildOption::FindChildrenRecursively);
 	colorOutDisplay			= findChild<QLineEdit*>		("colorOutDisplay",		Qt::FindChildOption::FindChildrenRecursively);
-	scaleBoxDisplay			= findChild<QComboBox*>		("scaleBox",			Qt::FindChildOption::FindChildrenRecursively);
 	emitterTypeDisplay		= findChild<QComboBox*>		("emitterTypeBox",		Qt::FindChildOption::FindChildrenRecursively);
 	textureTypeBox			= findChild<QComboBox*>		("textureTypeBox",		Qt::FindChildOption::FindChildrenRecursively);
 	textFieldStartSizeX		= findChild<QLineEdit*>		("startSizeX",			Qt::FindChildOption::FindChildrenRecursively);
@@ -50,6 +49,7 @@ void MainContainer::SetPointers(ParticleSystem* ps)
 	spriteRows				= findChild<QLineEdit*>		("spriteRows",			Qt::FindChildOption::FindChildrenRecursively);
 	psTabs					= findChild<QTabWidget*>	("psTabs",				Qt::FindChildOption::FindChildrenRecursively);
 
+	textFieldEmissionDelay = findChild<QLabel*>("label_EmDelaySlide", Qt::FindChildOption::FindChildrenRecursively);
 }
 #pragma endregion
 
@@ -118,20 +118,7 @@ void MainContainer::load()
 		std::string n(textureNameSize, '\0');
 		fread(&n[0], sizeof(char), textureNameSize, file);
 		fread(&ps, sizeof(PARTICLESYSTEM), 1, file);
-		mCurrentPS.emittertype = ps.emittertype;
-		mCurrentPS.maxparticles = ps.maxparticles;
-		mCurrentPS.velocity = ps.velocity;
-		mCurrentPS.emissiondelay = ps.emissiondelay;
-		mCurrentPS.lifetime = ps.lifetime;
-		mCurrentPS.gravity = ps.gravity;
-		mColorIn.setRgbF(ps.colorIn.X, ps.colorIn.Y, ps.colorIn.Z, ps.colorIn.W);
-		mColorOut.setRgbF(ps.colorOut.X, ps.colorOut.Y, ps.colorOut.Z, ps.colorOut.W);
-		mCurrentPS.startSizeX = ps.startSizeX;
-		mCurrentPS.startSizeY = ps.startSizeY;
-		mCurrentPS.endSizeX = ps.endSizeX;
-		mCurrentPS.endSizeY = ps.endSizeY;
-		mCurrentPS.rectSizeX = ps.rectSizeX;
-		mCurrentPS.rectSizeZ = ps.rectSizeZ;
+		mCurrentPS = ps;
 
 		SetUiElements();
 		std::string path = n;
@@ -168,20 +155,16 @@ void MainContainer::SetUiElements()
 	textFieldEndSizeY		->setText(QString::number(mCurrentPS.endSizeY));
 
 
+
+	mColorIn.setRgbF(mCurrentPS.colorIn.X, mCurrentPS.colorIn.Y, mCurrentPS.colorIn.Z, mCurrentPS.colorIn.W);
 	colorInDisplay->setStyleSheet("QLineEdit { background: " + mColorIn.name() + "; selection-background-color: rgb(233, 99, 0); }");
+	particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_IN, &mCurrentPS.colorIn);
+
+	mColorOut.setRgbF(mCurrentPS.colorOut.X, mCurrentPS.colorOut.Y, mCurrentPS.colorOut.Z, mCurrentPS.colorOut.W);
 	colorOutDisplay->setStyleSheet("QLineEdit { background: " + mColorOut.name() + "; selection-background-color: rgb(233, 99, 0); }");
+	particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_OUT, &mCurrentPS.colorOut);
 
-	FLOAT4 inColor = FLOAT4(mColorIn.redF(), mColorIn.greenF(), mColorIn.blueF(), mColorIn.alphaF());
-	particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_IN, &inColor);
-	
-	FLOAT4 outColor = FLOAT4(mColorOut.redF(), mColorOut.greenF(), mColorOut.blueF(), mColorOut.alphaF());
-	particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_OUT, &outColor);
-
-	int test;
-
-	test = scaleBoxDisplay->currentIndex();
-	test = mCurrentPS.emittertype;
-	emitterTypeDisplay->setCurrentIndex(test);
+	emitterTypeDisplay->setCurrentIndex(mCurrentPS.emittertype);
 
 	particlesystem->SetProperty(PS_PROPERTY::PS_START_SIZE_X, &mCurrentPS.startSizeX);
 	particlesystem->SetProperty(PS_PROPERTY::PS_START_SIZE_Y, &mCurrentPS.startSizeY);
@@ -205,22 +188,7 @@ void MainContainer::save()
 
 	//std::string exportPath = PathFindFileNameA(savePath.toStdString().c_str());
 	
-	PARTICLESYSTEM ps;
-	ps.emittertype = mCurrentPS.emittertype;
-	ps.maxparticles = mCurrentPS.maxparticles;
-	ps.velocity = mCurrentPS.velocity;
-	ps.emissiondelay = mCurrentPS.emissiondelay;
-	ps.lifetime = mCurrentPS.lifetime;
-	ps.gravity = mCurrentPS.gravity;
-	ps.colorIn  = FLOAT4(mColorIn.redF(), mColorIn.greenF(), mColorIn.blueF(), mColorIn.alphaF());
-	ps.colorOut = FLOAT4(mColorOut.redF(), mColorOut.greenF(), mColorOut.blueF(), mColorOut.alphaF());
-	ps.startSizeX = mCurrentPS.startSizeX;
-	ps.startSizeY = mCurrentPS.startSizeY;
-	ps.endSizeX = mCurrentPS.endSizeX;
-	ps.endSizeY = mCurrentPS.endSizeY;
-
-	ps.rectSizeX = mCurrentPS.rectSizeX;
-	ps.rectSizeZ = mCurrentPS.rectSizeZ;
+	PARTICLESYSTEM ps = mCurrentPS;
 
 	FILE* file = fopen(exportPath.c_str(), "wb");
 	if (file != NULL)
@@ -254,10 +222,9 @@ void MainContainer::save()
 			msg.setText(QString("File: " + QString(exportPath.c_str()) + " failed on export."));
 			msg.exec();
 		}
-
+		
 		fclose(file);
 	}
-
 }
 
 void MainContainer::colorIn()
@@ -270,6 +237,7 @@ void MainContainer::colorIn()
 		
 		FLOAT4 color = FLOAT4(mColorIn.redF(), mColorIn.greenF(), mColorIn.blueF(), mColorIn.alphaF());
 		particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_IN, &color);
+		mCurrentPS.colorIn = color;
 	}
 }
 
@@ -283,6 +251,7 @@ void MainContainer::colorOut()
 
 		FLOAT4 color = FLOAT4(mColorOut.redF(), mColorOut.greenF(), mColorOut.blueF(), mColorOut.alphaF());
 		particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_OUT, &color);
+		mCurrentPS.colorOut = color;
 	}
 }
 

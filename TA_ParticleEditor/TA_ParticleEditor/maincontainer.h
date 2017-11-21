@@ -89,7 +89,7 @@ private:
 	// UI POINTERS
 	QLabel* textFieldParticleInfo;
 	QLineEdit* textFieldLifetime;
-	QLineEdit* textFieldEmissionDelay;
+	QLabel* textFieldEmissionDelay;
 	QLineEdit* textFieldVelocityX;
 	QLineEdit* textFieldVelocityY;
 	QLineEdit* textFieldVelocityZ;
@@ -107,7 +107,6 @@ private:
 	QTextBrowser* textBrowser;
 	QLineEdit* colorInDisplay;
 	QLineEdit* colorOutDisplay;
-	QComboBox* scaleBoxDisplay;
 	QComboBox* emitterTypeDisplay;
 	QComboBox* textureTypeBox;
 	QWidget* rectangleWidget;
