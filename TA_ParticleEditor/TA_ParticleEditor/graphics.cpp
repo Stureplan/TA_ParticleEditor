@@ -776,7 +776,6 @@ void Graphics::Render()
 	World = XMMatrixIdentity();
 	WVP = World * View * Projection;
 
-
 	// DRAW POSITION GIZMO
 	stride = sizeof(GIZMO_VERTEX);
 	offset = 0;
@@ -821,6 +820,9 @@ void Graphics::Render()
 	World = XMMatrixIdentity();
 	WVP = World * View * Projection;
 
+	
+	camup = XMVector3Transform(XMVectorSet(0, 1, 0, 1), XMMatrixTranspose(View));
+
 	//TODO: Move entire rendering garbage to particlsystem
 	//TODO: Decide if we want to move entire rendering garbage to particlesystem
 	int textureType = *(int*)particlesystem->GetProperty(PS_PROPERTY::PS_TEXTURE_TYPE);
@@ -829,7 +831,7 @@ void Graphics::Render()
 		cBufferParticle.wvp = XMMatrixTranspose(WVP);
 		cBufferParticle.world = XMMatrixTranspose(World);
 		cBufferParticle.campos = campos;
-		cBufferParticle.camup = XMVectorSet(0, 1, 0, 1);
+		cBufferParticle.camup = camup;//XMVectorSet(0, 1, 0, 1);
 		cBufferParticle.startsize = XMFLOAT2(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_START_SIZE_X), *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_START_SIZE_Y));
 		cBufferParticle.endsize = XMFLOAT2(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_END_SIZE_X), *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_END_SIZE_Y));
 		cBufferParticle.colin = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_IN);
@@ -848,7 +850,7 @@ void Graphics::Render()
 		cBufferParticleAnimated.wvp = XMMatrixTranspose(WVP);
 		cBufferParticleAnimated.world = XMMatrixTranspose(World);
 		cBufferParticleAnimated.campos = campos;
-		cBufferParticleAnimated.camup = XMVectorSet(0, 1, 0, 1);
+		cBufferParticleAnimated.camup = camup;// XMVectorSet(0, 1, 0, 1);
 		cBufferParticleAnimated.startsize = XMFLOAT2(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_START_SIZE_X), *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_START_SIZE_Y));
 		cBufferParticleAnimated.endsize = XMFLOAT2(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_END_SIZE_X), *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_END_SIZE_Y));
 		cBufferParticleAnimated.colin = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_IN);
