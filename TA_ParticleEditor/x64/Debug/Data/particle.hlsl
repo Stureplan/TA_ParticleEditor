@@ -42,8 +42,6 @@ VOut VShader(float4 position : POSITION, float3 direction : DIRECTION, float lif
 {
 	VOut output;
 
-	//output.position = mul(position, wvp);
-	//output.position = mul(position, wvp);
 	output.position = position;
 	output.direction = direction;
 	output.texcoord = float2(0,0);
@@ -59,6 +57,7 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 	float3 dir		= input[0].direction.xyz;
 	float percent	= input[0].currentLifetime / lifetime;
 
+	//VS&GS-sample from noise tex
 	//uint3 sam = uint3(currentframe, 0, 0);
 	//float4 c = noiseTexture.Load(sam);
 	//	

@@ -60,8 +60,6 @@ PSIn VShader(float4 position : POSITION, float3 direction : DIRECTION, float lif
 {
 	PSIn output;
 
-	//output.position = mul(position, wvp);
-	//output.position = mul(position, wvp);
 	output.position = position;
 	output.direction = direction;
 	output.texcoord0 = float2(0, 0);
@@ -86,11 +84,7 @@ void GShader(point PSIn input[1], inout TriangleStream<PSIn> OutputStream)
 	unsigned int nextframe = currentframe + 1;
 
 
-	//currentframe = 2 out of 5 (0.4f)
-	//nextframe	   = 3 out of 5 (0.6f)
 	float framePercent = rescale(percent, (float)currentframe / totalframes, (float)nextframe / totalframes);
-
-
 	float2 scale = lerp(startsize, endsize, percent);
 
 
