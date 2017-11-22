@@ -106,8 +106,9 @@ enum PS_PROPERTY
 	PS_EMISSIONDELAY,
 	PS_LIFETIME,
 	PS_GRAVITY,
-	PS_COLOR_IN,
-	PS_COLOR_OUT,
+	PS_COLOR_0,
+	PS_COLOR_1,
+	PS_COLOR_2,
 	PS_START_SIZE_X,
 	PS_START_SIZE_Y,
 	PS_END_SIZE_X,
@@ -129,7 +130,7 @@ enum EMITTER_TYPE
 struct PARTICLESYSTEM
 {
 	PARTICLESYSTEM(){}
-	PARTICLESYSTEM(EMITTER_TYPE e, int m, FLOAT3 v, float ed, float lt, float grv, FLOAT4 colIn, FLOAT4 colOut, float sX, float sY, float eX, float eY, float rsX, float rsZ, int tT, int tC, int tR)
+	PARTICLESYSTEM(EMITTER_TYPE e, int m, FLOAT3 v, float ed, float lt, float grv, FLOAT4 col0, FLOAT4 col1, FLOAT4 col2, float sX, float sY, float eX, float eY, float rsX, float rsZ, int tT, int tC, int tR)
 	{
 		emittertype = e;
 		maxparticles = m;
@@ -137,8 +138,9 @@ struct PARTICLESYSTEM
 		emissiondelay = ed;
 		lifetime = lt;
 		gravity = grv;
-		colorIn = colIn;
-		colorOut = colOut;
+		color0 = col0;
+		color1 = col1;
+		color2 = col2;
 		startSizeX = sX;
 		startSizeY = sY;
 		endSizeX = eX;
@@ -156,8 +158,9 @@ struct PARTICLESYSTEM
 	float emissiondelay;
 	float lifetime;
 	float gravity;
-	FLOAT4 colorIn;
-	FLOAT4 colorOut;
+	FLOAT4 color0;
+	FLOAT4 color1;
+	FLOAT4 color2;
 	float startSizeX;
 	float startSizeY;
 	float endSizeX;

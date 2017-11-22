@@ -834,8 +834,9 @@ void Graphics::Render()
 		cBufferParticle.camup = camup;//XMVectorSet(0, 1, 0, 1);
 		cBufferParticle.startsize = XMFLOAT2(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_START_SIZE_X), *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_START_SIZE_Y));
 		cBufferParticle.endsize = XMFLOAT2(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_END_SIZE_X), *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_END_SIZE_Y));
-		cBufferParticle.colin = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_IN);
-		cBufferParticle.colout = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_OUT);
+		cBufferParticle.col0 = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_0);
+		cBufferParticle.col1 = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_1);
+		cBufferParticle.col2 = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_2);
 		cBufferParticle.lifetime = *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_LIFETIME);
 
 		context->UpdateSubresource(constantBufferParticle, 0, NULL, &cBufferParticle, 0, 0);
@@ -853,8 +854,9 @@ void Graphics::Render()
 		cBufferParticleAnimated.camup = camup;// XMVectorSet(0, 1, 0, 1);
 		cBufferParticleAnimated.startsize = XMFLOAT2(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_START_SIZE_X), *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_START_SIZE_Y));
 		cBufferParticleAnimated.endsize = XMFLOAT2(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_END_SIZE_X), *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_END_SIZE_Y));
-		cBufferParticleAnimated.colin = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_IN);
-		cBufferParticleAnimated.colout = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_OUT);
+		cBufferParticleAnimated.col0 = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_0);
+		cBufferParticleAnimated.col1 = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_1);
+		cBufferParticleAnimated.col2 = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_2);
 		cBufferParticleAnimated.lifetime = *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_LIFETIME);
 		cBufferParticleAnimated.columns = *(int*)particlesystem->GetProperty(PS_PROPERTY::PS_TEXTURE_COLUMNS);
 		cBufferParticleAnimated.rows = *(int*)particlesystem->GetProperty(PS_PROPERTY::PS_TEXTURE_ROWS);
@@ -871,8 +873,10 @@ void Graphics::Render()
 	if (debug == true)
 	{
 		// Pink Debug texture
-		cBufferParticle.colin  = COLOR_WHITE;
-		cBufferParticle.colout = COLOR_WHITE;
+		cBufferParticle.col0 = COLOR_WHITE;
+		cBufferParticle.col1 = COLOR_WHITE;
+		cBufferParticle.col2 = COLOR_WHITE;
+
 		context->UpdateSubresource(constantBufferParticle, 0, NULL, &cBufferParticle, 0, 0);
 		context->PSSetConstantBuffers(0, 1, &constantBufferParticle);
 
@@ -895,6 +899,7 @@ void Graphics::Render()
 		RenderDebugParticle(particleDebugID);
 	}
 	
+	camup = XMVectorSet(0, 1, 0, 1);
 	swapChain->Present(VSYNC, 0);
 }
 

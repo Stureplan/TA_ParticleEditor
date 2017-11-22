@@ -127,7 +127,7 @@
     <property name="geometry">
      <rect>
       <x>680</x>
-      <y>77</y>
+      <y>129</y>
       <width>71</width>
       <height>20</height>
      </rect>
@@ -229,7 +229,7 @@
      <string>Texture</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="colorInBtn">
+   <widget class="QPushButton" name="color0Btn">
     <property name="geometry">
      <rect>
       <x>660</x>
@@ -242,10 +242,10 @@
      <string>Change</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="colorInDisplay">
+   <widget class="QLineEdit" name="color0Display">
     <property name="geometry">
      <rect>
-      <x>729</x>
+      <x>730</x>
       <y>10</y>
       <width>211</width>
       <height>30</height>
@@ -281,7 +281,7 @@
      <string>Color Start</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="colorOutDisplay">
+   <widget class="QLineEdit" name="color1Display">
     <property name="geometry">
      <rect>
       <x>730</x>
@@ -308,7 +308,7 @@
      <enum>Qt::NoContextMenu</enum>
     </property>
     <property name="text">
-     <string>End Color</string>
+     <string>Mid Color</string>
     </property>
     <property name="frame">
      <bool>false</bool>
@@ -326,7 +326,7 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="colorOutBtn">
+   <widget class="QPushButton" name="color1Btn">
     <property name="geometry">
      <rect>
       <x>660</x>
@@ -401,7 +401,7 @@
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>100</y>
+      <y>152</y>
       <width>90</width>
       <height>20</height>
      </rect>
@@ -423,7 +423,7 @@
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>124</y>
+      <y>176</y>
       <width>90</width>
       <height>20</height>
      </rect>
@@ -445,7 +445,7 @@
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>148</y>
+      <y>200</y>
       <width>90</width>
       <height>20</height>
      </rect>
@@ -511,7 +511,7 @@
     <property name="geometry">
      <rect>
       <x>650</x>
-      <y>124</y>
+      <y>176</y>
       <width>21</width>
       <height>20</height>
      </rect>
@@ -887,7 +887,7 @@
     <property name="geometry">
      <rect>
       <x>780</x>
-      <y>99</y>
+      <y>151</y>
       <width>200</width>
       <height>22</height>
      </rect>
@@ -924,7 +924,7 @@
     <property name="geometry">
      <rect>
       <x>780</x>
-      <y>123</y>
+      <y>175</y>
       <width>200</width>
       <height>22</height>
      </rect>
@@ -943,7 +943,7 @@
     <property name="geometry">
      <rect>
       <x>780</x>
-      <y>147</y>
+      <y>199</y>
       <width>200</width>
       <height>22</height>
      </rect>
@@ -1012,7 +1012,7 @@
     <property name="geometry">
      <rect>
       <x>650</x>
-      <y>100</y>
+      <y>152</y>
       <width>21</width>
       <height>20</height>
      </rect>
@@ -1031,7 +1031,7 @@
     <property name="geometry">
      <rect>
       <x>650</x>
-      <y>148</y>
+      <y>200</y>
       <width>21</width>
       <height>20</height>
      </rect>
@@ -1044,6 +1044,64 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="color2Btn">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>76</y>
+      <width>70</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Change</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="color2Display">
+    <property name="geometry">
+     <rect>
+      <x>730</x>
+      <y>76</y>
+      <width>211</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>IBeamCursor</cursorShape>
+    </property>
+    <property name="mouseTracking">
+     <bool>false</bool>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
+    <property name="text">
+     <string>End Color</string>
+    </property>
+    <property name="frame">
+     <bool>false</bool>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+    <property name="placeholderText">
+     <string>Color End</string>
+    </property>
+    <property name="clearButtonEnabled">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -1071,8 +1129,8 @@
     <slot>browse()</slot>
     <slot>save()</slot>
     <slot>setGravity()</slot>
-    <slot>colorIn()</slot>
-    <slot>colorOut()</slot>
+    <slot>color0()</slot>
+    <slot>color1()</slot>
     <slot>scaleModeChanged(int)</slot>
     <slot>startSizeX()</slot>
     <slot>startSizeY()</slot>
@@ -1089,6 +1147,7 @@
     <slot>addTab(int)</slot>
     <slot>removeTab(int)</slot>
     <slot>selectTab(int)</slot>
+    <slot>color2()</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -1129,10 +1188,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>colorInBtn</sender>
+   <sender>color0Btn</sender>
    <signal>clicked()</signal>
    <receiver>maincontainer</receiver>
-   <slot>colorIn()</slot>
+   <slot>color0()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>734</x>
@@ -1145,10 +1204,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>colorOutBtn</sender>
+   <sender>color1Btn</sender>
    <signal>clicked()</signal>
    <receiver>maincontainer</receiver>
-   <slot>colorOut()</slot>
+   <slot>color1()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>694</x>
@@ -1537,6 +1596,22 @@
     <hint type="sourcelabel">
      <x>330</x>
      <y>502</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>491</x>
+     <y>318</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>color2Btn</sender>
+   <signal>clicked()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>color2()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>694</x>
+     <y>90</y>
     </hint>
     <hint type="destinationlabel">
      <x>491</x>

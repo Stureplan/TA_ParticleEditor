@@ -113,11 +113,14 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 	case PS_PROPERTY::PS_GRAVITY:
 		ps.gravity = *((float*)data);
 		break;
-	case PS_PROPERTY::PS_COLOR_IN:
-		ps.colorIn = *((FLOAT4*)data);
+	case PS_PROPERTY::PS_COLOR_0:
+		ps.color0 = *((FLOAT4*)data);
 		break;
-	case PS_PROPERTY::PS_COLOR_OUT:
-		ps.colorOut = *((FLOAT4*)data);
+	case PS_PROPERTY::PS_COLOR_1:
+		ps.color1 = *((FLOAT4*)data);
+		break;
+	case PS_PROPERTY::PS_COLOR_2:
+		ps.color2 = *((FLOAT4*)data);
 		break;
 	case PS_PROPERTY::PS_START_SIZE_X:
 		ps.startSizeX = *((float*)data);
@@ -168,11 +171,14 @@ void* ParticleSystem::GetProperty(PS_PROPERTY prop)
 	case PS_PROPERTY::PS_GRAVITY:
 		return &ps.gravity;
 		break;
-	case PS_PROPERTY::PS_COLOR_IN:
-		return &ps.colorIn;
+	case PS_PROPERTY::PS_COLOR_0:
+		return &ps.color0;
 		break;
-	case PS_PROPERTY::PS_COLOR_OUT:
-		return &ps.colorOut;
+	case PS_PROPERTY::PS_COLOR_1:
+		return &ps.color1;
+		break;
+	case PS_PROPERTY::PS_COLOR_2:
+		return &ps.color2;
 		break;
 	case PS_PROPERTY::PS_START_SIZE_X:
 		return &ps.startSizeX;
@@ -211,7 +217,7 @@ void* ParticleSystem::GetProperty(PS_PROPERTY prop)
 
 void ParticleSystem::Initialize()
 {
-	ps = PARTICLESYSTEM(EMITTER_TYPE::EMIT_POINT,0, FLOAT3_ZERO, 0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 4, 4);
+	ps = PARTICLESYSTEM(EMITTER_TYPE::EMIT_POINT,0, FLOAT3_ZERO, 0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 4, 4);
 
 	for (unsigned int i = 0; i < ps.maxparticles; i++)
 	{

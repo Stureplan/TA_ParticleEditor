@@ -84,8 +84,9 @@ public:
 		XMMATRIX world;
 		XMVECTOR campos;
 		XMVECTOR camup;
-		FLOAT4 colin;
-		FLOAT4 colout;
+		FLOAT4 col0;
+		FLOAT4 col1;
+		FLOAT4 col2;
 		XMFLOAT2 startsize;
 		XMFLOAT2 endsize;
 		float lifetime;
@@ -97,8 +98,9 @@ public:
 		XMMATRIX world;
 		XMVECTOR campos;
 		XMVECTOR camup;
-		FLOAT4 colin;
-		FLOAT4 colout;
+		FLOAT4 col0;
+		FLOAT4 col1;
+		FLOAT4 col2;
 		XMFLOAT2 startsize;
 		XMFLOAT2 endsize;
 		float lifetime;

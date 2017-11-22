@@ -60,8 +60,9 @@ public slots:
 	void save();
 	void load();
 
-	void colorIn();
-	void colorOut();
+	void color0();
+	void color1();
+	void color2();
 	void emitterTypeChanged(int index);
 	void textureTypeChanged(int index);
 	void startSizeX();
@@ -105,8 +106,9 @@ private:
 	QPushButton* saveBtn;
 	QPushButton* loadBtn;
 	QTextBrowser* textBrowser;
-	QLineEdit* colorInDisplay;
-	QLineEdit* colorOutDisplay;
+	QLineEdit* color0Display;
+	QLineEdit* color1Display;
+	QLineEdit* color2Display;
 	QComboBox* emitterTypeDisplay;
 	QComboBox* textureTypeBox;
 	QWidget* rectangleWidget;
@@ -124,27 +126,11 @@ private:
 	// QT VARIABLES
 	QString mTexturePath;
 	QString savePath;
-	QColor mColorIn;
-	QColor mColorOut;
+	QColor mColor0;
+	QColor mColor1;
+	QColor mColor2;
 
 	// PS VARIABLES
-	/*EMITTER_TYPE mEmitterType;
-	int mMaxParticles;
-	FLOAT3 mVelocity;
-	float mEmissionDelay;
-	float mLifetime;
-	float mGravity;
-	float mTextFieldValue;
-	float mStartSizeX;
-	float mStartSizeY;
-	float mEndSizeX;
-	float mEndSizeY;
-	float mRectSizeX;
-	float mRectSizeZ;
-	int mTextureType;
-	int mTextureColumns;
-	int mTextureRows;*/
-
 	PARTICLESYSTEM mCurrentPS;
 	int mCurrentPSIndex = 0;
 };

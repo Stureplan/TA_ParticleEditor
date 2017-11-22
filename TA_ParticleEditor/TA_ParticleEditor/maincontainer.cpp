@@ -32,8 +32,9 @@ void MainContainer::SetPointers(ParticleSystem* ps)
 	loadBtn					= findChild<QPushButton*>	("loadPS",				Qt::FindChildOption::FindChildrenRecursively);
 	textFieldMaxParticles	= findChild<QLineEdit*>		("maxParticles",		Qt::FindChildOption::FindChildrenRecursively);
 	textBrowser				= findChild<QTextBrowser*>	("textBrowser",			Qt::FindChildOption::FindChildrenRecursively);
-	colorInDisplay			= findChild<QLineEdit*>		("colorInDisplay",		Qt::FindChildOption::FindChildrenRecursively);
-	colorOutDisplay			= findChild<QLineEdit*>		("colorOutDisplay",		Qt::FindChildOption::FindChildrenRecursively);
+	color0Display			= findChild<QLineEdit*>		("color0Display",		Qt::FindChildOption::FindChildrenRecursively);
+	color1Display			= findChild<QLineEdit*>		("color1Display",		Qt::FindChildOption::FindChildrenRecursively);
+	color2Display			= findChild<QLineEdit*>		("color2Display",		Qt::FindChildOption::FindChildrenRecursively);
 	emitterTypeDisplay		= findChild<QComboBox*>		("emitterTypeBox",		Qt::FindChildOption::FindChildrenRecursively);
 	textureTypeBox			= findChild<QComboBox*>		("textureTypeBox",		Qt::FindChildOption::FindChildrenRecursively);
 	textFieldStartSizeX		= findChild<QLineEdit*>		("startSizeX",			Qt::FindChildOption::FindChildrenRecursively);
@@ -87,8 +88,9 @@ void MainContainer::Init()
 	mTexturePath = DEFAULT_TEXTUREPATH;
 	textureView->setPixmap(mTexturePath);
 
-	mColorIn  = Qt::white;
-	mColorOut = Qt::white;
+	mColor0 = Qt::white;
+	mColor1 = Qt::white;
+	mColor2 = Qt::white;
 
 	mCurrentPS.rectSizeX = 1.0f;
 	mCurrentPS.rectSizeZ = 1.0f;
@@ -156,13 +158,17 @@ void MainContainer::SetUiElements()
 
 
 
-	mColorIn.setRgbF(mCurrentPS.colorIn.X, mCurrentPS.colorIn.Y, mCurrentPS.colorIn.Z, mCurrentPS.colorIn.W);
-	colorInDisplay->setStyleSheet("QLineEdit { background: " + mColorIn.name() + "; selection-background-color: rgb(233, 99, 0); }");
-	particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_IN, &mCurrentPS.colorIn);
+	mColor0.setRgbF(mCurrentPS.color0.X, mCurrentPS.color0.Y, mCurrentPS.color0.Z, mCurrentPS.color0.W);
+	color0Display->setStyleSheet("QLineEdit { background: " + mColor0.name() + "; selection-background-color: rgb(233, 99, 0); }");
+	particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_0, &mCurrentPS.color0);
 
-	mColorOut.setRgbF(mCurrentPS.colorOut.X, mCurrentPS.colorOut.Y, mCurrentPS.colorOut.Z, mCurrentPS.colorOut.W);
-	colorOutDisplay->setStyleSheet("QLineEdit { background: " + mColorOut.name() + "; selection-background-color: rgb(233, 99, 0); }");
-	particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_OUT, &mCurrentPS.colorOut);
+	mColor1.setRgbF(mCurrentPS.color1.X, mCurrentPS.color1.Y, mCurrentPS.color1.Z, mCurrentPS.color1.W);
+	color1Display->setStyleSheet("QLineEdit { background: " + mColor1.name() + "; selection-background-color: rgb(233, 99, 0); }");
+	particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_1, &mCurrentPS.color1);
+
+	mColor2.setRgbF(mCurrentPS.color2.X, mCurrentPS.color2.Y, mCurrentPS.color2.Z, mCurrentPS.color2.W);
+	color2Display->setStyleSheet("QLineEdit { background: " + mColor2.name() + "; selection-background-color: rgb(233, 99, 0); }");
+	particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_2, &mCurrentPS.color2);
 
 	emitterTypeDisplay->setCurrentIndex(mCurrentPS.emittertype);
 
@@ -227,31 +233,45 @@ void MainContainer::save()
 	}
 }
 
-void MainContainer::colorIn()
+void MainContainer::color0()
 {
-	QColor c = QColorDialog::getColor(mColorIn, this, "Choose In Color", QColorDialog::ShowAlphaChannel);
+	QColor c = QColorDialog::getColor(mColor0, this, "Choose In Color", QColorDialog::ShowAlphaChannel);
 	if (c.isValid())
 	{
-		mColorIn = c;
-		colorInDisplay->setStyleSheet("QLineEdit { background: "+ mColorIn.name()+"; selection-background-color: rgb(233, 99, 0); }");
+		mColor0 = c;
+		color0Display->setStyleSheet("QLineEdit { background: "+ mColor0.name()+"; selection-background-color: rgb(233, 99, 0); }");
 		
-		FLOAT4 color = FLOAT4(mColorIn.redF(), mColorIn.greenF(), mColorIn.blueF(), mColorIn.alphaF());
-		particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_IN, &color);
-		mCurrentPS.colorIn = color;
+		FLOAT4 color = FLOAT4(mColor0.redF(), mColor0.greenF(), mColor0.blueF(), mColor0.alphaF());
+		particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_0, &color);
+		mCurrentPS.color0 = color;
 	}
 }
 
-void MainContainer::colorOut()
+void MainContainer::color1()
 {
-	QColor c = QColorDialog::getColor(mColorOut, this, "Choose In Color", QColorDialog::ShowAlphaChannel);
+	QColor c = QColorDialog::getColor(mColor1, this, "Choose In Color", QColorDialog::ShowAlphaChannel);
 	if (c.isValid())
 	{
-		mColorOut = c;
-		colorOutDisplay->setStyleSheet("QLineEdit { background: " + mColorOut.name() + "; selection-background-color: rgb(233, 99, 0); }");
+		mColor1 = c;
+		color1Display->setStyleSheet("QLineEdit { background: " + mColor1.name() + "; selection-background-color: rgb(233, 99, 0); }");
 
-		FLOAT4 color = FLOAT4(mColorOut.redF(), mColorOut.greenF(), mColorOut.blueF(), mColorOut.alphaF());
-		particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_OUT, &color);
-		mCurrentPS.colorOut = color;
+		FLOAT4 color = FLOAT4(mColor1.redF(), mColor1.greenF(), mColor1.blueF(), mColor1.alphaF());
+		particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_1, &color);
+		mCurrentPS.color1 = color;
+	}
+}
+
+void MainContainer::color2()
+{
+	QColor c = QColorDialog::getColor(mColor2, this, "Choose In Color", QColorDialog::ShowAlphaChannel);
+	if (c.isValid())
+	{
+		mColor2 = c;
+		color2Display->setStyleSheet("QLineEdit { background: " + mColor2.name() + "; selection-background-color: rgb(233, 99, 0); }");
+
+		FLOAT4 color = FLOAT4(mColor2.redF(), mColor2.greenF(), mColor2.blueF(), mColor2.alphaF());
+		particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_2, &color);
+		mCurrentPS.color2 = color;
 	}
 }
 
@@ -357,8 +377,9 @@ void MainContainer::BuildParticleSystem()
 {
 	PARTICLESYSTEM ps(mCurrentPS.emittertype, mCurrentPS.maxparticles,
 		mCurrentPS.velocity, mCurrentPS.emissiondelay, mCurrentPS.lifetime, mCurrentPS.gravity,
-		FLOAT4(mColorIn.redF(), mColorIn.greenF(), mColorIn.blueF(), mColorIn.alphaF()),
-		FLOAT4(mColorOut.redF(), mColorOut.greenF(), mColorOut.blueF(), mColorOut.alphaF()),
+		FLOAT4(mColor0.redF(), mColor0.greenF(), mColor0.blueF(), mColor0.alphaF()),
+		FLOAT4(mColor1.redF(), mColor1.greenF(), mColor1.blueF(), mColor1.alphaF()),
+		FLOAT4(mColor2.redF(), mColor2.greenF(), mColor2.blueF(), mColor2.alphaF()),
 		mCurrentPS.startSizeX, mCurrentPS.startSizeY, mCurrentPS.endSizeX, mCurrentPS.endSizeY, mCurrentPS.rectSizeX, mCurrentPS.rectSizeZ,
 		mCurrentPS.textureType, mCurrentPS.textureColumns, mCurrentPS.textureRows);
 

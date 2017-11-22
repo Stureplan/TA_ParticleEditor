@@ -4,8 +4,9 @@ cbuffer CBUFFER
 	float4x4 world;
 	float4 campos;
 	float4 camup;
-	float4 colin;
-	float4 colout;
+	float4 col0;
+	float4 col1;
+	float4 col2;
 	float2 startsize;
 	float2 endsize;
 	float lifetime;
@@ -25,6 +26,20 @@ struct VOut
 Texture2D particleTexture;
 Texture2D noiseTexture;
 SamplerState smp;
+
+float4 triple_lerp(float4 c1, float4 c2, float4 c3, float t)
+{
+	float y1 = t * 2.0;
+	float y2 = t * 2.0 - 1.0;
+
+	float4 g, g2, g3;
+
+	g = lerp(c1, c2, y1) * step(y1, 1.0);
+	g2 = lerp(c2, c3, y2) * step(y2, 1.0) * step(1.0, y1);
+
+	g = g + g2;
+	return g;
+}
 
 VOut VShader(float4 position : POSITION, float3 direction : DIRECTION, float lifetime : LIFETIME)
 {
@@ -70,7 +85,7 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 	float3 right;
 
 
-	up = normalize(dir);//normalize(camup.xyz);
+	up = normalize(camup.xyz);//normalize(camup.xyz);
 	up *= h;
 
 	normal = normalize(pos - campos.xyz);
@@ -142,9 +157,8 @@ float4 PShader(VOut input) : SV_TARGET
 {
 	float4 pos = input.position;
 	float2 uv = input.texcoord;
-	float lt = 1 - input.currentLifetime;
-	
-	float4 color = particleTexture.Sample(smp, uv) * lerp(colin, colout, 1-lt);
-	
+	float lt = input.currentLifetime;
+
+	float4 color = particleTexture.Sample(smp, uv) * triple_lerp(col0, col1, col2, lt);
 	return color;
 }
