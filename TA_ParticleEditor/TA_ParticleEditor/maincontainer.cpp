@@ -109,13 +109,13 @@ void MainContainer::setGravity()
 void MainContainer::load()
 {
 	std::string loadPath = QFileDialog::getOpenFileName(this).toStdString();
-	unsigned int textureNameSize = 0;
+	int textureNameSize = 0;
 	PARTICLESYSTEM ps;
 	FILE* file = fopen(loadPath.c_str(), "rb");
 
 	if (file != NULL)
 	{
-		fread(&textureNameSize, sizeof(unsigned int), 1, file);
+		fread(&textureNameSize, sizeof(int), 1, file);
 	
 		std::string n(textureNameSize, '\0');
 		fread(&n[0], sizeof(char), textureNameSize, file);
@@ -202,10 +202,10 @@ void MainContainer::save()
 		std::string texpath = mTexturePath.toStdString();
 		const char* tex = texpath.c_str();
 
-		unsigned int texturenamesize = strlen(tex);
+		int texturenamesize = strlen(tex);
 		
 		// First just write the size of the texture filename (imagine this is a header)
-		fwrite(&texturenamesize, sizeof(unsigned int), 1, file);
+		fwrite(&texturenamesize, sizeof(int), 1, file);
 
 		// ...then write the texture name
 		fwrite(tex, sizeof(const char), texturenamesize, file);
