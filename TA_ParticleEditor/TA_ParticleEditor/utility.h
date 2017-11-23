@@ -12,7 +12,6 @@
 
 
 #define GRAVITY -9.81f
-#define DELTA_TIME 0.016f
 #define COLOR_WHITE		FLOAT4(1,1,1,1)
 #define COLOR_PINK		FLOAT4(1,0,1,1)
 
@@ -58,6 +57,34 @@ struct FLOAT4
 	}
 
 	float X, Y, Z, W;
+};
+
+
+// Defines a point in world space, with colors (XYZ & RGB), used for gizmos.
+struct GIZMO_VERTEX
+{
+	GIZMO_VERTEX(float x, float y, float z,
+		float r, float g, float b)
+	{
+		X = x; Y = y; Z = z;
+		R = r; G = g; B = b;
+	}
+
+	float X, Y, Z;
+	float R, G, B;
+};
+
+struct VERTEX
+{
+	VERTEX(float x, float y, float z,
+		float u, float v)
+	{
+		X = x; Y = y; Z = z;
+		U = u; V = v;
+	}
+
+	float X, Y, Z;
+	float U, V;
 };
 
 // Defines a point in world space (XYZ) + a lifetime (0-1).
@@ -177,21 +204,6 @@ struct PARTICLESYSTEM
 
 
 
-// Defines a point in world space, with colors (XYZ & RGB).
-// For our purposes it's a vertex that is used in combination with other
-// vertices to form a quad plane.
-struct GIZMO_VERTEX
-{
-	GIZMO_VERTEX(float x, float y, float z,
-				 float r, float g, float b)
-	{
-		X = x; Y = y; Z = z;
-		R = r; G = g; B = b;
-	}
-
-	float X, Y, Z;
-	float R, G, B;
-};
 
 
 

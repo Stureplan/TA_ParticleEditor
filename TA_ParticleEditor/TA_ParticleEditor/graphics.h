@@ -42,6 +42,7 @@ public:
 	void LoadParticles();
 	void LoadDebugParticle();
 	void LoadPositionGizmo();
+	void LoadFullscreenQuad();
 	void LoadEmitterTypeGizmo(EMITTER_TYPE type);
 	void LoadTextures();
 	void ChangeRasterization(D3D11_FILL_MODE fillmode);
@@ -178,18 +179,19 @@ private:
 	ID3D11Buffer* constantBufferParticleAnimated;
 	CBUFFER_PARTICLESYSTEM_ANIMATED cBufferParticleAnimated;
 	
-	// Constant Buffer Variables
-	FLOAT4 colIn = (FLOAT4(1, 1, 1, 1));
-	FLOAT4 colOut= (FLOAT4(1, 1, 1, 1));
-
 	ID3D11Buffer* particleVertexBuffer;
 	ID3D11Buffer* positionGizmoVertexBuffer;
 	ID3D11Buffer* emitterTypeGizmoVertexBuffer;
 	ID3D11Buffer* particleDebugVertexBuffer;
+	ID3D11Buffer* fullscreenQuadVertexBuffer;
+
+	ID3D11ShaderResourceView* fullscreenQuadTexture;
+	ID3D11Texture2D* sharedTexture;
 
 	int particleDebugID = -1;
 	std::vector<GIZMO_VERTEX> positionGizmoVertexData;
 	std::vector<GIZMO_VERTEX> emitterTypeGizmoVertexData;
+	std::vector<VERTEX>		  fullscreenQuadVertexData;
 	PARTICLE_VERTEX debugParticle;
 
 	std::vector<ID3D11ShaderResourceView*> textures;

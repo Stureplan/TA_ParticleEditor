@@ -19,10 +19,10 @@ public:
 
 	~Shaders()
 	{
-		ObjectVS->Release();
-		ObjectPS->Release();
-		pObjectVS->Release();
-		pObjectPS->Release();
+		GizmoVS->Release();
+		GizmoPS->Release();
+		pGizmoVS->Release();
+		pGizmoPS->Release();
 
 		ParticleVS->Release();
 		ParticleGS->Release();
@@ -31,7 +31,7 @@ public:
 		pParticleGS->Release();
 		pParticlePS->Release();
 
-		pObjectLayout->Release();
+		pGizmoLayout->Release();
 		pParticleLayout->Release();
 	}
 
@@ -44,9 +44,9 @@ public:
 		std::wstring shaderpath_wide;
 		std::copy(shaderpath.begin(), shaderpath.end(), std::back_inserter(shaderpath_wide));
 
-		ObjectVS = NULL;
+		GizmoVS = NULL;
 		errorBlob = NULL;
-		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "VShader", "vs_5_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ObjectVS, &errorBlob);
+		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "VShader", "vs_5_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &GizmoVS, &errorBlob);
 		if (hr != S_OK)
 		{
 			// Something went wrong with the shader
@@ -54,9 +54,9 @@ public:
 			MessageBoxA(NULL, error.c_str(), "VS Error", MB_OK);
 		}
 
-		ObjectPS = NULL;
+		GizmoPS = NULL;
 		errorBlob = NULL;
-		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "PShader", "ps_5_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ObjectPS, &errorBlob);
+		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "PShader", "ps_5_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &GizmoPS, &errorBlob);
 		if (hr != S_OK)
 		{
 			// Something went wrong with the shader
@@ -64,8 +64,8 @@ public:
 			MessageBoxA(NULL, error.c_str(), "PS Error", MB_OK);
 		}
 
-		hr = device->CreateVertexShader(ObjectVS->GetBufferPointer(), ObjectVS->GetBufferSize(), NULL, &pObjectVS);
-		hr = device->CreatePixelShader(ObjectPS->GetBufferPointer(), ObjectPS->GetBufferSize(), NULL, &pObjectPS);
+		hr = device->CreateVertexShader(GizmoVS->GetBufferPointer(), GizmoVS->GetBufferSize(), NULL, &pGizmoVS);
+		hr = device->CreatePixelShader(GizmoPS->GetBufferPointer(), GizmoPS->GetBufferSize(), NULL, &pGizmoPS);
 
 		D3D11_INPUT_ELEMENT_DESC ied[] =
 		{
@@ -75,9 +75,9 @@ public:
 		};
 
 		hr = device->CreateInputLayout(ied, sizeof(ied) / sizeof(ied[0]), 
-									   ObjectVS->GetBufferPointer(),
-									   ObjectVS->GetBufferSize(), 
-									   &pObjectLayout);
+										GizmoVS->GetBufferPointer(),
+										GizmoVS->GetBufferSize(),
+									   &pGizmoLayout);
 	}
 
 	void LoadParticleShader(ID3D11Device* device, ID3D11DeviceContext* context, const char* shadername)
@@ -161,23 +161,13 @@ public:
 		LoadParticleShader(device, context, lastLoadedShaderName.c_str());
 	}
 
-	void SetObjectShader(ID3D11DeviceContext* context)
-	{
-		// set to this before render
-		context->VSSetShader(pObjectVS, 0, 0);
-		context->GSSetShader(nullptr, 0, 0);
-		context->PSSetShader(pObjectPS, 0, 0);
-		context->IASetInputLayout(pObjectLayout);
-		context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	}
-
 	void SetGizmoShader(ID3D11DeviceContext* context)
 	{
 		// set to this before render
-		context->VSSetShader(pObjectVS, 0, 0);
+		context->VSSetShader(pGizmoVS, 0, 0);
 		context->GSSetShader(nullptr, 0, 0);
-		context->PSSetShader(pObjectPS, 0, 0);
-		context->IASetInputLayout(pObjectLayout);
+		context->PSSetShader(pGizmoPS, 0, 0);
+		context->IASetInputLayout(pGizmoLayout);
 		context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 	}
 
@@ -192,11 +182,11 @@ public:
 	}
 
 private:
-	ID3DBlob* ObjectVS;
-	ID3DBlob* ObjectPS;
-	ID3D11VertexShader*		pObjectVS;
-	ID3D11PixelShader*		pObjectPS;
-	ID3D11InputLayout*		pObjectLayout;
+	ID3DBlob* GizmoVS;
+	ID3DBlob* GizmoPS;
+	ID3D11VertexShader*		pGizmoVS;
+	ID3D11PixelShader*		pGizmoPS;
+	ID3D11InputLayout*		pGizmoLayout;
 
 	ID3DBlob* ParticleVS;
 	ID3DBlob* ParticleGS;

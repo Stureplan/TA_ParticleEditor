@@ -515,6 +515,40 @@ void Graphics::LoadEmitterTypeGizmo(EMITTER_TYPE type)
 	hr = device->CreateBuffer(&vertexDesc, &vertexData, &emitterTypeGizmoVertexBuffer);
 }
 
+void Graphics::LoadFullscreenQuad()
+{
+	HRESULT hr;
+
+	fullscreenQuadVertexData = 
+	{
+		{ -1, -1, -1, 0, 1 },
+		{ -1,  1, -1, 0, 0 },
+		{  1,  1, -1, 1, 0 },
+
+		{ -1, -1, -1, 0, 1 },
+		{  1,  1, -1, 1, 0 },
+		{  1, -1, -1, 1, 1 }
+	};
+	
+	D3D11_BUFFER_DESC vertexDesc;
+	ZeroMemory(&vertexDesc, sizeof(D3D11_BUFFER_DESC));
+	vertexDesc.ByteWidth = sizeof(VERTEX) * fullscreenQuadVertexData.size();
+	vertexDesc.Usage = D3D11_USAGE_DEFAULT;
+	vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	vertexDesc.CPUAccessFlags = 0;
+	vertexDesc.MiscFlags = 0;
+	vertexDesc.StructureByteStride = 0;
+
+	D3D11_SUBRESOURCE_DATA vertexData;
+	ZeroMemory(&vertexData, sizeof(vertexData));
+	vertexData.pSysMem = fullscreenQuadVertexData.data();
+	vertexData.SysMemPitch = 0;
+	vertexData.SysMemSlicePitch = 0;
+
+	hr = device->CreateBuffer(&vertexDesc, &vertexData, &fullscreenQuadVertexBuffer);
+	hr = device->CreateShaderResourceView(sharedTexture, NULL, &fullscreenQuadTexture);
+}
+
 void Graphics::GainedFocus()
 {
 	shaders.ReloadLastShader(device, context);
@@ -828,6 +862,7 @@ void Graphics::Render()
 	int textureType = *(int*)particlesystem->GetProperty(PS_PROPERTY::PS_TEXTURE_TYPE);
 	if (textureType == 0)
 	{
+		// Regular particle
 		cBufferParticle.wvp = XMMatrixTranspose(WVP);
 		cBufferParticle.world = XMMatrixTranspose(World);
 		cBufferParticle.campos = campos;
@@ -843,11 +878,11 @@ void Graphics::Render()
 		context->VSSetConstantBuffers(0, 1, &constantBufferParticle);
 		context->GSSetConstantBuffers(0, 1, &constantBufferParticle);
 		context->PSSetConstantBuffers(0, 1, &constantBufferParticle);
-		context->PSSetSamplers(0, 1, &textureSamplerState);
 	}
 	
 	if (textureType == 1 || textureType == 2)
 	{
+		// Texture sheet (Animated)
 		cBufferParticleAnimated.wvp = XMMatrixTranspose(WVP);
 		cBufferParticleAnimated.world = XMMatrixTranspose(World);
 		cBufferParticleAnimated.campos = campos;
@@ -866,9 +901,9 @@ void Graphics::Render()
 		context->VSSetConstantBuffers(0, 1, &constantBufferParticleAnimated);
 		context->GSSetConstantBuffers(0, 1, &constantBufferParticleAnimated);
 		context->PSSetConstantBuffers(0, 1, &constantBufferParticleAnimated);
-		context->PSSetSamplers(0, 1, &textureSamplerState);
 	}
 
+	context->PSSetSamplers(0, 1, &textureSamplerState);
 
 	if (debug == true)
 	{
