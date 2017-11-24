@@ -199,7 +199,42 @@ struct PARTICLESYSTEM
 	int textureRows;
 };
 
+#pragma region CONSTANT BUFFERS
+struct CBUFFER_PARTICLESYSTEM
+{
+	XMMATRIX wvp;
+	XMMATRIX world;
+	XMVECTOR campos;
+	XMVECTOR camup;
+	FLOAT4 col0;
+	FLOAT4 col1;
+	FLOAT4 col2;
+	XMFLOAT2 startsize;
+	XMFLOAT2 endsize;
+	float lifetime;
+};
 
+struct CBUFFER_PARTICLESYSTEM_ANIMATED
+{
+	XMMATRIX wvp;
+	XMMATRIX world;
+	XMVECTOR campos;
+	XMVECTOR camup;
+	FLOAT4 col0;
+	FLOAT4 col1;
+	FLOAT4 col2;
+	XMFLOAT2 startsize;
+	XMFLOAT2 endsize;
+	float lifetime;
+	int columns;
+	int rows;
+};
+#pragma endregion
+
+struct CBUFFER_VERTEX
+{
+	XMMATRIX wvp;
+};
 
 
 

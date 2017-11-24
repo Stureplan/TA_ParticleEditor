@@ -7,7 +7,8 @@ Graphics::Graphics(QWidget * parent)
 	setAttribute(Qt::WA_NativeWindow, true);
 	
 	particlesystem = new ParticleSystem();
-
+	positionGizmo = new Gizmo();
+	emitterGizmo = new Gizmo();
 
 	Initialize();
 
@@ -35,13 +36,10 @@ Graphics::~Graphics()
 	blendState->Release();
 	rasterizerState->Release();
 
-	constantBufferVertex->Release();
 	constantBufferParticle->Release();
 	constantBufferParticleAnimated->Release();
 
 	particleVertexBuffer->Release();
-	positionGizmoVertexBuffer->Release();
-	emitterTypeGizmoVertexBuffer->Release();
 	particleDebugVertexBuffer->Release();
 
 
@@ -85,7 +83,6 @@ void Graphics::Loop()
 void Graphics::Initialize()
 {
 	HRESULT hr;
-	
 
 	/*===================================================================================*/
 	// SWAP CHAIN DESCRIPTION
@@ -113,7 +110,6 @@ void Graphics::Initialize()
 	/*===================================================================================*/
 
 
-
 	/*===================================================================================*/
 	// TEXTURE DESCRIPTION
 	D3D11_SAMPLER_DESC textureDesc;
@@ -129,7 +125,6 @@ void Graphics::Initialize()
 
 	context->OMSetRenderTargets(1, &renderTargetView, NULL);
 	/*===================================================================================*/
-
 
 
 	/*===================================================================================*/
@@ -152,7 +147,6 @@ void Graphics::Initialize()
 	/*===================================================================================*/
 
 
-
 	/*===================================================================================*/
 	// WIREFRAME DESCRIPTION
 	D3D11_RASTERIZER_DESC wireframeDesc;
@@ -162,7 +156,6 @@ void Graphics::Initialize()
 
 	device->CreateRasterizerState(&wireframeDesc, &rasterizerState);
 	/*===================================================================================*/
-
 
 
 	/*===================================================================================*/
@@ -178,22 +171,6 @@ void Graphics::Initialize()
 	/*===================================================================================*/
 
 
-
-	/*===================================================================================*/
-	// CONSTANT BUFFER VERTEX SETUP
-	D3D11_BUFFER_DESC cb_vertex_Desc;
-	ZeroMemory(&cb_vertex_Desc, sizeof(D3D11_BUFFER_DESC));
-	cb_vertex_Desc.Usage = D3D11_USAGE_DEFAULT;
-	cb_vertex_Desc.ByteWidth = sizeof(cBufferVertex);
-	cb_vertex_Desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	cb_vertex_Desc.CPUAccessFlags = 0;
-	cb_vertex_Desc.MiscFlags = 0;
-	cb_vertex_Desc.StructureByteStride = 0;
-	hr = device->CreateBuffer(&cb_vertex_Desc, NULL, &constantBufferVertex);
-	/*===================================================================================*/
-
-
-
 	/*===================================================================================*/
 	// CONSTANT BUFFER PARTICLE SETUP
 	D3D11_BUFFER_DESC cb_particle_Desc;
@@ -206,6 +183,7 @@ void Graphics::Initialize()
 	cb_particle_Desc.StructureByteStride = 0;
 	hr = device->CreateBuffer(&cb_particle_Desc, NULL, &constantBufferParticle);
 	/*===================================================================================*/
+
 
 	/*===================================================================================*/
 	// CONSTANT BUFFER PARTICLE ANIMATED SETUP
@@ -220,8 +198,6 @@ void Graphics::Initialize()
 	hr = device->CreateBuffer(&cb_particle_animated_Desc, NULL, &constantBufferParticleAnimated);
 	/*===================================================================================*/
 
-	cBufferVertex.wvp = XMMatrixIdentity();
-
 	SetupCamera(XMVectorSet(0, 1, -10.0f, 0), //pos
 				XMVectorSet(0, 1, -9.0f,  0), //dir
 				XMVectorSet(0, 2, 0, 0));  //up
@@ -232,8 +208,11 @@ void Graphics::Initialize()
 	particlesystem->Initialize();
 	LoadParticles();
 	LoadDebugParticle();
-	LoadPositionGizmo();
-	LoadEmitterTypeGizmo(EMITTER_TYPE::EMIT_POINT);
+	positionGizmo->VertexBuffer(device, std::vector<GIZMO_VERTEX>({{0,0,0,1,0,0},{1,0,0,1,0,0},{0,0,0,1,0,0},{0,1,0,0,1,0},{0,0,0,0,1,0},{0,0,1,0,0,1},{0,0,0,0,0,1}}));
+	positionGizmo->ConstantBuffer(device);
+
+	emitterGizmo->VertexBuffer(device, std::vector<GIZMO_VERTEX>({{-2,0,2,1,0,1},{2,0,2,1,0,1},{2,0,-2,1,0,1},{-2,0,-2,1,0,1},{-2,0,2,1,0,1}}));
+	emitterGizmo->ConstantBuffer(device);
 
 	LoadTextures();
 }
@@ -394,127 +373,6 @@ void Graphics::LoadDebugParticle()
 	hr = device->CreateBuffer(&vertexDesc, &vertexData, &particleDebugVertexBuffer);
 }
 
-void Graphics::LoadPositionGizmo()
-{
-	HRESULT hr;
-
-	positionGizmoVertexData =
-	{
-		{ 0, 0, 0,	1, 0, 0 },
-		
-		// R
-		{ 1, 0, 0,	1, 0, 0 },
-		{ 0, 0, 0,	1, 0, 0 },
-
-		// G
-		{ 0, 1, 0,	0, 1, 0 },
-		{ 0, 0, 0,	0, 1, 0 },
-
-		// B
-		{ 0, 0, 1,	0, 0, 1 },
-		{ 0, 0, 0,	0, 0, 1 }
-	};
-
-	D3D11_BUFFER_DESC vertexDesc;
-	ZeroMemory(&vertexDesc, sizeof(D3D11_BUFFER_DESC));
-	vertexDesc.ByteWidth = sizeof(GIZMO_VERTEX) * positionGizmoVertexData.size();
-	vertexDesc.Usage = D3D11_USAGE_DEFAULT;
-	vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	vertexDesc.CPUAccessFlags = 0;
-	vertexDesc.MiscFlags = 0;
-	vertexDesc.StructureByteStride = 0;
-	
-	D3D11_SUBRESOURCE_DATA vertexData;
-	ZeroMemory(&vertexData, sizeof(vertexData));
-	vertexData.pSysMem = positionGizmoVertexData.data();
-	vertexData.SysMemPitch = 0;
-	vertexData.SysMemSlicePitch = 0;
-
-	hr = device->CreateBuffer(&vertexDesc, &vertexData, &positionGizmoVertexBuffer);
-}
-
-void Graphics::LoadEmitterTypeGizmo(EMITTER_TYPE type)
-{
-	HRESULT hr;
-
-	if (type == EMITTER_TYPE::EMIT_POINT)
-	{
-		emitterTypeGizmoVertexData =
-		{
-			{ 
-				0, 0, 0, 
-				0, 0, 0
-			}
-		};
-	}
-
-	if (type == EMITTER_TYPE::EMIT_RECTANGLE)
-	{
-		emitterTypeGizmoVertexData =
-		{
-			// QUAD: (TRIANGLELIST W. INDICES)
-			// 0, 2, 1, 1, 2, 3 
-			//{ -5, 0, 5, 0, 0 }, // TOP LEFT  (0)
-			//{ -5, 0,-5, 0, 1 }, // BOT LEFT  (1)
-			//{  5, 0, 5, 1, 0 }, // TOP RIGHT (2)
-			//{  5, 0,-5, 1, 1 }, // BOT RIGHT (3)
-
-			// QUAD: (LINESTRIP)
-			{ 
-				-2, 0, 2, 
-				 1, 0, 1 
-			}, // TOP LEFT  (0)
-			{ 
-				2, 0, 2, 
-				1, 0, 1 
-			}, // TOP RIGHT (2)
-			{ 
-				2, 0,-2, 
-				1, 0, 1 
-			}, // BOT RIGHT (3)
-			{ 
-				-2, 0,-2, 
-				1, 0, 1 
-			}, // BOT LEFT  (1)
-			{ 
-				-2, 0, 2, 
-				1, 0, 1 
-			}  // TOP LEFT  (0)
-
-			// QUAD: (TRIANGLELIST W/O INDICES)
-			// TRIANGLE 0
-			//{ -5, -5, 5, 0, 0 },
-			//{  5, -5, 5, 1, 0 },
-			//{ -5, -5,-5, 0, 1 },
-
-			// TRIANGLE 1
-			//{ -5, -5,-5, 0, 1 },
-			//{  5, -5, 5, 1, 0 },
-			//{  5, -5,-5, 1, 1 }
-		};
-	}
-
-
-
-
-	D3D11_BUFFER_DESC vertexDesc;
-	ZeroMemory(&vertexDesc, sizeof(D3D11_BUFFER_DESC));
-	vertexDesc.ByteWidth = sizeof(GIZMO_VERTEX) * emitterTypeGizmoVertexData.size();
-	vertexDesc.Usage = D3D11_USAGE_DEFAULT;
-	vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	vertexDesc.CPUAccessFlags = 0;
-	vertexDesc.MiscFlags = 0;
-	vertexDesc.StructureByteStride = 0;
-
-	D3D11_SUBRESOURCE_DATA vertexData;
-	ZeroMemory(&vertexData, sizeof(vertexData));
-	vertexData.pSysMem = emitterTypeGizmoVertexData.data();
-	vertexData.SysMemPitch = 0;
-	vertexData.SysMemSlicePitch = 0;
-
-	hr = device->CreateBuffer(&vertexDesc, &vertexData, &emitterTypeGizmoVertexBuffer);
-}
-
 void Graphics::LoadFullscreenQuad()
 {
 	HRESULT hr;
@@ -611,7 +469,14 @@ void Graphics::ChangeRasterization(D3D11_FILL_MODE fillmode)
 
 void Graphics::Rebuild(PARTICLESYSTEM ps)
 {
-	LoadEmitterTypeGizmo(ps.emittertype);
+	if ((EMITTER_TYPE)ps.emittertype == EMITTER_TYPE::EMIT_POINT)
+	{
+		emitterGizmo->VertexBuffer(device,{{0,0,0,0,0,0}});
+	}
+	if ((EMITTER_TYPE)ps.emittertype == EMITTER_TYPE::EMIT_RECTANGLE)
+	{
+		emitterGizmo->VertexBuffer(device,{{-2,0,2,1,0,1},{2,0,2,1,0,1},{2,0,-2,1,0,1},{-2,0,-2,1,0,1},{-2,0,2,1,0,1}});
+	}
 	particlesystem->Rebuild(ps);
 	LoadParticles();
 }
@@ -793,6 +658,7 @@ void Graphics::Update()
 
 	if (paused == false)
 	{
+		//TODO: Put ms here instead, test test test.
 		particlesystem->Update(0.016f);
 	}
 }
@@ -807,43 +673,22 @@ void Graphics::Render()
 	// GENERAL SETTINGS
 	UINT stride;
 	UINT offset;
-	World = XMMatrixIdentity();
-	WVP = World * View * Projection;
+
 
 	// DRAW POSITION GIZMO
-	stride = sizeof(GIZMO_VERTEX);
-	offset = 0;
+	World = XMMatrixIdentity();
+	WVP = World * View * Projection;
 	shaders.SetGizmoShader(context);
-	context->IASetVertexBuffers(0, 1, &positionGizmoVertexBuffer, &stride, &offset);
-	cBufferVertex.wvp = XMMatrixTranspose(WVP);
-	context->UpdateSubresource(constantBufferVertex, 0, NULL, &cBufferVertex, 0, 0);
-	context->VSSetConstantBuffers(0, 1, &constantBufferVertex);
-	RenderDebugObject(positionGizmoVertexData.size());
+	positionGizmo->UpdateConstantBuffer(context, WVP);
+	positionGizmo->Render(context, textureSamplerState, texture_debug);
 
-	EMITTER_TYPE emitterType = *(EMITTER_TYPE*)particlesystem->GetProperty(PS_PROPERTY::PS_EMITTER_TYPE);
-	if (emitterType == EMITTER_TYPE::EMIT_POINT)
-	{
-		// SETUP & DRAW POINT EMITTER GIZMO
-	}
-
-	if (emitterType == EMITTER_TYPE::EMIT_RECTANGLE)
-	{
-		// SETUP & DRAW EMITTER GIZMO
-		World = XMMatrixScaling(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_RECT_SIZE_X), 1.0f, *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_RECT_SIZE_X));
-		WVP = World * View * Projection;
-		stride = sizeof(GIZMO_VERTEX);
-		offset = 0;
-		shaders.SetGizmoShader(context);
-		context->IASetVertexBuffers(0, 1, &emitterTypeGizmoVertexBuffer, &stride, &offset);
-		cBufferVertex.wvp = XMMatrixTranspose(WVP);
-		context->UpdateSubresource(constantBufferVertex, 0, NULL, &cBufferVertex, 0, 0);
-		context->VSSetConstantBuffers(0, 1, &constantBufferVertex);
-		RenderDebugObject(emitterTypeGizmoVertexData.size());
-	}
+	// DRAW EMITTER GIZMO
+	World = XMMatrixScaling(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_RECT_SIZE_X), 1.0f, *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_RECT_SIZE_Z));
+	WVP = World * View * Projection;
+	emitterGizmo->UpdateConstantBuffer(context, WVP);
+	emitterGizmo->Render(context, textureSamplerState, texture_debug);
 
 
-
-	
 	// SETUP & DRAW PARTICLES
 	UploadParticleBuffer();
 	stride = sizeof(PARTICLE_VERTEX);

@@ -16,6 +16,7 @@
 #include "utility.h"
 #include "particlesystem.h"
 #include "shaders.h"
+#include "gizmo.h"
 
 #pragma comment (lib, "d3d11.lib")
 
@@ -41,9 +42,7 @@ public:
 	void SetLastCameraRotation(Qt::Key key, bool released);
 	void LoadParticles();
 	void LoadDebugParticle();
-	void LoadPositionGizmo();
 	void LoadFullscreenQuad();
-	void LoadEmitterTypeGizmo(EMITTER_TYPE type);
 	void LoadTextures();
 	void ChangeRasterization(D3D11_FILL_MODE fillmode);
 
@@ -77,44 +76,6 @@ public:
 
 	Q_OBJECT
 	Q_DISABLE_COPY(Graphics)
-	
-public:
-	struct CBUFFER_PARTICLESYSTEM
-	{
-		XMMATRIX wvp;
-		XMMATRIX world;
-		XMVECTOR campos;
-		XMVECTOR camup;
-		FLOAT4 col0;
-		FLOAT4 col1;
-		FLOAT4 col2;
-		XMFLOAT2 startsize;
-		XMFLOAT2 endsize;
-		float lifetime;
-	};
-
-	struct CBUFFER_PARTICLESYSTEM_ANIMATED
-	{
-		XMMATRIX wvp;
-		XMMATRIX world;
-		XMVECTOR campos;
-		XMVECTOR camup;
-		FLOAT4 col0;
-		FLOAT4 col1;
-		FLOAT4 col2;
-		XMFLOAT2 startsize;
-		XMFLOAT2 endsize;
-		float lifetime;
-		int columns;
-		int rows;
-	};
-
-	struct CBUFFER_VERTEX
-	{
-		XMMATRIX wvp;
-	};
-
-
 
 private:
 	//TODO: Implement the array of all particle systems here. Use functions to add() and remove().
@@ -167,9 +128,6 @@ private:
 	float movespeed = 20.0f;
 	float rotspeed = 2.5f;
 
-	// Constant Buffer Vertices
-	ID3D11Buffer* constantBufferVertex;
-	CBUFFER_VERTEX cBufferVertex;
 
 	// Constant Buffer Particles
 	ID3D11Buffer* constantBufferParticle;
@@ -180,8 +138,6 @@ private:
 	CBUFFER_PARTICLESYSTEM_ANIMATED cBufferParticleAnimated;
 	
 	ID3D11Buffer* particleVertexBuffer;
-	ID3D11Buffer* positionGizmoVertexBuffer;
-	ID3D11Buffer* emitterTypeGizmoVertexBuffer;
 	ID3D11Buffer* particleDebugVertexBuffer;
 	ID3D11Buffer* fullscreenQuadVertexBuffer;
 
@@ -189,16 +145,16 @@ private:
 	ID3D11Texture2D* sharedTexture;
 
 	int particleDebugID = -1;
-	std::vector<GIZMO_VERTEX> positionGizmoVertexData;
-	std::vector<GIZMO_VERTEX> emitterTypeGizmoVertexData;
 	std::vector<VERTEX>		  fullscreenQuadVertexData;
 	PARTICLE_VERTEX debugParticle;
 
 	std::vector<ID3D11ShaderResourceView*> textures;
 	ID3D11ShaderResourceView* texture_debug;
 
-
 	ParticleSystem* particlesystem;
 	std::vector<PARTICLESYSTEM> particlesystems;
 	Shaders shaders;
+
+	Gizmo* positionGizmo;
+	Gizmo* emitterGizmo;
 };

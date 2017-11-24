@@ -282,6 +282,7 @@ void MainContainer::emitterTypeChanged(int mode)
 	if (mode == EMITTER_TYPE::EMIT_POINT)
 	{
 		rectangleWidget->setEnabled(false);
+		BuildParticleSystem();
 	}
 	if (mode == EMITTER_TYPE::EMIT_RECTANGLE)
 	{

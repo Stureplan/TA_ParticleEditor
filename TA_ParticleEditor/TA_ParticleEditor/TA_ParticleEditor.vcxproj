@@ -184,6 +184,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="gizmo.cpp" />
     <ClCompile Include="graphics.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="maincontainer.cpp" />
@@ -234,7 +235,9 @@
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="GeneratedFiles\ui_particleeditor.h" />
+    <ClInclude Include="gizmo.h" />
     <ClInclude Include="particlesystem.h" />
+    <ClInclude Include="renderable.h" />
     <ClInclude Include="shaders.h" />
     <ClInclude Include="utility.h" />
     <CustomBuild Include="maincontainer.h">
