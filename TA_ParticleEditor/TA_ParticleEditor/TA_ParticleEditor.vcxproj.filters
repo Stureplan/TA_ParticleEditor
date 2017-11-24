@@ -114,9 +114,6 @@
     <ClInclude Include="DDSTextureLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="renderable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="gizmo.h">
       <Filter>Header Files</Filter>
     </ClInclude>

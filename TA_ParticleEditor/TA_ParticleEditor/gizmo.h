@@ -1,10 +1,11 @@
 #pragma once
 #include <vector>
+#include <d3d11.h>
+#include <DirectXMath.h>
 
-#include "renderable.h"
+#include "utility.h"
 
-
-class Gizmo : public Renderable
+class Gizmo
 {
 public:
 	Gizmo();
@@ -16,6 +17,9 @@ public:
 	void Render(ID3D11DeviceContext* context, ID3D11SamplerState* sampler, ID3D11ShaderResourceView* texture);
 
 private:
+	ID3D11Buffer* constantBuffer;
+	ID3D11Buffer* vertexBuffer;
+
 	std::vector <GIZMO_VERTEX> vertices;
 	CBUFFER_VERTEX cBufferVertex;
 };

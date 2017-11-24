@@ -82,7 +82,6 @@ private:
 	//std::vector<ParticleSystem*> allParticleSystems;
 	bool paused = false;
 	bool debug = false;
-	int amt = 0;
 	unsigned int frame = 0;
 
 	QTimer* timer;

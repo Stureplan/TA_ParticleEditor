@@ -659,7 +659,7 @@ void Graphics::Update()
 	if (paused == false)
 	{
 		//TODO: Put ms here instead, test test test.
-		particlesystem->Update(0.016f);
+		particlesystem->Update(ms);
 	}
 }
 
@@ -667,8 +667,6 @@ void Graphics::Render()
 {
 	float color[4]  = { 0.2f, 0.2f, 0.2f, 1.0f };
 	context->ClearRenderTargetView(renderTargetView, color);
-	amt++;
-	if (amt > 99) amt = 0;
 
 	// GENERAL SETTINGS
 	UINT stride;

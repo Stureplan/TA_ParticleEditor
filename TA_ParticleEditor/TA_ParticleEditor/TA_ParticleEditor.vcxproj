@@ -237,7 +237,6 @@
     <ClInclude Include="GeneratedFiles\ui_particleeditor.h" />
     <ClInclude Include="gizmo.h" />
     <ClInclude Include="particlesystem.h" />
-    <ClInclude Include="renderable.h" />
     <ClInclude Include="shaders.h" />
     <ClInclude Include="utility.h" />
     <CustomBuild Include="maincontainer.h">
