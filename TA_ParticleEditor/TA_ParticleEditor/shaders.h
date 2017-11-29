@@ -35,6 +35,33 @@ public:
 		pParticleLayout->Release();
 	}
 
+	void CompileIncludes(bool noise, bool interpolate)
+	{
+		std::string includepath = Utility::Path() + "Data\\compiled_includes.hlsli";
+
+		FILE* file = fopen(includepath.c_str(), "w");
+		if (file != NULL)
+		{
+			if (noise)
+			{
+				const char* n = "#define NOISE\n";
+				fwrite(n, sizeof(const char), strlen(n), file);
+			}
+
+			if (interpolate)
+			{
+				const char* i = "#define INTERPOLATE\n";
+				fwrite(i, sizeof(const char), strlen(i), file);
+			}
+		}
+
+		int result = fclose(file);
+		if (result != 0)
+		{
+			return;
+		}
+	}
+
 	void LoadGizmoShader(ID3D11Device* device, ID3D11DeviceContext* context)
 	{
 		HRESULT hr;

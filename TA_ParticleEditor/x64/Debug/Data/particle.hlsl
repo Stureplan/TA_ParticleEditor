@@ -1,3 +1,5 @@
+#include <compiled_includes.hlsli>
+
 cbuffer CBUFFER
 {
 	float4x4 wvp;
@@ -20,8 +22,8 @@ struct VOut
 	float currentLifetime : LIFETIME;
 };
 
-Texture2D particleTexture;
-Texture2D noiseTexture;
+Texture2D particleTexture : register(t0);
+Texture2D noiseTexture : register(t1);
 SamplerState smp;
 
 float4 triple_lerp(float4 c1, float4 c2, float4 c3, float t) 
@@ -50,21 +52,33 @@ VOut VShader(float4 position : POSITION, float3 direction : DIRECTION, float lif
 	return output;
 }
 
+float3 rotate(float3 pos, float3 dir, float d)
+{
+	// Specify the angle in radians:
+	float angle = d * 3.14 / 180.0; // 90 degrees, CCW
+
+	float3 q;
+	q.x = pos.x * (dir.x*dir.x * (1.0 - cos(angle)) + cos(angle))
+		+ pos.y * (dir.x*dir.y * (1.0 - cos(angle)) + dir.z * sin(angle))
+		+ pos.z * (dir.x*dir.z * (1.0 - cos(angle)) - dir.y * sin(angle));
+
+	q.y = pos.x * (dir.y*dir.x * (1.0 - cos(angle)) - dir.z * sin(angle))
+		+ pos.y * (dir.y*dir.y * (1.0 - cos(angle)) + cos(angle))
+		+ pos.z * (dir.y*dir.z * (1.0 - cos(angle)) + dir.x * sin(angle));
+
+	q.z = pos.x * (dir.z*dir.x * (1.0 - cos(angle)) + dir.y * sin(angle))
+		+ pos.y * (dir.z*dir.y * (1.0 - cos(angle)) - dir.x * sin(angle))
+		+ pos.z * (dir.z*dir.z * (1.0 - cos(angle)) + cos(angle));
+
+	return q;
+}
+
 [maxvertexcount(4)]
 void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 {
 	float3 pos      = input[0].position.xyz;
 	float3 dir		= input[0].direction.xyz;
 	float percent	= input[0].currentLifetime / lifetime;
-
-	//VS&GS-sample from noise tex
-	//uint3 sam = uint3(currentframe, 0, 0);
-	//float4 c = noiseTexture.Load(sam);
-	//	
-	//dir.x = c.x;
-	//dir.y = c.y;
-	//dir.z = c.z;
-
 
 	float2 scale = lerp(startsize, endsize, percent);
 
@@ -85,11 +99,20 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 	right = normalize(cross(normal, up)) * w;
 	
 
+	//TODO: This is the golden ticket.
+	//Keep working on this rotation to get a good back and forth.
+	//TODO: Implement all these features (noise, rotation, includes) in all shaders.
+	float d = percent * 100;
+	up = rotate(up, normal, d);
+	right = rotate(right, normal, d);
+
 	float3 vtx[4];
 	vtx[0] = pos - right + up;
 	vtx[1] = pos - right - up;
 	vtx[2] = pos + right + up;
 	vtx[3] = pos + right - up;
+
+
 
 	float2 uv[4];
 	uv[0] = float2(1, 0);
@@ -102,11 +125,16 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 	for (int i = 0; i < 4; i++)
 	{
 		output.position.w = input[0].position.w;
+		
+		
 		output.currentLifetime = percent;
 		output.direction = dir;
 
 		output.position.xyz = vtx[i];
 		output.position = mul(output.position, wvp);
+
+
+		
 		output.texcoord = uv[i];
 		OutputStream.Append(output);
 	}
@@ -118,7 +146,11 @@ float4 PShader(VOut input) : SV_TARGET
 	float2 uv = input.texcoord;
 	float lt = input.currentLifetime;
 	
+#ifdef NOISE
+	uv -= ((noiseTexture.Sample(smp, uv).xy) - 0.5) * 2 * 0.2 * lt;
+#endif
 	
 	float4 color = particleTexture.Sample(smp, uv) * triple_lerp(col0, col1, col2, lt);
+
 	return color;
 }

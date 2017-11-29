@@ -215,6 +215,11 @@ void Graphics::Initialize()
 	emitterGizmo->ConstantBuffer(device);
 
 	LoadTextures();
+
+
+
+	shaders.CompileIncludes(true, true);
+	shaders.ReloadLastShader(device, context);
 }
 
 void Graphics::SetupCamera(XMVECTOR pos, XMVECTOR dir, XMVECTOR up)
@@ -422,7 +427,7 @@ void Graphics::LoadTextures()
 	DX::LoadTexture(device, textures[0], Utility::Path() + "Data\\Textures\\debug.png");
 	DX::LoadTexture(device, textures[1], Utility::Path() + "Data\\Textures\\plasmaball.png");
 	DX::LoadTexture(device, textures[2], Utility::Path() + "Data\\Textures\\debug_transparent.png");
-	DX::LoadTexture(device, textures[3], Utility::Path() + "Data\\Textures\\noise.png");
+	DX::LoadTexture(device, textures[3], Utility::Path() + "Data\\Textures\\noise_cloud.png");
 	DX::LoadTexture(device, texture_debug, Utility::Path() + "Data\\Textures\\debug_wireframe.png");
 }
 
@@ -766,8 +771,9 @@ void Graphics::Render()
 	{
 		unsigned int particleCount = particlesystem->GetSize();
 		// Regular texture
-		context->VSSetShaderResources(0, 1, &textures[3]);
+		//context->VSSetShaderResources(0, 1, &textures[3]);
 		context->PSSetShaderResources(0, 1, &textures[1]);
+		context->PSSetShaderResources(1, 1, &textures[3]);
 		context->Draw(particleCount, 0);
 	}
 

@@ -129,5 +129,8 @@
     <None Include="..\x64\Debug\Data\particle_animated_faded.hlsl">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\x64\Debug\Data\compiled_includes.hlsli">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
