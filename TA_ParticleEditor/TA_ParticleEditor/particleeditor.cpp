@@ -45,9 +45,6 @@ void ParticleEditor::onApplicationFocusChanged(QWidget* d, QWidget* s)
 {
 	if (isActiveWindow())
 	{
-		//TODO: Shader Reloading. (use enum{SHADER_TYPE::PARTICLE_ANIMATED_FADED} etc... to check what shader to reload)
-		//Also pass that enum to the shader when loading it, and use a variable SHADER_TYPE CURRENT_SHADER to check what shader is active
-		//This slot function should probably be in Graphics or something instead though.
 		ui.graphics->GainedFocus();
 	}
 }

@@ -51,7 +51,7 @@ void MainContainer::SetPointers(ParticleSystem* ps)
 	psTabs					= findChild<QTabWidget*>	("psTabs",				Qt::FindChildOption::FindChildrenRecursively);
 	interpolateFrames		= findChild<QCheckBox*>		("interpolateFrames",	Qt::FindChildOption::FindChildrenRecursively);
 	rotateParticles			= findChild<QCheckBox*>		("rotateParticles",		Qt::FindChildOption::FindChildrenRecursively);
-
+	noiseDissolve			= findChild<QCheckBox*>		("noiseDissolve",		Qt::FindChildOption::FindChildrenRecursively);
 
 
 	textFieldEmissionDelay = findChild<QLabel*>("label_EmDelaySlide", Qt::FindChildOption::FindChildrenRecursively);
@@ -314,14 +314,9 @@ void MainContainer::textureTypeChanged(int mode)
 	graphics->RecompileShader(mCurrentPS.textureType, false, interpolateFrames->isChecked(), rotateParticles->isChecked());
 }
 
-void MainContainer::interpolateFramesChanged(int interpolate)
+void MainContainer::shaderCompileChanged(int useless)
 {
-	graphics->RecompileShader(mCurrentPS.textureType, false, interpolate, rotateParticles->isChecked());
-}
-
-void MainContainer::rotateParticlesChanged(int rotate)
-{
-	graphics->RecompileShader(mCurrentPS.textureType, false, interpolateFrames->isChecked(), rotate);
+	graphics->RecompileShader(mCurrentPS.textureType, noiseDissolve->isChecked(), interpolateFrames->isChecked(), rotateParticles->isChecked());
 }
 
 void MainContainer::startSizeX()

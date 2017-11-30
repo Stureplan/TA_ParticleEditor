@@ -88,6 +88,7 @@ public:
     QLineEdit *color2Display;
     QLabel *label_EmitterType_2;
     QCheckBox *rotateParticles;
+    QCheckBox *noiseDissolve;
 
     void setupUi(QMainWindow *ParticleEditorClass)
     {
@@ -117,7 +118,7 @@ public:
         graphics->setGeometry(QRect(9, 9, 640, 480));
         browsepath = new QPushButton(maincontainer);
         browsepath->setObjectName(QStringLiteral("browsepath"));
-        browsepath->setGeometry(QRect(410, 554, 101, 25));
+        browsepath->setGeometry(QRect(10, 604, 101, 25));
         label_Lifetime = new QLabel(maincontainer);
         label_Lifetime->setObjectName(QStringLiteral("label_Lifetime"));
         label_Lifetime->setGeometry(QRect(770, 218, 51, 20));
@@ -136,7 +137,7 @@ public:
         label_MaxParticles->setAlignment(Qt::AlignCenter);
         textBrowser = new QTextBrowser(maincontainer);
         textBrowser->setObjectName(QStringLiteral("textBrowser"));
-        textBrowser->setGeometry(QRect(410, 530, 101, 23));
+        textBrowser->setGeometry(QRect(10, 580, 101, 23));
         textBrowser->setTextInteractionFlags(Qt::NoTextInteraction);
         savePS = new QPushButton(maincontainer);
         savePS->setObjectName(QStringLiteral("savePS"));
@@ -147,7 +148,7 @@ public:
         label_Gravity->setAlignment(Qt::AlignCenter);
         label_Texture = new QLabel(maincontainer);
         label_Texture->setObjectName(QStringLiteral("label_Texture"));
-        label_Texture->setGeometry(QRect(410, 513, 91, 16));
+        label_Texture->setGeometry(QRect(10, 563, 91, 16));
         color0Btn = new QPushButton(maincontainer);
         color0Btn->setObjectName(QStringLiteral("color0Btn"));
         color0Btn->setGeometry(QRect(660, 10, 70, 21));
@@ -283,7 +284,7 @@ public:
         endSizeX->setAlignment(Qt::AlignCenter);
         textureView = new QLabel(maincontainer);
         textureView->setObjectName(QStringLiteral("textureView"));
-        textureView->setGeometry(QRect(520, 530, 50, 50));
+        textureView->setGeometry(QRect(120, 580, 50, 50));
         textureView->setScaledContents(true);
         emissionDelaySlider = new QSlider(maincontainer);
         emissionDelaySlider->setObjectName(QStringLiteral("emissionDelaySlider"));
@@ -369,6 +370,9 @@ public:
         rotateParticles = new QCheckBox(maincontainer);
         rotateParticles->setObjectName(QStringLiteral("rotateParticles"));
         rotateParticles->setGeometry(QRect(850, 240, 111, 17));
+        noiseDissolve = new QCheckBox(maincontainer);
+        noiseDissolve->setObjectName(QStringLiteral("noiseDissolve"));
+        noiseDissolve->setGeometry(QRect(850, 260, 111, 17));
         ParticleEditorClass->setCentralWidget(maincontainer);
 
         retranslateUi(ParticleEditorClass);
@@ -401,8 +405,9 @@ public:
         QObject::connect(psTabs, SIGNAL(tabCloseRequested(int)), maincontainer, SLOT(removeTab(int)));
         QObject::connect(psTabs, SIGNAL(tabBarClicked(int)), maincontainer, SLOT(selectTab(int)));
         QObject::connect(color2Btn, SIGNAL(clicked()), maincontainer, SLOT(color2()));
-        QObject::connect(interpolateFrames, SIGNAL(stateChanged(int)), maincontainer, SLOT(interpolateFramesChanged(int)));
-        QObject::connect(rotateParticles, SIGNAL(stateChanged(int)), maincontainer, SLOT(rotateParticlesChanged(int)));
+        QObject::connect(interpolateFrames, SIGNAL(stateChanged(int)), maincontainer, SLOT(shaderCompileChanged(int)));
+        QObject::connect(rotateParticles, SIGNAL(stateChanged(int)), maincontainer, SLOT(shaderCompileChanged(int)));
+        QObject::connect(noiseDissolve, SIGNAL(stateChanged(int)), maincontainer, SLOT(shaderCompileChanged(int)));
 
         textureTypeBox->setCurrentIndex(0);
         psTabs->setCurrentIndex(0);
@@ -502,6 +507,7 @@ public:
         color2Display->setPlaceholderText(QApplication::translate("ParticleEditorClass", "Color End", Q_NULLPTR));
         label_EmitterType_2->setText(QApplication::translate("ParticleEditorClass", "Texture Type", Q_NULLPTR));
         rotateParticles->setText(QApplication::translate("ParticleEditorClass", "Rotate Particles", Q_NULLPTR));
+        noiseDissolve->setText(QApplication::translate("ParticleEditorClass", "Noise Dissolve", Q_NULLPTR));
     } // retranslateUi
 
 };

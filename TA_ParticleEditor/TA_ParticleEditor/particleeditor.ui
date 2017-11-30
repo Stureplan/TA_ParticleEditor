@@ -76,8 +76,8 @@
    <widget class="QPushButton" name="browsepath">
     <property name="geometry">
      <rect>
-      <x>410</x>
-      <y>554</y>
+      <x>10</x>
+      <y>604</y>
       <width>101</width>
       <height>25</height>
      </rect>
@@ -153,8 +153,8 @@
    <widget class="QTextBrowser" name="textBrowser">
     <property name="geometry">
      <rect>
-      <x>410</x>
-      <y>530</y>
+      <x>10</x>
+      <y>580</y>
       <width>101</width>
       <height>23</height>
      </rect>
@@ -198,8 +198,8 @@
    <widget class="QLabel" name="label_Texture">
     <property name="geometry">
      <rect>
-      <x>410</x>
-      <y>513</y>
+      <x>10</x>
+      <y>563</y>
       <width>91</width>
       <height>16</height>
      </rect>
@@ -835,8 +835,8 @@
    <widget class="QLabel" name="textureView">
     <property name="geometry">
      <rect>
-      <x>520</x>
-      <y>530</y>
+      <x>120</x>
+      <y>580</y>
       <width>50</width>
       <height>50</height>
      </rect>
@@ -1136,6 +1136,19 @@
      <string>Rotate Particles</string>
     </property>
    </widget>
+   <widget class="QCheckBox" name="noiseDissolve">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>260</y>
+      <width>111</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Noise Dissolve</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
@@ -1180,8 +1193,7 @@
     <slot>removeTab(int)</slot>
     <slot>selectTab(int)</slot>
     <slot>color2()</slot>
-    <slot>interpolateFramesChanged(int)</slot>
-    <slot>rotateParticlesChanged(int)</slot>
+    <slot>shaderCompileChanged(int)</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -1657,7 +1669,7 @@
    <sender>interpolateFrames</sender>
    <signal>stateChanged(int)</signal>
    <receiver>maincontainer</receiver>
-   <slot>interpolateFramesChanged(int)</slot>
+   <slot>shaderCompileChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>835</x>
@@ -1673,11 +1685,27 @@
    <sender>rotateParticles</sender>
    <signal>stateChanged(int)</signal>
    <receiver>maincontainer</receiver>
-   <slot>rotateParticlesChanged(int)</slot>
+   <slot>shaderCompileChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>905</x>
      <y>248</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>491</x>
+     <y>318</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>noiseDissolve</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>maincontainer</receiver>
+   <slot>shaderCompileChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>905</x>
+     <y>268</y>
     </hint>
     <hint type="destinationlabel">
      <x>491</x>

@@ -97,7 +97,7 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 		
 		
 		output.currentLifetime = percent;
-		output.direction = dir;
+		output.direction = input[0].position.xyz;
 
 		output.position.xyz = vtx[i];
 		output.position = mul(output.position, wvp);
@@ -116,10 +116,22 @@ float4 PShader(VOut input) : SV_TARGET
 	float lt = input.currentLifetime;
 	
 #ifdef NOISE
-	uv -= ((noiseTexture.Sample(smp, uv).xy) - 0.5) * 2 * 0.2 * lt;
+	float2 noiseUV = uv;
+	noiseUV.y += (lt * 0.4);
+	float4 noise = noiseTexture.Sample(smp, noiseUV);
+	uv -= ((noise.xy) - 0.5) * 2 * 0.1 * lt;
 #endif
-	
+
 	float4 color = particleTexture.Sample(smp, uv) * triple_lerp(col0, col1, col2, lt);
+
+
+#ifdef NOISE
+	//color.a *= smoothstep(0,1,(1 - lt + smoothstep(0, 1, noise.r)));
+	color.a *= floor(1 - lt + smoothstep(0, 1, noise.r));
+	//TODO: See over this and see if we can't get a compromise between floor() and smoothstep() that doesnt look ass
+	//and still clips out alpha properly at the end of the particle lifetime.
+#endif
+
 
 	return color;
 }

@@ -66,8 +66,7 @@ public slots:
 	void color2();
 	void emitterTypeChanged(int index);
 	void textureTypeChanged(int index);
-	void interpolateFramesChanged(int interpolate);
-	void rotateParticlesChanged(int rotate);
+	void shaderCompileChanged(int useless);
 	void startSizeX();
 	void startSizeY();
 	void endSizeX();
@@ -127,6 +126,7 @@ private:
 	QTabWidget* psTabs;
 	QCheckBox* interpolateFrames;
 	QCheckBox* rotateParticles;
+	QCheckBox* noiseDissolve;
 
 	// QT VARIABLES
 	QString mTexturePath;
