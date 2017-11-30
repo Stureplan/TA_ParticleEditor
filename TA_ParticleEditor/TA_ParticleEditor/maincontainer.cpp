@@ -49,6 +49,10 @@ void MainContainer::SetPointers(ParticleSystem* ps)
 	spriteColumns			= findChild<QLineEdit*>		("spriteColumns",		Qt::FindChildOption::FindChildrenRecursively);
 	spriteRows				= findChild<QLineEdit*>		("spriteRows",			Qt::FindChildOption::FindChildrenRecursively);
 	psTabs					= findChild<QTabWidget*>	("psTabs",				Qt::FindChildOption::FindChildrenRecursively);
+	interpolateFrames		= findChild<QCheckBox*>		("interpolateFrames",	Qt::FindChildOption::FindChildrenRecursively);
+	rotateParticles			= findChild<QCheckBox*>		("rotateParticles",		Qt::FindChildOption::FindChildrenRecursively);
+
+
 
 	textFieldEmissionDelay = findChild<QLabel*>("label_EmDelaySlide", Qt::FindChildOption::FindChildrenRecursively);
 }
@@ -304,15 +308,20 @@ void MainContainer::textureTypeChanged(int mode)
 		spriteSheetWidget->setEnabled(true);
 		setColumnsRows();
 	}
-	if (mode == 2)
-	{
-		spriteSheetWidget->setEnabled(true);
-		setColumnsRows();
-	}
 
 	mCurrentPS.textureType = mode;
 	particlesystem->SetProperty(PS_PROPERTY::PS_TEXTURE_TYPE, &mCurrentPS.textureType);
-	graphics->ChangeTextureType(mCurrentPS.textureType);
+	graphics->RecompileShader(mCurrentPS.textureType, false, interpolateFrames->isChecked(), rotateParticles->isChecked());
+}
+
+void MainContainer::interpolateFramesChanged(int interpolate)
+{
+	graphics->RecompileShader(mCurrentPS.textureType, false, interpolate, rotateParticles->isChecked());
+}
+
+void MainContainer::rotateParticlesChanged(int rotate)
+{
+	graphics->RecompileShader(mCurrentPS.textureType, false, interpolateFrames->isChecked(), rotate);
 }
 
 void MainContainer::startSizeX()
@@ -594,7 +603,7 @@ void MainContainer::keyReleaseEvent(QKeyEvent* evt)
 
 void MainContainer::mousePressEvent(QMouseEvent* evt)
 {
-	if (evt->button() == Qt::MouseButton::LeftButton)
+	/*if (evt->button() == Qt::MouseButton::LeftButton)
 	{
 		QPoint pt = evt->pos();
 		// check if inside window to begin with
@@ -613,5 +622,5 @@ void MainContainer::mousePressEvent(QMouseEvent* evt)
 				textFieldParticleInfo->setText("<no info>");
 			}
 		}
-	}
+	}*/
 }

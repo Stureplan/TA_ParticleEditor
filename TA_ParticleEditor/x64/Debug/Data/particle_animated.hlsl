@@ -1,3 +1,6 @@
+#include <compiled_includes.hlsli>
+#include <functions.hlsli>
+
 cbuffer CBUFFER
 {
 	float4x4 wvp;
@@ -19,38 +22,32 @@ struct VOut
 {
 	float4 position : SV_POSITION;
 	float3 direction : DIRECTION;
-	float2 texcoord : TEXCOORD;
+	float2 texcoord0 : TEXCOORD0;
 	float currentLifetime : LIFETIME;
+
+#ifdef INTERPOLATE
+	float2 texcoord1 : TEXCOORD1;
+	float framePercent : FOG;
+#endif
 };
 
 Texture2D particleTexture;
 Texture2D noiseTexture;
 SamplerState smp;
 
-float4 triple_lerp(float4 c1, float4 c2, float4 c3, float t)
-{
-	float y1 = t * 2.0;
-	float y2 = t * 2.0 - 1.0;
-
-	float4 g, g2, g3;
-
-	g = lerp(c1, c2, y1) * step(y1, 1.0);
-	g2 = lerp(c2, c3, y2) * step(y2, 1.0) * step(1.0, y1);
-
-	g = g + g2;
-	return g;
-}
-
 VOut VShader(float4 position : POSITION, float3 direction : DIRECTION, float lifetime : LIFETIME)
 {
 	VOut output;
 
-	//output.position = mul(position, wvp);
-	//output.position = mul(position, wvp);
 	output.position = position;
 	output.direction = direction;
-	output.texcoord = float2(0,0);
+	output.texcoord0 = float2(0, 0);
 	output.currentLifetime = lifetime;
+
+#ifdef INTERPOLATE
+	output.texcoord1 = float2(0, 0);
+	output.framePercent = 0.0f;
+#endif
 
 	return output;
 }
@@ -58,21 +55,17 @@ VOut VShader(float4 position : POSITION, float3 direction : DIRECTION, float lif
 [maxvertexcount(4)]
 void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 {
-	float3 pos      = input[0].position.xyz;
-	float3 dir		= input[0].direction.xyz;
-	float percent	= input[0].currentLifetime / lifetime;
+	float3 pos = input[0].position.xyz;
+	float3 dir = input[0].direction.xyz;
+	float percent = input[0].currentLifetime / lifetime;
 
 	unsigned int totalframes = columns * rows;
 	unsigned int currentframe = totalframes * percent;
 
-
-	//uint3 sam = uint3(currentframe, 0, 0);
-	//float4 c = noiseTexture.Load(sam);
-	//	
-	//dir.x = c.x;
-	//dir.y = c.y;
-	//dir.z = c.z;
-
+#ifdef INTERPOLATE
+	unsigned int nextframe = currentframe + 1;
+	float framePercent = rescale(percent, (float)currentframe / totalframes, (float)nextframe / totalframes);
+#endif
 
 	float2 scale = lerp(startsize, endsize, percent);
 
@@ -90,7 +83,7 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 
 	normal = normalize(pos - campos.xyz);
 	right = normalize(cross(normal, up)) * w;
-	
+
 
 	float3 vtx[4];
 	vtx[0] = pos - right + up;
@@ -102,19 +95,23 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 	cellUV.x = (float)(currentframe % rows) / (float)rows;
 	cellUV.y = floor(currentframe / columns) / (float)columns;
 
-	float2 cellDUV;
-	cellDUV.x = input[0].texcoord.x / (float)rows;
-	cellDUV.y = input[0].texcoord.y / (float)columns;
+	float2 uv0[4];
+	uv0[0] = cellUV + float2(1.0f / (float)rows, 0.0f / (float)columns);
+	uv0[1] = cellUV + float2(1.0f / (float)rows, 1.0f / (float)columns);
+	uv0[2] = cellUV + float2(0.0f / (float)rows, 0.0f / (float)columns);
+	uv0[3] = cellUV + float2(0.0f / (float)rows, 1.0f / (float)columns);
 
+#ifdef INTERPOLATE
+	float2 nextCellUV;
+	nextCellUV.x = (float)(nextframe % rows) / (float)rows;
+	nextCellUV.y = floor(nextframe / columns) / (float)columns;
 
-
-
-
-	float2 uv[4];
-	uv[0] = cellUV + float2(1.0f / (float)rows, 0.0f / (float)columns);
-	uv[1] = cellUV + float2(1.0f / (float)rows, 1.0f / (float)columns);
-	uv[2] = cellUV + float2(0.0f / (float)rows, 0.0f / (float)columns);
-	uv[3] = cellUV + float2(0.0f / (float)rows, 1.0f / (float)columns);
+	float2 uv1[4];
+	uv1[0] = nextCellUV + float2(1.0f / (float)rows, 0.0f / (float)columns);
+	uv1[1] = nextCellUV + float2(1.0f / (float)rows, 1.0f / (float)columns);
+	uv1[2] = nextCellUV + float2(0.0f / (float)rows, 0.0f / (float)columns);
+	uv1[3] = nextCellUV + float2(0.0f / (float)rows, 1.0f / (float)columns);
+#endif
 
 	VOut output;
 
@@ -126,39 +123,43 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 
 		output.position.xyz = vtx[i];
 		output.position = mul(output.position, wvp);
-		output.texcoord = uv[i];
+		output.texcoord0 = uv0[i];
+
+#ifdef INTERPOLATE
+		output.texcoord1 = uv1[i];
+		output.framePercent = framePercent;
+#endif
+
 		OutputStream.Append(output);
 	}
-
-	//OutputStream.RestartStrip();
-
-	// 0
-/*	output.position.xyz = vtx[0];
-	output.texcoord = uv[0];
-	OutputStream.Append(output);
-
-	// 1
-	output.position.xyz = vtx[1];
-	output.texcoord = uv[1];
-	OutputStream.Append(output);
-
-	// 2
-	output.position.xyz = vtx[2];
-	output.texcoord = uv[2];
-	OutputStream.Append(output);
-
-	 // 3
-	output.position.xyz = vtx[3];
-	output.texcoord = uv[3];
-	OutputStream.Append(output);*/
 }
 
 float4 PShader(VOut input) : SV_TARGET
 {
 	float4 pos = input.position;
-	float2 uv = input.texcoord;
+	float2 uv0 = input.texcoord0;
 	float lt = input.currentLifetime;
 
-	float4 color = particleTexture.Sample(smp, uv) * triple_lerp(col0, col1, col2, lt);
+
+#ifdef INTERPOLATE
+	float2 uv1 = input.texcoord1;
+	float framePercent = input.framePercent;
+	float4 color0 = particleTexture.Sample(smp, uv0) * triple_lerp(col0, col1, col2, lt);
+	float4 color1 = particleTexture.Sample(smp, uv1) * triple_lerp(col0, col1, col2, lt);
+	return lerp(color0, color1, framePercent);
+#else
+	float4 color = particleTexture.Sample(smp, uv0) * triple_lerp(col0, col1, col2, lt);
 	return color;
+#endif
 }
+
+
+
+
+// sample noise texture in VS
+//uint3 sam = uint3(currentframe, 0, 0);
+//float4 c = noiseTexture.Load(sam);
+//	
+//dir.x = c.x;
+//dir.y = c.y;
+//dir.z = c.z;

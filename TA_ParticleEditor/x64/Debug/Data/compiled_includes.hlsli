@@ -1,2 +1,1 @@
-#define NOISE
-#define INTERPOLATE
+#define ROTATE

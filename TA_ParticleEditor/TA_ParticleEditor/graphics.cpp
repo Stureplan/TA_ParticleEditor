@@ -218,7 +218,7 @@ void Graphics::Initialize()
 
 
 
-	shaders.CompileIncludes(true, true);
+	shaders.CompileIncludes(false, false, false);
 	shaders.ReloadLastShader(device, context);
 }
 
@@ -441,22 +441,19 @@ void Graphics::Retexture(std::string path)
 	}
 }
 
-void Graphics::ChangeTextureType(int type)
+void Graphics::RecompileShader(int type, bool noise, bool interpolate, bool rotate)
 {
+	shaders.CompileIncludes(noise, interpolate, rotate);
+
 	if (type == 0)
 	{
-		// single sprite
+		// single texture
 		shaders.LoadParticleShader(device, context, "particle.hlsl");
 	}
 	if (type == 1)
 	{
-		// sprite sheet
+		// texture sheet
 		shaders.LoadParticleShader(device, context, "particle_animated.hlsl");
-	}
-	if (type == 2)
-	{
-		// sprite sheet (faded)
-		shaders.LoadParticleShader(device, context, "particle_animated_faded.hlsl");
 	}
 }
 

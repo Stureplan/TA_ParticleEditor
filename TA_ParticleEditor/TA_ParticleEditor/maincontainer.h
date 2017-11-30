@@ -17,6 +17,7 @@
 #include <QSlider>
 #include <QImageReader>
 #include <QTabWidget>
+#include <QCheckBox>
 
 #include "utility.h"
 #include "graphics.h"
@@ -65,6 +66,8 @@ public slots:
 	void color2();
 	void emitterTypeChanged(int index);
 	void textureTypeChanged(int index);
+	void interpolateFramesChanged(int interpolate);
+	void rotateParticlesChanged(int rotate);
 	void startSizeX();
 	void startSizeY();
 	void endSizeX();
@@ -122,6 +125,8 @@ private:
 	QSlider* emissionDelaySlider;
 	QLabel*  emissionDelaySlider_label;
 	QTabWidget* psTabs;
+	QCheckBox* interpolateFrames;
+	QCheckBox* rotateParticles;
 
 	// QT VARIABLES
 	QString mTexturePath;

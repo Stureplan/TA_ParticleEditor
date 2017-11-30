@@ -35,7 +35,7 @@ public:
 		pParticleLayout->Release();
 	}
 
-	void CompileIncludes(bool noise, bool interpolate)
+	void CompileIncludes(bool noise, bool interpolate, bool rotate)
 	{
 		std::string includepath = Utility::Path() + "Data\\compiled_includes.hlsli";
 
@@ -52,6 +52,12 @@ public:
 			{
 				const char* i = "#define INTERPOLATE\n";
 				fwrite(i, sizeof(const char), strlen(i), file);
+			}
+
+			if (rotate)
+			{
+				const char* r = "#define ROTATE\n";
+				fwrite(r, sizeof(const char), strlen(r), file);
 			}
 		}
 

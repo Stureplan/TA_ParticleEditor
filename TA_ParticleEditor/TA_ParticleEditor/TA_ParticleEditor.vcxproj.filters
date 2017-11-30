@@ -122,14 +122,16 @@
     <None Include="..\x64\Debug\Data\particle.hlsl">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\x64\Debug\Data\gizmo.hlsl" />
     <None Include="..\x64\Debug\Data\particle_animated.hlsl">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\x64\Debug\Data\particle_animated_faded.hlsl">
+    <None Include="..\x64\Debug\Data\compiled_includes.hlsli">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\x64\Debug\Data\compiled_includes.hlsli">
+    <None Include="..\x64\Debug\Data\functions.hlsli">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\x64\Debug\Data\gizmo.hlsl">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

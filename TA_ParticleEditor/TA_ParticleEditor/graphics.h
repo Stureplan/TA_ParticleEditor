@@ -48,7 +48,7 @@ public:
 
 	void GainedFocus();
 	void Retexture(std::string path);
-	void ChangeTextureType(int type);
+	void RecompileShader(int type, bool noise, bool interpolate, bool rotate);
 	void Rebuild(PARTICLESYSTEM ps);
 	void PauseSimulation();
 

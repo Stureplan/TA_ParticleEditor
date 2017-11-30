@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -33,7 +34,6 @@ class Ui_ParticleEditorClass
 public:
     MainContainer *maincontainer;
     Graphics *graphics;
-    QLabel *label_ParticleInfo;
     QPushButton *browsepath;
     QLabel *label_Lifetime;
     QLabel *label_Velocity;
@@ -68,6 +68,8 @@ public:
     QWidget *spriteSheetWidget;
     QLineEdit *spriteColumns;
     QLineEdit *spriteRows;
+    QCheckBox *interpolateFrames;
+    QLabel *label_SizeY_7;
     QLineEdit *endSizeY;
     QLabel *label_EndSize;
     QLineEdit *endSizeX;
@@ -84,6 +86,8 @@ public:
     QLabel *label_VelocityZ;
     QPushButton *color2Btn;
     QLineEdit *color2Display;
+    QLabel *label_EmitterType_2;
+    QCheckBox *rotateParticles;
 
     void setupUi(QMainWindow *ParticleEditorClass)
     {
@@ -111,55 +115,48 @@ public:
         graphics = new Graphics(maincontainer);
         graphics->setObjectName(QStringLiteral("graphics"));
         graphics->setGeometry(QRect(9, 9, 640, 480));
-        label_ParticleInfo = new QLabel(maincontainer);
-        label_ParticleInfo->setObjectName(QStringLiteral("label_ParticleInfo"));
-        label_ParticleInfo->setGeometry(QRect(10, 570, 361, 41));
-        QFont font;
-        font.setPointSize(12);
-        label_ParticleInfo->setFont(font);
-        label_ParticleInfo->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
         browsepath = new QPushButton(maincontainer);
         browsepath->setObjectName(QStringLiteral("browsepath"));
-        browsepath->setGeometry(QRect(410, 532, 91, 25));
+        browsepath->setGeometry(QRect(410, 554, 101, 25));
         label_Lifetime = new QLabel(maincontainer);
         label_Lifetime->setObjectName(QStringLiteral("label_Lifetime"));
-        label_Lifetime->setGeometry(QRect(780, 318, 51, 20));
+        label_Lifetime->setGeometry(QRect(770, 218, 51, 20));
         label_Lifetime->setAlignment(Qt::AlignCenter);
         label_Velocity = new QLabel(maincontainer);
         label_Velocity->setObjectName(QStringLiteral("label_Velocity"));
-        label_Velocity->setGeometry(QRect(680, 129, 71, 20));
-        label_Velocity->setAlignment(Qt::AlignCenter);
+        label_Velocity->setGeometry(QRect(660, 79, 71, 20));
+        label_Velocity->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         label_EmissionDelay = new QLabel(maincontainer);
         label_EmissionDelay->setObjectName(QStringLiteral("label_EmissionDelay"));
-        label_EmissionDelay->setGeometry(QRect(667, 254, 80, 20));
-        label_EmissionDelay->setAlignment(Qt::AlignCenter);
+        label_EmissionDelay->setGeometry(QRect(660, 170, 80, 20));
+        label_EmissionDelay->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         label_MaxParticles = new QLabel(maincontainer);
         label_MaxParticles->setObjectName(QStringLiteral("label_MaxParticles"));
-        label_MaxParticles->setGeometry(QRect(880, 261, 70, 16));
+        label_MaxParticles->setGeometry(QRect(910, 171, 70, 16));
         label_MaxParticles->setAlignment(Qt::AlignCenter);
         textBrowser = new QTextBrowser(maincontainer);
         textBrowser->setObjectName(QStringLiteral("textBrowser"));
-        textBrowser->setGeometry(QRect(510, 533, 171, 23));
+        textBrowser->setGeometry(QRect(410, 530, 101, 23));
         textBrowser->setTextInteractionFlags(Qt::NoTextInteraction);
         savePS = new QPushButton(maincontainer);
         savePS->setObjectName(QStringLiteral("savePS"));
         savePS->setGeometry(QRect(869, 570, 111, 41));
         label_Gravity = new QLabel(maincontainer);
         label_Gravity->setObjectName(QStringLiteral("label_Gravity"));
-        label_Gravity->setGeometry(QRect(689, 318, 51, 20));
+        label_Gravity->setGeometry(QRect(679, 218, 51, 20));
         label_Gravity->setAlignment(Qt::AlignCenter);
         label_Texture = new QLabel(maincontainer);
         label_Texture->setObjectName(QStringLiteral("label_Texture"));
-        label_Texture->setGeometry(QRect(420, 513, 91, 16));
+        label_Texture->setGeometry(QRect(410, 513, 91, 16));
         color0Btn = new QPushButton(maincontainer);
         color0Btn->setObjectName(QStringLiteral("color0Btn"));
-        color0Btn->setGeometry(QRect(660, 10, 70, 30));
+        color0Btn->setGeometry(QRect(660, 10, 70, 21));
         color0Display = new QLineEdit(maincontainer);
         color0Display->setObjectName(QStringLiteral("color0Display"));
-        color0Display->setGeometry(QRect(730, 10, 211, 30));
-        QFont font1;
-        font1.setKerning(true);
-        color0Display->setFont(font1);
+        color0Display->setGeometry(QRect(730, 10, 211, 21));
+        QFont font;
+        font.setKerning(true);
+        color0Display->setFont(font);
         color0Display->setCursor(QCursor(Qt::IBeamCursor));
         color0Display->setFocusPolicy(Qt::NoFocus);
         color0Display->setContextMenuPolicy(Qt::NoContextMenu);
@@ -168,8 +165,8 @@ public:
         color0Display->setReadOnly(true);
         color1Display = new QLineEdit(maincontainer);
         color1Display->setObjectName(QStringLiteral("color1Display"));
-        color1Display->setGeometry(QRect(730, 43, 211, 30));
-        color1Display->setFont(font1);
+        color1Display->setGeometry(QRect(730, 30, 211, 21));
+        color1Display->setFont(font);
         color1Display->setCursor(QCursor(Qt::IBeamCursor));
         color1Display->setMouseTracking(false);
         color1Display->setFocusPolicy(Qt::NoFocus);
@@ -180,60 +177,60 @@ public:
         color1Display->setClearButtonEnabled(false);
         color1Btn = new QPushButton(maincontainer);
         color1Btn->setObjectName(QStringLiteral("color1Btn"));
-        color1Btn->setGeometry(QRect(660, 43, 70, 30));
+        color1Btn->setGeometry(QRect(660, 30, 70, 21));
         label_StartSize = new QLabel(maincontainer);
         label_StartSize->setObjectName(QStringLiteral("label_StartSize"));
-        label_StartSize->setGeometry(QRect(661, 371, 91, 16));
+        label_StartSize->setGeometry(QRect(661, 271, 91, 16));
         label_StartSize->setAlignment(Qt::AlignCenter);
         emitterTypeBox = new QComboBox(maincontainer);
         emitterTypeBox->setObjectName(QStringLiteral("emitterTypeBox"));
-        emitterTypeBox->setGeometry(QRect(670, 436, 121, 24));
+        emitterTypeBox->setGeometry(QRect(670, 370, 121, 24));
         emitterTypeBox->setLayoutDirection(Qt::LeftToRight);
         label_EmitterType = new QLabel(maincontainer);
         label_EmitterType->setObjectName(QStringLiteral("label_EmitterType"));
-        label_EmitterType->setGeometry(QRect(680, 416, 100, 16));
+        label_EmitterType->setGeometry(QRect(680, 350, 100, 16));
         label_EmitterType->setAlignment(Qt::AlignCenter);
         velocityX = new QLineEdit(maincontainer);
         velocityX->setObjectName(QStringLiteral("velocityX"));
-        velocityX->setGeometry(QRect(670, 152, 90, 20));
+        velocityX->setGeometry(QRect(670, 102, 90, 20));
         velocityX->setAlignment(Qt::AlignCenter);
         velocityY = new QLineEdit(maincontainer);
         velocityY->setObjectName(QStringLiteral("velocityY"));
-        velocityY->setGeometry(QRect(670, 176, 90, 20));
+        velocityY->setGeometry(QRect(670, 126, 90, 20));
         velocityY->setAlignment(Qt::AlignCenter);
         velocityZ = new QLineEdit(maincontainer);
         velocityZ->setObjectName(QStringLiteral("velocityZ"));
-        velocityZ->setGeometry(QRect(670, 200, 90, 20));
+        velocityZ->setGeometry(QRect(670, 150, 90, 20));
         velocityZ->setAlignment(Qt::AlignCenter);
         gravity = new QLineEdit(maincontainer);
         gravity->setObjectName(QStringLiteral("gravity"));
-        gravity->setGeometry(QRect(670, 340, 90, 20));
+        gravity->setGeometry(QRect(660, 240, 90, 20));
         gravity->setAlignment(Qt::AlignCenter);
         lifetime = new QLineEdit(maincontainer);
         lifetime->setObjectName(QStringLiteral("lifetime"));
-        lifetime->setGeometry(QRect(760, 340, 90, 20));
+        lifetime->setGeometry(QRect(750, 240, 90, 20));
         lifetime->setAlignment(Qt::AlignCenter);
         label_VelocityY = new QLabel(maincontainer);
         label_VelocityY->setObjectName(QStringLiteral("label_VelocityY"));
-        label_VelocityY->setGeometry(QRect(650, 176, 21, 20));
+        label_VelocityY->setGeometry(QRect(650, 126, 21, 20));
         label_VelocityY->setLayoutDirection(Qt::LeftToRight);
         label_VelocityY->setAlignment(Qt::AlignCenter);
         startSizeX = new QLineEdit(maincontainer);
         startSizeX->setObjectName(QStringLiteral("startSizeX"));
-        startSizeX->setGeometry(QRect(670, 390, 35, 20));
+        startSizeX->setGeometry(QRect(670, 290, 35, 20));
         startSizeX->setAlignment(Qt::AlignCenter);
         startSizeY = new QLineEdit(maincontainer);
         startSizeY->setObjectName(QStringLiteral("startSizeY"));
-        startSizeY->setGeometry(QRect(707, 390, 35, 20));
+        startSizeY->setGeometry(QRect(707, 290, 35, 20));
         startSizeY->setAlignment(Qt::AlignCenter);
         maxParticles = new QLineEdit(maincontainer);
         maxParticles->setObjectName(QStringLiteral("maxParticles"));
-        maxParticles->setGeometry(QRect(890, 280, 45, 20));
+        maxParticles->setGeometry(QRect(920, 190, 45, 20));
         maxParticles->setAlignment(Qt::AlignCenter);
         rectangleWidget = new QWidget(maincontainer);
         rectangleWidget->setObjectName(QStringLiteral("rectangleWidget"));
         rectangleWidget->setEnabled(false);
-        rectangleWidget->setGeometry(QRect(670, 476, 120, 50));
+        rectangleWidget->setGeometry(QRect(670, 396, 120, 50));
         label_SizeY_6 = new QLabel(rectangleWidget);
         label_SizeY_6->setObjectName(QStringLiteral("label_SizeY_6"));
         label_SizeY_6->setGeometry(QRect(4, 1, 110, 16));
@@ -251,50 +248,57 @@ public:
         loadPS->setGeometry(QRect(750, 570, 111, 41));
         textureTypeBox = new QComboBox(maincontainer);
         textureTypeBox->setObjectName(QStringLiteral("textureTypeBox"));
-        textureTypeBox->setGeometry(QRect(410, 560, 91, 24));
+        textureTypeBox->setGeometry(QRect(800, 370, 121, 24));
         textureTypeBox->setLayoutDirection(Qt::LeftToRight);
         spriteSheetWidget = new QWidget(maincontainer);
         spriteSheetWidget->setObjectName(QStringLiteral("spriteSheetWidget"));
         spriteSheetWidget->setEnabled(false);
-        spriteSheetWidget->setGeometry(QRect(510, 560, 81, 24));
+        spriteSheetWidget->setGeometry(QRect(800, 400, 121, 71));
         spriteColumns = new QLineEdit(spriteSheetWidget);
         spriteColumns->setObjectName(QStringLiteral("spriteColumns"));
-        spriteColumns->setGeometry(QRect(0, 0, 41, 24));
+        spriteColumns->setGeometry(QRect(0, 16, 61, 20));
         spriteColumns->setAlignment(Qt::AlignCenter);
         spriteRows = new QLineEdit(spriteSheetWidget);
         spriteRows->setObjectName(QStringLiteral("spriteRows"));
-        spriteRows->setGeometry(QRect(40, 0, 41, 24));
+        spriteRows->setGeometry(QRect(60, 16, 61, 20));
         spriteRows->setAlignment(Qt::AlignCenter);
+        interpolateFrames = new QCheckBox(spriteSheetWidget);
+        interpolateFrames->setObjectName(QStringLiteral("interpolateFrames"));
+        interpolateFrames->setGeometry(QRect(4, 50, 121, 17));
+        label_SizeY_7 = new QLabel(spriteSheetWidget);
+        label_SizeY_7->setObjectName(QStringLiteral("label_SizeY_7"));
+        label_SizeY_7->setGeometry(QRect(10, 0, 110, 16));
+        label_SizeY_7->setAlignment(Qt::AlignCenter);
         endSizeY = new QLineEdit(maincontainer);
         endSizeY->setObjectName(QStringLiteral("endSizeY"));
-        endSizeY->setGeometry(QRect(787, 390, 35, 20));
+        endSizeY->setGeometry(QRect(797, 290, 35, 20));
         endSizeY->setAlignment(Qt::AlignCenter);
         label_EndSize = new QLabel(maincontainer);
         label_EndSize->setObjectName(QStringLiteral("label_EndSize"));
-        label_EndSize->setGeometry(QRect(741, 371, 91, 16));
+        label_EndSize->setGeometry(QRect(751, 271, 91, 16));
         label_EndSize->setAlignment(Qt::AlignCenter);
         endSizeX = new QLineEdit(maincontainer);
         endSizeX->setObjectName(QStringLiteral("endSizeX"));
-        endSizeX->setGeometry(QRect(750, 390, 35, 20));
+        endSizeX->setGeometry(QRect(760, 290, 35, 20));
         endSizeX->setAlignment(Qt::AlignCenter);
         textureView = new QLabel(maincontainer);
         textureView->setObjectName(QStringLiteral("textureView"));
-        textureView->setGeometry(QRect(615, 560, 50, 50));
+        textureView->setGeometry(QRect(520, 530, 50, 50));
         textureView->setScaledContents(true);
         emissionDelaySlider = new QSlider(maincontainer);
         emissionDelaySlider->setObjectName(QStringLiteral("emissionDelaySlider"));
-        emissionDelaySlider->setGeometry(QRect(693, 276, 150, 22));
+        emissionDelaySlider->setGeometry(QRect(690, 190, 121, 22));
         emissionDelaySlider->setStyleSheet(QStringLiteral("selection-background-color: rgb(53, 53, 53);"));
         emissionDelaySlider->setMinimum(1);
         emissionDelaySlider->setMaximum(100);
         emissionDelaySlider->setOrientation(Qt::Horizontal);
         label_EmDelaySlide = new QLabel(maincontainer);
         label_EmDelaySlide->setObjectName(QStringLiteral("label_EmDelaySlide"));
-        label_EmDelaySlide->setGeometry(QRect(670, 280, 30, 13));
+        label_EmDelaySlide->setGeometry(QRect(660, 195, 30, 13));
         label_EmDelaySlide->setTextInteractionFlags(Qt::NoTextInteraction);
         velocityXSlider = new QSlider(maincontainer);
         velocityXSlider->setObjectName(QStringLiteral("velocityXSlider"));
-        velocityXSlider->setGeometry(QRect(780, 151, 200, 22));
+        velocityXSlider->setGeometry(QRect(780, 101, 200, 22));
         velocityXSlider->setStyleSheet(QStringLiteral("selection-background-color: rgb(53, 53, 53);"));
         velocityXSlider->setMinimum(-99);
         velocityXSlider->setMaximum(99);
@@ -306,13 +310,13 @@ public:
         velocityXSlider->setInvertedAppearance(false);
         velocityYSlider = new QSlider(maincontainer);
         velocityYSlider->setObjectName(QStringLiteral("velocityYSlider"));
-        velocityYSlider->setGeometry(QRect(780, 175, 200, 22));
+        velocityYSlider->setGeometry(QRect(780, 125, 200, 22));
         velocityYSlider->setStyleSheet(QStringLiteral("selection-background-color: rgb(53, 53, 53);"));
         velocityYSlider->setMinimum(-99);
         velocityYSlider->setOrientation(Qt::Horizontal);
         velocityZSlider = new QSlider(maincontainer);
         velocityZSlider->setObjectName(QStringLiteral("velocityZSlider"));
-        velocityZSlider->setGeometry(QRect(780, 199, 200, 22));
+        velocityZSlider->setGeometry(QRect(780, 149, 200, 22));
         velocityZSlider->setStyleSheet(QStringLiteral("selection-background-color: rgb(53, 53, 53);"));
         velocityZSlider->setMinimum(-99);
         velocityZSlider->setOrientation(Qt::Horizontal);
@@ -335,21 +339,21 @@ public:
         psTabs->addTab(tab_2, QString());
         label_VelocityX = new QLabel(maincontainer);
         label_VelocityX->setObjectName(QStringLiteral("label_VelocityX"));
-        label_VelocityX->setGeometry(QRect(650, 152, 21, 20));
+        label_VelocityX->setGeometry(QRect(650, 102, 21, 20));
         label_VelocityX->setLayoutDirection(Qt::LeftToRight);
         label_VelocityX->setAlignment(Qt::AlignCenter);
         label_VelocityZ = new QLabel(maincontainer);
         label_VelocityZ->setObjectName(QStringLiteral("label_VelocityZ"));
-        label_VelocityZ->setGeometry(QRect(650, 200, 21, 20));
+        label_VelocityZ->setGeometry(QRect(650, 150, 21, 20));
         label_VelocityZ->setLayoutDirection(Qt::LeftToRight);
         label_VelocityZ->setAlignment(Qt::AlignCenter);
         color2Btn = new QPushButton(maincontainer);
         color2Btn->setObjectName(QStringLiteral("color2Btn"));
-        color2Btn->setGeometry(QRect(660, 76, 70, 30));
+        color2Btn->setGeometry(QRect(660, 50, 70, 21));
         color2Display = new QLineEdit(maincontainer);
         color2Display->setObjectName(QStringLiteral("color2Display"));
-        color2Display->setGeometry(QRect(730, 76, 211, 30));
-        color2Display->setFont(font1);
+        color2Display->setGeometry(QRect(730, 50, 211, 21));
+        color2Display->setFont(font);
         color2Display->setCursor(QCursor(Qt::IBeamCursor));
         color2Display->setMouseTracking(false);
         color2Display->setFocusPolicy(Qt::NoFocus);
@@ -358,6 +362,13 @@ public:
         color2Display->setAlignment(Qt::AlignCenter);
         color2Display->setReadOnly(true);
         color2Display->setClearButtonEnabled(false);
+        label_EmitterType_2 = new QLabel(maincontainer);
+        label_EmitterType_2->setObjectName(QStringLiteral("label_EmitterType_2"));
+        label_EmitterType_2->setGeometry(QRect(810, 350, 100, 16));
+        label_EmitterType_2->setAlignment(Qt::AlignCenter);
+        rotateParticles = new QCheckBox(maincontainer);
+        rotateParticles->setObjectName(QStringLiteral("rotateParticles"));
+        rotateParticles->setGeometry(QRect(850, 240, 111, 17));
         ParticleEditorClass->setCentralWidget(maincontainer);
 
         retranslateUi(ParticleEditorClass);
@@ -390,6 +401,8 @@ public:
         QObject::connect(psTabs, SIGNAL(tabCloseRequested(int)), maincontainer, SLOT(removeTab(int)));
         QObject::connect(psTabs, SIGNAL(tabBarClicked(int)), maincontainer, SLOT(selectTab(int)));
         QObject::connect(color2Btn, SIGNAL(clicked()), maincontainer, SLOT(color2()));
+        QObject::connect(interpolateFrames, SIGNAL(stateChanged(int)), maincontainer, SLOT(interpolateFramesChanged(int)));
+        QObject::connect(rotateParticles, SIGNAL(stateChanged(int)), maincontainer, SLOT(rotateParticlesChanged(int)));
 
         textureTypeBox->setCurrentIndex(0);
         psTabs->setCurrentIndex(0);
@@ -401,7 +414,6 @@ public:
     void retranslateUi(QMainWindow *ParticleEditorClass)
     {
         ParticleEditorClass->setWindowTitle(QApplication::translate("ParticleEditorClass", "Particle Editor (v. 0.1)", Q_NULLPTR));
-        label_ParticleInfo->setText(QApplication::translate("ParticleEditorClass", "<no info>", Q_NULLPTR));
         browsepath->setText(QApplication::translate("ParticleEditorClass", "Browse", Q_NULLPTR));
         label_Lifetime->setText(QApplication::translate("ParticleEditorClass", "Lifetime", Q_NULLPTR));
         label_Velocity->setText(QApplication::translate("ParticleEditorClass", "Velocity", Q_NULLPTR));
@@ -460,17 +472,18 @@ public:
         loadPS->setText(QApplication::translate("ParticleEditorClass", "Load", Q_NULLPTR));
         textureTypeBox->clear();
         textureTypeBox->insertItems(0, QStringList()
-         << QApplication::translate("ParticleEditorClass", "Single Sprite", Q_NULLPTR)
-         << QApplication::translate("ParticleEditorClass", "Sprite Sheet", Q_NULLPTR)
-         << QApplication::translate("ParticleEditorClass", "Sprite Sheet Faded", Q_NULLPTR)
+         << QApplication::translate("ParticleEditorClass", "Single Texture", Q_NULLPTR)
+         << QApplication::translate("ParticleEditorClass", "Texture Sheet", Q_NULLPTR)
         );
-        textureTypeBox->setCurrentText(QApplication::translate("ParticleEditorClass", "Single Sprite", Q_NULLPTR));
+        textureTypeBox->setCurrentText(QApplication::translate("ParticleEditorClass", "Single Texture", Q_NULLPTR));
         spriteColumns->setInputMask(QApplication::translate("ParticleEditorClass", "90", Q_NULLPTR));
         spriteColumns->setText(QApplication::translate("ParticleEditorClass", "4", Q_NULLPTR));
         spriteColumns->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
         spriteRows->setInputMask(QApplication::translate("ParticleEditorClass", "90", Q_NULLPTR));
         spriteRows->setText(QApplication::translate("ParticleEditorClass", "4", Q_NULLPTR));
         spriteRows->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        interpolateFrames->setText(QApplication::translate("ParticleEditorClass", "Frame Interpolation", Q_NULLPTR));
+        label_SizeY_7->setText(QApplication::translate("ParticleEditorClass", "Columns / Rows", Q_NULLPTR));
         endSizeY->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
         endSizeY->setText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
         endSizeY->setPlaceholderText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
@@ -487,6 +500,8 @@ public:
         color2Btn->setText(QApplication::translate("ParticleEditorClass", "Change", Q_NULLPTR));
         color2Display->setText(QApplication::translate("ParticleEditorClass", "End Color", Q_NULLPTR));
         color2Display->setPlaceholderText(QApplication::translate("ParticleEditorClass", "Color End", Q_NULLPTR));
+        label_EmitterType_2->setText(QApplication::translate("ParticleEditorClass", "Texture Type", Q_NULLPTR));
+        rotateParticles->setText(QApplication::translate("ParticleEditorClass", "Rotate Particles", Q_NULLPTR));
     } // retranslateUi
 
 };
