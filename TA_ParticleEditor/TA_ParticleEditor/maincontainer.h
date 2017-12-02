@@ -22,11 +22,11 @@
 #include "utility.h"
 #include "graphics.h"
 
-#define DEFAULT_MAXPARTICLES 10
+#define DEFAULT_MAXPARTICLES 1
 #define DEFAULT_LIFETIME 1.0f
 #define DEFAULT_EMISSIONDELAY 0.1f
 #define DEFAULT_VELOCITY FLOAT3(0,0,0)
-#define DEFAULT_GRAVITY 1.0f
+#define DEFAULT_GRAVITY 0.0f
 #define DEFAULT_TEXTUREPATH "plasmaball.png"
 #define DEFAULT_DDS_TEXTUREPATH std::string(Utility::Path() + "Data\\Textures\\ddstexture.png").c_str()
 #define DEFAULT_SIZE 1.0f

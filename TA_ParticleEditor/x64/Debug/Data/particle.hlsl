@@ -127,7 +127,12 @@ float4 PShader(VOut input) : SV_TARGET
 
 #ifdef NOISE
 	//color.a *= smoothstep(0,1,(1 - lt + smoothstep(0, 1, noise.r)));
-	color.a *= floor(1 - lt + smoothstep(0, 1, noise.r));
+	//color.a *= floor(1 - lt + smoothstep(0, 1, noise.r));
+	float n = noise.x-lt;
+	clip(n);
+	n = clamp(n, 0, 0.2);
+	color.a = lerp(0, color.a, n*10);
+	//color.a *= (1-lt)-noise.x;
 	//TODO: See over this and see if we can't get a compromise between floor() and smoothstep() that doesnt look ass
 	//and still clips out alpha properly at the end of the particle lifetime.
 #endif
