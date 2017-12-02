@@ -68,8 +68,8 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 	float3 normal;
 	float3 right;
 
-
-	up = normalize(camup.xyz);//normalize(camup.xyz);
+	up = normalize(dir);
+	//up = normalize(camup.xyz);//normalize(camup.xyz);
 	up *= h;
 
 	normal = normalize(pos - campos.xyz);
@@ -146,7 +146,11 @@ float4 PShader(VOut input) : SV_TARGET
 	noiseUV.y *= columns;
 	noiseUV.y += (lt * 0.2);
 	float4 noise = noiseTexture.Sample(smp, noiseUV);
-	color.a *= floor(1 - lt + smoothstep(0, 1, noise.r));
+
+	float n = noise.x - lt;
+	clip(n);
+	n = clamp(n, 0, 0.2);
+	color.a = lerp(0, color.a, n * 10);
 #endif
 
 	return color;

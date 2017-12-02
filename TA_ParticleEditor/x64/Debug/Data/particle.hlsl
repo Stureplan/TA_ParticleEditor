@@ -58,7 +58,7 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 
 
 	up = normalize(dir);//normalize(camup.xyz);
-	up = normalize(camup.xyz);
+	//up = normalize(camup.xyz);
 	up *= h;
 
 	normal = normalize(pos - campos.xyz);
@@ -133,8 +133,6 @@ float4 PShader(VOut input) : SV_TARGET
 	n = clamp(n, 0, 0.2);
 	color.a = lerp(0, color.a, n*10);
 	//color.a *= (1-lt)-noise.x;
-	//TODO: See over this and see if we can't get a compromise between floor() and smoothstep() that doesnt look ass
-	//and still clips out alpha properly at the end of the particle lifetime.
 #endif
 
 

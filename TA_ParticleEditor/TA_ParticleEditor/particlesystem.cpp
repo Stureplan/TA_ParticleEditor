@@ -280,7 +280,7 @@ void ParticleSystem::Rebuild(PARTICLESYSTEM particlesystem)
 
 	for (unsigned int i = 0; i < ps.maxparticles; i++)
 	{
-		particles.push_back(PARTICLE(FLOAT3(0, 0, 0), FLOAT3(0, 1, 0), 0, false, RandomIntMinusPlus(), RandomIntMinusPlus()));
+		particles.push_back(PARTICLE(FLOAT3(0, 0, 0), ps.velocity, 0, false, RandomIntMinusPlus(), RandomIntMinusPlus()));
 	}
 }
 
