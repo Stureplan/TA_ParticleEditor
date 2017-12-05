@@ -55,7 +55,7 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 
 	unsigned int totalframes = columns * rows;
 	unsigned int currentframe = totalframes * percent;
-	unsigned int nextframe = currentframe + 1;
+	unsigned int nextframe = min(currentframe + 1, totalframes-1);
 	float framePercent = rescale(percent, (float)currentframe / totalframes, (float)nextframe / totalframes);
 
 	float2 scale = lerp(startsize, endsize, percent);
