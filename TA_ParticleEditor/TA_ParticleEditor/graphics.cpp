@@ -665,6 +665,11 @@ void Graphics::Update()
 	}
 }
 
+void Graphics::UpdateOnce()
+{
+	particlesystem->Update(ms);
+}
+
 void Graphics::Render()
 {
 	float color[4]  = { 0.2f, 0.2f, 0.2f, 1.0f };

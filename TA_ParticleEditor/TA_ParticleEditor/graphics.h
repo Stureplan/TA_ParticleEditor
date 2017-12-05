@@ -63,6 +63,7 @@ public:
 
 	void Debug(bool active);
 	void Update();
+	void UpdateOnce();
 	void Render();
 	void RenderDebugObject(unsigned int vtxcount);
 	void RenderDebugParticle(unsigned int particleID);

@@ -224,7 +224,7 @@ void ParticleSystem::Initialize()
 		particles.push_back(PARTICLE(FLOAT3_ZERO, FLOAT3_ZERO + FLOAT3(0, 1, 0), 0, false, RandomIntMinusPlus(), RandomIntMinusPlus()));
 	}
 
-
+	cooldown = 0.0f;
 	rng = std::mt19937(rd());
 }
 
@@ -286,7 +286,10 @@ void ParticleSystem::Rebuild(PARTICLESYSTEM particlesystem)
 
 void ParticleSystem::Update(float dt)
 {
-	cooldown += dt;
+	if (dt < 0.1f)
+	{
+		cooldown += dt;
+	}
 
 	unsigned int max = particles.size();
 

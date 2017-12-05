@@ -531,6 +531,10 @@ void MainContainer::keyPressEvent(QKeyEvent* evt)
 		}
 	}
 
+	if (key == Qt::Key::Key_F)
+	{
+		graphics->UpdateOnce();
+	}
 
 	if (key == Qt::Key::Key_Escape)
 	{
