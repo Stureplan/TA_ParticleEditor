@@ -53,10 +53,10 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 	float3 dir = input[0].direction.xyz;
 	float percent = input[0].currentLifetime / lifetime;
 
-	unsigned int totalframes = columns * rows;
+	unsigned int totalframes = (columns * rows);
 	unsigned int currentframe = totalframes * percent;
-	unsigned int nextframe = min(currentframe + 1, totalframes);
-	float framePercent = rescale(percent, (float)currentframe / totalframes, (float)nextframe / totalframes);
+	unsigned int nextframe = min(currentframe + 1, totalframes-1);
+	float framePercent = min(rescale(percent, (float)currentframe / totalframes, (float)nextframe / totalframes),1);
 
 	float2 scale = lerp(startsize, endsize, percent);
 
@@ -69,7 +69,7 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 	float3 right;
 
 	up = normalize(dir);
-	//up = normalize(camup.xyz);//normalize(camup.xyz);
+	up = normalize(camup.xyz);//normalize(camup.xyz);
 	up *= h;
 
 	normal = normalize(pos - campos.xyz);
