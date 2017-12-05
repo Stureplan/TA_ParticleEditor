@@ -76,10 +76,10 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 #endif
 
 	float3 vtx[4];
-	vtx[0] = pos - right + up;
-	vtx[1] = pos - right - up;
-	vtx[2] = pos + right + up;
-	vtx[3] = pos + right - up;
+	vtx[0] = pos + right - up;
+	vtx[1] = pos + right + up;
+	vtx[2] = pos - right - up;
+	vtx[3] = pos - right + up;
 
 
 
