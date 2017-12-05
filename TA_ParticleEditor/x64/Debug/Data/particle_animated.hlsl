@@ -55,7 +55,7 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 
 	unsigned int totalframes = columns * rows;
 	unsigned int currentframe = totalframes * percent;
-	unsigned int nextframe = min(currentframe + 1, totalframes-1);
+	unsigned int nextframe = min(currentframe + 1, totalframes);
 	float framePercent = rescale(percent, (float)currentframe / totalframes, (float)nextframe / totalframes);
 
 	float2 scale = lerp(startsize, endsize, percent);
@@ -77,10 +77,10 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 
 
 	float3 vtx[4];
-	vtx[0] = pos + right - up;
-	vtx[1] = pos + right + up;
-	vtx[2] = pos - right - up;
-	vtx[3] = pos - right + up;
+	vtx[0] = pos - right + up;
+	vtx[1] = pos - right - up;
+	vtx[2] = pos + right + up;
+	vtx[3] = pos + right - up;
 
 	float2 cellUV;
 	cellUV.x = (float)(currentframe % rows) / (float)rows;

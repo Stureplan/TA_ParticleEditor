@@ -37,3 +37,8 @@ float rescale(float oldVal, float min, float max)
 {
 	return ((oldVal - min) / (max - min));
 }
+
+float rescale_p(float oldVal, float min, float max)
+{
+	return ((max - min) * oldVal) + min;
+}
