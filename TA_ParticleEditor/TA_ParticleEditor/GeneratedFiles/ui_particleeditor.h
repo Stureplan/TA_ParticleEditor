@@ -89,6 +89,7 @@ public:
     QLabel *label_EmitterType_2;
     QCheckBox *rotateParticles;
     QCheckBox *noiseDissolve;
+    QCheckBox *looping;
 
     void setupUi(QMainWindow *ParticleEditorClass)
     {
@@ -373,6 +374,9 @@ public:
         noiseDissolve = new QCheckBox(maincontainer);
         noiseDissolve->setObjectName(QStringLiteral("noiseDissolve"));
         noiseDissolve->setGeometry(QRect(850, 260, 111, 17));
+        looping = new QCheckBox(maincontainer);
+        looping->setObjectName(QStringLiteral("looping"));
+        looping->setGeometry(QRect(820, 192, 61, 17));
         ParticleEditorClass->setCentralWidget(maincontainer);
 
         retranslateUi(ParticleEditorClass);
@@ -408,6 +412,7 @@ public:
         QObject::connect(interpolateFrames, SIGNAL(stateChanged(int)), maincontainer, SLOT(shaderCompileChanged(int)));
         QObject::connect(rotateParticles, SIGNAL(stateChanged(int)), maincontainer, SLOT(shaderCompileChanged(int)));
         QObject::connect(noiseDissolve, SIGNAL(stateChanged(int)), maincontainer, SLOT(shaderCompileChanged(int)));
+        QObject::connect(looping, SIGNAL(stateChanged(int)), maincontainer, SLOT(setLooping(int)));
 
         textureTypeBox->setCurrentIndex(0);
         psTabs->setCurrentIndex(0);
@@ -508,6 +513,7 @@ public:
         label_EmitterType_2->setText(QApplication::translate("ParticleEditorClass", "Texture Type", Q_NULLPTR));
         rotateParticles->setText(QApplication::translate("ParticleEditorClass", "Rotate Particles", Q_NULLPTR));
         noiseDissolve->setText(QApplication::translate("ParticleEditorClass", "Noise Dissolve", Q_NULLPTR));
+        looping->setText(QApplication::translate("ParticleEditorClass", "Looping", Q_NULLPTR));
     } // retranslateUi
 
 };

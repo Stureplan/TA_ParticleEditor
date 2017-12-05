@@ -49,7 +49,7 @@ public:
 	void GainedFocus();
 	void Retexture(std::string path);
 	void RecompileShader(int type, bool noise, bool interpolate, bool rotate);
-	void Rebuild(PARTICLESYSTEM ps);
+	void Rebuild(EMITTER ps);
 	void PauseSimulation();
 
 	void ParticleInspectionLabel(QLabel* label);
@@ -69,9 +69,9 @@ public:
 	void RenderDebugParticle(unsigned int particleID);
 
 	ParticleSystem* ParticleSystemPtr() { return particlesystem; }
-	void AddParticleSystem(PARTICLESYSTEM ps);
+	void AddParticleSystem(EMITTER ps);
 	void RemoveParticleSystem(int index);
-	PARTICLESYSTEM ParticleSystemByIndex(int index);
+	EMITTER ParticleSystemByIndex(int index);
 
 	virtual QPaintEngine* paintEngine() const { return NULL; }
 
@@ -152,7 +152,7 @@ private:
 	ID3D11ShaderResourceView* texture_debug;
 
 	ParticleSystem* particlesystem;
-	std::vector<PARTICLESYSTEM> particlesystems;
+	std::vector<EMITTER> particlesystems;
 	Shaders shaders;
 
 	Gizmo* positionGizmo;

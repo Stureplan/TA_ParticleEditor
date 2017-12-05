@@ -52,7 +52,7 @@ void MainContainer::SetPointers(ParticleSystem* ps)
 	interpolateFrames		= findChild<QCheckBox*>		("interpolateFrames",	Qt::FindChildOption::FindChildrenRecursively);
 	rotateParticles			= findChild<QCheckBox*>		("rotateParticles",		Qt::FindChildOption::FindChildrenRecursively);
 	noiseDissolve			= findChild<QCheckBox*>		("noiseDissolve",		Qt::FindChildOption::FindChildrenRecursively);
-
+	loopingCheckBox			= findChild<QCheckBox*>		("looping",				Qt::FindChildOption::FindChildrenRecursively);
 
 	textFieldEmissionDelay = findChild<QLabel*>("label_EmDelaySlide", Qt::FindChildOption::FindChildrenRecursively);
 }
@@ -102,6 +102,7 @@ void MainContainer::Init()
 	mCurrentPS.textureType = 0;
 	mCurrentPS.textureRows = 4;
 	mCurrentPS.textureColumns = 4;
+	mCurrentPS.looping = 0;
 }
 
 void MainContainer::setGravity()
@@ -114,7 +115,7 @@ void MainContainer::load()
 {
 	std::string loadPath = QFileDialog::getOpenFileName(this).toStdString();
 	int textureNameSize = 0;
-	PARTICLESYSTEM ps;
+	EMITTER ps;
 	FILE* file = fopen(loadPath.c_str(), "rb");
 
 	if (file != NULL)
@@ -123,7 +124,7 @@ void MainContainer::load()
 	
 		std::string n(textureNameSize, '\0');
 		fread(&n[0], sizeof(char), textureNameSize, file);
-		fread(&ps, sizeof(PARTICLESYSTEM), 1, file);
+		fread(&ps, sizeof(EMITTER), 1, file);
 		mCurrentPS = ps;
 
 		SetUiElements();
@@ -198,7 +199,7 @@ void MainContainer::save()
 
 	//std::string exportPath = PathFindFileNameA(savePath.toStdString().c_str());
 	
-	PARTICLESYSTEM ps = mCurrentPS;
+	EMITTER ps = mCurrentPS;
 
 	FILE* file = fopen(exportPath.c_str(), "wb");
 	if (file != NULL)
@@ -215,7 +216,7 @@ void MainContainer::save()
 		fwrite(tex, sizeof(const char), texturenamesize, file);
 
 		// ...then we write the particle system details
-		fwrite(&ps, sizeof(PARTICLESYSTEM), 1, file);
+		fwrite(&ps, sizeof(EMITTER), 1, file);
 		int result = fclose(file);
 
 		if (result == 0)
@@ -380,13 +381,13 @@ void MainContainer::setMaxParticles()
 
 void MainContainer::BuildParticleSystem()
 {
-	PARTICLESYSTEM ps(mCurrentPS.emittertype, mCurrentPS.maxparticles,
+	EMITTER ps(mCurrentPS.emittertype, mCurrentPS.maxparticles,
 		mCurrentPS.velocity, mCurrentPS.emissiondelay, mCurrentPS.lifetime, mCurrentPS.gravity,
 		FLOAT4(mColor0.redF(), mColor0.greenF(), mColor0.blueF(), mColor0.alphaF()),
 		FLOAT4(mColor1.redF(), mColor1.greenF(), mColor1.blueF(), mColor1.alphaF()),
 		FLOAT4(mColor2.redF(), mColor2.greenF(), mColor2.blueF(), mColor2.alphaF()),
 		mCurrentPS.startSizeX, mCurrentPS.startSizeY, mCurrentPS.endSizeX, mCurrentPS.endSizeY, mCurrentPS.rectSizeX, mCurrentPS.rectSizeZ,
-		mCurrentPS.textureType, mCurrentPS.textureColumns, mCurrentPS.textureRows);
+		mCurrentPS.textureType, mCurrentPS.textureColumns, mCurrentPS.textureRows, mCurrentPS.looping);
 
 	graphics->Rebuild(ps);
 }
@@ -472,6 +473,15 @@ void MainContainer::setColumnsRows()
 	particlesystem->SetProperty(PS_PROPERTY::PS_TEXTURE_ROWS,	 &mCurrentPS.textureRows);
 }
 
+void MainContainer::setLooping(int value)
+{
+	//TODO: UI controls for replaying a particle system
+	//TODO: Multiple Emitters
+	if (value == 2) value = 1;
+	mCurrentPS.looping = value;
+	BuildParticleSystem();
+}
+
 void MainContainer::selectTab(int index)
 {
 	int max = psTabs->count() - 1;
@@ -503,7 +513,7 @@ void MainContainer::removeTab(int index)
 	}
 }
 
-void MainContainer::FillValues(PARTICLESYSTEM fromCurrentPS)
+void MainContainer::FillValues(EMITTER fromCurrentPS)
 {
 	mCurrentPS = fromCurrentPS;
 

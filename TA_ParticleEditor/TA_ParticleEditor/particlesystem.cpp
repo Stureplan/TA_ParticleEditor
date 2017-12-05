@@ -16,7 +16,7 @@ unsigned int ParticleSystem::ParticleCount()
 
 void ParticleSystem::AddParticle(FLOAT3 p)
 {
-	particles.push_back(PARTICLE(p, p, 0.0f, true, 1, 1));
+	particles.push_back(PARTICLE(p, p, 0.0f, true, 1, 1,0));
 }
 
 void ParticleSystem::ModifyParticle(int id, FLOAT3 p)
@@ -152,6 +152,9 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 	case PS_PROPERTY::PS_TEXTURE_ROWS:
 		ps.textureRows = *((int*)data);
 		break;
+	case PS_PROPERTY::PS_LOOPING:
+		ps.looping = *((int*)data);
+		break;
 	}
 }
 
@@ -210,6 +213,9 @@ void* ParticleSystem::GetProperty(PS_PROPERTY prop)
 	case PS_PROPERTY::PS_TEXTURE_ROWS:
 		return &ps.textureRows;
 		break;
+	case PS_PROPERTY::PS_LOOPING:
+		return &ps.looping;
+		break;
 	}
 
 	return NULL;
@@ -217,11 +223,11 @@ void* ParticleSystem::GetProperty(PS_PROPERTY prop)
 
 void ParticleSystem::Initialize()
 {
-	ps = PARTICLESYSTEM(EMITTER_TYPE::EMIT_POINT,0, FLOAT3_ZERO, 0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 4, 4);
+	ps = EMITTER(EMITTER_TYPE::EMIT_POINT,0, FLOAT3_ZERO, 0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 4, 4, 0);
 
 	for (unsigned int i = 0; i < ps.maxparticles; i++)
 	{
-		particles.push_back(PARTICLE(FLOAT3_ZERO, FLOAT3_ZERO + FLOAT3(0, 1, 0), 0, false, RandomIntMinusPlus(), RandomIntMinusPlus()));
+		particles.push_back(PARTICLE(FLOAT3_ZERO, FLOAT3_ZERO + FLOAT3(0, 1, 0), 0, false, RandomIntMinusPlus(), RandomIntMinusPlus(),0));
 	}
 
 	cooldown = 0.0f;
@@ -271,25 +277,22 @@ int ParticleSystem::RandomIntMinusPlus()
 }
 
 
-void ParticleSystem::Rebuild(PARTICLESYSTEM particlesystem)
+void ParticleSystem::Rebuild(EMITTER emitter)
 {
-	ps = particlesystem;
+	ps = emitter;
 	cooldown = ps.emissiondelay;
 
 	particles.clear();
 
 	for (unsigned int i = 0; i < ps.maxparticles; i++)
 	{
-		particles.push_back(PARTICLE(FLOAT3(0, 0, 0), ps.velocity, 0, false, RandomIntMinusPlus(), RandomIntMinusPlus()));
+		particles.push_back(PARTICLE(FLOAT3(0, 0, 0), ps.velocity, 0, false, RandomIntMinusPlus(), RandomIntMinusPlus(),0));
 	}
 }
 
 void ParticleSystem::Update(float dt)
 {
-	if (dt < 0.1f)
-	{
-		cooldown += dt;
-	}
+	cooldown += dt;
 
 	unsigned int max = particles.size();
 
@@ -344,11 +347,30 @@ void ParticleSystem::Update(float dt)
 			// Find out if we should emit it again!
 			if (cooldown > ps.emissiondelay)
 			{
-				particles[i].position = Position(ps.emittertype);
-				particles[i].alive = true;
+				if (ps.looping == 0) // emit all particles only once
+				{
+					if (p.timesemitted == 0)
+					{
+						particles[i].position = Position(ps.emittertype);
+						particles[i].alive = true;
+						particles[i].timesemitted++;
 
-				cooldown = 0.0f;
+						cooldown = 0.0f;
+					}
+				}
+
+				if (ps.looping == 1) // continuous emission
+				{
+					particles[i].position = Position(ps.emittertype);
+					particles[i].alive = true;
+					particles[i].timesemitted++;
+
+					cooldown = 0.0f;
+				}
 			}
+
+
+
 		}
 	}
 }

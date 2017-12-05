@@ -32,7 +32,7 @@ public:
 
 
 	void Initialize();
-	void Rebuild(PARTICLESYSTEM particlesystem);
+	void Rebuild(EMITTER emitter);
 	void Update(float dt);
 
 private:
@@ -43,7 +43,7 @@ private:
 
 private:
 	// Private variables
-	PARTICLESYSTEM ps;
+	EMITTER ps;
 	std::vector<PARTICLE> particles;
 	float cooldown = 0.0f;
 

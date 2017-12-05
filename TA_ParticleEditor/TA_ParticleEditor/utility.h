@@ -106,7 +106,7 @@ struct PARTICLE_VERTEX
 
 struct PARTICLE
 {
-	PARTICLE(FLOAT3 pos, FLOAT3 dir, float cl, bool a, int rX, int rY)
+	PARTICLE(FLOAT3 pos, FLOAT3 dir, float cl, bool a, int rX, int rY, int tE)
 	{ 
 		position = pos;
 		direction = dir;
@@ -115,6 +115,8 @@ struct PARTICLE
 		
 		randX = rX;
 		randY = rY;
+
+		timesemitted = tE;
 	}
 
 	FLOAT3 position;
@@ -124,6 +126,8 @@ struct PARTICLE
 
 	int randX;
 	int randY;
+
+	int timesemitted;
 };
 
 enum PS_PROPERTY
@@ -145,7 +149,8 @@ enum PS_PROPERTY
 	PS_RECT_SIZE_Z,
 	PS_TEXTURE_TYPE,
 	PS_TEXTURE_COLUMNS,
-	PS_TEXTURE_ROWS
+	PS_TEXTURE_ROWS,
+	PS_LOOPING
 };
 
 enum EMITTER_TYPE
@@ -154,10 +159,10 @@ enum EMITTER_TYPE
 	EMIT_RECTANGLE
 };
 
-struct PARTICLESYSTEM
+struct EMITTER
 {
-	PARTICLESYSTEM(){}
-	PARTICLESYSTEM(EMITTER_TYPE e, int m, FLOAT3 v, float ed, float lt, float grv, FLOAT4 col0, FLOAT4 col1, FLOAT4 col2, float sX, float sY, float eX, float eY, float rsX, float rsZ, int tT, int tC, int tR)
+	EMITTER(){}
+	EMITTER (EMITTER_TYPE e, int m, FLOAT3 v, float ed, float lt, float grv, FLOAT4 col0, FLOAT4 col1, FLOAT4 col2, float sX, float sY, float eX, float eY, float rsX, float rsZ, int tT, int tC, int tR, int l)
 	{
 		emittertype = e;
 		maxparticles = m;
@@ -177,6 +182,7 @@ struct PARTICLESYSTEM
 		textureType = tT;
 		textureColumns = tC;
 		textureRows = tR;
+		looping = l;
 	}
 	// PS Export variables
 	EMITTER_TYPE emittertype;
@@ -197,6 +203,7 @@ struct PARTICLESYSTEM
 	int textureType;
 	int textureColumns;
 	int textureRows;
+	int looping;
 };
 
 #pragma region CONSTANT BUFFERS

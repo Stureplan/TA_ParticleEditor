@@ -469,7 +469,7 @@ void Graphics::ChangeRasterization(D3D11_FILL_MODE fillmode)
 	}
 }
 
-void Graphics::Rebuild(PARTICLESYSTEM ps)
+void Graphics::Rebuild(EMITTER ps)
 {
 	if ((EMITTER_TYPE)ps.emittertype == EMITTER_TYPE::EMIT_POINT)
 	{
@@ -566,7 +566,7 @@ void Graphics::ResizeParticleSystem(unsigned int count)
 	//This function clears every particle and recreates the data.
 }
 
-void Graphics::AddParticleSystem(PARTICLESYSTEM ps)
+void Graphics::AddParticleSystem(EMITTER ps)
 {
 	particlesystems.push_back(ps);
 }
@@ -576,7 +576,7 @@ void Graphics::RemoveParticleSystem(int index)
 	particlesystems.erase(particlesystems.begin() + index);
 }
 
-PARTICLESYSTEM Graphics::ParticleSystemByIndex(int index)
+EMITTER Graphics::ParticleSystemByIndex(int index)
 {
 	return particlesystems.at(index);
 }

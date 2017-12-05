@@ -22,7 +22,7 @@
 #include "utility.h"
 #include "graphics.h"
 
-#define DEFAULT_MAXPARTICLES 100
+#define DEFAULT_MAXPARTICLES 10
 #define DEFAULT_LIFETIME 1.0f
 #define DEFAULT_EMISSIONDELAY 0.1f
 #define DEFAULT_VELOCITY FLOAT3(0,0,0)
@@ -73,6 +73,7 @@ public slots:
 	void endSizeY();
 	void rectResize();
 	void setColumnsRows();
+	void setLooping(int value);
 
 	void selectTab(int index);
 	void addTab(int index);
@@ -83,7 +84,7 @@ protected:
 	virtual void keyReleaseEvent(QKeyEvent* evt);
 	virtual void mousePressEvent(QMouseEvent* evt);
 private:
-	void FillValues(PARTICLESYSTEM fromPS);
+	void FillValues(EMITTER fromPS);
 
 	// PROGRAM POINTERS
 	Graphics* graphics;
@@ -127,6 +128,7 @@ private:
 	QCheckBox* interpolateFrames;
 	QCheckBox* rotateParticles;
 	QCheckBox* noiseDissolve;
+	QCheckBox* loopingCheckBox;
 
 	// QT VARIABLES
 	QString mTexturePath;
@@ -136,6 +138,6 @@ private:
 	QColor mColor2;
 
 	// PS VARIABLES
-	PARTICLESYSTEM mCurrentPS;
+	EMITTER mCurrentPS;
 	int mCurrentPSIndex = 0;
 };
