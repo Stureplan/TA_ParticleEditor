@@ -75,26 +75,27 @@ void MainContainer::Init()
 	mCurrentPS.gravity = DEFAULT_GRAVITY;
 	textFieldGravity->setPlaceholderText(std::to_string(DEFAULT_GRAVITY).c_str());
 
-	mCurrentPS.maxparticles = DEFAULT_MAXPARTICLES;
-	textFieldMaxParticles->setPlaceholderText(std::to_string(DEFAULT_MAXPARTICLES).c_str());
+	mCurrentPS.maxparticles = textFieldMaxParticles->text().toInt();
 
-	mCurrentPS.startSizeX = DEFAULT_SIZE;
-	mCurrentPS.startSizeY = DEFAULT_SIZE;
-	textFieldStartSizeX->setPlaceholderText(std::to_string(DEFAULT_SIZE).c_str());
-	textFieldStartSizeY->setPlaceholderText(std::to_string(DEFAULT_SIZE).c_str());
+	mCurrentPS.startSizeX = textFieldStartSizeX->text().toFloat();
+	mCurrentPS.startSizeY = textFieldStartSizeY->text().toFloat();
 
-	mCurrentPS.endSizeX = DEFAULT_SIZE;
-	mCurrentPS.endSizeY = DEFAULT_SIZE;
-	textFieldEndSizeX->setPlaceholderText(std::to_string(DEFAULT_SIZE).c_str());
-	textFieldEndSizeY->setPlaceholderText(std::to_string(DEFAULT_SIZE).c_str());
+	mCurrentPS.endSizeX = textFieldEndSizeX->text().toFloat();
+	mCurrentPS.endSizeY = textFieldEndSizeY->text().toFloat();
 
 
-	mTexturePath = DEFAULT_TEXTUREPATH;
+	mTexturePath = textBrowser->placeholderText().toStdString().c_str();
 	textureView->setPixmap(mTexturePath);
 
 	mColor0 = Qt::white;
 	mColor1 = Qt::white;
 	mColor2 = Qt::white;
+
+	mCurrentPS.color0 = FLOAT4(mColor0.redF(), mColor0.greenF(), mColor0.blueF(), mColor0.alphaF());
+	mCurrentPS.color1 = FLOAT4(mColor1.redF(), mColor1.greenF(), mColor1.blueF(), mColor1.alphaF());
+	mCurrentPS.color2 = FLOAT4(mColor2.redF(), mColor2.greenF(), mColor2.blueF(), mColor2.alphaF());
+
+
 
 	mCurrentPS.rectSizeX = 1.0f;
 	mCurrentPS.rectSizeZ = 1.0f;
@@ -102,7 +103,7 @@ void MainContainer::Init()
 	mCurrentPS.textureType = 0;
 	mCurrentPS.textureRows = 4;
 	mCurrentPS.textureColumns = 4;
-	mCurrentPS.looping = 0;
+	mCurrentPS.looping = (int)loopingCheckBox->isChecked();
 }
 
 void MainContainer::setGravity()
@@ -272,7 +273,11 @@ void MainContainer::color2()
 	if (c.isValid())
 	{
 		mColor2 = c;
-		color2Display->setStyleSheet("QLineEdit { background: " + mColor2.name() + "; selection-background-color: rgb(233, 99, 0); }");
+
+		QString b = "#80FFFFFF";
+		color2Display->setStyleSheet("QLineEdit { background: " + b + "; selection-background-color: rgb(233, 99, 0); }");
+
+		//		color2Display->setStyleSheet("QLineEdit { background: " + mColor2.name() + "; selection-background-color: rgb(233, 99, 0); }");
 
 		FLOAT4 color = FLOAT4(mColor2.redF(), mColor2.greenF(), mColor2.blueF(), mColor2.alphaF());
 		particlesystem->SetProperty(PS_PROPERTY::PS_COLOR_2, &color);
