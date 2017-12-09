@@ -150,8 +150,7 @@ void MainContainer::SetUiElements()
 	//need implementation of rectangle position for emitter etc
 
 	textFieldEmissionDelay	->setText(QString::number(mCurrentPS.emissiondelay));
-	int value = mCurrentPS.emissiondelay * 100;
-	emissionDelaySlider->setValue(value);
+	emissionDelaySlider		->setValue((int)(mCurrentPS.emissiondelay * 100));
 	textFieldLifetime		->setText(QString::number(mCurrentPS.lifetime));
 	textFieldMaxParticles	->setText(QString::number(mCurrentPS.maxparticles));
 	textFieldGravity		->setText(QString::number(mCurrentPS.gravity));
@@ -180,6 +179,10 @@ void MainContainer::SetUiElements()
 
 	particlesystem->SetProperty(PS_PROPERTY::PS_START_SIZE_X, &mCurrentPS.startSizeX);
 	particlesystem->SetProperty(PS_PROPERTY::PS_START_SIZE_Y, &mCurrentPS.startSizeY);
+	particlesystem->SetProperty(PS_PROPERTY::PS_END_SIZE_X,   &mCurrentPS.endSizeX);
+	particlesystem->SetProperty(PS_PROPERTY::PS_END_SIZE_Y,	  &mCurrentPS.endSizeY);
+
+
 
 	emitterTypeChanged(mCurrentPS.emittertype);
 

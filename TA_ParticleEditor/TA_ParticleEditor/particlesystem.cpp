@@ -174,11 +174,6 @@ void ParticleSystem::RenderDebug(ID3D11DeviceContext* context, ID3D11SamplerStat
 	context->Draw(particleCount, 0);
 }
 
-unsigned int ParticleSystem::ParticleCount()
-{ 
-	return particles.size();
-}
-
 std::vector<PARTICLE_VERTEX> ParticleSystem::ParticleData(unsigned int &count)
 {
 	std::vector<PARTICLE_VERTEX> particle_vertices;
@@ -212,24 +207,6 @@ std::vector<PARTICLE_VERTEX> ParticleSystem::AllParticleData()
 	}
 
 	return positions;
-}
-
-PARTICLE_VERTEX ParticleSystem::GetParticle(unsigned int id)
-{
-	unsigned int aliveParticles = 0;
-	for (unsigned int i = 0; i < particles.size(); i++)
-	{
-		if (particles[i].alive)
-		{
-			if (aliveParticles == id)
-			{
-				return PARTICLE_VERTEX(particles[i].position, particles[i].direction, particles[i].currentlifetime);
-			}
-			aliveParticles++;
-		}
-	}
-
-	return PARTICLE_VERTEX(FLOAT3_ZERO, FLOAT3_ZERO, 0);
 }
 
 bool ParticleSystem::IsAlive(unsigned int id)

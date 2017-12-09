@@ -27,12 +27,8 @@ public:
 	void Render(ID3D11DeviceContext* context, ID3D11SamplerState* sampler, ID3D11ShaderResourceView* texture, ID3D11ShaderResourceView* noise);
 	void RenderDebug(ID3D11DeviceContext* context, ID3D11SamplerState* sampler, ID3D11ShaderResourceView* texture, ID3D11ShaderResourceView* noise);
 
-	unsigned int ParticleCount();
-	std::vector<PARTICLE_VERTEX> ParticleData(unsigned int &count);
-	std::vector<PARTICLE_VERTEX> AllParticleData();
-	PARTICLE_VERTEX GetParticle(unsigned int id);
+
 	bool IsAlive(unsigned int id);
-	unsigned int GetSize();
 
 	void SetProperty(PS_PROPERTY prop, void* data);
 	void* GetProperty(PS_PROPERTY prop);
@@ -43,6 +39,9 @@ public:
 	void Update(float dt);
 
 private:
+	unsigned int GetSize();
+	std::vector<PARTICLE_VERTEX> ParticleData(unsigned int &count);
+	std::vector<PARTICLE_VERTEX> AllParticleData();
 	float RandomFloat(float min, float max);
 	int RandomInt(int min, int max);
 	int RandomIntMinusPlus();

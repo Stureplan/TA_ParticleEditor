@@ -466,9 +466,9 @@ void Graphics::Render()
 	particlesystem->UpdateConstantBuffer(context, WVP, World, campos, camup);
 	particlesystem->Render(context, textureSamplerState, textures[1], textures[3]);
 
+	// DRAW DEBUG PARTICLES
 	if (debug == true)
 	{
-		// Render with debug wireframe
 		ChangeRasterization(D3D11_FILL_WIREFRAME);
 		particlesystem->RenderDebug(context, textureSamplerState, texture_debug, textures[3]);
 		ChangeRasterization(D3D11_FILL_SOLID);
