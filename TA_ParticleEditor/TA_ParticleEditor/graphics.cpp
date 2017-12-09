@@ -581,30 +581,6 @@ EMITTER Graphics::ParticleSystemByIndex(int index)
 	return particlesystems.at(index);
 }
 
-void Graphics::AddParticle(FLOAT3 p)
-{
-	//This function adds ONE particle to the existing particle amount.
-
-
-	// Original vertex amount
-	unsigned int originalParticleCount = particlesystem->ParticleCount();
-	unsigned int newParticleCount = -1;
-
-	// Add one particle to the vector
-	particlesystem->AddParticle(p);
-
-	// Get the data pointer
-	std::vector<PARTICLE_VERTEX> positions = particlesystem->ParticleData(newParticleCount);
-	
-	D3D11_MAPPED_SUBRESOURCE mappedResource;
-	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
-
-	// Discard the whole old system and set a new one
-	context->Map(particleVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-	memcpy(mappedResource.pData, positions.data(), sizeof(PARTICLE_VERTEX) * newParticleCount);
-	context->Unmap(particleVertexBuffer, 0);
-}
-
 void Graphics::UploadParticleBuffer()
 {
 	unsigned int count = -1;

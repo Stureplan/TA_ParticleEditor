@@ -59,7 +59,6 @@ public:
 
 	void ResizeParticleSystem(unsigned int count);
 	void UploadParticleBuffer();
-	void AddParticle(FLOAT3 p);
 
 	void Debug(bool active);
 	void Update();

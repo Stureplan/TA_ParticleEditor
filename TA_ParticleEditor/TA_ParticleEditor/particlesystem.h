@@ -19,8 +19,6 @@ public:
 	~ParticleSystem();
 	
 	unsigned int ParticleCount();
-	void AddParticle(FLOAT3 p);
-	void ModifyParticle(int id, FLOAT3 p);
 	std::vector<PARTICLE_VERTEX> ParticleData(unsigned int &count);
 	std::vector<PARTICLE_VERTEX> AllParticleData();
 	PARTICLE_VERTEX GetParticle(unsigned int id);
@@ -43,7 +41,7 @@ private:
 
 private:
 	// Private variables
-	EMITTER ps;
+	EMITTER emitter;
 	std::vector<PARTICLE> particles;
 	float cooldown = 0.0f;
 
