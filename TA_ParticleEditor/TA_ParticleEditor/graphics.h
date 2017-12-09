@@ -53,7 +53,6 @@ public:
 	void Update();
 	void UpdateOnce();
 	void Render();
-	void RenderDebugObject(unsigned int vtxcount);
 
 	ParticleSystem* ParticleSystemPtr() { return particlesystem; }
 	void AddParticleSystem(EMITTER ps);

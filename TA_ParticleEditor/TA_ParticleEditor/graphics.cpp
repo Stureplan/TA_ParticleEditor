@@ -478,20 +478,6 @@ void Graphics::Render()
 	swapChain->Present(VSYNC, 0);
 }
 
-void Graphics::RenderDebugObject(unsigned int vtxcount)
-{
-	// Change to wireframe
-	ChangeRasterization(D3D11_FILL_WIREFRAME);
-	
-	// Render wireframe
-	context->PSSetSamplers(0, 1, &textureSamplerState);
-	context->PSSetShaderResources(0, 1, &texture_debug);
-	context->Draw(vtxcount, 0);
-
-	// Change back to fill
-	ChangeRasterization(D3D11_FILL_SOLID);
-}
-
 void Graphics::paintEvent(QPaintEvent* evt)
 {
 	//qt paint
