@@ -1,5 +1,7 @@
 #pragma once
 #include <d3d11.h>
+#include <DirectXMath.h>
+
 #include <vector>
 #include <random>
 #include "utility.h"
@@ -17,7 +19,14 @@ class ParticleSystem
 public:
 	ParticleSystem();
 	~ParticleSystem();
-	
+
+	void VertexBuffer(ID3D11Device* device);
+	void ConstantBuffer(ID3D11Device* device);
+	void UpdateConstantBuffer(ID3D11DeviceContext* context, XMMATRIX wvp, XMMATRIX world, XMVECTOR campos, XMVECTOR camup);
+	void UploadParticleBuffer(ID3D11DeviceContext* context);
+	void Render(ID3D11DeviceContext* context, ID3D11SamplerState* sampler, ID3D11ShaderResourceView* texture, ID3D11ShaderResourceView* noise);
+	void RenderDebug(ID3D11DeviceContext* context, ID3D11SamplerState* sampler, ID3D11ShaderResourceView* texture, ID3D11ShaderResourceView* noise);
+
 	unsigned int ParticleCount();
 	std::vector<PARTICLE_VERTEX> ParticleData(unsigned int &count);
 	std::vector<PARTICLE_VERTEX> AllParticleData();
@@ -40,6 +49,15 @@ private:
 	FLOAT3 Position(EMITTER_TYPE type);
 
 private:
+	ID3D11Buffer* constantBuffer;
+	ID3D11Buffer* constantBufferAnimated;
+	ID3D11Buffer* vertexBuffer;
+
+	CBUFFER_PARTICLESYSTEM cBufferParticle;
+	CBUFFER_PARTICLESYSTEM_ANIMATED cBufferParticleAnimated;
+
+
+
 	// Private variables
 	EMITTER emitter;
 	std::vector<PARTICLE> particles;

@@ -36,12 +36,6 @@ Graphics::~Graphics()
 	blendState->Release();
 	rasterizerState->Release();
 
-	constantBufferParticle->Release();
-	constantBufferParticleAnimated->Release();
-
-	particleVertexBuffer->Release();
-	particleDebugVertexBuffer->Release();
-
 
 	for (unsigned int i = 0; i < textures.size(); i++)
 	{
@@ -170,34 +164,6 @@ void Graphics::Initialize()
 	context->RSSetViewports(1, &viewport);
 	/*===================================================================================*/
 
-
-	/*===================================================================================*/
-	// CONSTANT BUFFER PARTICLE SETUP
-	D3D11_BUFFER_DESC cb_particle_Desc;
-	ZeroMemory(&cb_particle_Desc, sizeof(D3D11_BUFFER_DESC));
-	cb_particle_Desc.Usage = D3D11_USAGE_DEFAULT;
-	cb_particle_Desc.ByteWidth = sizeof(cBufferParticle);
-	cb_particle_Desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	cb_particle_Desc.CPUAccessFlags = 0;
-	cb_particle_Desc.MiscFlags = 0;
-	cb_particle_Desc.StructureByteStride = 0;
-	hr = device->CreateBuffer(&cb_particle_Desc, NULL, &constantBufferParticle);
-	/*===================================================================================*/
-
-
-	/*===================================================================================*/
-	// CONSTANT BUFFER PARTICLE ANIMATED SETUP
-	D3D11_BUFFER_DESC cb_particle_animated_Desc;
-	ZeroMemory(&cb_particle_animated_Desc, sizeof(D3D11_BUFFER_DESC));
-	cb_particle_animated_Desc.Usage = D3D11_USAGE_DEFAULT;
-	cb_particle_animated_Desc.ByteWidth = sizeof(cBufferParticleAnimated);
-	cb_particle_animated_Desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	cb_particle_animated_Desc.CPUAccessFlags = 0;
-	cb_particle_animated_Desc.MiscFlags = 0;
-	cb_particle_animated_Desc.StructureByteStride = 0;
-	hr = device->CreateBuffer(&cb_particle_animated_Desc, NULL, &constantBufferParticleAnimated);
-	/*===================================================================================*/
-
 	SetupCamera(XMVectorSet(0, 1, -10.0f, 0), //pos
 				XMVectorSet(0, 1, -9.0f,  0), //dir
 				XMVectorSet(0, 2, 0, 0));  //up
@@ -206,8 +172,9 @@ void Graphics::Initialize()
 	shaders.LoadParticleShader(device, context, "particle.hlsl");
 	
 	particlesystem->Initialize();
-	LoadParticles();
-	LoadDebugParticle();
+	particlesystem->VertexBuffer(device);
+	particlesystem->ConstantBuffer(device);
+
 	positionGizmo->VertexBuffer(device, std::vector<GIZMO_VERTEX>({{0,0,0,1,0,0},{1,0,0,1,0,0},{0,0,0,1,0,0},{0,1,0,0,1,0},{0,0,0,0,1,0},{0,0,1,0,0,1},{0,0,0,0,0,1}}));
 	positionGizmo->ConstantBuffer(device);
 
@@ -328,56 +295,6 @@ void Graphics::SetLastCameraRotation(Qt::Key key, bool released)
 	}
 }
 
-void Graphics::LoadParticles()
-{
-	HRESULT hr;
-
-	std::vector<PARTICLE_VERTEX> positions = particlesystem->AllParticleData();
-	unsigned int count = positions.size();
-
-	D3D11_BUFFER_DESC vertexDesc;
-	ZeroMemory(&vertexDesc, sizeof(vertexDesc));
-	//vertexDesc.ByteWidth = sizeof(POSITION) * count*2;	//NOTE!!!!!! this is just simply reserved space for further vertices.
-	vertexDesc.ByteWidth = sizeof(PARTICLE_VERTEX) * count;
-	vertexDesc.Usage = D3D11_USAGE_DYNAMIC;
-	vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	vertexDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	vertexDesc.MiscFlags = 0;
-	vertexDesc.StructureByteStride = 0;
-
-	D3D11_SUBRESOURCE_DATA vertexData;
-	ZeroMemory(&vertexData, sizeof(vertexData));
-	vertexData.pSysMem = positions.data();
-	vertexData.SysMemPitch = 0;
-	vertexData.SysMemSlicePitch = 0;
-
-	hr = device->CreateBuffer(&vertexDesc, &vertexData, &particleVertexBuffer);
-}
-
-void Graphics::LoadDebugParticle()
-{
-	HRESULT hr;
-
-	debugParticle = { {0, 0, 0}, {0, 0, 0}, 0 };
-
-	D3D11_BUFFER_DESC vertexDesc;
-	ZeroMemory(&vertexDesc, sizeof(vertexDesc));
-	vertexDesc.ByteWidth = sizeof(PARTICLE_VERTEX);
-	vertexDesc.Usage = D3D11_USAGE_DYNAMIC;
-	vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	vertexDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	vertexDesc.MiscFlags = 0;
-	vertexDesc.StructureByteStride = 0;
-
-	D3D11_SUBRESOURCE_DATA vertexData;
-	ZeroMemory(&vertexData, sizeof(vertexData));
-	vertexData.pSysMem = &debugParticle;
-	vertexData.SysMemPitch = 0;
-	vertexData.SysMemSlicePitch = 0;
-
-	hr = device->CreateBuffer(&vertexDesc, &vertexData, &particleDebugVertexBuffer);
-}
-
 void Graphics::LoadFullscreenQuad()
 {
 	HRESULT hr;
@@ -480,90 +397,12 @@ void Graphics::Rebuild(EMITTER ps)
 		emitterGizmo->VertexBuffer(device,{{-2,0,2,1,0,1},{2,0,2,1,0,1},{2,0,-2,1,0,1},{-2,0,-2,1,0,1},{-2,0,2,1,0,1}});
 	}
 	particlesystem->Rebuild(ps);
-	LoadParticles();
+	particlesystem->VertexBuffer(device);
 }
 
 void Graphics::PauseSimulation()
 {
 	paused = !paused;
-}
-
-void Graphics::ParticleInspectionLabel(QLabel* label)
-{
-	inspectorLabel = label;
-}
-
-void Graphics::UpdateInspectorText()
-{
-	PARTICLE_VERTEX p = particlesystem->GetParticle(particleDebugID);
-	FLOAT3 pos = p.position;
-	float life = p.currentlifetime;
-
-	char buffer[64];
-	sprintf(buffer, "X: %.2f Y: %.2f Z: %.2f\nCurrent Lifetime: %.2f", pos.X, pos.Y, pos.Z, life);
-	inspectorLabel->setText(buffer);
-}
-
-int Graphics::TestIntersection(int x, int y, XMFLOAT3 &particlePos)
-{
-	unsigned int count = -1;
-	std::vector<PARTICLE_VERTEX> particles = particlesystem->ParticleData(count);
-
-	for (unsigned int i = 0; i < count; i++)
-	{
-		// FIND ORIGINAL PARTICLE POS
-		XMVECTOR pos = XMVectorSet(particles[i].position.X, particles[i].position.Y, particles[i].position.Z, 1.0f);
-		XMVECTOR up = XMVector3Normalize(camup) * *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_START_SIZE_Y);
-		XMVECTOR normal = XMVector3Normalize(pos - campos);
-		XMVECTOR right = XMVector3Normalize(XMVector3Cross(normal, up)) * *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_START_SIZE_X);
-
-		XMVECTOR vec0 = pos - right + up; //XMVectorSet(-5, 5, 0, 1);
-		XMVECTOR vec1 = pos - right - up; //XMVectorSet(-5,-5, 0, 1);
-		XMVECTOR vec2 = pos + right + up; //XMVectorSet(5, 5, 0, 1);
-		XMVECTOR vec3 = pos + right - up; //XMVectorSet(5, -5, 0, 1);
-
-		World = XMMatrixIdentity();
-		XMVECTOR nVec0 = XMVector3Project(vec0, 0, 0, WIDTH, HEIGHT, 0, 1, Projection, View, World);
-		XMVECTOR nVec1 = XMVector3Project(vec1, 0, 0, WIDTH, HEIGHT, 0, 1, Projection, View, World);
-		XMVECTOR nVec2 = XMVector3Project(vec2, 0, 0, WIDTH, HEIGHT, 0, 1, Projection, View, World);
-		XMVECTOR nVec3 = XMVector3Project(vec3, 0, 0, WIDTH, HEIGHT, 0, 1, Projection, View, World);
-
-		XMFLOAT2 pixel0;
-		XMStoreFloat2(&pixel0, nVec0);
-		XMFLOAT2 pixel1;
-		XMStoreFloat2(&pixel1, nVec1);
-		XMFLOAT2 pixel2;
-		XMStoreFloat2(&pixel2, nVec2);
-		XMFLOAT2 pixel3;
-		XMStoreFloat2(&pixel3, nVec3);
-
-
-		bool t1 = PointInTriangle(x, y, pixel0.x, pixel0.y, pixel1.x, pixel1.y, pixel2.x, pixel2.y);
-		bool t2 = PointInTriangle(x, y, pixel1.x, pixel1.y, pixel3.x, pixel3.y, pixel2.x, pixel2.y);
-
-		if (t1 == true || t2 == true)
-		{
-			XMStoreFloat3(&particlePos, pos);
-			particleDebugID = i;
-			return i;
-		}
-	}
-
-	particleDebugID = -1;
-	return -1;
-}
-bool Graphics::PointInTriangle(float x, float y, float x1, float y1, float x2, float y2, float x3, float y3)
-{
-	float l1 = (x - x1)*(y3 - y1) - (x3 - x1)*(y - y1);
-	float l2 = (x - x2)*(y1 - y2) - (x1 - x2)*(y - y2);
-	float l3 = (x - x3)*(y2 - y3) - (x2 - x3)*(y - y3);
-
-	return (l1>0 && l2>0 && l3>0) || (l1<0 && l2<0 && l3<0);
-}
-
-void Graphics::ResizeParticleSystem(unsigned int count)
-{
-	//This function clears every particle and recreates the data.
 }
 
 void Graphics::AddParticleSystem(EMITTER ps)
@@ -581,24 +420,6 @@ EMITTER Graphics::ParticleSystemByIndex(int index)
 	return particlesystems.at(index);
 }
 
-void Graphics::UploadParticleBuffer()
-{
-	unsigned int count = -1;
-
-	// Fetch the data & count from the PS
-	std::vector<PARTICLE_VERTEX> positions = particlesystem->ParticleData(count);
-	
-	if (count > 0)
-	{
-		D3D11_MAPPED_SUBRESOURCE mappedResource;
-		ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
-		HRESULT hr = context->Map(particleVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-		memcpy((PARTICLE_VERTEX*)mappedResource.pData, positions.data(), sizeof(PARTICLE_VERTEX) * count);
-		context->Unmap(particleVertexBuffer, 0);
-	}
-}
-
-
 void Graphics::Debug(bool active)
 {
 	debug = active;
@@ -606,34 +427,6 @@ void Graphics::Debug(bool active)
 
 void Graphics::Update()
 {
-	frame++;
-
-#ifdef VSYNC_1
-	if (frame == 10)
-	{
-		if (particleDebugID > -1 && particlesystem->IsAlive(particleDebugID))
-		{
-			UpdateInspectorText();
-		}
-		frame = 0;
-	}
-#else
-	if (frame == 1000)
-	{
-		if (particleDebugID > -1 && particlesystem->IsAlive(particleDebugID))
-		{
-			UpdateInspectorText();
-		}
-		frame = 0;
-	}
-#endif // VSYNC
-
-
-
-
-
-	//if (frame == 0) { ms = 0.016f; }
-
 	if (paused == false)
 	{
 		//TODO: Put ms here instead, test test test.
@@ -651,11 +444,6 @@ void Graphics::Render()
 	float color[4]  = { 0.2f, 0.2f, 0.2f, 1.0f };
 	context->ClearRenderTargetView(renderTargetView, color);
 
-	// GENERAL SETTINGS
-	UINT stride;
-	UINT offset;
-
-
 	// DRAW POSITION GIZMO
 	World = XMMatrixIdentity();
 	WVP = World * View * Projection;
@@ -669,96 +457,21 @@ void Graphics::Render()
 	emitterGizmo->UpdateConstantBuffer(context, WVP);
 	emitterGizmo->Render(context, textureSamplerState, texture_debug);
 
-
-	// SETUP & DRAW PARTICLES
-	UploadParticleBuffer();
-	stride = sizeof(PARTICLE_VERTEX);
-	offset = 0;
-	shaders.SetParticleShader(context);
-	context->IASetVertexBuffers(0, 1, &particleVertexBuffer, &stride, &offset);
-	
+	// DRAW PARTICLES
 	World = XMMatrixIdentity();
 	WVP = World * View * Projection;
-
-	
 	camup = XMVector3Transform(XMVectorSet(0, 1, 0, 1), XMMatrixTranspose(View));
-
-	//TODO: Move entire rendering garbage to particlsystem
-	//TODO: Decide if we want to move entire rendering garbage to particlesystem
-	int textureType = *(int*)particlesystem->GetProperty(PS_PROPERTY::PS_TEXTURE_TYPE);
-	if (textureType == 0)
-	{
-		// Regular particle
-		cBufferParticle.wvp = XMMatrixTranspose(WVP);
-		cBufferParticle.world = XMMatrixTranspose(World);
-		cBufferParticle.campos = campos;
-		cBufferParticle.camup = camup;//XMVectorSet(0, 1, 0, 1);
-		cBufferParticle.startsize = XMFLOAT2(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_START_SIZE_X), *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_START_SIZE_Y));
-		cBufferParticle.endsize = XMFLOAT2(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_END_SIZE_X), *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_END_SIZE_Y));
-		cBufferParticle.col0 = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_0);
-		cBufferParticle.col1 = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_1);
-		cBufferParticle.col2 = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_2);
-		cBufferParticle.lifetime = *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_LIFETIME);
-
-		context->UpdateSubresource(constantBufferParticle, 0, NULL, &cBufferParticle, 0, 0);
-		context->VSSetConstantBuffers(0, 1, &constantBufferParticle);
-		context->GSSetConstantBuffers(0, 1, &constantBufferParticle);
-		context->PSSetConstantBuffers(0, 1, &constantBufferParticle);
-	}
-	
-	if (textureType == 1 || textureType == 2)
-	{
-		// Texture sheet (Animated)
-		cBufferParticleAnimated.wvp = XMMatrixTranspose(WVP);
-		cBufferParticleAnimated.world = XMMatrixTranspose(World);
-		cBufferParticleAnimated.campos = campos;
-		cBufferParticleAnimated.camup = camup;// XMVectorSet(0, 1, 0, 1);
-		cBufferParticleAnimated.startsize = XMFLOAT2(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_START_SIZE_X), *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_START_SIZE_Y));
-		cBufferParticleAnimated.endsize = XMFLOAT2(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_END_SIZE_X), *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_END_SIZE_Y));
-		cBufferParticleAnimated.col0 = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_0);
-		cBufferParticleAnimated.col1 = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_1);
-		cBufferParticleAnimated.col2 = *(FLOAT4*)particlesystem->GetProperty(PS_PROPERTY::PS_COLOR_2);
-		cBufferParticleAnimated.lifetime = *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_LIFETIME);
-		cBufferParticleAnimated.columns = *(int*)particlesystem->GetProperty(PS_PROPERTY::PS_TEXTURE_COLUMNS);
-		cBufferParticleAnimated.rows = *(int*)particlesystem->GetProperty(PS_PROPERTY::PS_TEXTURE_ROWS);
-
-
-		context->UpdateSubresource(constantBufferParticleAnimated, 0, NULL, &cBufferParticleAnimated, 0, 0);
-		context->VSSetConstantBuffers(0, 1, &constantBufferParticleAnimated);
-		context->GSSetConstantBuffers(0, 1, &constantBufferParticleAnimated);
-		context->PSSetConstantBuffers(0, 1, &constantBufferParticleAnimated);
-	}
-
-	context->PSSetSamplers(0, 1, &textureSamplerState);
+	shaders.SetParticleShader(context);
+	particlesystem->UploadParticleBuffer(context);
+	particlesystem->UpdateConstantBuffer(context, WVP, World, campos, camup);
+	particlesystem->Render(context, textureSamplerState, textures[1], textures[3]);
 
 	if (debug == true)
 	{
-		// Pink Debug texture
-		cBufferParticle.col0 = COLOR_WHITE;
-		cBufferParticle.col1 = COLOR_WHITE;
-		cBufferParticle.col2 = COLOR_WHITE;
-
-		context->UpdateSubresource(constantBufferParticle, 0, NULL, &cBufferParticle, 0, 0);
-		context->PSSetConstantBuffers(0, 1, &constantBufferParticle);
-
-
-		context->PSSetShaderResources(0, 1, &textures[0]);
-		RenderDebugObject(particlesystem->GetSize());
-	}
-	else
-	{
-		unsigned int particleCount = particlesystem->GetSize();
-		// Regular texture
-		//context->VSSetShaderResources(0, 1, &textures[3]);
-		context->PSSetShaderResources(0, 1, &textures[1]);
-		context->PSSetShaderResources(1, 1, &textures[3]);
-		context->Draw(particleCount, 0);
-	}
-
-	if (particleDebugID > -1)
-	{
-		context->IASetVertexBuffers(0, 1, &particleDebugVertexBuffer, &stride, &offset);
-		RenderDebugParticle(particleDebugID);
+		// Render with debug wireframe
+		ChangeRasterization(D3D11_FILL_WIREFRAME);
+		particlesystem->RenderDebug(context, textureSamplerState, texture_debug, textures[3]);
+		ChangeRasterization(D3D11_FILL_SOLID);
 	}
 	
 	camup = XMVectorSet(0, 1, 0, 1);
@@ -774,33 +487,6 @@ void Graphics::RenderDebugObject(unsigned int vtxcount)
 	context->PSSetSamplers(0, 1, &textureSamplerState);
 	context->PSSetShaderResources(0, 1, &texture_debug);
 	context->Draw(vtxcount, 0);
-
-	// Change back to fill
-	ChangeRasterization(D3D11_FILL_SOLID);
-}
-
-void Graphics::RenderDebugParticle(unsigned int particleID)
-{
-	debugParticle = particlesystem->GetParticle(particleID);
-
-	D3D11_MAPPED_SUBRESOURCE mappedResource;
-	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
-
-	context->Map(particleDebugVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-	memcpy((PARTICLE_VERTEX*)mappedResource.pData, &debugParticle, sizeof(PARTICLE_VERTEX));
-	context->Unmap(particleDebugVertexBuffer, 0);
-
-
-
-
-
-	// Change to wireframe
-	ChangeRasterization(D3D11_FILL_WIREFRAME);
-
-	// Render wireframe
-	context->PSSetSamplers(0, 1, &textureSamplerState);
-	context->PSSetShaderResources(0, 1, &texture_debug);
-	context->Draw(1, 0);
 
 	// Change back to fill
 	ChangeRasterization(D3D11_FILL_SOLID);

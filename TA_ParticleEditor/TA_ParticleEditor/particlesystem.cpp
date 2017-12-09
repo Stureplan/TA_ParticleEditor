@@ -7,6 +7,171 @@ ParticleSystem::ParticleSystem()
 ParticleSystem::~ParticleSystem()
 {
 	//delete ps;
+	constantBuffer->Release();
+	constantBufferAnimated->Release();
+	vertexBuffer->Release();
+}
+
+void ParticleSystem::VertexBuffer(ID3D11Device* device)
+{
+	HRESULT hr;
+
+	std::vector<PARTICLE_VERTEX> positions = AllParticleData();
+	unsigned int count = positions.size();
+
+	D3D11_BUFFER_DESC vertexDesc;
+	ZeroMemory(&vertexDesc, sizeof(vertexDesc));
+	//vertexDesc.ByteWidth = sizeof(POSITION) * count*2;	//NOTE!!!!!! this is just simply reserved space for further vertices.
+	vertexDesc.ByteWidth = sizeof(PARTICLE_VERTEX) * count;
+	vertexDesc.Usage = D3D11_USAGE_DYNAMIC;
+	vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	vertexDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	vertexDesc.MiscFlags = 0;
+	vertexDesc.StructureByteStride = 0;
+
+	D3D11_SUBRESOURCE_DATA vertexData;
+	ZeroMemory(&vertexData, sizeof(vertexData));
+	vertexData.pSysMem = positions.data();
+	vertexData.SysMemPitch = 0;
+	vertexData.SysMemSlicePitch = 0;
+
+	hr = device->CreateBuffer(&vertexDesc, &vertexData, &vertexBuffer);
+}
+
+void ParticleSystem::ConstantBuffer(ID3D11Device* device)
+{
+	/*===================================================================================*/
+	// CONSTANT BUFFER PARTICLE SETUP
+	HRESULT hr;
+	D3D11_BUFFER_DESC cb_particle_Desc;
+	ZeroMemory(&cb_particle_Desc, sizeof(D3D11_BUFFER_DESC));
+	cb_particle_Desc.Usage = D3D11_USAGE_DEFAULT;
+	cb_particle_Desc.ByteWidth = sizeof(cBufferParticle);
+	cb_particle_Desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	cb_particle_Desc.CPUAccessFlags = 0;
+	cb_particle_Desc.MiscFlags = 0;
+	cb_particle_Desc.StructureByteStride = 0;
+	hr = device->CreateBuffer(&cb_particle_Desc, NULL, &constantBuffer);
+	/*===================================================================================*/
+
+	/*===================================================================================*/
+	// CONSTANT BUFFER PARTICLE ANIMATED SETUP
+	D3D11_BUFFER_DESC cb_particle_animated_Desc;
+	ZeroMemory(&cb_particle_animated_Desc, sizeof(D3D11_BUFFER_DESC));
+	cb_particle_animated_Desc.Usage = D3D11_USAGE_DEFAULT;
+	cb_particle_animated_Desc.ByteWidth = sizeof(cBufferParticleAnimated);
+	cb_particle_animated_Desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	cb_particle_animated_Desc.CPUAccessFlags = 0;
+	cb_particle_animated_Desc.MiscFlags = 0;
+	cb_particle_animated_Desc.StructureByteStride = 0;
+	hr = device->CreateBuffer(&cb_particle_animated_Desc, NULL, &constantBufferAnimated);
+	/*===================================================================================*/
+}
+
+void ParticleSystem::UpdateConstantBuffer(ID3D11DeviceContext* context, XMMATRIX wvp, XMMATRIX world, XMVECTOR campos, XMVECTOR camup)
+{
+	if (emitter.textureType == 0)
+	{
+		// Regular particle
+		cBufferParticle.wvp = XMMatrixTranspose(wvp);
+		cBufferParticle.world = XMMatrixTranspose(world);
+		cBufferParticle.campos = campos;
+		cBufferParticle.camup = camup;
+		cBufferParticle.startsize = XMFLOAT2(emitter.startSizeX, emitter.startSizeY);
+		cBufferParticle.endsize = XMFLOAT2(emitter.endSizeX, emitter.endSizeY);
+		cBufferParticle.col0 = emitter.color0;
+		cBufferParticle.col1 = emitter.color1;
+		cBufferParticle.col2 = emitter.color2;
+		cBufferParticle.lifetime = emitter.lifetime;
+
+		context->UpdateSubresource(constantBuffer, 0, NULL, &cBufferParticle, 0, 0);
+		context->VSSetConstantBuffers(0, 1, &constantBuffer);
+		context->GSSetConstantBuffers(0, 1, &constantBuffer);
+		context->PSSetConstantBuffers(0, 1, &constantBuffer);
+	}
+	else if (emitter.textureType == 1 || emitter.textureType == 2)
+	{
+		// Animated particle
+		cBufferParticleAnimated.wvp = XMMatrixTranspose(wvp);
+		cBufferParticleAnimated.world = XMMatrixTranspose(world);
+		cBufferParticleAnimated.campos = campos;
+		cBufferParticleAnimated.camup = camup;
+		cBufferParticleAnimated.startsize = XMFLOAT2(emitter.startSizeX, emitter.startSizeY);
+		cBufferParticleAnimated.endsize = XMFLOAT2(emitter.endSizeX, emitter.endSizeY);
+		cBufferParticleAnimated.col0 = emitter.color0;
+		cBufferParticleAnimated.col1 = emitter.color1;
+		cBufferParticleAnimated.col2 = emitter.color2;
+		cBufferParticleAnimated.lifetime = emitter.lifetime;
+		cBufferParticleAnimated.columns = emitter.textureColumns;
+		cBufferParticleAnimated.rows = emitter.textureRows;
+
+		context->UpdateSubresource(constantBufferAnimated, 0, NULL, &cBufferParticleAnimated, 0, 0);
+		context->VSSetConstantBuffers(0, 1, &constantBufferAnimated);
+		context->GSSetConstantBuffers(0, 1, &constantBufferAnimated);
+		context->PSSetConstantBuffers(0, 1, &constantBufferAnimated);
+	}
+
+
+}
+
+void ParticleSystem::UploadParticleBuffer(ID3D11DeviceContext* context)
+{
+	unsigned int count = -1;
+
+	// Fetch the data & count from the PS
+	std::vector<PARTICLE_VERTEX> positions = ParticleData(count);
+
+	if (count > 0)
+	{
+		D3D11_MAPPED_SUBRESOURCE mappedResource;
+		ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+		HRESULT hr = context->Map(vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+		memcpy((PARTICLE_VERTEX*)mappedResource.pData, positions.data(), sizeof(PARTICLE_VERTEX) * count);
+		context->Unmap(vertexBuffer, 0);
+	}
+}
+
+void ParticleSystem::Render(ID3D11DeviceContext* context, ID3D11SamplerState* sampler, ID3D11ShaderResourceView* texture, ID3D11ShaderResourceView* noise)
+{
+	UINT stride;
+	UINT offset;
+
+	stride = sizeof(PARTICLE_VERTEX);
+	offset = 0;
+
+	unsigned int particleCount = GetSize();
+
+	context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+	context->PSSetSamplers(0, 1, &sampler);
+	context->PSSetShaderResources(0, 1, &texture);
+	context->PSSetShaderResources(1, 1, &noise);
+	context->Draw(particleCount, 0);
+}
+
+void ParticleSystem::RenderDebug(ID3D11DeviceContext* context, ID3D11SamplerState* sampler, ID3D11ShaderResourceView* texture, ID3D11ShaderResourceView* noise)
+{
+	cBufferParticle.col0 = COLOR_WHITE;
+	cBufferParticle.col1 = COLOR_WHITE;
+	cBufferParticle.col2 = COLOR_WHITE;
+
+	context->UpdateSubresource(constantBuffer, 0, NULL, &cBufferParticle, 0, 0);
+	context->VSSetConstantBuffers(0, 1, &constantBuffer);
+	context->GSSetConstantBuffers(0, 1, &constantBuffer);
+	context->PSSetConstantBuffers(0, 1, &constantBuffer);
+
+	UINT stride;
+	UINT offset;
+
+	stride = sizeof(PARTICLE_VERTEX);
+	offset = 0;
+
+	unsigned int particleCount = GetSize();
+
+	context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+	context->PSSetSamplers(0, 1, &sampler);
+	context->PSSetShaderResources(0, 1, &texture);
+	context->PSSetShaderResources(1, 1, &noise);
+	context->Draw(particleCount, 0);
 }
 
 unsigned int ParticleSystem::ParticleCount()

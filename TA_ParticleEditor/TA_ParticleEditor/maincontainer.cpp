@@ -617,24 +617,5 @@ void MainContainer::keyReleaseEvent(QKeyEvent* evt)
 
 void MainContainer::mousePressEvent(QMouseEvent* evt)
 {
-	/*if (evt->button() == Qt::MouseButton::LeftButton)
-	{
-		QPoint pt = evt->pos();
-		// check if inside window to begin with
-		if (graphics->rect().contains(pt))
-		{
-			XMFLOAT3 pos = XMFLOAT3(-999,-999,-999);
-			int hitParticle = graphics->TestIntersection(pt.x(), pt.y(), pos);
 
-			if (hitParticle > -1)
-			{
-				graphics->ParticleInspectionLabel(textFieldParticleInfo);
-				
-			}
-			else
-			{
-				textFieldParticleInfo->setText("<no info>");
-			}
-		}
-	}*/
 }

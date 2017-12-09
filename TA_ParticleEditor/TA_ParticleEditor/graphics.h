@@ -40,8 +40,6 @@ public:
 	void RotateCamera(float rotX, float rotY);
 	void SetLastCameraMovement(Qt::Key key, bool released);
 	void SetLastCameraRotation(Qt::Key key, bool released);
-	void LoadParticles();
-	void LoadDebugParticle();
 	void LoadFullscreenQuad();
 	void LoadTextures();
 	void ChangeRasterization(D3D11_FILL_MODE fillmode);
@@ -51,21 +49,11 @@ public:
 	void RecompileShader(int type, bool noise, bool interpolate, bool rotate);
 	void Rebuild(EMITTER ps);
 	void PauseSimulation();
-
-	void ParticleInspectionLabel(QLabel* label);
-	void UpdateInspectorText();
-	int TestIntersection(int x, int y, XMFLOAT3 &particlePos);
-	bool PointInTriangle(float x, float y, float x1, float y1, float x2, float y2, float x3, float y3);
-
-	void ResizeParticleSystem(unsigned int count);
-	void UploadParticleBuffer();
-
 	void Debug(bool active);
 	void Update();
 	void UpdateOnce();
 	void Render();
 	void RenderDebugObject(unsigned int vtxcount);
-	void RenderDebugParticle(unsigned int particleID);
 
 	ParticleSystem* ParticleSystemPtr() { return particlesystem; }
 	void AddParticleSystem(EMITTER ps);
@@ -82,10 +70,8 @@ private:
 	//std::vector<ParticleSystem*> allParticleSystems;
 	bool paused = false;
 	bool debug = false;
-	unsigned int frame = 0;
 
 	QTimer* timer;
-	QLabel* inspectorLabel;
 
 	ULONGLONG last = 0;
 	float ms = 0;
@@ -129,21 +115,13 @@ private:
 
 
 	// Constant Buffer Particles
-	ID3D11Buffer* constantBufferParticle;
-	CBUFFER_PARTICLESYSTEM cBufferParticle;
 
 	// Constant Buffer Particles Animated
-	ID3D11Buffer* constantBufferParticleAnimated;
-	CBUFFER_PARTICLESYSTEM_ANIMATED cBufferParticleAnimated;
-	
-	ID3D11Buffer* particleVertexBuffer;
-	ID3D11Buffer* particleDebugVertexBuffer;
 	ID3D11Buffer* fullscreenQuadVertexBuffer;
 
 	ID3D11ShaderResourceView* fullscreenQuadTexture;
 	ID3D11Texture2D* sharedTexture;
 
-	int particleDebugID = -1;
 	std::vector<VERTEX>		  fullscreenQuadVertexData;
 	PARTICLE_VERTEX debugParticle;
 
