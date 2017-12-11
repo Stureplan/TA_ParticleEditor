@@ -62,7 +62,6 @@ private:
 	std::vector<PARTICLE> particles;
 	float cooldown = 0.0f;
 
-
 	std::random_device rd;
 	std::mt19937 rng;
 };

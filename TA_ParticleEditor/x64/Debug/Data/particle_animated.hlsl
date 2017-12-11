@@ -83,8 +83,8 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 	vtx[3] = pos + right - up;
 
 	float2 cellUV;
-	cellUV.x = (float)(currentframe % rows) / (float)rows;
-	cellUV.y = floor(currentframe / columns) / (float)columns;
+	cellUV.x = (float)(currentframe % columns) / (float)columns;
+	cellUV.y = floor(currentframe / columns) / (float)rows;
 
 	float2 uv0[4];
 	uv0[0] = cellUV + float2(1.0f / (float)rows, 0.0f / (float)columns);
@@ -94,8 +94,8 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 
 
 	float2 nextCellUV;
-	nextCellUV.x = (float)(nextframe % rows) / (float)rows;
-	nextCellUV.y = floor(nextframe / columns) / (float)columns;
+	nextCellUV.x = (float)(nextframe % columns) / (float)columns;
+	nextCellUV.y = floor(nextframe / columns) / (float)rows;
 
 	float2 uv1[4];
 	uv1[0] = nextCellUV + float2(1.0f / (float)rows, 0.0f / (float)columns);

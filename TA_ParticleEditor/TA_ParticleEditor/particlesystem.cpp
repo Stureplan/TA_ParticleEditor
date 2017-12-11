@@ -89,7 +89,7 @@ void ParticleSystem::UpdateConstantBuffer(ID3D11DeviceContext* context, XMMATRIX
 		context->GSSetConstantBuffers(0, 1, &constantBuffer);
 		context->PSSetConstantBuffers(0, 1, &constantBuffer);
 	}
-	else if (emitter.textureType == 1 || emitter.textureType == 2)
+	else
 	{
 		// Animated particle
 		cBufferParticleAnimated.wvp = XMMatrixTranspose(wvp);
@@ -97,10 +97,11 @@ void ParticleSystem::UpdateConstantBuffer(ID3D11DeviceContext* context, XMMATRIX
 		cBufferParticleAnimated.campos = campos;
 		cBufferParticleAnimated.camup = camup;
 		cBufferParticleAnimated.startsize = XMFLOAT2(emitter.startSizeX, emitter.startSizeY);
-		cBufferParticleAnimated.endsize = XMFLOAT2(emitter.endSizeX, emitter.endSizeY);
 		cBufferParticleAnimated.col0 = emitter.color0;
 		cBufferParticleAnimated.col1 = emitter.color1;
 		cBufferParticleAnimated.col2 = emitter.color2;
+		cBufferParticleAnimated.endsize = XMFLOAT2(emitter.endSizeX, emitter.endSizeY);
+
 		cBufferParticleAnimated.lifetime = emitter.lifetime;
 		cBufferParticleAnimated.columns = emitter.textureColumns;
 		cBufferParticleAnimated.rows = emitter.textureRows;
@@ -110,8 +111,6 @@ void ParticleSystem::UpdateConstantBuffer(ID3D11DeviceContext* context, XMMATRIX
 		context->GSSetConstantBuffers(0, 1, &constantBufferAnimated);
 		context->PSSetConstantBuffers(0, 1, &constantBufferAnimated);
 	}
-
-
 }
 
 void ParticleSystem::UploadParticleBuffer(ID3D11DeviceContext* context)
@@ -153,11 +152,6 @@ void ParticleSystem::RenderDebug(ID3D11DeviceContext* context, ID3D11SamplerStat
 	cBufferParticle.col0 = COLOR_WHITE;
 	cBufferParticle.col1 = COLOR_WHITE;
 	cBufferParticle.col2 = COLOR_WHITE;
-
-	context->UpdateSubresource(constantBuffer, 0, NULL, &cBufferParticle, 0, 0);
-	context->VSSetConstantBuffers(0, 1, &constantBuffer);
-	context->GSSetConstantBuffers(0, 1, &constantBuffer);
-	context->PSSetConstantBuffers(0, 1, &constantBuffer);
 
 	UINT stride;
 	UINT offset;
