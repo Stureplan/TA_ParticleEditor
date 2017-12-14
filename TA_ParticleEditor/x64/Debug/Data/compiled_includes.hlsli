@@ -1,1 +1,1 @@
-#define INTERPOLATE
+#define NOISE

@@ -58,7 +58,7 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 
 
 	up = normalize(dir);//normalize(camup.xyz);
-	//up = normalize(camup.xyz);
+	up = normalize(camup.xyz);
 	up *= h;
 
 	normal = normalize(pos - campos.xyz);

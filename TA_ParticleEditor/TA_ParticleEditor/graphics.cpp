@@ -164,9 +164,9 @@ void Graphics::Initialize()
 	context->RSSetViewports(1, &viewport);
 	/*===================================================================================*/
 
-	SetupCamera(XMVectorSet(0, 1, -10.0f, 0), //pos
-				XMVectorSet(0, 1, -9.0f,  0), //dir
-				XMVectorSet(0, 2, 0, 0));  //up
+	SetupCamera(XMVectorSet(0, 1, -10.0f, 0),	//pos
+				XMVectorSet(0, 1, -9.0f,  0),	//dir
+				XMVectorSet(0, 2, 0, 0));		//up
 
 	shaders.LoadGizmoShader(device, context);
 	shaders.LoadParticleShader(device, context, "particle.hlsl");
