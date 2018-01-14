@@ -83,8 +83,12 @@ void MainContainer::Init()
 	mCurrentPS.endSizeX = textFieldEndSizeX->text().toFloat();
 	mCurrentPS.endSizeY = textFieldEndSizeY->text().toFloat();
 
-
-	mTexturePath = textBrowser->placeholderText().toStdString().c_str();
+	char result[MAX_PATH];
+	GetModuleFileNameA(NULL, result, MAX_PATH);
+	PathRemoveFileSpecA(result);
+	
+	mTexturePath = QString(result).append("\\Data\\Textures\\plasmaball.png");
+	//mTexturePath = textBrowser->placeholderText().toStdString().c_str();
 	textureView->setPixmap(mTexturePath);
 
 	mColor0 = Qt::white;
@@ -128,15 +132,64 @@ void MainContainer::load()
 		fread(&ps, sizeof(EMITTER), 1, file);
 		mCurrentPS = ps;
 
+		mTexturePath = n.c_str();
+		graphics->Retexture(Utility::Path() + "Data\\Textures\\" + mTexturePath.toStdString());
+		fclose(file);
+
 		SetUiElements();
-		std::string path = n;
-		graphics->Retexture(Utility::Path() + "Data\\Textures\\" + path);
 		BuildParticleSystem();
+	}
+}
+
+void MainContainer::save()
+{
+	std::string exportPath = QFileDialog::getSaveFileName(this).toStdString();
+
+	size_t found = exportPath.find(".ps");
+	if (found == std::string::npos)
+	{
+		// Only add .ps extension if it isn't already in the filename
+		// (this is for overwriting already existing files)
+		exportPath.append(".ps");
+	}
+
+	EMITTER ps = mCurrentPS;
+
+	FILE* file = fopen(exportPath.c_str(), "wb");
+	if (file != NULL)
+	{
+		std::string texpath = mTexturePath.toStdString();
+		const char* tex = texpath.c_str();
+
+		int texturenamesize = strlen(tex);
+
+		// First just write the size of the texture filename (imagine this is a header)
+		fwrite(&texturenamesize, sizeof(int), 1, file);
+
+		// ...then write the texture name
+		fwrite(tex, sizeof(const char), texturenamesize, file);
+
+		// ...then we write the particle system details
+		fwrite(&ps, sizeof(EMITTER), 1, file);
+		int result = fclose(file);
+
+		if (result == 0)
+		{
+			QMessageBox msg;
+			msg.setWindowTitle("File Exported");
+			msg.setText(QString("File: " + QString(exportPath.c_str()) + " was successfully exported."));
+			msg.exec();
+		}
+		else
+		{
+			QMessageBox msg;
+			msg.setWindowTitle("File Export Failed");
+			msg.setText(QString("File: " + QString(exportPath.c_str()) + " failed on export."));
+			msg.exec();
+		}
 
 		fclose(file);
 	}
-
-
 }
 
 void MainContainer::SetUiElements()
@@ -186,61 +239,10 @@ void MainContainer::SetUiElements()
 
 	emitterTypeChanged(mCurrentPS.emittertype);
 
-	//textBrowser->setText(mTexturePath); fix later when texture thing is done
+	textBrowser->setText(mTexturePath); //fix later when texture thing is done
 }
 
-void MainContainer::save()
-{
-	std::string exportPath = QFileDialog::getSaveFileName(this).toStdString();
-	
-	size_t found = exportPath.find(".ps");
-	if (found == std::string::npos)
-	{
-		// Only add .ps extension if it isn't already in the filename
-		// (this is for overwriting already existing files)
-		exportPath.append(".ps");
-	}
 
-	//std::string exportPath = PathFindFileNameA(savePath.toStdString().c_str());
-	
-	EMITTER ps = mCurrentPS;
-
-	FILE* file = fopen(exportPath.c_str(), "wb");
-	if (file != NULL)
-	{
-		std::string texpath = mTexturePath.toStdString();
-		const char* tex = texpath.c_str();
-
-		int texturenamesize = strlen(tex);
-		
-		// First just write the size of the texture filename (imagine this is a header)
-		fwrite(&texturenamesize, sizeof(int), 1, file);
-
-		// ...then write the texture name
-		fwrite(tex, sizeof(const char), texturenamesize, file);
-
-		// ...then we write the particle system details
-		fwrite(&ps, sizeof(EMITTER), 1, file);
-		int result = fclose(file);
-
-		if (result == 0)
-		{
-			QMessageBox msg;
-			msg.setWindowTitle("File Exported");
-			msg.setText(QString("File: " + QString(exportPath.c_str()) + " was successfully exported."));
-			msg.exec();
-		}
-		else
-		{
-			QMessageBox msg;
-			msg.setWindowTitle("File Export Failed");
-			msg.setText(QString("File: " + QString(exportPath.c_str()) + " failed on export."));
-			msg.exec();
-		}
-		
-		fclose(file);
-	}
-}
 
 void MainContainer::color0()
 {
@@ -361,7 +363,7 @@ void MainContainer::rectResize()
 	BuildParticleSystem();
 }
 
-void MainContainer::browse()
+void MainContainer::BrowseTexture()
 {
 	mTexturePath = QFileDialog::getOpenFileName(this,
 		tr("Open Image"), "", tr("Image Files (*.png *.PNG *.dds *.DDS)"));
@@ -378,6 +380,18 @@ void MainContainer::browse()
 			textureView->setPixmap(mTexturePath);
 		}
 		graphics->Retexture(mTexturePath.toStdString());
+		mTexturePath = PathFindFileNameA(mTexturePath.toStdString().c_str());
+	}
+}
+
+void MainContainer::BrowseNoiseTexture()
+{
+	mNoiseTexturePath = QFileDialog::getOpenFileName(this,
+		tr("Open Image"), "", tr("Image Files (*.png *.PNG *.dds *.DDS)"));
+
+	if (mNoiseTexturePath != "")
+	{
+
 	}
 }
 
