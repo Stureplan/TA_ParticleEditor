@@ -54,9 +54,10 @@ public slots:
 	void setVelocityZSlider(int value);
 	void setMaxParticles();
 	void setGravity();
-	void browse();
-	void save();
+	void BrowseTexture();
+	void BrowseNoiseTexture();
 	void load();
+	void save();
 
 	void color0();
 	void color1();
@@ -129,6 +130,7 @@ private:
 
 	// QT VARIABLES
 	QString mTexturePath;
+	QString mNoiseTexturePath;
 	QString savePath;
 	QColor mColor0;
 	QColor mColor1;
