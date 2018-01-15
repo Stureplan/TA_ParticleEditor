@@ -45,7 +45,7 @@ public:
 	void ChangeRasterization(D3D11_FILL_MODE fillmode);
 
 	void GainedFocus();
-	void Retexture(std::string path);
+	void Retexture(TEXTURE_TYPE type, std::string path);
 	void RecompileShader(int type, bool noise, bool interpolate, bool rotate);
 	void Rebuild(EMITTER ps);
 	void PauseSimulation();

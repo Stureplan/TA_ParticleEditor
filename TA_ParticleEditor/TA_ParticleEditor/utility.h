@@ -150,7 +150,9 @@ enum PS_PROPERTY
 	PS_TEXTURE_TYPE,
 	PS_TEXTURE_COLUMNS,
 	PS_TEXTURE_ROWS,
-	PS_LOOPING
+	PS_LOOPING,
+	PS_NOISE_DISSOLVE,
+	PS_BLOOM_PARTICLES
 };
 
 enum EMITTER_TYPE
@@ -159,10 +161,16 @@ enum EMITTER_TYPE
 	EMIT_RECTANGLE
 };
 
+enum TEXTURE_TYPE
+{
+	TEXTURE = 0,
+	TEXTURE_NOISE
+};
+
 struct EMITTER
 {
 	EMITTER(){}
-	EMITTER (EMITTER_TYPE e, int m, FLOAT3 v, float ed, float lt, float grv, FLOAT4 col0, FLOAT4 col1, FLOAT4 col2, float sX, float sY, float eX, float eY, float rsX, float rsZ, int tT, int tC, int tR, int l)
+	EMITTER (EMITTER_TYPE e, int m, FLOAT3 v, float ed, float lt, float grv, FLOAT4 col0, FLOAT4 col1, FLOAT4 col2, float sX, float sY, float eX, float eY, float rsX, float rsZ, int tT, int tC, int tR, int l, int nD, int b)
 	{
 		emittertype = e;
 		maxparticles = m;
@@ -183,6 +191,8 @@ struct EMITTER
 		textureColumns = tC;
 		textureRows = tR;
 		looping = l;
+		noiseDissolve = nD;
+		bloomParticles = b;
 	}
 	// PS Export variables
 	EMITTER_TYPE emittertype;
@@ -204,6 +214,8 @@ struct EMITTER
 	int textureColumns;
 	int textureRows;
 	int looping;
+	int noiseDissolve;
+	int bloomParticles;
 };
 
 #pragma region CONSTANT BUFFERS

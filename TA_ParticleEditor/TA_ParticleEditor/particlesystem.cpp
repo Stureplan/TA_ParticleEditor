@@ -281,6 +281,12 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 	case PS_PROPERTY::PS_LOOPING:
 		emitter.looping = *((int*)data);
 		break;
+	case PS_PROPERTY::PS_NOISE_DISSOLVE:
+		emitter.noiseDissolve = *((int*)data);
+		break;
+	case PS_PROPERTY::PS_BLOOM_PARTICLES:
+		emitter.bloomParticles = *((int*)data);
+		break;
 	}
 }
 
@@ -342,6 +348,12 @@ void* ParticleSystem::GetProperty(PS_PROPERTY prop)
 	case PS_PROPERTY::PS_LOOPING:
 		return &emitter.looping;
 		break;
+	case PS_PROPERTY::PS_NOISE_DISSOLVE:
+		return &emitter.noiseDissolve;
+		break;
+	case PS_PROPERTY::PS_BLOOM_PARTICLES:
+		return &emitter.bloomParticles;
+		break;
 	}
 
 	return NULL;
@@ -349,7 +361,7 @@ void* ParticleSystem::GetProperty(PS_PROPERTY prop)
 
 void ParticleSystem::Initialize()
 {
-	emitter = EMITTER(EMITTER_TYPE::EMIT_POINT,0, FLOAT3_ZERO, 0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 4, 4, 0);
+	emitter = EMITTER(EMITTER_TYPE::EMIT_POINT,0, FLOAT3_ZERO, 0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 4, 4, 0, 0, 1);
 
 	for (unsigned int i = 0; i < emitter.maxparticles; i++)
 	{

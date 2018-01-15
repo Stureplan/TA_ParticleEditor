@@ -348,13 +348,25 @@ void Graphics::LoadTextures()
 	DX::LoadTexture(device, texture_debug, Utility::Path() + "Data\\Textures\\debug_wireframe.png");
 }
 
-void Graphics::Retexture(std::string path)
+void Graphics::Retexture(TEXTURE_TYPE type, std::string path)
 {
-	bool result = DX::LoadTexture(device, textures[1], path);
-	if (result == false)
+	if (type == TEXTURE_TYPE::TEXTURE)
 	{
-		MessageBoxA(NULL, std::string("Texture at: " + path + " was not found!\nLoading default texture.").c_str(), "Texture Missing", MB_OK);
-		Retexture(Utility::Path() + "Data\\Textures\\plasmaball.png");
+		bool result = DX::LoadTexture(device, textures[1], path);
+		if (result == false)
+		{
+			MessageBoxA(NULL, std::string("Texture at: " + path + " was not found!\nLoading default texture.").c_str(), "Texture Missing", MB_OK);
+			Retexture(TEXTURE_TYPE::TEXTURE, Utility::Path() + "Data\\Textures\\plasmaball.png");
+		}
+	}
+	if (type == TEXTURE_TYPE::TEXTURE_NOISE)
+	{
+		bool result = DX::LoadTexture(device, textures[3], path);
+		if (result == false)
+		{
+			MessageBoxA(NULL, std::string("Texture at: " + path + " was not found!\nLoading default texture.").c_str(), "Texture Missing", MB_OK);
+			Retexture(TEXTURE_TYPE::TEXTURE_NOISE, Utility::Path() + "Data\\Textures\\noise_cloud.png");
+		}
 	}
 }
 

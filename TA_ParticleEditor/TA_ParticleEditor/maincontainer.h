@@ -26,7 +26,8 @@
 #define DEFAULT_EMISSIONDELAY 0.1f
 #define DEFAULT_VELOCITY FLOAT3(0,0,0)
 #define DEFAULT_GRAVITY 1.0f
-#define DEFAULT_DDS_TEXTUREPATH std::string(Utility::Path() + "Data\\Textures\\ddstexture.png").c_str()
+#define DEFAULT_DDS_TEXTUREPATH			std::string(Utility::Path() + "Data\\Textures\\ddstexture.png").c_str()
+
 
 class MainContainer : public QWidget
 {
@@ -55,7 +56,7 @@ public slots:
 	void setMaxParticles();
 	void setGravity();
 	void BrowseTexture();
-	void BrowseNoiseTexture();
+	void BrowseTextureNoise();
 	void load();
 	void save();
 
@@ -65,6 +66,7 @@ public slots:
 	void emitterTypeChanged(int index);
 	void textureTypeChanged(int index);
 	void shaderCompileChanged(int useless);
+	void BloomParticles(int useless);
 	void startSizeX();
 	void startSizeY();
 	void endSizeX();
@@ -107,6 +109,7 @@ private:
 	QPushButton* saveBtn;
 	QPushButton* loadBtn;
 	QTextBrowser* textBrowser;
+	QTextBrowser* textBrowserNoise;
 	QLineEdit* color0Display;
 	QLineEdit* color1Display;
 	QLineEdit* color2Display;
@@ -115,6 +118,7 @@ private:
 	QWidget* rectangleWidget;
 	QWidget* spriteSheetWidget;
 	QLabel* textureView;
+	QLabel* textureViewNoise;
 	QLineEdit* spriteColumns;
 	QLineEdit* spriteRows;
 	QSlider* velocityXSlider;
@@ -126,11 +130,12 @@ private:
 	QCheckBox* interpolateFrames;
 	QCheckBox* rotateParticles;
 	QCheckBox* noiseDissolve;
+	QCheckBox* bloomParticles;
 	QCheckBox* loopingCheckBox;
 
 	// QT VARIABLES
 	QString mTexturePath;
-	QString mNoiseTexturePath;
+	QString mTextureNoisePath;
 	QString savePath;
 	QColor mColor0;
 	QColor mColor1;

@@ -15,46 +15,48 @@ MainContainer::~MainContainer()
 void MainContainer::SetPointers(ParticleSystem* ps)
 {
 	particlesystem = ps;
-	graphics				= findChild<Graphics*>		("graphics",			Qt::FindChildOption::FindChildrenRecursively);
-	textFieldParticleInfo	= findChild<QLabel*>		("label_ParticleInfo",	Qt::FindChildOption::FindChildrenRecursively);
-	textFieldLifetime		= findChild<QLineEdit*>		("lifetime",			Qt::FindChildOption::FindChildrenRecursively);
-	textFieldVelocityX		= findChild<QLineEdit*>		("velocityX",			Qt::FindChildOption::FindChildrenRecursively);
-	velocityXSlider			= findChild<QSlider*>		("velocityXSlider",		Qt::FindChildOption::FindChildrenRecursively);
-	textFieldVelocityY		= findChild<QLineEdit*>		("velocityY",			Qt::FindChildOption::FindChildrenRecursively);
-	velocityYSlider			= findChild<QSlider*>		("velocityYSlider",		Qt::FindChildOption::FindChildrenRecursively);
-	textFieldVelocityZ		= findChild<QLineEdit*>		("velocityZ",			Qt::FindChildOption::FindChildrenRecursively);
-	velocityZSlider			= findChild<QSlider*>		("velocityZSlider",		Qt::FindChildOption::FindChildrenRecursively);
-	textFieldGravity		= findChild<QLineEdit*>		("gravity",				Qt::FindChildOption::FindChildrenRecursively);
-	emissionDelaySlider		= findChild<QSlider*>		("emissionDelaySlider",	Qt::FindChildOption::FindChildrenRecursively);
-	emissionDelaySlider_label = findChild<QLabel*>		("label_EmDelaySlide",	Qt::FindChildOption::FindChildrenRecursively);
-	browseBtn				= findChild<QPushButton*>	("browsepath",			Qt::FindChildOption::FindChildrenRecursively);
-	saveBtn					= findChild<QPushButton*>	("savePS",				Qt::FindChildOption::FindChildrenRecursively);
-	loadBtn					= findChild<QPushButton*>	("loadPS",				Qt::FindChildOption::FindChildrenRecursively);
-	textFieldMaxParticles	= findChild<QLineEdit*>		("maxParticles",		Qt::FindChildOption::FindChildrenRecursively);
-	textBrowser				= findChild<QTextBrowser*>	("textBrowser",			Qt::FindChildOption::FindChildrenRecursively);
-	color0Display			= findChild<QLineEdit*>		("color0Display",		Qt::FindChildOption::FindChildrenRecursively);
-	color1Display			= findChild<QLineEdit*>		("color1Display",		Qt::FindChildOption::FindChildrenRecursively);
-	color2Display			= findChild<QLineEdit*>		("color2Display",		Qt::FindChildOption::FindChildrenRecursively);
-	emitterTypeDisplay		= findChild<QComboBox*>		("emitterTypeBox",		Qt::FindChildOption::FindChildrenRecursively);
-	textureTypeBox			= findChild<QComboBox*>		("textureTypeBox",		Qt::FindChildOption::FindChildrenRecursively);
-	textFieldStartSizeX		= findChild<QLineEdit*>		("startSizeX",			Qt::FindChildOption::FindChildrenRecursively);
-	textFieldStartSizeY		= findChild<QLineEdit*>		("startSizeY",			Qt::FindChildOption::FindChildrenRecursively);
-	textFieldEndSizeX		= findChild<QLineEdit*>		("endSizeX",			Qt::FindChildOption::FindChildrenRecursively);
-	textFieldEndSizeY		= findChild<QLineEdit*>		("endSizeY",			Qt::FindChildOption::FindChildrenRecursively);
-	textFieldRectSizeX		= findChild<QLineEdit*>		("rectSizeX",			Qt::FindChildOption::FindChildrenRecursively);
-	textFieldRectSizeZ		= findChild<QLineEdit*>		("rectSizeZ",			Qt::FindChildOption::FindChildrenRecursively);
-	rectangleWidget			= findChild<QWidget*>		("rectangleWidget",		Qt::FindChildOption::FindChildrenRecursively);
-	spriteSheetWidget		= findChild<QWidget*>		("spriteSheetWidget",	Qt::FindChildOption::FindChildrenRecursively);
-	textureView				= findChild<QLabel*>		("textureView",			Qt::FindChildOption::FindChildrenRecursively);
-	spriteColumns			= findChild<QLineEdit*>		("spriteColumns",		Qt::FindChildOption::FindChildrenRecursively);
-	spriteRows				= findChild<QLineEdit*>		("spriteRows",			Qt::FindChildOption::FindChildrenRecursively);
-	psTabs					= findChild<QTabWidget*>	("psTabs",				Qt::FindChildOption::FindChildrenRecursively);
-	interpolateFrames		= findChild<QCheckBox*>		("interpolateFrames",	Qt::FindChildOption::FindChildrenRecursively);
-	rotateParticles			= findChild<QCheckBox*>		("rotateParticles",		Qt::FindChildOption::FindChildrenRecursively);
-	noiseDissolve			= findChild<QCheckBox*>		("noiseDissolve",		Qt::FindChildOption::FindChildrenRecursively);
-	loopingCheckBox			= findChild<QCheckBox*>		("looping",				Qt::FindChildOption::FindChildrenRecursively);
-
-	textFieldEmissionDelay = findChild<QLabel*>("label_EmDelaySlide", Qt::FindChildOption::FindChildrenRecursively);
+	graphics					= findChild<Graphics*>		("graphics",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldParticleInfo		= findChild<QLabel*>		("label_ParticleInfo",	Qt::FindChildOption::FindChildrenRecursively);
+	textFieldLifetime			= findChild<QLineEdit*>		("lifetime",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldVelocityX			= findChild<QLineEdit*>		("velocityX",			Qt::FindChildOption::FindChildrenRecursively);
+	velocityXSlider				= findChild<QSlider*>		("velocityXSlider",		Qt::FindChildOption::FindChildrenRecursively);
+	textFieldVelocityY			= findChild<QLineEdit*>		("velocityY",			Qt::FindChildOption::FindChildrenRecursively);
+	velocityYSlider				= findChild<QSlider*>		("velocityYSlider",		Qt::FindChildOption::FindChildrenRecursively);
+	textFieldVelocityZ			= findChild<QLineEdit*>		("velocityZ",			Qt::FindChildOption::FindChildrenRecursively);
+	velocityZSlider				= findChild<QSlider*>		("velocityZSlider",		Qt::FindChildOption::FindChildrenRecursively);
+	textFieldGravity			= findChild<QLineEdit*>		("gravity",				Qt::FindChildOption::FindChildrenRecursively);
+	emissionDelaySlider			= findChild<QSlider*>		("emissionDelaySlider",	Qt::FindChildOption::FindChildrenRecursively);
+	emissionDelaySlider_label	= findChild<QLabel*>		("label_EmDelaySlide",	Qt::FindChildOption::FindChildrenRecursively);
+	browseBtn					= findChild<QPushButton*>	("browsepath",			Qt::FindChildOption::FindChildrenRecursively);
+	saveBtn						= findChild<QPushButton*>	("savePS",				Qt::FindChildOption::FindChildrenRecursively);
+	loadBtn						= findChild<QPushButton*>	("loadPS",				Qt::FindChildOption::FindChildrenRecursively);
+	textFieldMaxParticles		= findChild<QLineEdit*>		("maxParticles",		Qt::FindChildOption::FindChildrenRecursively);
+	textBrowser					= findChild<QTextBrowser*>	("textBrowser",			Qt::FindChildOption::FindChildrenRecursively);
+	textBrowserNoise			= findChild<QTextBrowser*>	("textBrowserNoise",	Qt::FindChildOption::FindChildrenRecursively);
+	color0Display				= findChild<QLineEdit*>		("color0Display",		Qt::FindChildOption::FindChildrenRecursively);
+	color1Display				= findChild<QLineEdit*>		("color1Display",		Qt::FindChildOption::FindChildrenRecursively);
+	color2Display				= findChild<QLineEdit*>		("color2Display",		Qt::FindChildOption::FindChildrenRecursively);
+	emitterTypeDisplay			= findChild<QComboBox*>		("emitterTypeBox",		Qt::FindChildOption::FindChildrenRecursively);
+	textureTypeBox				= findChild<QComboBox*>		("textureTypeBox",		Qt::FindChildOption::FindChildrenRecursively);
+	textFieldStartSizeX			= findChild<QLineEdit*>		("startSizeX",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldStartSizeY			= findChild<QLineEdit*>		("startSizeY",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldEndSizeX			= findChild<QLineEdit*>		("endSizeX",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldEndSizeY			= findChild<QLineEdit*>		("endSizeY",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldRectSizeX			= findChild<QLineEdit*>		("rectSizeX",			Qt::FindChildOption::FindChildrenRecursively);
+	textFieldRectSizeZ			= findChild<QLineEdit*>		("rectSizeZ",			Qt::FindChildOption::FindChildrenRecursively);
+	rectangleWidget				= findChild<QWidget*>		("rectangleWidget",		Qt::FindChildOption::FindChildrenRecursively);
+	spriteSheetWidget			= findChild<QWidget*>		("spriteSheetWidget",	Qt::FindChildOption::FindChildrenRecursively);
+	textureView					= findChild<QLabel*>		("textureView",			Qt::FindChildOption::FindChildrenRecursively);
+	textureViewNoise			= findChild<QLabel*>		("textureViewNoise",	Qt::FindChildOption::FindChildrenRecursively);
+	spriteColumns				= findChild<QLineEdit*>		("spriteColumns",		Qt::FindChildOption::FindChildrenRecursively);
+	spriteRows					= findChild<QLineEdit*>		("spriteRows",			Qt::FindChildOption::FindChildrenRecursively);
+	psTabs						= findChild<QTabWidget*>	("psTabs",				Qt::FindChildOption::FindChildrenRecursively);
+	interpolateFrames			= findChild<QCheckBox*>		("interpolateFrames",	Qt::FindChildOption::FindChildrenRecursively);
+	rotateParticles				= findChild<QCheckBox*>		("rotateParticles",		Qt::FindChildOption::FindChildrenRecursively);
+	noiseDissolve				= findChild<QCheckBox*>		("noiseDissolve",		Qt::FindChildOption::FindChildrenRecursively);
+	bloomParticles				= findChild<QCheckBox*>		("bloomParticles",		Qt::FindChildOption::FindChildrenRecursively);
+	loopingCheckBox				= findChild<QCheckBox*>		("looping",				Qt::FindChildOption::FindChildrenRecursively);
+	textFieldEmissionDelay		= findChild<QLabel*>		("label_EmDelaySlide",	Qt::FindChildOption::FindChildrenRecursively);
 }
 #pragma endregion
 
@@ -88,8 +90,10 @@ void MainContainer::Init()
 	PathRemoveFileSpecA(result);
 	
 	mTexturePath = QString(result).append("\\Data\\Textures\\plasmaball.png");
-	//mTexturePath = textBrowser->placeholderText().toStdString().c_str();
 	textureView->setPixmap(mTexturePath);
+
+	mTextureNoisePath = QString(result).append("\\Data\\Textures\\noise_cloud.png");
+	textureViewNoise->setPixmap(mTextureNoisePath);
 
 	mColor0 = Qt::white;
 	mColor1 = Qt::white;
@@ -98,8 +102,6 @@ void MainContainer::Init()
 	mCurrentPS.color0 = FLOAT4(mColor0.redF(), mColor0.greenF(), mColor0.blueF(), mColor0.alphaF());
 	mCurrentPS.color1 = FLOAT4(mColor1.redF(), mColor1.greenF(), mColor1.blueF(), mColor1.alphaF());
 	mCurrentPS.color2 = FLOAT4(mColor2.redF(), mColor2.greenF(), mColor2.blueF(), mColor2.alphaF());
-
-
 
 	mCurrentPS.rectSizeX = 1.0f;
 	mCurrentPS.rectSizeZ = 1.0f;
@@ -120,20 +122,35 @@ void MainContainer::load()
 {
 	std::string loadPath = QFileDialog::getOpenFileName(this).toStdString();
 	int textureNameSize = 0;
+	int textureNoiseNameSize = 0;
 	EMITTER ps;
 	FILE* file = fopen(loadPath.c_str(), "rb");
 
 	if (file != NULL)
 	{
+		// Read regular texture
 		fread(&textureNameSize, sizeof(int), 1, file);
-	
 		std::string n(textureNameSize, '\0');
 		fread(&n[0], sizeof(char), textureNameSize, file);
+
+		// Read noise texture
+		fread(&textureNoiseNameSize, sizeof(int), 1, file);
+		std::string n_n(textureNoiseNameSize, '\0');
+		fread(&n_n[0], sizeof(char), textureNoiseNameSize, file);
+
 		fread(&ps, sizeof(EMITTER), 1, file);
 		mCurrentPS = ps;
 
 		mTexturePath = n.c_str();
-		graphics->Retexture(Utility::Path() + "Data\\Textures\\" + mTexturePath.toStdString());
+		mTextureNoisePath = n_n.c_str();
+		std::string tex_fullpath = Utility::Path() + "Data\\Textures\\" + mTexturePath.toStdString();
+		std::string tex_noise_fullpath = Utility::Path() + "Data\\Textures\\" + mTextureNoisePath.toStdString();
+		graphics->Retexture(TEXTURE_TYPE::TEXTURE,		 tex_fullpath);
+		graphics->Retexture(TEXTURE_TYPE::TEXTURE_NOISE, tex_noise_fullpath);
+
+		textureView->setPixmap(QString(tex_fullpath.c_str()));
+		textureViewNoise->setPixmap(QString(tex_noise_fullpath.c_str()));
+
 		fclose(file);
 
 		SetUiElements();
@@ -153,21 +170,33 @@ void MainContainer::save()
 		exportPath.append(".ps");
 	}
 
+	// Safe check to make sure we didn't just refuse to enter a name and escaped
+	if (exportPath == ".ps") { return; }
+
 	EMITTER ps = mCurrentPS;
 
 	FILE* file = fopen(exportPath.c_str(), "wb");
 	if (file != NULL)
 	{
-		std::string texpath = mTexturePath.toStdString();
+		std::string texpath = PathFindFileNameA(mTexturePath.toStdString().c_str());
+		std::string textpath_noise = PathFindFileNameA(mTextureNoisePath.toStdString().c_str());
 		const char* tex = texpath.c_str();
+		const char* tex_noise = textpath_noise.c_str();
 
 		int texturenamesize = strlen(tex);
+		int texture_noisenamesize = strlen(tex_noise);
 
 		// First just write the size of the texture filename (imagine this is a header)
 		fwrite(&texturenamesize, sizeof(int), 1, file);
 
 		// ...then write the texture name
 		fwrite(tex, sizeof(const char), texturenamesize, file);
+
+		// Write size of noise texture filename
+		fwrite(&texture_noisenamesize, sizeof(int), 1, file);
+
+		// ...then write texture noise name
+		fwrite(tex_noise, sizeof(const char), texture_noisenamesize, file);
 
 		// ...then we write the particle system details
 		fwrite(&ps, sizeof(EMITTER), 1, file);
@@ -239,7 +268,14 @@ void MainContainer::SetUiElements()
 
 	emitterTypeChanged(mCurrentPS.emittertype);
 
-	textBrowser->setText(mTexturePath); //fix later when texture thing is done
+	textBrowser->setText(mTexturePath);
+	textBrowserNoise->setText(mTextureNoisePath);
+
+	//TODO: Fix EMITTER rotation property. Doesn't exist.
+	//rotateParticles->setChecked(mCurrentPS.rotateParticles);
+	noiseDissolve->setChecked(mCurrentPS.noiseDissolve);
+	bloomParticles->setChecked(mCurrentPS.bloomParticles);
+
 }
 
 
@@ -328,6 +364,19 @@ void MainContainer::textureTypeChanged(int mode)
 void MainContainer::shaderCompileChanged(int useless)
 {
 	graphics->RecompileShader(mCurrentPS.textureType, noiseDissolve->isChecked(), interpolateFrames->isChecked(), rotateParticles->isChecked());
+
+	mCurrentPS.noiseDissolve = noiseDissolve->isChecked();
+	particlesystem->SetProperty(PS_PROPERTY::PS_NOISE_DISSOLVE, &mCurrentPS.noiseDissolve);
+}
+
+void MainContainer::BloomParticles(int useless)
+{
+	//TODO: Setup blooming.
+	//graphics->Bloom(bloomParticles->isChecked());
+
+	mCurrentPS.bloomParticles = bloomParticles->isChecked();
+	particlesystem->SetProperty(PS_PROPERTY::PS_BLOOM_PARTICLES, &mCurrentPS.bloomParticles);
+
 }
 
 void MainContainer::startSizeX()
@@ -379,19 +428,29 @@ void MainContainer::BrowseTexture()
 		{
 			textureView->setPixmap(mTexturePath);
 		}
-		graphics->Retexture(mTexturePath.toStdString());
+		graphics->Retexture(TEXTURE_TYPE::TEXTURE, mTexturePath.toStdString());
 		mTexturePath = PathFindFileNameA(mTexturePath.toStdString().c_str());
 	}
 }
 
-void MainContainer::BrowseNoiseTexture()
+void MainContainer::BrowseTextureNoise()
 {
-	mNoiseTexturePath = QFileDialog::getOpenFileName(this,
+	mTextureNoisePath = QFileDialog::getOpenFileName(this,
 		tr("Open Image"), "", tr("Image Files (*.png *.PNG *.dds *.DDS)"));
 
-	if (mNoiseTexturePath != "")
+	if (mTextureNoisePath != "")
 	{
-
+		textBrowserNoise->setPlainText(PathFindFileNameA(mTextureNoisePath.toStdString().c_str()));
+		if (mTextureNoisePath.contains(".DDS") || mTextureNoisePath.contains(".dds"))
+		{
+			textureViewNoise->setPixmap(QString(DEFAULT_DDS_TEXTUREPATH));
+		}
+		else
+		{
+			textureViewNoise->setPixmap(mTextureNoisePath);
+		}
+		graphics->Retexture(TEXTURE_TYPE::TEXTURE_NOISE, mTextureNoisePath.toStdString());
+		mTextureNoisePath = PathFindFileNameA(mTextureNoisePath.toStdString().c_str());
 	}
 }
 
@@ -409,7 +468,7 @@ void MainContainer::BuildParticleSystem()
 		FLOAT4(mColor1.redF(), mColor1.greenF(), mColor1.blueF(), mColor1.alphaF()),
 		FLOAT4(mColor2.redF(), mColor2.greenF(), mColor2.blueF(), mColor2.alphaF()),
 		mCurrentPS.startSizeX, mCurrentPS.startSizeY, mCurrentPS.endSizeX, mCurrentPS.endSizeY, mCurrentPS.rectSizeX, mCurrentPS.rectSizeZ,
-		mCurrentPS.textureType, mCurrentPS.textureColumns, mCurrentPS.textureRows, mCurrentPS.looping);
+		mCurrentPS.textureType, mCurrentPS.textureColumns, mCurrentPS.textureRows, mCurrentPS.looping, mCurrentPS.noiseDissolve, mCurrentPS.bloomParticles);
 
 	graphics->Rebuild(ps);
 }
