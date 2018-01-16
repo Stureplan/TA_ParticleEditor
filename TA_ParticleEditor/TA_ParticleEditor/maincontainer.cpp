@@ -229,6 +229,9 @@ void MainContainer::SetUiElements()
 	textFieldVelocityY->setText(QString::number(mCurrentPS.velocity.Y));
 	textFieldVelocityZ->setText(QString::number(mCurrentPS.velocity.Z));
 
+	textFieldRotation->setText(QString::number(mCurrentPS.rotation));
+	rotationSlider->setValue((int)(mCurrentPS.rotation));
+
 	//need implementation of rectangle position for emitter etc
 
 	textFieldEmissionDelay	->setText(QString::number(mCurrentPS.emissiondelay));
@@ -271,15 +274,13 @@ void MainContainer::SetUiElements()
 	textBrowser->setText(mTexturePath);
 	textBrowserNoise->setText(mTextureNoisePath);
 
-	//TODO: Fix EMITTER rotation property. Doesn't exist.
-	//Rotation should be a SLIDER, not a checkbox.
-	//rotateParticles->setChecked(mCurrentPS.rotateParticles);
 	noiseDissolve->setChecked(mCurrentPS.noiseDissolve);
 	bloomParticles->setChecked(mCurrentPS.bloomParticles);
 
 }
 
-
+//TODO: World Space Checkbox
+//TODO: Offset values & offset slider values & emitter gizmo position
 
 void MainContainer::color0()
 {
