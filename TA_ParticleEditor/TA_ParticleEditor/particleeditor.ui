@@ -523,13 +523,13 @@
      <string>9000</string>
     </property>
     <property name="text">
-     <string>100</string>
+     <string>10</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
     <property name="placeholderText">
-     <string>100</string>
+     <string>10</string>
     </property>
    </widget>
    <widget class="QWidget" name="rectangleWidget" native="true">

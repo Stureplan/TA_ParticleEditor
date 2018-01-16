@@ -633,8 +633,8 @@ public:
         startSizeY->setText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
         startSizeY->setPlaceholderText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
         maxParticles->setInputMask(QApplication::translate("ParticleEditorClass", "9000", Q_NULLPTR));
-        maxParticles->setText(QApplication::translate("ParticleEditorClass", "100", Q_NULLPTR));
-        maxParticles->setPlaceholderText(QApplication::translate("ParticleEditorClass", "100", Q_NULLPTR));
+        maxParticles->setText(QApplication::translate("ParticleEditorClass", "10", Q_NULLPTR));
+        maxParticles->setPlaceholderText(QApplication::translate("ParticleEditorClass", "10", Q_NULLPTR));
         label_SizeY_6->setText(QApplication::translate("ParticleEditorClass", "Rectangle Size", Q_NULLPTR));
         rectSizeX->setInputMask(QApplication::translate("ParticleEditorClass", "#0\\.00", Q_NULLPTR));
         rectSizeX->setText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
