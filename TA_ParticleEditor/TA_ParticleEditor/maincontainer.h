@@ -53,6 +53,8 @@ public slots:
 	void setVelocityYSlider(int value);
 	void setVelocityZ();
 	void setVelocityZSlider(int value);
+	void SetRotation();
+	void SetRotationSlider(int value);
 	void setMaxParticles();
 	void setGravity();
 	void BrowseTexture();
@@ -105,6 +107,7 @@ private:
 	QLineEdit* textFieldEndSizeY;
 	QLineEdit* textFieldRectSizeX;
 	QLineEdit* textFieldRectSizeZ;
+	QLineEdit* textFieldRotation;
 	QPushButton* browseBtn;
 	QPushButton* saveBtn;
 	QPushButton* loadBtn;
@@ -124,11 +127,11 @@ private:
 	QSlider* velocityXSlider;
 	QSlider* velocityYSlider;
 	QSlider* velocityZSlider;
+	QSlider* rotationSlider;
 	QSlider* emissionDelaySlider;
 	QLabel*  emissionDelaySlider_label;
 	QTabWidget* psTabs;
 	QCheckBox* interpolateFrames;
-	QCheckBox* rotateParticles;
 	QCheckBox* noiseDissolve;
 	QCheckBox* bloomParticles;
 	QCheckBox* loopingCheckBox;

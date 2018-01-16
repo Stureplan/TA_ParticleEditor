@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainContainer_t {
-    QByteArrayData data[36];
-    char stringdata0[429];
+    QByteArrayData data[38];
+    char stringdata0[459];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -42,37 +42,40 @@ QT_MOC_LITERAL(7, 82, 12), // "setVelocityY"
 QT_MOC_LITERAL(8, 95, 18), // "setVelocityYSlider"
 QT_MOC_LITERAL(9, 114, 12), // "setVelocityZ"
 QT_MOC_LITERAL(10, 127, 18), // "setVelocityZSlider"
-QT_MOC_LITERAL(11, 146, 15), // "setMaxParticles"
-QT_MOC_LITERAL(12, 162, 10), // "setGravity"
-QT_MOC_LITERAL(13, 173, 13), // "BrowseTexture"
-QT_MOC_LITERAL(14, 187, 18), // "BrowseTextureNoise"
-QT_MOC_LITERAL(15, 206, 4), // "load"
-QT_MOC_LITERAL(16, 211, 4), // "save"
-QT_MOC_LITERAL(17, 216, 6), // "color0"
-QT_MOC_LITERAL(18, 223, 6), // "color1"
-QT_MOC_LITERAL(19, 230, 6), // "color2"
-QT_MOC_LITERAL(20, 237, 18), // "emitterTypeChanged"
-QT_MOC_LITERAL(21, 256, 5), // "index"
-QT_MOC_LITERAL(22, 262, 18), // "textureTypeChanged"
-QT_MOC_LITERAL(23, 281, 20), // "shaderCompileChanged"
-QT_MOC_LITERAL(24, 302, 7), // "useless"
-QT_MOC_LITERAL(25, 310, 14), // "BloomParticles"
-QT_MOC_LITERAL(26, 325, 10), // "startSizeX"
-QT_MOC_LITERAL(27, 336, 10), // "startSizeY"
-QT_MOC_LITERAL(28, 347, 8), // "endSizeX"
-QT_MOC_LITERAL(29, 356, 8), // "endSizeY"
-QT_MOC_LITERAL(30, 365, 10), // "rectResize"
-QT_MOC_LITERAL(31, 376, 14), // "setColumnsRows"
-QT_MOC_LITERAL(32, 391, 10), // "setLooping"
-QT_MOC_LITERAL(33, 402, 9), // "selectTab"
-QT_MOC_LITERAL(34, 412, 6), // "addTab"
-QT_MOC_LITERAL(35, 419, 9) // "removeTab"
+QT_MOC_LITERAL(11, 146, 11), // "SetRotation"
+QT_MOC_LITERAL(12, 158, 17), // "SetRotationSlider"
+QT_MOC_LITERAL(13, 176, 15), // "setMaxParticles"
+QT_MOC_LITERAL(14, 192, 10), // "setGravity"
+QT_MOC_LITERAL(15, 203, 13), // "BrowseTexture"
+QT_MOC_LITERAL(16, 217, 18), // "BrowseTextureNoise"
+QT_MOC_LITERAL(17, 236, 4), // "load"
+QT_MOC_LITERAL(18, 241, 4), // "save"
+QT_MOC_LITERAL(19, 246, 6), // "color0"
+QT_MOC_LITERAL(20, 253, 6), // "color1"
+QT_MOC_LITERAL(21, 260, 6), // "color2"
+QT_MOC_LITERAL(22, 267, 18), // "emitterTypeChanged"
+QT_MOC_LITERAL(23, 286, 5), // "index"
+QT_MOC_LITERAL(24, 292, 18), // "textureTypeChanged"
+QT_MOC_LITERAL(25, 311, 20), // "shaderCompileChanged"
+QT_MOC_LITERAL(26, 332, 7), // "useless"
+QT_MOC_LITERAL(27, 340, 14), // "BloomParticles"
+QT_MOC_LITERAL(28, 355, 10), // "startSizeX"
+QT_MOC_LITERAL(29, 366, 10), // "startSizeY"
+QT_MOC_LITERAL(30, 377, 8), // "endSizeX"
+QT_MOC_LITERAL(31, 386, 8), // "endSizeY"
+QT_MOC_LITERAL(32, 395, 10), // "rectResize"
+QT_MOC_LITERAL(33, 406, 14), // "setColumnsRows"
+QT_MOC_LITERAL(34, 421, 10), // "setLooping"
+QT_MOC_LITERAL(35, 432, 9), // "selectTab"
+QT_MOC_LITERAL(36, 442, 6), // "addTab"
+QT_MOC_LITERAL(37, 449, 9) // "removeTab"
 
     },
     "MainContainer\0setLifetime\0\0setEmissionDelay\0"
     "value\0setVelocityX\0setVelocityXSlider\0"
     "setVelocityY\0setVelocityYSlider\0"
     "setVelocityZ\0setVelocityZSlider\0"
+    "SetRotation\0SetRotationSlider\0"
     "setMaxParticles\0setGravity\0BrowseTexture\0"
     "BrowseTextureNoise\0load\0save\0color0\0"
     "color1\0color2\0emitterTypeChanged\0index\0"
@@ -90,7 +93,7 @@ static const uint qt_meta_data_MainContainer[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      31,   14, // methods
+      33,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -98,37 +101,39 @@ static const uint qt_meta_data_MainContainer[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,  169,    2, 0x0a /* Public */,
-       3,    1,  170,    2, 0x0a /* Public */,
-       5,    0,  173,    2, 0x0a /* Public */,
-       6,    1,  174,    2, 0x0a /* Public */,
-       7,    0,  177,    2, 0x0a /* Public */,
-       8,    1,  178,    2, 0x0a /* Public */,
-       9,    0,  181,    2, 0x0a /* Public */,
-      10,    1,  182,    2, 0x0a /* Public */,
-      11,    0,  185,    2, 0x0a /* Public */,
-      12,    0,  186,    2, 0x0a /* Public */,
-      13,    0,  187,    2, 0x0a /* Public */,
-      14,    0,  188,    2, 0x0a /* Public */,
-      15,    0,  189,    2, 0x0a /* Public */,
-      16,    0,  190,    2, 0x0a /* Public */,
-      17,    0,  191,    2, 0x0a /* Public */,
-      18,    0,  192,    2, 0x0a /* Public */,
-      19,    0,  193,    2, 0x0a /* Public */,
-      20,    1,  194,    2, 0x0a /* Public */,
-      22,    1,  197,    2, 0x0a /* Public */,
-      23,    1,  200,    2, 0x0a /* Public */,
-      25,    1,  203,    2, 0x0a /* Public */,
-      26,    0,  206,    2, 0x0a /* Public */,
-      27,    0,  207,    2, 0x0a /* Public */,
-      28,    0,  208,    2, 0x0a /* Public */,
-      29,    0,  209,    2, 0x0a /* Public */,
-      30,    0,  210,    2, 0x0a /* Public */,
-      31,    0,  211,    2, 0x0a /* Public */,
-      32,    1,  212,    2, 0x0a /* Public */,
-      33,    1,  215,    2, 0x0a /* Public */,
-      34,    1,  218,    2, 0x0a /* Public */,
-      35,    1,  221,    2, 0x0a /* Public */,
+       1,    0,  179,    2, 0x0a /* Public */,
+       3,    1,  180,    2, 0x0a /* Public */,
+       5,    0,  183,    2, 0x0a /* Public */,
+       6,    1,  184,    2, 0x0a /* Public */,
+       7,    0,  187,    2, 0x0a /* Public */,
+       8,    1,  188,    2, 0x0a /* Public */,
+       9,    0,  191,    2, 0x0a /* Public */,
+      10,    1,  192,    2, 0x0a /* Public */,
+      11,    0,  195,    2, 0x0a /* Public */,
+      12,    1,  196,    2, 0x0a /* Public */,
+      13,    0,  199,    2, 0x0a /* Public */,
+      14,    0,  200,    2, 0x0a /* Public */,
+      15,    0,  201,    2, 0x0a /* Public */,
+      16,    0,  202,    2, 0x0a /* Public */,
+      17,    0,  203,    2, 0x0a /* Public */,
+      18,    0,  204,    2, 0x0a /* Public */,
+      19,    0,  205,    2, 0x0a /* Public */,
+      20,    0,  206,    2, 0x0a /* Public */,
+      21,    0,  207,    2, 0x0a /* Public */,
+      22,    1,  208,    2, 0x0a /* Public */,
+      24,    1,  211,    2, 0x0a /* Public */,
+      25,    1,  214,    2, 0x0a /* Public */,
+      27,    1,  217,    2, 0x0a /* Public */,
+      28,    0,  220,    2, 0x0a /* Public */,
+      29,    0,  221,    2, 0x0a /* Public */,
+      30,    0,  222,    2, 0x0a /* Public */,
+      31,    0,  223,    2, 0x0a /* Public */,
+      32,    0,  224,    2, 0x0a /* Public */,
+      33,    0,  225,    2, 0x0a /* Public */,
+      34,    1,  226,    2, 0x0a /* Public */,
+      35,    1,  229,    2, 0x0a /* Public */,
+      36,    1,  232,    2, 0x0a /* Public */,
+      37,    1,  235,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -140,6 +145,7 @@ static const uint qt_meta_data_MainContainer[] = {
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int,    4,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,    4,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -148,10 +154,11 @@ static const uint qt_meta_data_MainContainer[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int,   21,
-    QMetaType::Void, QMetaType::Int,   21,
-    QMetaType::Void, QMetaType::Int,   24,
-    QMetaType::Void, QMetaType::Int,   24,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,   23,
+    QMetaType::Void, QMetaType::Int,   23,
+    QMetaType::Void, QMetaType::Int,   26,
+    QMetaType::Void, QMetaType::Int,   26,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -159,9 +166,9 @@ static const uint qt_meta_data_MainContainer[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int,    4,
-    QMetaType::Void, QMetaType::Int,   21,
-    QMetaType::Void, QMetaType::Int,   21,
-    QMetaType::Void, QMetaType::Int,   21,
+    QMetaType::Void, QMetaType::Int,   23,
+    QMetaType::Void, QMetaType::Int,   23,
+    QMetaType::Void, QMetaType::Int,   23,
 
        0        // eod
 };
@@ -180,29 +187,31 @@ void MainContainer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 5: _t->setVelocityYSlider((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 6: _t->setVelocityZ(); break;
         case 7: _t->setVelocityZSlider((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 8: _t->setMaxParticles(); break;
-        case 9: _t->setGravity(); break;
-        case 10: _t->BrowseTexture(); break;
-        case 11: _t->BrowseTextureNoise(); break;
-        case 12: _t->load(); break;
-        case 13: _t->save(); break;
-        case 14: _t->color0(); break;
-        case 15: _t->color1(); break;
-        case 16: _t->color2(); break;
-        case 17: _t->emitterTypeChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 18: _t->textureTypeChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 19: _t->shaderCompileChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 20: _t->BloomParticles((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 21: _t->startSizeX(); break;
-        case 22: _t->startSizeY(); break;
-        case 23: _t->endSizeX(); break;
-        case 24: _t->endSizeY(); break;
-        case 25: _t->rectResize(); break;
-        case 26: _t->setColumnsRows(); break;
-        case 27: _t->setLooping((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 28: _t->selectTab((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 29: _t->addTab((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 30: _t->removeTab((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 8: _t->SetRotation(); break;
+        case 9: _t->SetRotationSlider((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 10: _t->setMaxParticles(); break;
+        case 11: _t->setGravity(); break;
+        case 12: _t->BrowseTexture(); break;
+        case 13: _t->BrowseTextureNoise(); break;
+        case 14: _t->load(); break;
+        case 15: _t->save(); break;
+        case 16: _t->color0(); break;
+        case 17: _t->color1(); break;
+        case 18: _t->color2(); break;
+        case 19: _t->emitterTypeChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 20: _t->textureTypeChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 21: _t->shaderCompileChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 22: _t->BloomParticles((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 23: _t->startSizeX(); break;
+        case 24: _t->startSizeY(); break;
+        case 25: _t->endSizeX(); break;
+        case 26: _t->endSizeY(); break;
+        case 27: _t->rectResize(); break;
+        case 28: _t->setColumnsRows(); break;
+        case 29: _t->setLooping((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 30: _t->selectTab((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 31: _t->addTab((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 32: _t->removeTab((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -233,13 +242,13 @@ int MainContainer::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 31)
+        if (_id < 33)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 31;
+        _id -= 33;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 31)
+        if (_id < 33)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 31;
+        _id -= 33;
     }
     return _id;
 }

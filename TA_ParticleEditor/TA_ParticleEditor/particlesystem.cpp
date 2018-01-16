@@ -79,6 +79,7 @@ void ParticleSystem::UpdateConstantBuffer(ID3D11DeviceContext* context, XMMATRIX
 		cBufferParticle.camup = camup;
 		cBufferParticle.startsize = XMFLOAT2(emitter.startSizeX, emitter.startSizeY);
 		cBufferParticle.endsize = XMFLOAT2(emitter.endSizeX, emitter.endSizeY);
+		cBufferParticle.rotation = emitter.rotation;
 		cBufferParticle.col0 = emitter.color0;
 		cBufferParticle.col1 = emitter.color1;
 		cBufferParticle.col2 = emitter.color2;
@@ -101,6 +102,7 @@ void ParticleSystem::UpdateConstantBuffer(ID3D11DeviceContext* context, XMMATRIX
 		cBufferParticleAnimated.col1 = emitter.color1;
 		cBufferParticleAnimated.col2 = emitter.color2;
 		cBufferParticleAnimated.endsize = XMFLOAT2(emitter.endSizeX, emitter.endSizeY);
+		cBufferParticleAnimated.rotation = emitter.rotation;
 
 		cBufferParticleAnimated.lifetime = emitter.lifetime;
 		cBufferParticleAnimated.columns = emitter.textureColumns;
@@ -269,6 +271,9 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 	case PS_PROPERTY::PS_RECT_SIZE_Z:
 		emitter.rectSizeZ = *((float*)data);
 		break;
+	case PS_PROPERTY::PS_ROTATION:
+		emitter.rotation = *((float*)data);
+		break;
 	case PS_PROPERTY::PS_TEXTURE_TYPE:
 		emitter.textureType = *((int*)data);
 		break;
@@ -336,6 +341,9 @@ void* ParticleSystem::GetProperty(PS_PROPERTY prop)
 	case PS_PROPERTY::PS_RECT_SIZE_Z:
 		return &emitter.rectSizeZ;
 		break;
+	case PS_PROPERTY::PS_ROTATION:
+		return &emitter.rotation;
+		break;
 	case PS_PROPERTY::PS_TEXTURE_TYPE:
 		return &emitter.textureType;
 		break;
@@ -361,7 +369,7 @@ void* ParticleSystem::GetProperty(PS_PROPERTY prop)
 
 void ParticleSystem::Initialize()
 {
-	emitter = EMITTER(EMITTER_TYPE::EMIT_POINT,0, FLOAT3_ZERO, 0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 4, 4, 0, 0, 1);
+	emitter = EMITTER(EMITTER_TYPE::EMIT_POINT,0, FLOAT3_ZERO, 0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,0, 0, 4, 4, 0, 0, 1);
 
 	for (unsigned int i = 0; i < emitter.maxparticles; i++)
 	{

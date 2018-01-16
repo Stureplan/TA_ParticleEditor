@@ -24,6 +24,8 @@ void MainContainer::SetPointers(ParticleSystem* ps)
 	velocityYSlider				= findChild<QSlider*>		("velocityYSlider",		Qt::FindChildOption::FindChildrenRecursively);
 	textFieldVelocityZ			= findChild<QLineEdit*>		("velocityZ",			Qt::FindChildOption::FindChildrenRecursively);
 	velocityZSlider				= findChild<QSlider*>		("velocityZSlider",		Qt::FindChildOption::FindChildrenRecursively);
+	textFieldRotation			= findChild<QLineEdit*>		("rotation",			Qt::FindChildOption::FindChildrenRecursively);
+	rotationSlider				= findChild<QSlider*>		("rotationSlider",		Qt::FindChildOption::FindChildrenRecursively);
 	textFieldGravity			= findChild<QLineEdit*>		("gravity",				Qt::FindChildOption::FindChildrenRecursively);
 	emissionDelaySlider			= findChild<QSlider*>		("emissionDelaySlider",	Qt::FindChildOption::FindChildrenRecursively);
 	emissionDelaySlider_label	= findChild<QLabel*>		("label_EmDelaySlide",	Qt::FindChildOption::FindChildrenRecursively);
@@ -52,7 +54,6 @@ void MainContainer::SetPointers(ParticleSystem* ps)
 	spriteRows					= findChild<QLineEdit*>		("spriteRows",			Qt::FindChildOption::FindChildrenRecursively);
 	psTabs						= findChild<QTabWidget*>	("psTabs",				Qt::FindChildOption::FindChildrenRecursively);
 	interpolateFrames			= findChild<QCheckBox*>		("interpolateFrames",	Qt::FindChildOption::FindChildrenRecursively);
-	rotateParticles				= findChild<QCheckBox*>		("rotateParticles",		Qt::FindChildOption::FindChildrenRecursively);
 	noiseDissolve				= findChild<QCheckBox*>		("noiseDissolve",		Qt::FindChildOption::FindChildrenRecursively);
 	bloomParticles				= findChild<QCheckBox*>		("bloomParticles",		Qt::FindChildOption::FindChildrenRecursively);
 	loopingCheckBox				= findChild<QCheckBox*>		("looping",				Qt::FindChildOption::FindChildrenRecursively);
@@ -78,12 +79,11 @@ void MainContainer::Init()
 	textFieldGravity->setPlaceholderText(std::to_string(DEFAULT_GRAVITY).c_str());
 
 	mCurrentPS.maxparticles = textFieldMaxParticles->text().toInt();
-
 	mCurrentPS.startSizeX = textFieldStartSizeX->text().toFloat();
 	mCurrentPS.startSizeY = textFieldStartSizeY->text().toFloat();
-
 	mCurrentPS.endSizeX = textFieldEndSizeX->text().toFloat();
 	mCurrentPS.endSizeY = textFieldEndSizeY->text().toFloat();
+	mCurrentPS.rotation = textFieldRotation->text().toFloat();
 
 	char result[MAX_PATH];
 	GetModuleFileNameA(NULL, result, MAX_PATH);
@@ -272,6 +272,7 @@ void MainContainer::SetUiElements()
 	textBrowserNoise->setText(mTextureNoisePath);
 
 	//TODO: Fix EMITTER rotation property. Doesn't exist.
+	//Rotation should be a SLIDER, not a checkbox.
 	//rotateParticles->setChecked(mCurrentPS.rotateParticles);
 	noiseDissolve->setChecked(mCurrentPS.noiseDissolve);
 	bloomParticles->setChecked(mCurrentPS.bloomParticles);
@@ -358,12 +359,12 @@ void MainContainer::textureTypeChanged(int mode)
 
 	mCurrentPS.textureType = mode;
 	particlesystem->SetProperty(PS_PROPERTY::PS_TEXTURE_TYPE, &mCurrentPS.textureType);
-	graphics->RecompileShader(mCurrentPS.textureType, false, interpolateFrames->isChecked(), rotateParticles->isChecked());
+	graphics->RecompileShader(mCurrentPS.textureType, false, interpolateFrames->isChecked());
 }
 
 void MainContainer::shaderCompileChanged(int useless)
 {
-	graphics->RecompileShader(mCurrentPS.textureType, noiseDissolve->isChecked(), interpolateFrames->isChecked(), rotateParticles->isChecked());
+	graphics->RecompileShader(mCurrentPS.textureType, noiseDissolve->isChecked(), interpolateFrames->isChecked());
 
 	mCurrentPS.noiseDissolve = noiseDissolve->isChecked();
 	particlesystem->SetProperty(PS_PROPERTY::PS_NOISE_DISSOLVE, &mCurrentPS.noiseDissolve);
@@ -462,12 +463,13 @@ void MainContainer::setMaxParticles()
 
 void MainContainer::BuildParticleSystem()
 {
+	//TODO: Try using just graphics->Rebuild(mCurrentPS);. Not sure if that will work, but would be smooth.
 	EMITTER ps(mCurrentPS.emittertype, mCurrentPS.maxparticles,
 		mCurrentPS.velocity, mCurrentPS.emissiondelay, mCurrentPS.lifetime, mCurrentPS.gravity,
 		FLOAT4(mColor0.redF(), mColor0.greenF(), mColor0.blueF(), mColor0.alphaF()),
 		FLOAT4(mColor1.redF(), mColor1.greenF(), mColor1.blueF(), mColor1.alphaF()),
 		FLOAT4(mColor2.redF(), mColor2.greenF(), mColor2.blueF(), mColor2.alphaF()),
-		mCurrentPS.startSizeX, mCurrentPS.startSizeY, mCurrentPS.endSizeX, mCurrentPS.endSizeY, mCurrentPS.rectSizeX, mCurrentPS.rectSizeZ,
+		mCurrentPS.startSizeX, mCurrentPS.startSizeY, mCurrentPS.endSizeX, mCurrentPS.endSizeY, mCurrentPS.rectSizeX, mCurrentPS.rectSizeZ, mCurrentPS.rotation,
 		mCurrentPS.textureType, mCurrentPS.textureColumns, mCurrentPS.textureRows, mCurrentPS.looping, mCurrentPS.noiseDissolve, mCurrentPS.bloomParticles);
 
 	graphics->Rebuild(ps);
@@ -534,6 +536,23 @@ void MainContainer::setVelocityZSlider(int value)
 	textFieldVelocityZ->setText(QString::number(mCurrentPS.velocity.Z, 'f', 1));
 
 	particlesystem->SetProperty(PS_PROPERTY::PS_VELOCITY, &mCurrentPS.velocity);
+}
+
+void MainContainer::SetRotation()
+{
+	float r = textFieldRotation->text().toFloat();
+
+	mCurrentPS.rotation = r;
+	particlesystem->SetProperty(PS_PROPERTY::PS_ROTATION, &mCurrentPS.rotation);
+}
+
+void MainContainer::SetRotationSlider(int value)
+{
+	int a = rotationSlider->value();
+	mCurrentPS.rotation = a;
+	textFieldRotation->setText(QString::number(mCurrentPS.rotation, 'f', 1));
+
+	particlesystem->SetProperty(PS_PROPERTY::PS_ROTATION, &mCurrentPS.rotation);
 }
 
 void MainContainer::setLifetime()

@@ -1068,19 +1068,6 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QCheckBox" name="rotateParticles">
-    <property name="geometry">
-     <rect>
-      <x>850</x>
-      <y>208</y>
-      <width>111</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Rotate Particles</string>
-    </property>
-   </widget>
    <widget class="QCheckBox" name="noiseDissolve">
     <property name="geometry">
      <rect>
@@ -1459,6 +1446,65 @@
      <string>Bloom Particles</string>
     </property>
    </widget>
+   <widget class="QSlider" name="rotationSlider">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>520</y>
+      <width>175</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">selection-background-color: rgb(53, 53, 53);</string>
+    </property>
+    <property name="minimum">
+     <number>-19</number>
+    </property>
+    <property name="maximum">
+     <number>19</number>
+    </property>
+    <property name="singleStep">
+     <number>1</number>
+    </property>
+    <property name="value">
+     <number>0</number>
+    </property>
+    <property name="sliderPosition">
+     <number>0</number>
+    </property>
+    <property name="tracking">
+     <bool>true</bool>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+    <property name="invertedAppearance">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="rotation">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>520</y>
+      <width>60</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="inputMask">
+     <string>##0\.00</string>
+    </property>
+    <property name="text">
+     <string>0.0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="placeholderText">
+     <string>0.0</string>
+    </property>
+   </widget>
    <zorder>graphics</zorder>
    <zorder>label_Lifetime</zorder>
    <zorder>label_Velocity</zorder>
@@ -1497,7 +1543,6 @@
    <zorder>label_VelocityZ</zorder>
    <zorder>color2Display</zorder>
    <zorder>label_EmitterType_2</zorder>
-   <zorder>rotateParticles</zorder>
    <zorder>noiseDissolve</zorder>
    <zorder>looping</zorder>
    <zorder>color0Display</zorder>
@@ -1516,6 +1561,8 @@
    <zorder>velocityZSlider_2</zorder>
    <zorder>label_Velocity_2</zorder>
    <zorder>bloomParticles</zorder>
+   <zorder>rotationSlider</zorder>
+   <zorder>rotation</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
@@ -1563,6 +1610,8 @@
     <slot>shaderCompileChanged(int)</slot>
     <slot>setLooping(int)</slot>
     <slot>BrowseTextureNoise()</slot>
+    <slot>SetRotation()</slot>
+    <slot>SetRotationSlider(int)</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -2035,22 +2084,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>rotateParticles</sender>
-   <signal>stateChanged(int)</signal>
-   <receiver>maincontainer</receiver>
-   <slot>shaderCompileChanged(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>905</x>
-     <y>248</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>491</x>
-     <y>318</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>noiseDissolve</sender>
    <signal>stateChanged(int)</signal>
    <receiver>maincontainer</receiver>
@@ -2107,6 +2140,38 @@
     <hint type="sourcelabel">
      <x>829</x>
      <y>580</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>491</x>
+     <y>324</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rotation</sender>
+   <signal>editingFinished()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>SetRotation()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>509</x>
+     <y>529</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>491</x>
+     <y>324</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rotationSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>maincontainer</receiver>
+   <slot>SetRotationSlider(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>637</x>
+     <y>530</y>
     </hint>
     <hint type="destinationlabel">
      <x>491</x>

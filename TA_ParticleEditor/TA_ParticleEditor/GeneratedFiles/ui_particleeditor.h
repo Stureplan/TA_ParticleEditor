@@ -84,7 +84,6 @@ public:
     QPushButton *color2Btn;
     QLineEdit *color2Display;
     QLabel *label_EmitterType_2;
-    QCheckBox *rotateParticles;
     QCheckBox *noiseDissolve;
     QCheckBox *looping;
     QGroupBox *groupBoxTexture;
@@ -106,6 +105,8 @@ public:
     QSlider *velocityZSlider_2;
     QLabel *label_Velocity_2;
     QCheckBox *bloomParticles;
+    QSlider *rotationSlider;
+    QLineEdit *rotation;
 
     void setupUi(QMainWindow *ParticleEditorClass)
     {
@@ -371,9 +372,6 @@ public:
         label_EmitterType_2->setObjectName(QStringLiteral("label_EmitterType_2"));
         label_EmitterType_2->setGeometry(QRect(810, 290, 100, 16));
         label_EmitterType_2->setAlignment(Qt::AlignCenter);
-        rotateParticles = new QCheckBox(maincontainer);
-        rotateParticles->setObjectName(QStringLiteral("rotateParticles"));
-        rotateParticles->setGeometry(QRect(850, 208, 111, 17));
         noiseDissolve = new QCheckBox(maincontainer);
         noiseDissolve->setObjectName(QStringLiteral("noiseDissolve"));
         noiseDissolve->setGeometry(QRect(850, 240, 111, 17));
@@ -469,6 +467,22 @@ public:
         bloomParticles = new QCheckBox(maincontainer);
         bloomParticles->setObjectName(QStringLiteral("bloomParticles"));
         bloomParticles->setGeometry(QRect(850, 224, 111, 17));
+        rotationSlider = new QSlider(maincontainer);
+        rotationSlider->setObjectName(QStringLiteral("rotationSlider"));
+        rotationSlider->setGeometry(QRect(550, 520, 175, 22));
+        rotationSlider->setStyleSheet(QStringLiteral("selection-background-color: rgb(53, 53, 53);"));
+        rotationSlider->setMinimum(-19);
+        rotationSlider->setMaximum(19);
+        rotationSlider->setSingleStep(1);
+        rotationSlider->setValue(0);
+        rotationSlider->setSliderPosition(0);
+        rotationSlider->setTracking(true);
+        rotationSlider->setOrientation(Qt::Horizontal);
+        rotationSlider->setInvertedAppearance(false);
+        rotation = new QLineEdit(maincontainer);
+        rotation->setObjectName(QStringLiteral("rotation"));
+        rotation->setGeometry(QRect(480, 520, 60, 20));
+        rotation->setAlignment(Qt::AlignCenter);
         ParticleEditorClass->setCentralWidget(maincontainer);
         graphics->raise();
         label_Lifetime->raise();
@@ -508,7 +522,6 @@ public:
         label_VelocityZ->raise();
         color2Display->raise();
         label_EmitterType_2->raise();
-        rotateParticles->raise();
         noiseDissolve->raise();
         looping->raise();
         color0Display->raise();
@@ -527,6 +540,8 @@ public:
         velocityZSlider_2->raise();
         label_Velocity_2->raise();
         bloomParticles->raise();
+        rotationSlider->raise();
+        rotation->raise();
 
         retranslateUi(ParticleEditorClass);
         QObject::connect(savePS, SIGNAL(clicked()), maincontainer, SLOT(save()));
@@ -558,11 +573,12 @@ public:
         QObject::connect(psTabs, SIGNAL(tabBarClicked(int)), maincontainer, SLOT(selectTab(int)));
         QObject::connect(color2Btn, SIGNAL(clicked()), maincontainer, SLOT(color2()));
         QObject::connect(interpolateFrames, SIGNAL(stateChanged(int)), maincontainer, SLOT(shaderCompileChanged(int)));
-        QObject::connect(rotateParticles, SIGNAL(stateChanged(int)), maincontainer, SLOT(shaderCompileChanged(int)));
         QObject::connect(noiseDissolve, SIGNAL(stateChanged(int)), maincontainer, SLOT(shaderCompileChanged(int)));
         QObject::connect(looping, SIGNAL(stateChanged(int)), maincontainer, SLOT(setLooping(int)));
         QObject::connect(browsepath, SIGNAL(clicked()), maincontainer, SLOT(BrowseTexture()));
         QObject::connect(browsepathNoise, SIGNAL(clicked()), maincontainer, SLOT(BrowseTextureNoise()));
+        QObject::connect(rotation, SIGNAL(editingFinished()), maincontainer, SLOT(SetRotation()));
+        QObject::connect(rotationSlider, SIGNAL(valueChanged(int)), maincontainer, SLOT(SetRotationSlider(int)));
 
         textureTypeBox->setCurrentIndex(0);
         psTabs->setCurrentIndex(0);
@@ -657,7 +673,6 @@ public:
         color2Display->setText(QString());
         color2Display->setPlaceholderText(QApplication::translate("ParticleEditorClass", "End Color", Q_NULLPTR));
         label_EmitterType_2->setText(QApplication::translate("ParticleEditorClass", "Texture Type", Q_NULLPTR));
-        rotateParticles->setText(QApplication::translate("ParticleEditorClass", "Rotate Particles", Q_NULLPTR));
         noiseDissolve->setText(QApplication::translate("ParticleEditorClass", "Noise Dissolve", Q_NULLPTR));
         looping->setText(QApplication::translate("ParticleEditorClass", "Looping", Q_NULLPTR));
         groupBoxTexture->setTitle(QApplication::translate("ParticleEditorClass", "Texture", Q_NULLPTR));
@@ -682,6 +697,9 @@ public:
         velocityY_2->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
         label_Velocity_2->setText(QApplication::translate("ParticleEditorClass", "Offset", Q_NULLPTR));
         bloomParticles->setText(QApplication::translate("ParticleEditorClass", "Bloom Particles", Q_NULLPTR));
+        rotation->setInputMask(QApplication::translate("ParticleEditorClass", "##0\\.00", Q_NULLPTR));
+        rotation->setText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        rotation->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
     } // retranslateUi
 
 };

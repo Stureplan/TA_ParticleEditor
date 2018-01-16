@@ -185,7 +185,7 @@ void Graphics::Initialize()
 
 
 
-	shaders.CompileIncludes(false, false, false);
+	shaders.CompileIncludes(false, false);
 	shaders.ReloadLastShader(device, context);
 }
 
@@ -370,9 +370,9 @@ void Graphics::Retexture(TEXTURE_TYPE type, std::string path)
 	}
 }
 
-void Graphics::RecompileShader(int type, bool noise, bool interpolate, bool rotate)
+void Graphics::RecompileShader(int type, bool noise, bool interpolate)
 {
-	shaders.CompileIncludes(noise, interpolate, rotate);
+	shaders.CompileIncludes(noise, interpolate);
 
 	if (type == 0)
 	{
