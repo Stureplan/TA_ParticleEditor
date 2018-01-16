@@ -170,7 +170,31 @@ enum TEXTURE_TYPE
 
 struct EMITTER
 {
-	EMITTER(){}
+	EMITTER()
+	{
+		emittertype = EMITTER_TYPE::EMIT_POINT;
+		maxparticles = 0;
+		velocity = FLOAT3_ZERO;
+		emissiondelay = 0;
+		lifetime = 0;
+		gravity = 0;
+		color0 = FLOAT4(1, 1, 1, 1);
+		color1 = FLOAT4(1, 1, 1, 1);
+		color2 = FLOAT4(1, 1, 1, 1);
+		startSizeX = 1.0f;
+		startSizeY = 1.0f;
+		endSizeX = 1.0f;
+		endSizeY = 1.0f;
+		rectSizeX = 1.0f;
+		rectSizeZ = 1.0f;
+		rotation = 0;
+		textureType = 0;
+		textureColumns = 4;
+		textureRows = 4;
+		looping = 0;
+		noiseDissolve = 0;
+		bloomParticles = 1;
+	}
 	EMITTER (EMITTER_TYPE e, int m, FLOAT3 v, float ed, float lt, float grv, FLOAT4 col0, FLOAT4 col1, FLOAT4 col2, float sX, float sY, float eX, float eY, float rsX, float rsZ, float r, int tT, int tC, int tR, int l, int nD, int b)
 	{
 		emittertype = e;

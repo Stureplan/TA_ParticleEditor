@@ -35,8 +35,10 @@ public:
 
 
 	void Initialize();
-	void Rebuild(EMITTER emitter);
+	void Rebuild(EMITTER e);
 	void Update(float dt);
+
+	EMITTER Emitter();
 
 private:
 	unsigned int GetSize();

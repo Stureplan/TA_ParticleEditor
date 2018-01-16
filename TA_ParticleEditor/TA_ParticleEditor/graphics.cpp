@@ -6,7 +6,7 @@ Graphics::Graphics(QWidget * parent)
 	setAttribute(Qt::WA_PaintOnScreen, true);
 	setAttribute(Qt::WA_NativeWindow, true);
 	
-	particlesystem = new ParticleSystem();
+	particlesystems.push_back(new ParticleSystem());
 	positionGizmo = new Gizmo();
 	emitterGizmo = new Gizmo();
 
@@ -24,7 +24,10 @@ Graphics::Graphics(QWidget * parent)
 Graphics::~Graphics()
 {
 	delete timer;
-	delete particlesystem;
+	for (int i = 0; i < particlesystems.size(); i++)
+	{
+		delete particlesystems[i];
+	}
 
 
 	device->Release();
@@ -171,10 +174,13 @@ void Graphics::Initialize()
 	shaders.LoadGizmoShader(device, context);
 	shaders.LoadParticleShader(device, context, "particle.hlsl");
 	
-	particlesystem->Initialize();
-	particlesystem->VertexBuffer(device);
-	particlesystem->ConstantBuffer(device);
-
+	for (int i = 0; i < particlesystems.size(); i++)
+	{
+		particlesystems[i]->Initialize();
+		particlesystems[i]->VertexBuffer(device);
+		particlesystems[i]->ConstantBuffer(device);
+	}
+	
 	positionGizmo->VertexBuffer(device, std::vector<GIZMO_VERTEX>({{0,0,0,1,0,0},{1,0,0,1,0,0},{0,0,0,1,0,0},{0,1,0,0,1,0},{0,0,0,0,1,0},{0,0,1,0,0,1},{0,0,0,0,0,1}}));
 	positionGizmo->ConstantBuffer(device);
 
@@ -398,7 +404,7 @@ void Graphics::ChangeRasterization(D3D11_FILL_MODE fillmode)
 	}
 }
 
-void Graphics::Rebuild(EMITTER ps)
+void Graphics::Rebuild(int index, EMITTER ps)
 {
 	if ((EMITTER_TYPE)ps.emittertype == EMITTER_TYPE::EMIT_POINT)
 	{
@@ -408,8 +414,8 @@ void Graphics::Rebuild(EMITTER ps)
 	{
 		emitterGizmo->VertexBuffer(device,{{-2,0,2,1,0,1},{2,0,2,1,0,1},{2,0,-2,1,0,1},{-2,0,-2,1,0,1},{-2,0,2,1,0,1}});
 	}
-	particlesystem->Rebuild(ps);
-	particlesystem->VertexBuffer(device);
+	particlesystems[index]->Rebuild(ps);
+	particlesystems[index]->VertexBuffer(device);
 }
 
 void Graphics::PauseSimulation()
@@ -417,9 +423,13 @@ void Graphics::PauseSimulation()
 	paused = !paused;
 }
 
-void Graphics::AddParticleSystem(EMITTER ps)
+void Graphics::AddParticleSystem(int index, EMITTER ps)
 {
-	particlesystems.push_back(ps);
+	particlesystems.push_back(new ParticleSystem());
+	particlesystems[index]->Initialize();
+	particlesystems[index]->VertexBuffer(device);
+	particlesystems[index]->ConstantBuffer(device);
+	particlesystems[index]->Rebuild(ps);
 }
 
 void Graphics::RemoveParticleSystem(int index)
@@ -427,7 +437,12 @@ void Graphics::RemoveParticleSystem(int index)
 	particlesystems.erase(particlesystems.begin() + index);
 }
 
-EMITTER Graphics::ParticleSystemByIndex(int index)
+EMITTER Graphics::EmitterByIndex(int index)
+{
+	return particlesystems.at(index)->Emitter();
+}
+
+ParticleSystem* Graphics::ParticleSystemByIndex(int index)
 {
 	return particlesystems.at(index);
 }
@@ -442,13 +457,25 @@ void Graphics::Update()
 	if (paused == false)
 	{
 		//TODO: Put ms here instead, test test test.
-		particlesystem->Update(ms);
+		for (int i = 0; i < particlesystems.size(); i++)
+		{
+			particlesystems[i]->Update(ms);
+		}
+		
 	}
 }
 
 void Graphics::UpdateOnce()
 {
-	particlesystem->Update(ms);
+	for (int i = 0; i < particlesystems.size(); i++)
+	{
+		particlesystems[i]->Update(ms);
+	}
+}
+
+void Graphics::CurrentEmitterIndex(int index)
+{
+	cEmitter = index;
 }
 
 void Graphics::Render()
@@ -464,27 +491,33 @@ void Graphics::Render()
 	positionGizmo->Render(context, textureSamplerState, texture_debug);
 
 	// DRAW EMITTER GIZMO
-	World = XMMatrixScaling(*(float*)particlesystem->GetProperty(PS_PROPERTY::PS_RECT_SIZE_X), 1.0f, *(float*)particlesystem->GetProperty(PS_PROPERTY::PS_RECT_SIZE_Z));
+	World = XMMatrixScaling(*(float*)particlesystems[cEmitter]->GetProperty(PS_PROPERTY::PS_RECT_SIZE_X), 1.0f, *(float*)particlesystems[cEmitter]->GetProperty(PS_PROPERTY::PS_RECT_SIZE_Z));
 	WVP = World * View * Projection;
 	emitterGizmo->UpdateConstantBuffer(context, WVP);
 	emitterGizmo->Render(context, textureSamplerState, texture_debug);
 
-	// DRAW PARTICLES
-	World = XMMatrixIdentity();
-	WVP = World * View * Projection;
-	camup = XMVector3Transform(XMVectorSet(0, 1, 0, 1), XMMatrixTranspose(View));
-	shaders.SetParticleShader(context);
-	particlesystem->UploadParticleBuffer(context);
-	particlesystem->UpdateConstantBuffer(context, WVP, World, campos, camup);
-	particlesystem->Render(context, textureSamplerState, textures[1], textures[3]);
 
-	// DRAW DEBUG PARTICLES
-	if (debug == true)
+	for (int i = 0; i < particlesystems.size(); i++)
 	{
-		ChangeRasterization(D3D11_FILL_WIREFRAME);
-		particlesystem->RenderDebug(context, textureSamplerState, texture_debug, textures[3]);
-		ChangeRasterization(D3D11_FILL_SOLID);
+		// DRAW PARTICLES
+		World = XMMatrixIdentity();
+		WVP = World * View * Projection;
+		camup = XMVector3Transform(XMVectorSet(0, 1, 0, 1), XMMatrixTranspose(View));
+		shaders.SetParticleShader(context);
+		particlesystems[i]->UploadParticleBuffer(context);
+		particlesystems[i]->UpdateConstantBuffer(context, WVP, World, campos, camup);
+		particlesystems[i]->Render(context, textureSamplerState, textures[1], textures[3]);
+
+		// DRAW DEBUG PARTICLES
+		if (debug == true)
+		{
+			ChangeRasterization(D3D11_FILL_WIREFRAME);
+			particlesystems[i]->RenderDebug(context, textureSamplerState, texture_debug, textures[3]);
+			ChangeRasterization(D3D11_FILL_SOLID);
+		}
 	}
+
+
 	
 	camup = XMVectorSet(0, 1, 0, 1);
 	swapChain->Present(VSYNC, 0);

@@ -36,6 +36,7 @@ void ParticleSystem::VertexBuffer(ID3D11Device* device)
 	vertexData.SysMemSlicePitch = 0;
 
 	hr = device->CreateBuffer(&vertexDesc, &vertexData, &vertexBuffer);
+	int b = 1;
 }
 
 void ParticleSystem::ConstantBuffer(ID3D11Device* device)
@@ -103,7 +104,6 @@ void ParticleSystem::UpdateConstantBuffer(ID3D11DeviceContext* context, XMMATRIX
 		cBufferParticleAnimated.col2 = emitter.color2;
 		cBufferParticleAnimated.endsize = XMFLOAT2(emitter.endSizeX, emitter.endSizeY);
 		cBufferParticleAnimated.rotation = emitter.rotation;
-
 		cBufferParticleAnimated.lifetime = emitter.lifetime;
 		cBufferParticleAnimated.columns = emitter.textureColumns;
 		cBufferParticleAnimated.rows = emitter.textureRows;
@@ -117,7 +117,7 @@ void ParticleSystem::UpdateConstantBuffer(ID3D11DeviceContext* context, XMMATRIX
 
 void ParticleSystem::UploadParticleBuffer(ID3D11DeviceContext* context)
 {
-	unsigned int count = -1;
+	unsigned int count = 0;
 
 	// Fetch the data & count from the PS
 	std::vector<PARTICLE_VERTEX> positions = ParticleData(count);
@@ -369,7 +369,7 @@ void* ParticleSystem::GetProperty(PS_PROPERTY prop)
 
 void ParticleSystem::Initialize()
 {
-	emitter = EMITTER(EMITTER_TYPE::EMIT_POINT,0, FLOAT3_ZERO, 0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,0, 0, 4, 4, 0, 0, 1);
+	emitter = EMITTER(EMITTER_TYPE::EMIT_POINT,10, FLOAT3_ZERO, 0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,0, 0, 4, 4, 0, 0, 1);
 
 	for (unsigned int i = 0; i < emitter.maxparticles; i++)
 	{
@@ -434,6 +434,11 @@ void ParticleSystem::Rebuild(EMITTER e)
 	{
 		particles.push_back(PARTICLE(FLOAT3(0, 0, 0), emitter.velocity, 0, false, RandomIntMinusPlus(), RandomIntMinusPlus(),0));
 	}
+}
+
+EMITTER ParticleSystem::Emitter()
+{
+	return emitter;
 }
 
 void ParticleSystem::Update(float dt)

@@ -47,17 +47,18 @@ public:
 	void GainedFocus();
 	void Retexture(TEXTURE_TYPE type, std::string path);
 	void RecompileShader(int type, bool noise, bool interpolate);
-	void Rebuild(EMITTER ps);
+	void Rebuild(int index, EMITTER ps);
 	void PauseSimulation();
 	void Debug(bool active);
 	void Update();
 	void UpdateOnce();
+	void CurrentEmitterIndex(int index);
 	void Render();
 
-	ParticleSystem* ParticleSystemPtr() { return particlesystem; }
-	void AddParticleSystem(EMITTER ps);
+	EMITTER EmitterByIndex(int index);
+	ParticleSystem* ParticleSystemByIndex(int index);
+	void AddParticleSystem(int index, EMITTER ps);
 	void RemoveParticleSystem(int index);
-	EMITTER ParticleSystemByIndex(int index);
 
 	virtual QPaintEngine* paintEngine() const { return NULL; }
 
@@ -111,11 +112,9 @@ private:
 	Qt::Key lastRotKey;
 	float movespeed = 20.0f;
 	float rotspeed = 2.5f;
+	int cEmitter = 0;
 
 
-	// Constant Buffer Particles
-
-	// Constant Buffer Particles Animated
 	ID3D11Buffer* fullscreenQuadVertexBuffer;
 
 	ID3D11ShaderResourceView* fullscreenQuadTexture;
@@ -127,8 +126,7 @@ private:
 	std::vector<ID3D11ShaderResourceView*> textures;
 	ID3D11ShaderResourceView* texture_debug;
 
-	ParticleSystem* particlesystem;
-	std::vector<EMITTER> particlesystems;
+	std::vector<ParticleSystem*> particlesystems;
 	Shaders shaders;
 
 	Gizmo* positionGizmo;

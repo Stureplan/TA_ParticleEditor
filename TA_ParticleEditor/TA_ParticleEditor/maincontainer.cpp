@@ -8,7 +8,6 @@ MainContainer::MainContainer(QWidget* parent)
 
 MainContainer::~MainContainer() 
 {
-	
 }
 
 #pragma region POINTERS
@@ -473,7 +472,7 @@ void MainContainer::BuildParticleSystem()
 		mCurrentPS.startSizeX, mCurrentPS.startSizeY, mCurrentPS.endSizeX, mCurrentPS.endSizeY, mCurrentPS.rectSizeX, mCurrentPS.rectSizeZ, mCurrentPS.rotation,
 		mCurrentPS.textureType, mCurrentPS.textureColumns, mCurrentPS.textureRows, mCurrentPS.looping, mCurrentPS.noiseDissolve, mCurrentPS.bloomParticles);
 
-	graphics->Rebuild(ps);
+	graphics->Rebuild(mCurrentPSIndex, ps);
 }
 
 
@@ -590,7 +589,7 @@ void MainContainer::selectTab(int index)
 	{
 		// PS selected, change all values in maincontainer to reflect it.
 		mCurrentPSIndex = index;
-		FillValues(graphics->ParticleSystemByIndex(index));
+		FillValues(graphics->EmitterByIndex(index));
 	}
 }
 
@@ -600,7 +599,7 @@ void MainContainer::addTab(int index)
 	if (index == max && max < 4)
 	{
 		psTabs->insertTab(index, new QWidget(this), QString("Particle System %0").arg(max + 1));
-		graphics->AddParticleSystem(mCurrentPS);
+		graphics->AddParticleSystem(index, mCurrentPS);
 	}
 }
 
@@ -620,6 +619,7 @@ void MainContainer::FillValues(EMITTER fromCurrentPS)
 
 	// TODO: Fill UI pointers with values...
 	// Actually just make an UpdateUI() function which fills UI pointers with mCurrentPS values.
+	SetUiElements();
 }
 
 void MainContainer::keyPressEvent(QKeyEvent* evt)
