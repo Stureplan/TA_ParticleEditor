@@ -29,6 +29,8 @@ public:
 
 
 	bool IsAlive(unsigned int id);
+	int ShaderIndex();
+	void SetShader(int shader);
 
 	void SetProperty(PS_PROPERTY prop, void* data);
 	void* GetProperty(PS_PROPERTY prop);
@@ -63,6 +65,7 @@ private:
 	EMITTER emitter;
 	std::vector<PARTICLE> particles;
 	float cooldown = 0.0f;
+	int shader_index = 0;
 
 	std::random_device rd;
 	std::mt19937 rng;

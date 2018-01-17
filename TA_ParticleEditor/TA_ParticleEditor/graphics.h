@@ -46,7 +46,7 @@ public:
 
 	void GainedFocus();
 	void Retexture(TEXTURE_TYPE type, std::string path);
-	void RecompileShader(int type, bool noise, bool interpolate);
+	void RecompileShader(int index, int type, bool noise, bool interpolate);
 	void Rebuild(int index, EMITTER ps);
 	void PauseSimulation();
 	void Debug(bool active);

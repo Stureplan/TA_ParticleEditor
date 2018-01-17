@@ -172,8 +172,9 @@ void Graphics::Initialize()
 				XMVectorSet(0, 2, 0, 0));		//up
 
 	shaders.LoadGizmoShader(device, context);
+	shaders.LoadParticleAnimatedShader(device, context, "particle_animated.hlsl");
 	shaders.LoadParticleShader(device, context, "particle.hlsl");
-	
+
 	for (int i = 0; i < particlesystems.size(); i++)
 	{
 		particlesystems[i]->Initialize();
@@ -376,7 +377,7 @@ void Graphics::Retexture(TEXTURE_TYPE type, std::string path)
 	}
 }
 
-void Graphics::RecompileShader(int type, bool noise, bool interpolate)
+void Graphics::RecompileShader(int index, int type, bool noise, bool interpolate)
 {
 	shaders.CompileIncludes(noise, interpolate);
 
@@ -390,6 +391,8 @@ void Graphics::RecompileShader(int type, bool noise, bool interpolate)
 		// texture sheet
 		shaders.LoadParticleShader(device, context, "particle_animated.hlsl");
 	}
+
+	particlesystems[index]->SetShader(type);
 }
 
 void Graphics::ChangeRasterization(D3D11_FILL_MODE fillmode)
@@ -503,7 +506,15 @@ void Graphics::Render()
 		World = XMMatrixIdentity();
 		WVP = World * View * Projection;
 		camup = XMVector3Transform(XMVectorSet(0, 1, 0, 1), XMMatrixTranspose(View));
-		shaders.SetParticleShader(context);
+		int shader = particlesystems[i]->ShaderIndex();
+		if (shader == 0)
+		{
+			shaders.SetParticleShader(context);
+		}
+		if (shader == 1)
+		{
+			shaders.SetParticleAnimatedShader(context);
+		}
 		particlesystems[i]->UploadParticleBuffer(context);
 		particlesystems[i]->UpdateConstantBuffer(context, WVP, World, campos, camup);
 		particlesystems[i]->Render(context, textureSamplerState, textures[1], textures[3]);

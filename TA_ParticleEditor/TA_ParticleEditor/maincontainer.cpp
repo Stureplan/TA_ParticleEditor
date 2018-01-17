@@ -359,12 +359,12 @@ void MainContainer::textureTypeChanged(int mode)
 
 	mCurrentPS.textureType = mode;
 	particlesystem->SetProperty(PS_PROPERTY::PS_TEXTURE_TYPE, &mCurrentPS.textureType);
-	graphics->RecompileShader(mCurrentPS.textureType, false, interpolateFrames->isChecked());
+	graphics->RecompileShader(mCurrentPSIndex, mCurrentPS.textureType, false, interpolateFrames->isChecked());
 }
 
 void MainContainer::shaderCompileChanged(int useless)
 {
-	graphics->RecompileShader(mCurrentPS.textureType, noiseDissolve->isChecked(), interpolateFrames->isChecked());
+	graphics->RecompileShader(mCurrentPSIndex, mCurrentPS.textureType, noiseDissolve->isChecked(), interpolateFrames->isChecked());
 
 	mCurrentPS.noiseDissolve = noiseDissolve->isChecked();
 	particlesystem->SetProperty(PS_PROPERTY::PS_NOISE_DISSOLVE, &mCurrentPS.noiseDissolve);

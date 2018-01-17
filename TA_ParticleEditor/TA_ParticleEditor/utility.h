@@ -168,6 +168,8 @@ enum TEXTURE_TYPE
 	TEXTURE_NOISE
 };
 
+
+
 struct EMITTER
 {
 	EMITTER()

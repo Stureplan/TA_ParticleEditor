@@ -12,10 +12,6 @@
 class Shaders
 {
 public:
-	enum SHADER_TYPE
-	{
-
-	};
 
 	~Shaders()
 	{
@@ -31,8 +27,16 @@ public:
 		pParticleGS->Release();
 		pParticlePS->Release();
 
+		ParticleAnimatedVS->Release();
+		ParticleAnimatedGS->Release();
+		ParticleAnimatedPS->Release();
+		pParticleAnimatedVS->Release();
+		pParticleAnimatedGS->Release();
+		pParticleAnimatedPS->Release();
+
 		pGizmoLayout->Release();
 		pParticleLayout->Release();
+		pParticleAnimatedLayout->Release();
 	}
 
 	void CompileIncludes(bool noise, bool interpolate)
@@ -91,8 +95,8 @@ public:
 			MessageBoxA(NULL, error.c_str(), "PS Error", MB_OK);
 		}
 
-		hr = device->CreateVertexShader(GizmoVS->GetBufferPointer(), GizmoVS->GetBufferSize(), NULL, &pGizmoVS);
-		hr = device->CreatePixelShader(GizmoPS->GetBufferPointer(), GizmoPS->GetBufferSize(), NULL, &pGizmoPS);
+		hr = device->CreateVertexShader	(GizmoVS->GetBufferPointer(), GizmoVS->GetBufferSize(), NULL, &pGizmoVS);
+		hr = device->CreatePixelShader	(GizmoPS->GetBufferPointer(), GizmoPS->GetBufferSize(), NULL, &pGizmoPS);
 
 		D3D11_INPUT_ELEMENT_DESC ied[] =
 		{
@@ -104,7 +108,7 @@ public:
 		hr = device->CreateInputLayout(ied, sizeof(ied) / sizeof(ied[0]), 
 										GizmoVS->GetBufferPointer(),
 										GizmoVS->GetBufferSize(),
-									   &pGizmoLayout);
+										&pGizmoLayout);
 	}
 
 	void LoadParticleShader(ID3D11Device* device, ID3D11DeviceContext* context, const char* shadername)
@@ -115,10 +119,6 @@ public:
 		std::string shaderpath = Utility::DataPath() + shadername;
 		std::wstring shaderpath_wide;
 		std::copy(shaderpath.begin(), shaderpath.end(), std::back_inserter(shaderpath_wide));
-
-
-
-
 
 		ParticleVS = NULL;
 		errorBlob = NULL;
@@ -150,9 +150,9 @@ public:
 			MessageBoxA(NULL, error.c_str(), "PS Error", MB_OK);
 		}
 
-		hr = device->CreateVertexShader(ParticleVS->GetBufferPointer(), ParticleVS->GetBufferSize(), NULL, &pParticleVS);
-		hr = device->CreateGeometryShader(ParticleGS->GetBufferPointer(), ParticleGS->GetBufferSize(), NULL, &pParticleGS);
-		hr = device->CreatePixelShader(ParticlePS->GetBufferPointer(), ParticlePS->GetBufferSize(), NULL, &pParticlePS);
+		hr = device->CreateVertexShader		(ParticleVS->GetBufferPointer(), ParticleVS->GetBufferSize(), NULL, &pParticleVS);
+		hr = device->CreateGeometryShader	(ParticleGS->GetBufferPointer(), ParticleGS->GetBufferSize(), NULL, &pParticleGS);
+		hr = device->CreatePixelShader		(ParticlePS->GetBufferPointer(), ParticlePS->GetBufferSize(), NULL, &pParticlePS);
 
 		D3D11_INPUT_ELEMENT_DESC ied[] =
 		{
@@ -165,6 +165,73 @@ public:
 			ParticleVS->GetBufferPointer(),
 			ParticleVS->GetBufferSize(),
 			&pParticleLayout);
+
+		struct stat file;
+		stat(shaderpath.c_str(), &file);
+		time_t t = file.st_atime;
+
+		lastLoadedShaderTime = t;
+		lastLoadedShaderName = shadername;
+	}
+
+	void LoadParticleAnimatedShader(ID3D11Device* device, ID3D11DeviceContext* context, const char* shadername)
+	{
+		HRESULT hr;
+		ID3DBlob* errorBlob;
+
+		std::string		shaderpath = Utility::DataPath() + shadername;
+		std::wstring	shaderpath_wide;
+		std::copy	   (shaderpath.begin(), shaderpath.end(), std::back_inserter(shaderpath_wide));
+
+
+
+
+
+		ParticleAnimatedVS = NULL;
+		errorBlob = NULL;
+		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "VShader", "vs_5_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ParticleAnimatedVS, &errorBlob);
+		if (hr != S_OK)
+		{
+			// Something went wrong with the shader
+			std::string error = static_cast<char*>(errorBlob->GetBufferPointer());
+			MessageBoxA(NULL, error.c_str(), "VS Error", MB_OK);
+		}
+
+		ParticleAnimatedGS = NULL;
+		errorBlob = NULL;
+		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "GShader", "gs_5_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ParticleAnimatedGS, &errorBlob);
+		if (hr != S_OK)
+		{
+			// Something went wrong with the shader
+			std::string error = static_cast<char*>(errorBlob->GetBufferPointer());
+			MessageBoxA(NULL, error.c_str(), "GS Error", MB_OK);
+		}
+
+		ParticleAnimatedPS = NULL;
+		errorBlob = NULL;
+		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "PShader", "ps_5_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ParticleAnimatedPS, &errorBlob);
+		if (hr != S_OK)
+		{
+			// Something went wrong with the shader
+			std::string error = static_cast<char*>(errorBlob->GetBufferPointer());
+			MessageBoxA(NULL, error.c_str(), "PS Error", MB_OK);
+		}
+
+		hr = device->CreateVertexShader		(ParticleAnimatedVS->GetBufferPointer(), ParticleAnimatedVS->GetBufferSize(), NULL, &pParticleAnimatedVS);
+		hr = device->CreateGeometryShader	(ParticleAnimatedGS->GetBufferPointer(), ParticleAnimatedGS->GetBufferSize(), NULL, &pParticleAnimatedGS);
+		hr = device->CreatePixelShader		(ParticleAnimatedPS->GetBufferPointer(), ParticleAnimatedPS->GetBufferSize(), NULL, &pParticleAnimatedPS);
+
+		D3D11_INPUT_ELEMENT_DESC ied[] =
+		{
+			{ "POSITION",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "DIRECTION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "LIFETIME",  0, DXGI_FORMAT_R32_FLOAT,	   0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+		};
+
+		hr = device->CreateInputLayout(ied, sizeof(ied) / sizeof(ied[0]),
+			ParticleAnimatedVS->GetBufferPointer(),
+			ParticleAnimatedVS->GetBufferSize(),
+			&pParticleAnimatedLayout);
 
 		struct stat file;
 		stat(shaderpath.c_str(), &file);
@@ -208,20 +275,38 @@ public:
 		context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 	}
 
+	void SetParticleAnimatedShader(ID3D11DeviceContext* context)
+	{
+		// set to this before render
+		context->VSSetShader(pParticleAnimatedVS, 0, 0);
+		context->GSSetShader(pParticleAnimatedGS, 0, 0);
+		context->PSSetShader(pParticleAnimatedPS, 0, 0);
+		context->IASetInputLayout(pParticleAnimatedLayout);
+		context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+	}
+
 private:
-	ID3DBlob* GizmoVS;
-	ID3DBlob* GizmoPS;
+	ID3DBlob*				GizmoVS;
+	ID3DBlob*				GizmoPS;
 	ID3D11VertexShader*		pGizmoVS;
 	ID3D11PixelShader*		pGizmoPS;
 	ID3D11InputLayout*		pGizmoLayout;
 
-	ID3DBlob* ParticleVS;
-	ID3DBlob* ParticleGS;
-	ID3DBlob* ParticlePS;
+	ID3DBlob*				ParticleVS;
+	ID3DBlob*				ParticleGS;
+	ID3DBlob*				ParticlePS;
 	ID3D11VertexShader*		pParticleVS;
 	ID3D11GeometryShader*	pParticleGS;
 	ID3D11PixelShader*		pParticlePS;
 	ID3D11InputLayout*		pParticleLayout;
+
+	ID3DBlob*				ParticleAnimatedVS;
+	ID3DBlob*				ParticleAnimatedGS;
+	ID3DBlob*				ParticleAnimatedPS;
+	ID3D11VertexShader*		pParticleAnimatedVS;
+	ID3D11GeometryShader*	pParticleAnimatedGS;
+	ID3D11PixelShader*		pParticleAnimatedPS;
+	ID3D11InputLayout*		pParticleAnimatedLayout;
 
 	std::string lastLoadedShaderName;
 	time_t lastLoadedShaderTime;

@@ -210,6 +210,16 @@ bool ParticleSystem::IsAlive(unsigned int id)
 	return particles[id].alive;
 }
 
+int ParticleSystem::ShaderIndex()
+{
+	return shader_index;
+}
+
+void ParticleSystem::SetShader(int shader)
+{
+	shader_index = shader;
+}
+
 unsigned int ParticleSystem::GetSize()
 {
 	unsigned int count = 0;
