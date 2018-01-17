@@ -353,6 +353,12 @@ void Graphics::LoadTextures()
 	DX::LoadTexture(device, textures[2], Utility::Path() + "Data\\Textures\\debug_transparent.png");
 	DX::LoadTexture(device, textures[3], Utility::Path() + "Data\\Textures\\noise_cloud.png");
 	DX::LoadTexture(device, texture_debug, Utility::Path() + "Data\\Textures\\debug_wireframe.png");
+
+	for (int i = 0; i < particlesystems.size(); i++)
+	{
+		//TODO: Initialize particle_texture and noise_texture in ParticleSystem*
+		//NOTE!!!!! Need to do this when adding a new particlesystem here in graphics!
+	}
 }
 
 void Graphics::Retexture(TEXTURE_TYPE type, std::string path)
@@ -433,6 +439,8 @@ void Graphics::AddParticleSystem(int index, EMITTER ps)
 	particlesystems[index]->VertexBuffer(device);
 	particlesystems[index]->ConstantBuffer(device);
 	particlesystems[index]->Rebuild(ps);
+	//TODO: Move textures to ParticleSystem*, including reloading.
+	//particlesystems[index]->LoadTextures();
 }
 
 void Graphics::RemoveParticleSystem(int index)
