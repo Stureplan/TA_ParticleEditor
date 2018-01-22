@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainContainer_t {
-    QByteArrayData data[38];
-    char stringdata0[459];
+    QByteArrayData data[39];
+    char stringdata0[469];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -68,7 +68,8 @@ QT_MOC_LITERAL(33, 406, 14), // "setColumnsRows"
 QT_MOC_LITERAL(34, 421, 10), // "setLooping"
 QT_MOC_LITERAL(35, 432, 9), // "selectTab"
 QT_MOC_LITERAL(36, 442, 6), // "addTab"
-QT_MOC_LITERAL(37, 449, 9) // "removeTab"
+QT_MOC_LITERAL(37, 449, 9), // "removeTab"
+QT_MOC_LITERAL(38, 459, 9) // "RenameTab"
 
     },
     "MainContainer\0setLifetime\0\0setEmissionDelay\0"
@@ -83,7 +84,7 @@ QT_MOC_LITERAL(37, 449, 9) // "removeTab"
     "useless\0BloomParticles\0startSizeX\0"
     "startSizeY\0endSizeX\0endSizeY\0rectResize\0"
     "setColumnsRows\0setLooping\0selectTab\0"
-    "addTab\0removeTab"
+    "addTab\0removeTab\0RenameTab"
 };
 #undef QT_MOC_LITERAL
 
@@ -93,7 +94,7 @@ static const uint qt_meta_data_MainContainer[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      33,   14, // methods
+      34,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -101,39 +102,40 @@ static const uint qt_meta_data_MainContainer[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,  179,    2, 0x0a /* Public */,
-       3,    1,  180,    2, 0x0a /* Public */,
-       5,    0,  183,    2, 0x0a /* Public */,
-       6,    1,  184,    2, 0x0a /* Public */,
-       7,    0,  187,    2, 0x0a /* Public */,
-       8,    1,  188,    2, 0x0a /* Public */,
-       9,    0,  191,    2, 0x0a /* Public */,
-      10,    1,  192,    2, 0x0a /* Public */,
-      11,    0,  195,    2, 0x0a /* Public */,
-      12,    1,  196,    2, 0x0a /* Public */,
-      13,    0,  199,    2, 0x0a /* Public */,
-      14,    0,  200,    2, 0x0a /* Public */,
-      15,    0,  201,    2, 0x0a /* Public */,
-      16,    0,  202,    2, 0x0a /* Public */,
-      17,    0,  203,    2, 0x0a /* Public */,
-      18,    0,  204,    2, 0x0a /* Public */,
-      19,    0,  205,    2, 0x0a /* Public */,
-      20,    0,  206,    2, 0x0a /* Public */,
-      21,    0,  207,    2, 0x0a /* Public */,
-      22,    1,  208,    2, 0x0a /* Public */,
-      24,    1,  211,    2, 0x0a /* Public */,
-      25,    1,  214,    2, 0x0a /* Public */,
-      27,    1,  217,    2, 0x0a /* Public */,
-      28,    0,  220,    2, 0x0a /* Public */,
-      29,    0,  221,    2, 0x0a /* Public */,
-      30,    0,  222,    2, 0x0a /* Public */,
-      31,    0,  223,    2, 0x0a /* Public */,
-      32,    0,  224,    2, 0x0a /* Public */,
-      33,    0,  225,    2, 0x0a /* Public */,
-      34,    1,  226,    2, 0x0a /* Public */,
-      35,    1,  229,    2, 0x0a /* Public */,
-      36,    1,  232,    2, 0x0a /* Public */,
-      37,    1,  235,    2, 0x0a /* Public */,
+       1,    0,  184,    2, 0x0a /* Public */,
+       3,    1,  185,    2, 0x0a /* Public */,
+       5,    0,  188,    2, 0x0a /* Public */,
+       6,    1,  189,    2, 0x0a /* Public */,
+       7,    0,  192,    2, 0x0a /* Public */,
+       8,    1,  193,    2, 0x0a /* Public */,
+       9,    0,  196,    2, 0x0a /* Public */,
+      10,    1,  197,    2, 0x0a /* Public */,
+      11,    0,  200,    2, 0x0a /* Public */,
+      12,    1,  201,    2, 0x0a /* Public */,
+      13,    0,  204,    2, 0x0a /* Public */,
+      14,    0,  205,    2, 0x0a /* Public */,
+      15,    0,  206,    2, 0x0a /* Public */,
+      16,    0,  207,    2, 0x0a /* Public */,
+      17,    0,  208,    2, 0x0a /* Public */,
+      18,    0,  209,    2, 0x0a /* Public */,
+      19,    0,  210,    2, 0x0a /* Public */,
+      20,    0,  211,    2, 0x0a /* Public */,
+      21,    0,  212,    2, 0x0a /* Public */,
+      22,    1,  213,    2, 0x0a /* Public */,
+      24,    1,  216,    2, 0x0a /* Public */,
+      25,    1,  219,    2, 0x0a /* Public */,
+      27,    1,  222,    2, 0x0a /* Public */,
+      28,    0,  225,    2, 0x0a /* Public */,
+      29,    0,  226,    2, 0x0a /* Public */,
+      30,    0,  227,    2, 0x0a /* Public */,
+      31,    0,  228,    2, 0x0a /* Public */,
+      32,    0,  229,    2, 0x0a /* Public */,
+      33,    0,  230,    2, 0x0a /* Public */,
+      34,    1,  231,    2, 0x0a /* Public */,
+      35,    1,  234,    2, 0x0a /* Public */,
+      36,    1,  237,    2, 0x0a /* Public */,
+      37,    1,  240,    2, 0x0a /* Public */,
+      38,    1,  243,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -166,6 +168,7 @@ static const uint qt_meta_data_MainContainer[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int,    4,
+    QMetaType::Void, QMetaType::Int,   23,
     QMetaType::Void, QMetaType::Int,   23,
     QMetaType::Void, QMetaType::Int,   23,
     QMetaType::Void, QMetaType::Int,   23,
@@ -212,6 +215,7 @@ void MainContainer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 30: _t->selectTab((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 31: _t->addTab((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 32: _t->removeTab((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 33: _t->RenameTab((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -242,13 +246,13 @@ int MainContainer::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 33)
+        if (_id < 34)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 33;
+        _id -= 34;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 33)
+        if (_id < 34)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 33;
+        _id -= 34;
     }
     return _id;
 }

@@ -417,11 +417,11 @@ void Graphics::Rebuild(int index, EMITTER ps)
 {
 	if ((EMITTER_TYPE)ps.emittertype == EMITTER_TYPE::EMIT_POINT)
 	{
-		emitterGizmo->VertexBuffer(device,{{0,0,0,0,0,0}});
+		//emitterGizmo->VertexBuffer(device,{{0,0,0,0,0,0}});
 	}
 	if ((EMITTER_TYPE)ps.emittertype == EMITTER_TYPE::EMIT_RECTANGLE)
 	{
-		emitterGizmo->VertexBuffer(device,{{-2,0,2,1,0,1},{2,0,2,1,0,1},{2,0,-2,1,0,1},{-2,0,-2,1,0,1},{-2,0,2,1,0,1}});
+		//emitterGizmo->VertexBuffer(device,{{-2,0,2,1,0,1},{2,0,2,1,0,1},{2,0,-2,1,0,1},{-2,0,-2,1,0,1},{-2,0,2,1,0,1}});
 	}
 	particlesystems[index]->Rebuild(ps);
 	particlesystems[index]->VertexBuffer(device);
@@ -439,6 +439,7 @@ void Graphics::AddParticleSystem(int index, EMITTER ps)
 	particlesystems[index]->VertexBuffer(device);
 	particlesystems[index]->ConstantBuffer(device);
 	particlesystems[index]->Rebuild(ps);
+	cEmitter = index;
 	//TODO: Move textures to ParticleSystem*, including reloading.
 	//particlesystems[index]->LoadTextures();
 }
@@ -494,19 +495,6 @@ void Graphics::Render()
 	float color[4]  = { 0.2f, 0.2f, 0.2f, 1.0f };
 	context->ClearRenderTargetView(renderTargetView, color);
 
-	// DRAW POSITION GIZMO
-	World = XMMatrixIdentity();
-	WVP = World * View * Projection;
-	shaders.SetGizmoShader(context);
-	positionGizmo->UpdateConstantBuffer(context, WVP);
-	positionGizmo->Render(context, textureSamplerState, texture_debug);
-
-	// DRAW EMITTER GIZMO
-	World = XMMatrixScaling(*(float*)particlesystems[cEmitter]->GetProperty(PS_PROPERTY::PS_RECT_SIZE_X), 1.0f, *(float*)particlesystems[cEmitter]->GetProperty(PS_PROPERTY::PS_RECT_SIZE_Z));
-	WVP = World * View * Projection;
-	emitterGizmo->UpdateConstantBuffer(context, WVP);
-	emitterGizmo->Render(context, textureSamplerState, texture_debug);
-
 
 	for (int i = 0; i < particlesystems.size(); i++)
 	{
@@ -535,6 +523,25 @@ void Graphics::Render()
 			ChangeRasterization(D3D11_FILL_SOLID);
 		}
 	}
+
+
+
+	// DRAW POSITION GIZMO
+	World = XMMatrixIdentity();
+	WVP = World * View * Projection;
+	shaders.SetGizmoShader(context);
+	positionGizmo->UpdateConstantBuffer(context, WVP);
+	positionGizmo->Render(context, textureSamplerState, texture_debug);
+
+	// DRAW EMITTER GIZMO
+	if (*(EMITTER_TYPE*)particlesystems[cEmitter]->GetProperty(PS_PROPERTY::PS_EMITTER_TYPE) == EMITTER_TYPE::EMIT_RECTANGLE)
+	{
+		World = XMMatrixScaling(*(float*)particlesystems[cEmitter]->GetProperty(PS_PROPERTY::PS_RECT_SIZE_X), 1.0f, *(float*)particlesystems[cEmitter]->GetProperty(PS_PROPERTY::PS_RECT_SIZE_Z));
+		WVP = World * View * Projection;
+		emitterGizmo->UpdateConstantBuffer(context, WVP);
+		emitterGizmo->Render(context, textureSamplerState, texture_debug);
+	}
+
 
 
 	

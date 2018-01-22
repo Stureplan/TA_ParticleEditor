@@ -947,7 +947,7 @@
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
-      <string>Particle System 1</string>
+      <string>Emitter 1</string>
      </attribute>
     </widget>
     <widget class="QWidget" name="tab_2">
@@ -1505,6 +1505,22 @@
      <string>0.0</string>
     </property>
    </widget>
+   <widget class="QLabel" name="label_Velocity_3">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>500</y>
+      <width>71</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Rotation</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
    <zorder>graphics</zorder>
    <zorder>label_Lifetime</zorder>
    <zorder>label_Velocity</zorder>
@@ -1563,6 +1579,7 @@
    <zorder>bloomParticles</zorder>
    <zorder>rotationSlider</zorder>
    <zorder>rotation</zorder>
+   <zorder>label_Velocity_3</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
@@ -1612,6 +1629,7 @@
     <slot>BrowseTextureNoise()</slot>
     <slot>SetRotation()</slot>
     <slot>SetRotationSlider(int)</slot>
+    <slot>RenameTab(int)</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -2172,6 +2190,22 @@
     <hint type="sourcelabel">
      <x>637</x>
      <y>530</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>491</x>
+     <y>324</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>psTabs</sender>
+   <signal>tabBarDoubleClicked(int)</signal>
+   <receiver>maincontainer</receiver>
+   <slot>RenameTab(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>330</x>
+     <y>502</y>
     </hint>
     <hint type="destinationlabel">
      <x>491</x>

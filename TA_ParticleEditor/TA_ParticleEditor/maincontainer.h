@@ -18,6 +18,7 @@
 #include <QImageReader>
 #include <QTabWidget>
 #include <QCheckBox>
+#include <QInputDialog>
 
 #include "utility.h"
 #include "graphics.h"
@@ -80,6 +81,7 @@ public slots:
 	void selectTab(int index);
 	void addTab(int index);
 	void removeTab(int index);
+	void RenameTab(int index);
 
 protected:
 	virtual void keyPressEvent(QKeyEvent* evt);
@@ -90,7 +92,7 @@ private:
 
 	// PROGRAM POINTERS
 	Graphics* graphics;
-	ParticleSystem* particlesystem;
+	//ParticleSystem* particlesystem;
 	
 	// UI POINTERS
 	QLabel* textFieldParticleInfo;

@@ -107,6 +107,7 @@ public:
     QCheckBox *bloomParticles;
     QSlider *rotationSlider;
     QLineEdit *rotation;
+    QLabel *label_Velocity_3;
 
     void setupUi(QMainWindow *ParticleEditorClass)
     {
@@ -483,6 +484,10 @@ public:
         rotation->setObjectName(QStringLiteral("rotation"));
         rotation->setGeometry(QRect(480, 520, 60, 20));
         rotation->setAlignment(Qt::AlignCenter);
+        label_Velocity_3 = new QLabel(maincontainer);
+        label_Velocity_3->setObjectName(QStringLiteral("label_Velocity_3"));
+        label_Velocity_3->setGeometry(QRect(480, 500, 71, 20));
+        label_Velocity_3->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         ParticleEditorClass->setCentralWidget(maincontainer);
         graphics->raise();
         label_Lifetime->raise();
@@ -542,6 +547,7 @@ public:
         bloomParticles->raise();
         rotationSlider->raise();
         rotation->raise();
+        label_Velocity_3->raise();
 
         retranslateUi(ParticleEditorClass);
         QObject::connect(savePS, SIGNAL(clicked()), maincontainer, SLOT(save()));
@@ -579,6 +585,7 @@ public:
         QObject::connect(browsepathNoise, SIGNAL(clicked()), maincontainer, SLOT(BrowseTextureNoise()));
         QObject::connect(rotation, SIGNAL(editingFinished()), maincontainer, SLOT(SetRotation()));
         QObject::connect(rotationSlider, SIGNAL(valueChanged(int)), maincontainer, SLOT(SetRotationSlider(int)));
+        QObject::connect(psTabs, SIGNAL(tabBarDoubleClicked(int)), maincontainer, SLOT(RenameTab(int)));
 
         textureTypeBox->setCurrentIndex(0);
         psTabs->setCurrentIndex(0);
@@ -665,7 +672,7 @@ public:
         endSizeX->setText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
         endSizeX->setPlaceholderText(QApplication::translate("ParticleEditorClass", "1.0", Q_NULLPTR));
         label_EmDelaySlide->setText(QString());
-        psTabs->setTabText(psTabs->indexOf(tab), QApplication::translate("ParticleEditorClass", "Particle System 1", Q_NULLPTR));
+        psTabs->setTabText(psTabs->indexOf(tab), QApplication::translate("ParticleEditorClass", "Emitter 1", Q_NULLPTR));
         psTabs->setTabText(psTabs->indexOf(tab_2), QApplication::translate("ParticleEditorClass", "Add...", Q_NULLPTR));
         label_VelocityX->setText(QApplication::translate("ParticleEditorClass", "X", Q_NULLPTR));
         label_VelocityZ->setText(QApplication::translate("ParticleEditorClass", "Z", Q_NULLPTR));
@@ -700,6 +707,7 @@ public:
         rotation->setInputMask(QApplication::translate("ParticleEditorClass", "##0\\.00", Q_NULLPTR));
         rotation->setText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
         rotation->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
+        label_Velocity_3->setText(QApplication::translate("ParticleEditorClass", "Rotation", Q_NULLPTR));
     } // retranslateUi
 
 };
