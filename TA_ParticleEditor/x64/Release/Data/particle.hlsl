@@ -12,6 +12,7 @@ cbuffer CBUFFER
 	float4 col2;
 	float2 startsize;
 	float2 endsize;
+	float rotation;
 	float lifetime;
 };
 
@@ -69,11 +70,9 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 	//Keep working on this rotation to get a good back and forth.
 	//TODO: Implement all these features (noise, rotation, includes) in all shaders.
 
-#ifdef ROTATE
-	float d = percent * 100;
+	float d = percent * 100 * rotation;
 	up = rotate(up, normal, d);
 	right = rotate(right, normal, d);
-#endif
 
 	float3 vtx[4];
 	vtx[0] = pos - right + up;

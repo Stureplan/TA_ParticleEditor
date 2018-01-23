@@ -2,14 +2,18 @@
 
 ParticleSystem::ParticleSystem()
 {
+	texture_particle	= nullptr;
+	texture_noise		= nullptr;
 }
 
 ParticleSystem::~ParticleSystem()
 {
 	//delete ps;
-	constantBuffer->Release();
-	constantBufferAnimated->Release();
-	vertexBuffer->Release();
+	constantBuffer			->Release();
+	constantBufferAnimated	->Release();
+	vertexBuffer			->Release();
+	texture_particle		->Release();
+	texture_noise			->Release();
 }
 
 void ParticleSystem::VertexBuffer(ID3D11Device* device)
@@ -132,7 +136,19 @@ void ParticleSystem::UploadParticleBuffer(ID3D11DeviceContext* context)
 	}
 }
 
-void ParticleSystem::Render(ID3D11DeviceContext* context, ID3D11SamplerState* sampler, ID3D11ShaderResourceView* texture, ID3D11ShaderResourceView* noise)
+bool ParticleSystem::LoadParticleTexture(ID3D11Device* device, std::string path)
+{
+	texture_particle_path = path;	//NOTE: path structure is C:/etc../particle.png
+	return DX::LoadTexture(device, texture_particle, path);
+}
+
+bool ParticleSystem::LoadNoiseTexture(ID3D11Device* device, std::string path)
+{
+	texture_noise_path = path;		//NOTE: path structure is C:/etc../noise.png
+	return DX::LoadTexture(device, texture_noise, path);
+}
+
+void ParticleSystem::Render(ID3D11DeviceContext* context, ID3D11SamplerState* sampler)
 {
 	UINT stride;
 	UINT offset;
@@ -144,12 +160,12 @@ void ParticleSystem::Render(ID3D11DeviceContext* context, ID3D11SamplerState* sa
 
 	context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 	context->PSSetSamplers(0, 1, &sampler);
-	context->PSSetShaderResources(0, 1, &texture);
-	context->PSSetShaderResources(1, 1, &noise);
+	context->PSSetShaderResources(0, 1, &texture_particle);
+	context->PSSetShaderResources(1, 1, &texture_noise);
 	context->Draw(particleCount, 0);
 }
 
-void ParticleSystem::RenderDebug(ID3D11DeviceContext* context, ID3D11SamplerState* sampler, ID3D11ShaderResourceView* texture, ID3D11ShaderResourceView* noise)
+void ParticleSystem::RenderDebug(ID3D11DeviceContext* context, ID3D11SamplerState* sampler, ID3D11ShaderResourceView* texture_debug)
 {
 	cBufferParticle.col0 = COLOR_WHITE;
 	cBufferParticle.col1 = COLOR_WHITE;
@@ -165,8 +181,8 @@ void ParticleSystem::RenderDebug(ID3D11DeviceContext* context, ID3D11SamplerStat
 
 	context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 	context->PSSetSamplers(0, 1, &sampler);
-	context->PSSetShaderResources(0, 1, &texture);
-	context->PSSetShaderResources(1, 1, &noise);
+	context->PSSetShaderResources(0, 1, &texture_debug);
+	context->PSSetShaderResources(1, 1, &texture_noise);
 	context->Draw(particleCount, 0);
 }
 

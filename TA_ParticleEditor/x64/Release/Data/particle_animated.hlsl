@@ -12,6 +12,7 @@ cbuffer CBUFFER
 	float4 col2;
 	float2 startsize;
 	float2 endsize;
+	float rotation;
 	float lifetime;
 
 	int columns;
@@ -74,6 +75,10 @@ void GShader(point VOut input[1], inout TriangleStream<VOut> OutputStream)
 
 	normal = normalize(pos - campos.xyz);
 	right = normalize(cross(normal, up)) * w;
+
+	float d = percent * 100 * rotation;
+	up = rotate(up, normal, d);
+	right = rotate(right, normal, d);
 
 
 	float3 vtx[4];

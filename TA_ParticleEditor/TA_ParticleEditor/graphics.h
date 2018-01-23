@@ -45,7 +45,7 @@ public:
 	void ChangeRasterization(D3D11_FILL_MODE fillmode);
 
 	void GainedFocus();
-	void Retexture(TEXTURE_TYPE type, std::string path);
+	void Retexture(int index, TEXTURE_TYPE type, std::string path);
 	void RecompileShader(int index, int type, bool noise, bool interpolate);
 	void Rebuild(int index, EMITTER ps);
 	void PauseSimulation();
@@ -124,7 +124,6 @@ private:
 	PARTICLE_VERTEX debugParticle;
 
 	std::vector<ID3D11ShaderResourceView*> textures;
-	ID3D11ShaderResourceView* texture_debug;
 
 	std::vector<ParticleSystem*> particlesystems;
 	Shaders shaders;

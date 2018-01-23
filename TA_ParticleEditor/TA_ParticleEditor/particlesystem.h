@@ -24,8 +24,11 @@ public:
 	void ConstantBuffer(ID3D11Device* device);
 	void UpdateConstantBuffer(ID3D11DeviceContext* context, XMMATRIX wvp, XMMATRIX world, XMVECTOR campos, XMVECTOR camup);
 	void UploadParticleBuffer(ID3D11DeviceContext* context);
-	void Render(ID3D11DeviceContext* context, ID3D11SamplerState* sampler, ID3D11ShaderResourceView* texture, ID3D11ShaderResourceView* noise);
-	void RenderDebug(ID3D11DeviceContext* context, ID3D11SamplerState* sampler, ID3D11ShaderResourceView* texture, ID3D11ShaderResourceView* noise);
+	bool LoadParticleTexture(ID3D11Device* device, std::string path);
+	bool LoadNoiseTexture(ID3D11Device* device, std::string path);
+
+	void Render(ID3D11DeviceContext* context, ID3D11SamplerState* sampler);
+	void RenderDebug(ID3D11DeviceContext* context, ID3D11SamplerState* sampler, ID3D11ShaderResourceView* texture_debug);
 
 
 	bool IsAlive(unsigned int id);
@@ -56,10 +59,15 @@ private:
 	ID3D11Buffer* constantBufferAnimated;
 	ID3D11Buffer* vertexBuffer;
 
+	ID3D11ShaderResourceView* texture_particle;
+	ID3D11ShaderResourceView* texture_noise;
+
+	std::string texture_particle_path;
+	std::string texture_noise_path;
+
+
 	CBUFFER_PARTICLESYSTEM cBufferParticle;
 	CBUFFER_PARTICLESYSTEM_ANIMATED cBufferParticleAnimated;
-
-
 
 	// Private variables
 	EMITTER emitter;

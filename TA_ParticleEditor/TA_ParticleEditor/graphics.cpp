@@ -44,8 +44,6 @@ Graphics::~Graphics()
 	{
 		textures[i]->Release();
 	}
-	texture_debug->Release();
-
 }
 
 void Graphics::Loop()
@@ -346,39 +344,40 @@ void Graphics::LoadTextures()
 	textures.push_back(nullptr);
 	textures.push_back(nullptr);
 	textures.push_back(nullptr);
-	textures.push_back(nullptr);
 
 	DX::LoadTexture(device, textures[0], Utility::Path() + "Data\\Textures\\debug.png");
-	DX::LoadTexture(device, textures[1], Utility::Path() + "Data\\Textures\\plasmaball.png");
-	DX::LoadTexture(device, textures[2], Utility::Path() + "Data\\Textures\\debug_transparent.png");
-	DX::LoadTexture(device, textures[3], Utility::Path() + "Data\\Textures\\noise_cloud.png");
-	DX::LoadTexture(device, texture_debug, Utility::Path() + "Data\\Textures\\debug_wireframe.png");
+	DX::LoadTexture(device, textures[1], Utility::Path() + "Data\\Textures\\debug_transparent.png");
+	DX::LoadTexture(device, textures[2], Utility::Path() + "Data\\Textures\\debug_wireframe.png");
 
 	for (int i = 0; i < particlesystems.size(); i++)
 	{
 		//TODO: Initialize particle_texture and noise_texture in ParticleSystem*
 		//NOTE!!!!! Need to do this when adding a new particlesystem here in graphics!
+		particlesystems[i]->LoadParticleTexture	(device, DEFAULT_TEXTURE);
+		particlesystems[i]->LoadNoiseTexture	(device, DEFAULT_NOISE_TEXTURE);
 	}
 }
 
-void Graphics::Retexture(TEXTURE_TYPE type, std::string path)
+void Graphics::Retexture(int index, TEXTURE_TYPE type, std::string path)
 {
 	if (type == TEXTURE_TYPE::TEXTURE)
 	{
-		bool result = DX::LoadTexture(device, textures[1], path);
+		bool result = particlesystems[index]->LoadParticleTexture(device, path);
+		//bool result = DX::LoadTexture(device, textures[1], path);
 		if (result == false)
 		{
 			MessageBoxA(NULL, std::string("Texture at: " + path + " was not found!\nLoading default texture.").c_str(), "Texture Missing", MB_OK);
-			Retexture(TEXTURE_TYPE::TEXTURE, Utility::Path() + "Data\\Textures\\plasmaball.png");
+			Retexture(index, TEXTURE_TYPE::TEXTURE, Utility::Path() + "Data\\Textures\\plasmaball.png");
 		}
 	}
 	if (type == TEXTURE_TYPE::TEXTURE_NOISE)
 	{
-		bool result = DX::LoadTexture(device, textures[3], path);
+		bool result = particlesystems[index]->LoadNoiseTexture(device, path);
+		//bool result = DX::LoadTexture(device, textures[3], path);
 		if (result == false)
 		{
 			MessageBoxA(NULL, std::string("Texture at: " + path + " was not found!\nLoading default texture.").c_str(), "Texture Missing", MB_OK);
-			Retexture(TEXTURE_TYPE::TEXTURE_NOISE, Utility::Path() + "Data\\Textures\\noise_cloud.png");
+			Retexture(index, TEXTURE_TYPE::TEXTURE_NOISE, Utility::Path() + "Data\\Textures\\noise_cloud.png");
 		}
 	}
 }
@@ -440,6 +439,9 @@ void Graphics::AddParticleSystem(int index, EMITTER ps)
 	particlesystems[index]->ConstantBuffer(device);
 	particlesystems[index]->Rebuild(ps);
 	cEmitter = index;
+
+	particlesystems[index]->LoadParticleTexture(device, DEFAULT_TEXTURE);
+	particlesystems[index]->LoadNoiseTexture(device, DEFAULT_NOISE_TEXTURE);
 	//TODO: Move textures to ParticleSystem*, including reloading.
 	//particlesystems[index]->LoadTextures();
 }
@@ -513,13 +515,13 @@ void Graphics::Render()
 		}
 		particlesystems[i]->UploadParticleBuffer(context);
 		particlesystems[i]->UpdateConstantBuffer(context, WVP, World, campos, camup);
-		particlesystems[i]->Render(context, textureSamplerState, textures[1], textures[3]);
+		particlesystems[i]->Render(context, textureSamplerState);
 
 		// DRAW DEBUG PARTICLES
 		if (debug == true)
 		{
 			ChangeRasterization(D3D11_FILL_WIREFRAME);
-			particlesystems[i]->RenderDebug(context, textureSamplerState, texture_debug, textures[3]);
+			particlesystems[i]->RenderDebug(context, textureSamplerState, textures[2]);
 			ChangeRasterization(D3D11_FILL_SOLID);
 		}
 	}
@@ -531,7 +533,7 @@ void Graphics::Render()
 	WVP = World * View * Projection;
 	shaders.SetGizmoShader(context);
 	positionGizmo->UpdateConstantBuffer(context, WVP);
-	positionGizmo->Render(context, textureSamplerState, texture_debug);
+	positionGizmo->Render(context, textureSamplerState, textures[2]);
 
 	// DRAW EMITTER GIZMO
 	if (*(EMITTER_TYPE*)particlesystems[cEmitter]->GetProperty(PS_PROPERTY::PS_EMITTER_TYPE) == EMITTER_TYPE::EMIT_RECTANGLE)
@@ -539,7 +541,7 @@ void Graphics::Render()
 		World = XMMatrixScaling(*(float*)particlesystems[cEmitter]->GetProperty(PS_PROPERTY::PS_RECT_SIZE_X), 1.0f, *(float*)particlesystems[cEmitter]->GetProperty(PS_PROPERTY::PS_RECT_SIZE_Z));
 		WVP = World * View * Projection;
 		emitterGizmo->UpdateConstantBuffer(context, WVP);
-		emitterGizmo->Render(context, textureSamplerState, texture_debug);
+		emitterGizmo->Render(context, textureSamplerState, textures[2]);
 	}
 
 

@@ -144,8 +144,8 @@ void MainContainer::load()
 		mTextureNoisePath = n_n.c_str();
 		std::string tex_fullpath = Utility::Path() + "Data\\Textures\\" + mTexturePath.toStdString();
 		std::string tex_noise_fullpath = Utility::Path() + "Data\\Textures\\" + mTextureNoisePath.toStdString();
-		graphics->Retexture(TEXTURE_TYPE::TEXTURE,		 tex_fullpath);
-		graphics->Retexture(TEXTURE_TYPE::TEXTURE_NOISE, tex_noise_fullpath);
+		graphics->Retexture(666, TEXTURE_TYPE::TEXTURE,		 tex_fullpath);
+		graphics->Retexture(666, TEXTURE_TYPE::TEXTURE_NOISE, tex_noise_fullpath);
 
 		textureView->setPixmap(QString(tex_fullpath.c_str()));
 		textureViewNoise->setPixmap(QString(tex_noise_fullpath.c_str()));
@@ -415,8 +415,14 @@ void MainContainer::rectResize()
 
 void MainContainer::BrowseTexture()
 {
+	char result[MAX_PATH];
+	GetModuleFileNameA(NULL, result, MAX_PATH);
+	PathRemoveFileSpecA(result);
+	std::string dir = result;
+	dir.append("\\Data\\Textures");
+
 	mTexturePath = QFileDialog::getOpenFileName(this,
-		tr("Open Image"), "", tr("Image Files (*.png *.PNG *.dds *.DDS)"));
+		tr("Open Image"),dir.c_str(), tr("Image Files (*.png *.PNG *.dds *.DDS)"));
 
 	if (mTexturePath != "")
 	{
@@ -429,15 +435,22 @@ void MainContainer::BrowseTexture()
 		{
 			textureView->setPixmap(mTexturePath);
 		}
-		graphics->Retexture(TEXTURE_TYPE::TEXTURE, mTexturePath.toStdString());
+
+		graphics->Retexture(mCurrentPSIndex, TEXTURE_TYPE::TEXTURE, mTexturePath.toStdString());
 		mTexturePath = PathFindFileNameA(mTexturePath.toStdString().c_str());
 	}
 }
 
 void MainContainer::BrowseTextureNoise()
 {
+	char result[MAX_PATH];
+	GetModuleFileNameA(NULL, result, MAX_PATH);
+	PathRemoveFileSpecA(result);
+	std::string dir = result;
+	dir.append("\\Data\\Textures");
+
 	mTextureNoisePath = QFileDialog::getOpenFileName(this,
-		tr("Open Image"), "", tr("Image Files (*.png *.PNG *.dds *.DDS)"));
+		tr("Open Image"), dir.c_str(), tr("Image Files (*.png *.PNG *.dds *.DDS)"));
 
 	if (mTextureNoisePath != "")
 	{
@@ -450,7 +463,7 @@ void MainContainer::BrowseTextureNoise()
 		{
 			textureViewNoise->setPixmap(mTextureNoisePath);
 		}
-		graphics->Retexture(TEXTURE_TYPE::TEXTURE_NOISE, mTextureNoisePath.toStdString());
+		graphics->Retexture(mCurrentPSIndex, TEXTURE_TYPE::TEXTURE_NOISE, mTextureNoisePath.toStdString());
 		mTextureNoisePath = PathFindFileNameA(mTextureNoisePath.toStdString().c_str());
 	}
 }
@@ -633,11 +646,7 @@ void MainContainer::RenameTab(int index)
 	if (ok == true && text.isEmpty() == false)
 	{
 		psTabs->setTabText(index, text);
-
 	}
-
-
-
 }
 
 void MainContainer::FillValues(EMITTER fromCurrentPS)

@@ -9,8 +9,6 @@
 
 #pragma comment (lib, "Shlwapi.lib")
 
-
-
 #define GRAVITY -9.81f
 #define COLOR_WHITE		FLOAT4(1,1,1,1)
 #define COLOR_PINK		FLOAT4(1,0,1,1)
@@ -24,6 +22,8 @@
 
 #define FLOAT4_0 FLOAT4(0,0,0,0)
 
+#define DEFAULT_TEXTURE Utility::Path() + "Data\\Textures\\plasmaball.png"
+#define DEFAULT_NOISE_TEXTURE Utility::Path() + "Data\\Textures\\noise_cloud.png"
 
 using namespace DirectX;
 
