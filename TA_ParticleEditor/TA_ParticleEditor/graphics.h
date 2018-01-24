@@ -57,6 +57,7 @@ public:
 
 	EMITTER EmitterByIndex(int index);
 	ParticleSystem* ParticleSystemByIndex(int index);
+	int EmitterCount() { return particlesystems.size(); }
 	void AddParticleSystem(int index, EMITTER ps);
 	void RemoveParticleSystem(int index);
 

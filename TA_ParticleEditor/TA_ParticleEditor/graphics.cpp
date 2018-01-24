@@ -170,8 +170,11 @@ void Graphics::Initialize()
 				XMVectorSet(0, 2, 0, 0));		//up
 
 	shaders.LoadGizmoShader(device, context);
+	shaders.LoadParticleAnimatedNoiseShader(device, context, "particle_animated_noise.hlsl");
 	shaders.LoadParticleAnimatedShader(device, context, "particle_animated.hlsl");
+	shaders.LoadParticleNoiseShader(device, context, "particle_noise.hlsl");
 	shaders.LoadParticleShader(device, context, "particle.hlsl");
+
 
 	for (int i = 0; i < particlesystems.size(); i++)
 	{
@@ -351,8 +354,6 @@ void Graphics::LoadTextures()
 
 	for (int i = 0; i < particlesystems.size(); i++)
 	{
-		//TODO: Initialize particle_texture and noise_texture in ParticleSystem*
-		//NOTE!!!!! Need to do this when adding a new particlesystem here in graphics!
 		particlesystems[i]->LoadParticleTexture	(device, DEFAULT_TEXTURE);
 		particlesystems[i]->LoadNoiseTexture	(device, DEFAULT_NOISE_TEXTURE);
 	}
@@ -455,12 +456,9 @@ void Graphics::AddParticleSystem(int index, EMITTER ps)
 	particlesystems[index]->VertexBuffer(device);
 	particlesystems[index]->ConstantBuffer(device);
 	particlesystems[index]->Rebuild(ps);
-	cEmitter = index;
-
 	particlesystems[index]->LoadParticleTexture(device, DEFAULT_TEXTURE);
 	particlesystems[index]->LoadNoiseTexture(device, DEFAULT_NOISE_TEXTURE);
-	//TODO: Move textures to ParticleSystem*, including reloading.
-	//particlesystems[index]->LoadTextures();
+	cEmitter = index;
 }
 
 void Graphics::RemoveParticleSystem(int index)
@@ -487,7 +485,6 @@ void Graphics::Update()
 {
 	if (paused == false)
 	{
-		//TODO: Put ms here instead, test test test.
 		for (int i = 0; i < particlesystems.size(); i++)
 		{
 			particlesystems[i]->Update(ms);

@@ -139,6 +139,34 @@ void MainContainer::load()
 
 	if (file != NULL)
 	{
+		//TODO HERE: Remove/empty all the stuff in Graphics and MainContainer,
+		//every old particlesystem and emitter should be emptied to prepare
+		//for the incoming file details.
+
+
+		int amount_of_emitters = -1;
+		fread(&amount_of_emitters, sizeof(int), 1, file);
+
+		for (int i = 0; i < amount_of_emitters; i++)
+		{
+			int texture_particle_size = -1;
+			int texture_noise_size = -1;
+
+			fread(&texture_particle_size, sizeof(int), 1, file);
+			std::string t(texture_particle_size, '\0');
+			fread(&t[0], sizeof(char), texture_particle_size, file);
+
+			fread(&texture_noise_size, sizeof(int), 1, file);
+			std::string n(texture_noise_size, '\0');
+			fread(&n[0], sizeof(char), texture_noise_size, file);
+
+			EMITTER e;
+			fread(&e, sizeof(EMITTER), 1, file);
+		}
+
+
+
+
 		// Read regular texture
 		fread(&textureNameSize, sizeof(int), 1, file);
 		std::string n(textureNameSize, '\0');
@@ -184,12 +212,44 @@ void MainContainer::save()
 	// Safe check to make sure we didn't just refuse to enter a name and escaped
 	if (exportPath == ".ps") { return; }
 
-	EMITTER ps = mCurrentPS;
-
 	FILE* file = fopen(exportPath.c_str(), "wb");
 	if (file != NULL)
 	{
-		std::string texpath = PathFindFileNameA(mTexturePath.toStdString().c_str());
+		// amount of emitters
+		// for...
+		//		texture_size
+		//		texture_noise_size
+		//		emitter
+
+		int amount_of_emitters = graphics->EmitterCount();
+		fwrite(&amount_of_emitters, sizeof(int), 1, file);
+
+		for (int i = 0; i < amount_of_emitters; i++)
+		{
+			std::string t = graphics->ParticleSystemByIndex(i)->TextureParticlePath();
+			std::string n = graphics->ParticleSystemByIndex(i)->TextureNoisePath();
+
+			const char* texture_particle = t.c_str();
+			const char* texture_noise	 = n.c_str();
+
+			int texture_particle_size	= strlen(texture_particle);
+			int texture_noise_size		= strlen(texture_noise);
+
+			fwrite(&texture_particle_size, sizeof(int), 1, file);
+			fwrite(texture_particle, sizeof(const char), texture_particle_size, file);
+
+			fwrite(&texture_noise_size, sizeof(int), 1, file);
+			fwrite(texture_noise, sizeof(const char), texture_noise_size, file);
+
+			EMITTER e = graphics->EmitterByIndex(i);
+			fwrite(&e, sizeof(EMITTER), 1, file);
+		}
+
+		int result = fclose(file);
+
+
+
+		/*std::string texpath = PathFindFileNameA(mTexturePath.toStdString().c_str());
 		std::string textpath_noise = PathFindFileNameA(mTextureNoisePath.toStdString().c_str());
 		const char* tex = texpath.c_str();
 		const char* tex_noise = textpath_noise.c_str();
@@ -211,7 +271,7 @@ void MainContainer::save()
 
 		// ...then we write the particle system details
 		fwrite(&ps, sizeof(EMITTER), 1, file);
-		int result = fclose(file);
+		int result = fclose(file);*/
 
 		if (result == 0)
 		{
@@ -296,7 +356,6 @@ void MainContainer::SetUiElements()
 }
 
 //TODO: World Space Checkbox
-//TODO: Offset values & offset slider values & emitter gizmo position
 
 void MainContainer::color0()
 {
@@ -502,7 +561,7 @@ void MainContainer::BuildParticleSystem()
 		FLOAT4(mColor1.redF(), mColor1.greenF(), mColor1.blueF(), mColor1.alphaF()),
 		FLOAT4(mColor2.redF(), mColor2.greenF(), mColor2.blueF(), mColor2.alphaF()),
 		mCurrentPS.startSizeX, mCurrentPS.startSizeY, mCurrentPS.endSizeX, mCurrentPS.endSizeY, mCurrentPS.rectSizeX, mCurrentPS.rectSizeZ, mCurrentPS.rotation,
-		mCurrentPS.textureType, mCurrentPS.textureColumns, mCurrentPS.textureRows, mCurrentPS.looping, mCurrentPS.noiseDissolve, mCurrentPS.bloomParticles);
+		mCurrentPS.interpolation, mCurrentPS.textureType, mCurrentPS.textureColumns, mCurrentPS.textureRows, mCurrentPS.looping, mCurrentPS.noiseDissolve, mCurrentPS.bloomParticles);
 
 	graphics->Rebuild(mCurrentPSIndex, ps);
 }
@@ -514,7 +573,6 @@ void MainContainer::setVelocityX()
 
 	mCurrentPS.velocity.X = x;
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_VELOCITY, &mCurrentPS.velocity);
-
 }
 
 void MainContainer::setVelocityY()
@@ -523,7 +581,6 @@ void MainContainer::setVelocityY()
 
 	mCurrentPS.velocity.Y = y;
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_VELOCITY, &mCurrentPS.velocity);
-
 }
 
 void MainContainer::setVelocityZ()
@@ -660,7 +717,6 @@ void MainContainer::setColumnsRows()
 void MainContainer::setLooping(int value)
 {
 	//TODO: UI controls for replaying a particle system
-	//TODO: Multiple Emitters
 	if (value == 2) value = 1;
 	mCurrentPS.looping = value;
 	BuildParticleSystem();
@@ -723,9 +779,6 @@ void MainContainer::RenameTab(int index)
 void MainContainer::FillValues(EMITTER fromCurrentPS)
 {
 	mCurrentPS = fromCurrentPS;
-
-	// TODO: Fill UI pointers with values...
-	// Actually just make an UpdateUI() function which fills UI pointers with mCurrentPS values.
 	SetUiElements();
 }
 

@@ -197,6 +197,7 @@ struct EMITTER
 		rectSizeX = 1.0f;
 		rectSizeZ = 1.0f;
 		rotation = 0;
+		interpolation = 0;
 		textureType = 0;
 		textureColumns = 4;
 		textureRows = 4;
@@ -204,7 +205,7 @@ struct EMITTER
 		noiseDissolve = 0;
 		bloomParticles = 1;
 	}
-	EMITTER (EMITTER_TYPE e, int m, FLOAT3 v, float ed, float lt, float grv, FLOAT4 col0, FLOAT4 col1, FLOAT4 col2, float sX, float sY, float eX, float eY, float rsX, float rsZ, float r, int tT, int tC, int tR, int l, int nD, int b)
+	EMITTER (EMITTER_TYPE e, int m, FLOAT3 v, float ed, float lt, float grv, FLOAT4 col0, FLOAT4 col1, FLOAT4 col2, float sX, float sY, float eX, float eY, float rsX, float rsZ, float r, int i, int tT, int tC, int tR, int l, int nD, int b)
 	{
 		emittertype = e;
 		maxparticles = m;
@@ -222,6 +223,7 @@ struct EMITTER
 		rectSizeX = rsX;
 		rectSizeZ = rsZ;
 		rotation = r;
+		interpolation = i;
 		textureType = tT;
 		textureColumns = tC;
 		textureRows = tR;

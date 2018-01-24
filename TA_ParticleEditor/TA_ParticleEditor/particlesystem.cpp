@@ -408,17 +408,17 @@ void* ParticleSystem::GetProperty(PS_PROPERTY prop)
 
 std::string ParticleSystem::TextureParticlePath()
 {
-	return PathFindFileNameA(texture_particle_path.c_str());
+	return std::string(PathFindFileNameA(texture_particle_path.c_str()));
 }
 
 std::string ParticleSystem::TextureNoisePath()
 {
-	return PathFindFileNameA(texture_noise_path.c_str());
+	return std::string(PathFindFileNameA(texture_noise_path.c_str()));
 }
 
 void ParticleSystem::Initialize()
 {
-	emitter = EMITTER(EMITTER_TYPE::EMIT_POINT,10, FLOAT3_ZERO, 0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,0, 0, 4, 4, 0, 0, 1);
+	emitter = EMITTER(EMITTER_TYPE::EMIT_POINT,10, FLOAT3_ZERO, 0,0,0, FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), FLOAT4(1,1,1,1), 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,0,0, 0, 4, 4, 0, 0, 1);
 
 	for (unsigned int i = 0; i < emitter.maxparticles; i++)
 	{
