@@ -109,6 +109,7 @@ void ParticleSystem::UpdateConstantBuffer(ID3D11DeviceContext* context, XMMATRIX
 		cBufferParticleAnimated.endsize = XMFLOAT2(emitter.endSizeX, emitter.endSizeY);
 		cBufferParticleAnimated.rotation = emitter.rotation;
 		cBufferParticleAnimated.lifetime = emitter.lifetime;
+		cBufferParticleAnimated.interpolation = emitter.interpolation;
 		cBufferParticleAnimated.columns = emitter.textureColumns;
 		cBufferParticleAnimated.rows = emitter.textureRows;
 
@@ -257,6 +258,9 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 	case PS_PROPERTY::PS_VELOCITY:
 		emitter.velocity= *((FLOAT3*)data);
 		break;
+	case PS_PROPERTY::PS_OFFSET:
+		emitter.offset = *((FLOAT3*)data);
+		break;
 	case PS_PROPERTY::PS_EMISSIONDELAY:
 		emitter.emissiondelay = *((float*)data);
 		cooldown = emitter.emissiondelay;
@@ -315,6 +319,9 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 	case PS_PROPERTY::PS_NOISE_DISSOLVE:
 		emitter.noiseDissolve = *((int*)data);
 		break;
+	case PS_PROPERTY::PS_INTERPOLATION:
+		emitter.interpolation = *((int*)data);
+		break;
 	case PS_PROPERTY::PS_BLOOM_PARTICLES:
 		emitter.bloomParticles = *((int*)data);
 		break;
@@ -327,6 +334,9 @@ void* ParticleSystem::GetProperty(PS_PROPERTY prop)
 	{
 	case PS_PROPERTY::PS_VELOCITY:
 		return &emitter.velocity;
+		break;
+	case PS_PROPERTY::PS_OFFSET:
+		return &emitter.offset;
 		break;
 	case PS_PROPERTY::PS_EMISSIONDELAY:
 		return &emitter.emissiondelay;
@@ -385,12 +395,25 @@ void* ParticleSystem::GetProperty(PS_PROPERTY prop)
 	case PS_PROPERTY::PS_NOISE_DISSOLVE:
 		return &emitter.noiseDissolve;
 		break;
+	case PS_PROPERTY::PS_INTERPOLATION:
+		return &emitter.interpolation;
+		break;
 	case PS_PROPERTY::PS_BLOOM_PARTICLES:
 		return &emitter.bloomParticles;
 		break;
 	}
 
 	return NULL;
+}
+
+std::string ParticleSystem::TextureParticlePath()
+{
+	return PathFindFileNameA(texture_particle_path.c_str());
+}
+
+std::string ParticleSystem::TextureNoisePath()
+{
+	return PathFindFileNameA(texture_noise_path.c_str());
 }
 
 void ParticleSystem::Initialize()
@@ -410,14 +433,14 @@ FLOAT3 ParticleSystem::Position(EMITTER_TYPE type)
 {
 	if (type == EMITTER_TYPE::EMIT_POINT)
 	{
-		return FLOAT3_ZERO;
+		return emitter.offset;
 	}
 	if (type == EMITTER_TYPE::EMIT_RECTANGLE)
 	{
-		FLOAT3 pos = FLOAT3_ZERO;
+		FLOAT3 pos = emitter.offset;
 
-		pos.X = RandomFloat(-emitter.rectSizeX * 2, emitter.rectSizeX * 2);
-		pos.Z = RandomFloat(-emitter.rectSizeZ * 2, emitter.rectSizeZ * 2);
+		pos.X += RandomFloat(-emitter.rectSizeX * 2, emitter.rectSizeX * 2);
+		pos.Z += RandomFloat(-emitter.rectSizeZ * 2, emitter.rectSizeZ * 2);
 
 		return pos;
 	}
@@ -458,7 +481,7 @@ void ParticleSystem::Rebuild(EMITTER e)
 
 	for (unsigned int i = 0; i < emitter.maxparticles; i++)
 	{
-		particles.push_back(PARTICLE(FLOAT3(0, 0, 0), emitter.velocity, 0, false, RandomIntMinusPlus(), RandomIntMinusPlus(),0));
+		particles.push_back(PARTICLE(emitter.offset, emitter.velocity, 0, false, RandomIntMinusPlus(), RandomIntMinusPlus(),0));
 	}
 }
 

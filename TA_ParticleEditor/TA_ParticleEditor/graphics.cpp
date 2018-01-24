@@ -382,22 +382,39 @@ void Graphics::Retexture(int index, TEXTURE_TYPE type, std::string path)
 	}
 }
 
-void Graphics::RecompileShader(int index, int type, bool noise, bool interpolate)
+void Graphics::RecompileShader(int index, int type, bool noise)
 {
-	shaders.CompileIncludes(noise, interpolate);
+	shaders.CompileIncludes(noise, false);
+	int shader = 0;
 
-	if (type == 0)
+	if (type == 0 && noise == false)
 	{
 		// single texture
 		shaders.LoadParticleShader(device, context, "particle.hlsl");
+		shader = 0;
 	}
-	if (type == 1)
+	if (type == 1 && noise == false)
 	{
 		// texture sheet
-		shaders.LoadParticleShader(device, context, "particle_animated.hlsl");
+		shaders.LoadParticleAnimatedShader(device, context, "particle_animated.hlsl");
+		shader = 1;
 	}
 
-	particlesystems[index]->SetShader(type);
+
+	if (type == 0 && noise == true)
+	{
+		// single texture (with noise)
+		shaders.LoadParticleNoiseShader(device, context, "particle_noise.hlsl");
+		shader = 2;
+	}
+	if (type == 1 && noise == true)
+	{
+		// texture sheet (with noise)
+		shaders.LoadParticleAnimatedNoiseShader(device, context, "particle_animated_noise.hlsl");
+		shader = 3;
+	}
+
+	particlesystems[index]->SetShader(shader);
 }
 
 void Graphics::ChangeRasterization(D3D11_FILL_MODE fillmode)
@@ -513,6 +530,14 @@ void Graphics::Render()
 		{
 			shaders.SetParticleAnimatedShader(context);
 		}
+		if (shader == 2)
+		{
+			shaders.SetParticleNoiseShader(context);
+		}
+		if (shader == 3)
+		{
+			shaders.SetParticleAnimatedNoiseShader(context);
+		}
 		particlesystems[i]->UploadParticleBuffer(context);
 		particlesystems[i]->UpdateConstantBuffer(context, WVP, World, campos, camup);
 		particlesystems[i]->Render(context, textureSamplerState);
@@ -524,16 +549,20 @@ void Graphics::Render()
 			particlesystems[i]->RenderDebug(context, textureSamplerState, textures[2]);
 			ChangeRasterization(D3D11_FILL_SOLID);
 		}
+
+
+		// DRAW POSITION GIZMO
+		FLOAT3 pos = *(FLOAT3*)particlesystems[i]->GetProperty(PS_PROPERTY::PS_OFFSET);
+		World = XMMatrixIdentity() * XMMatrixTranslation(pos.X, pos.Y, pos.Z);
+		WVP = World * View * Projection;
+		shaders.SetGizmoShader(context);
+		positionGizmo->UpdateConstantBuffer(context, WVP);
+		positionGizmo->Render(context, textureSamplerState, textures[2]);
 	}
 
 
 
-	// DRAW POSITION GIZMO
-	World = XMMatrixIdentity();
-	WVP = World * View * Projection;
-	shaders.SetGizmoShader(context);
-	positionGizmo->UpdateConstantBuffer(context, WVP);
-	positionGizmo->Render(context, textureSamplerState, textures[2]);
+
 
 	// DRAW EMITTER GIZMO
 	if (*(EMITTER_TYPE*)particlesystems[cEmitter]->GetProperty(PS_PROPERTY::PS_EMITTER_TYPE) == EMITTER_TYPE::EMIT_RECTANGLE)

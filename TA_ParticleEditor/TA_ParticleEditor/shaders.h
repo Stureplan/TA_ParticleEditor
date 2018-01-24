@@ -27,6 +27,13 @@ public:
 		pParticleGS->Release();
 		pParticlePS->Release();
 
+		ParticleNoiseVS->Release();
+		ParticleNoiseGS->Release();
+		ParticleNoisePS->Release();
+		pParticleNoiseVS->Release();
+		pParticleNoiseGS->Release();
+		pParticleNoisePS->Release();
+
 		ParticleAnimatedVS->Release();
 		ParticleAnimatedGS->Release();
 		ParticleAnimatedPS->Release();
@@ -36,7 +43,9 @@ public:
 
 		pGizmoLayout->Release();
 		pParticleLayout->Release();
+		pParticleNoiseLayout->Release();
 		pParticleAnimatedLayout->Release();
+		pParticleAnimatedNoiseLayout->Release();
 	}
 
 	void CompileIncludes(bool noise, bool interpolate)
@@ -174,6 +183,69 @@ public:
 		lastLoadedShaderName = shadername;
 	}
 
+	void LoadParticleNoiseShader(ID3D11Device* device, ID3D11DeviceContext* context, const char* shadername)
+	{
+		HRESULT hr;
+		ID3DBlob* errorBlob;
+
+		std::string shaderpath = Utility::DataPath() + shadername;
+		std::wstring shaderpath_wide;
+		std::copy(shaderpath.begin(), shaderpath.end(), std::back_inserter(shaderpath_wide));
+
+		ParticleNoiseVS = NULL;
+		errorBlob = NULL;
+		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "VShader", "vs_5_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ParticleNoiseVS, &errorBlob);
+		if (hr != S_OK)
+		{
+			// Something went wrong with the shader
+			std::string error = static_cast<char*>(errorBlob->GetBufferPointer());
+			MessageBoxA(NULL, error.c_str(), "VS Error", MB_OK);
+		}
+
+		ParticleNoiseGS = NULL;
+		errorBlob = NULL;
+		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "GShader", "gs_5_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ParticleNoiseGS, &errorBlob);
+		if (hr != S_OK)
+		{
+			// Something went wrong with the shader
+			std::string error = static_cast<char*>(errorBlob->GetBufferPointer());
+			MessageBoxA(NULL, error.c_str(), "GS Error", MB_OK);
+		}
+
+		ParticleNoisePS = NULL;
+		errorBlob = NULL;
+		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "PShader", "ps_5_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ParticleNoisePS, &errorBlob);
+		if (hr != S_OK)
+		{
+			// Something went wrong with the shader
+			std::string error = static_cast<char*>(errorBlob->GetBufferPointer());
+			MessageBoxA(NULL, error.c_str(), "PS Error", MB_OK);
+		}
+
+		hr = device->CreateVertexShader(ParticleNoiseVS->GetBufferPointer(), ParticleNoiseVS->GetBufferSize(), NULL, &pParticleNoiseVS);
+		hr = device->CreateGeometryShader(ParticleNoiseGS->GetBufferPointer(), ParticleNoiseGS->GetBufferSize(), NULL, &pParticleNoiseGS);
+		hr = device->CreatePixelShader(ParticleNoisePS->GetBufferPointer(), ParticleNoisePS->GetBufferSize(), NULL, &pParticleNoisePS);
+
+		D3D11_INPUT_ELEMENT_DESC ied[] =
+		{
+			{ "POSITION",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "DIRECTION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "LIFETIME",  0, DXGI_FORMAT_R32_FLOAT,	   0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+		};
+
+		hr = device->CreateInputLayout(ied, sizeof(ied) / sizeof(ied[0]),
+			ParticleNoiseVS->GetBufferPointer(),
+			ParticleNoiseVS->GetBufferSize(),
+			&pParticleNoiseLayout);
+
+		struct stat file;
+		stat(shaderpath.c_str(), &file);
+		time_t t = file.st_atime;
+
+		lastLoadedShaderTime = t;
+		lastLoadedShaderName = shadername;
+	}
+
 	void LoadParticleAnimatedShader(ID3D11Device* device, ID3D11DeviceContext* context, const char* shadername)
 	{
 		HRESULT hr;
@@ -182,10 +254,6 @@ public:
 		std::string		shaderpath = Utility::DataPath() + shadername;
 		std::wstring	shaderpath_wide;
 		std::copy	   (shaderpath.begin(), shaderpath.end(), std::back_inserter(shaderpath_wide));
-
-
-
-
 
 		ParticleAnimatedVS = NULL;
 		errorBlob = NULL;
@@ -241,6 +309,69 @@ public:
 		lastLoadedShaderName = shadername;
 	}
 
+	void LoadParticleAnimatedNoiseShader(ID3D11Device* device, ID3D11DeviceContext* context, const char* shadername)
+	{
+		HRESULT hr;
+		ID3DBlob* errorBlob;
+
+		std::string		shaderpath = Utility::DataPath() + shadername;
+		std::wstring	shaderpath_wide;
+		std::copy(shaderpath.begin(), shaderpath.end(), std::back_inserter(shaderpath_wide));
+
+		ParticleAnimatedNoiseVS = NULL;
+		errorBlob = NULL;
+		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "VShader", "vs_5_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ParticleAnimatedNoiseVS, &errorBlob);
+		if (hr != S_OK)
+		{
+			// Something went wrong with the shader
+			std::string error = static_cast<char*>(errorBlob->GetBufferPointer());
+			MessageBoxA(NULL, error.c_str(), "VS Error", MB_OK);
+		}
+
+		ParticleAnimatedNoiseGS = NULL;
+		errorBlob = NULL;
+		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "GShader", "gs_5_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ParticleAnimatedNoiseGS, &errorBlob);
+		if (hr != S_OK)
+		{
+			// Something went wrong with the shader
+			std::string error = static_cast<char*>(errorBlob->GetBufferPointer());
+			MessageBoxA(NULL, error.c_str(), "GS Error", MB_OK);
+		}
+
+		ParticleAnimatedNoisePS = NULL;
+		errorBlob = NULL;
+		hr = D3DCompileFromFile(shaderpath_wide.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, "PShader", "ps_5_0", D3DCOMPILE_WARNINGS_ARE_ERRORS, 0, &ParticleAnimatedNoisePS, &errorBlob);
+		if (hr != S_OK)
+		{
+			// Something went wrong with the shader
+			std::string error = static_cast<char*>(errorBlob->GetBufferPointer());
+			MessageBoxA(NULL, error.c_str(), "PS Error", MB_OK);
+		}
+
+		hr = device->CreateVertexShader		(ParticleAnimatedNoiseVS->GetBufferPointer(), ParticleAnimatedNoiseVS->GetBufferSize(), NULL, &pParticleAnimatedNoiseVS);
+		hr = device->CreateGeometryShader	(ParticleAnimatedNoiseGS->GetBufferPointer(), ParticleAnimatedNoiseGS->GetBufferSize(), NULL, &pParticleAnimatedNoiseGS);
+		hr = device->CreatePixelShader		(ParticleAnimatedNoisePS->GetBufferPointer(), ParticleAnimatedNoisePS->GetBufferSize(), NULL, &pParticleAnimatedNoisePS);
+
+		D3D11_INPUT_ELEMENT_DESC ied[] =
+		{
+			{ "POSITION",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "DIRECTION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "LIFETIME",  0, DXGI_FORMAT_R32_FLOAT,	   0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+		};
+
+		hr = device->CreateInputLayout(ied, sizeof(ied) / sizeof(ied[0]),
+			ParticleAnimatedNoiseVS->GetBufferPointer(),
+			ParticleAnimatedNoiseVS->GetBufferSize(),
+			&pParticleAnimatedNoiseLayout);
+
+		struct stat file;
+		stat(shaderpath.c_str(), &file);
+		time_t t = file.st_atime;
+
+		lastLoadedShaderTime = t;
+		lastLoadedShaderName = shadername;
+	}
+
 	void ReloadLastShader(ID3D11Device* device, ID3D11DeviceContext* context)
 	{
 		struct stat file;
@@ -275,6 +406,16 @@ public:
 		context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 	}
 
+	void SetParticleNoiseShader(ID3D11DeviceContext* context)
+	{
+		// set to this before render
+		context->VSSetShader(pParticleNoiseVS, 0, 0);
+		context->GSSetShader(pParticleNoiseGS, 0, 0);
+		context->PSSetShader(pParticleNoisePS, 0, 0);
+		context->IASetInputLayout(pParticleNoiseLayout);
+		context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+	}
+
 	void SetParticleAnimatedShader(ID3D11DeviceContext* context)
 	{
 		// set to this before render
@@ -282,6 +423,16 @@ public:
 		context->GSSetShader(pParticleAnimatedGS, 0, 0);
 		context->PSSetShader(pParticleAnimatedPS, 0, 0);
 		context->IASetInputLayout(pParticleAnimatedLayout);
+		context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+	}
+
+	void SetParticleAnimatedNoiseShader(ID3D11DeviceContext* context)
+	{
+		// set to this before render
+		context->VSSetShader(pParticleAnimatedNoiseVS, 0, 0);
+		context->GSSetShader(pParticleAnimatedNoiseGS, 0, 0);
+		context->PSSetShader(pParticleAnimatedNoisePS, 0, 0);
+		context->IASetInputLayout(pParticleAnimatedNoiseLayout);
 		context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 	}
 
@@ -300,6 +451,15 @@ private:
 	ID3D11PixelShader*		pParticlePS;
 	ID3D11InputLayout*		pParticleLayout;
 
+
+	ID3DBlob*				ParticleNoiseVS;
+	ID3DBlob*				ParticleNoiseGS;
+	ID3DBlob*				ParticleNoisePS;
+	ID3D11VertexShader*		pParticleNoiseVS;
+	ID3D11GeometryShader*	pParticleNoiseGS;
+	ID3D11PixelShader*		pParticleNoisePS;
+	ID3D11InputLayout*		pParticleNoiseLayout;
+
 	ID3DBlob*				ParticleAnimatedVS;
 	ID3DBlob*				ParticleAnimatedGS;
 	ID3DBlob*				ParticleAnimatedPS;
@@ -307,6 +467,14 @@ private:
 	ID3D11GeometryShader*	pParticleAnimatedGS;
 	ID3D11PixelShader*		pParticleAnimatedPS;
 	ID3D11InputLayout*		pParticleAnimatedLayout;
+
+	ID3DBlob*				ParticleAnimatedNoiseVS;
+	ID3DBlob*				ParticleAnimatedNoiseGS;
+	ID3DBlob*				ParticleAnimatedNoisePS;
+	ID3D11VertexShader*		pParticleAnimatedNoiseVS;
+	ID3D11GeometryShader*	pParticleAnimatedNoiseGS;
+	ID3D11PixelShader*		pParticleAnimatedNoisePS;
+	ID3D11InputLayout*		pParticleAnimatedNoiseLayout;
 
 	std::string lastLoadedShaderName;
 	time_t lastLoadedShaderTime;

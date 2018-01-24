@@ -54,6 +54,16 @@ public slots:
 	void setVelocityYSlider(int value);
 	void setVelocityZ();
 	void setVelocityZSlider(int value);
+
+	void SetOffsetX();
+	void SetOffsetY();
+	void SetOffsetZ();
+
+	void SetOffsetXSlider(int value);
+	void SetOffsetYSlider(int value);
+	void SetOffsetZSlider(int value);
+
+
 	void SetRotation();
 	void SetRotationSlider(int value);
 	void setMaxParticles();
@@ -101,6 +111,9 @@ private:
 	QLineEdit* textFieldVelocityX;
 	QLineEdit* textFieldVelocityY;
 	QLineEdit* textFieldVelocityZ;
+	QLineEdit* textFieldOffsetX;
+	QLineEdit* textFieldOffsetY;
+	QLineEdit* textFieldOffsetZ;
 	QLineEdit* textFieldMaxParticles;
 	QLineEdit* textFieldGravity;
 	QLineEdit* textFieldStartSizeX;
@@ -129,6 +142,9 @@ private:
 	QSlider* velocityXSlider;
 	QSlider* velocityYSlider;
 	QSlider* velocityZSlider;
+	QSlider* offsetXSlider;
+	QSlider* offsetYSlider;
+	QSlider* offsetZSlider;
 	QSlider* rotationSlider;
 	QSlider* emissionDelaySlider;
 	QLabel*  emissionDelaySlider_label;

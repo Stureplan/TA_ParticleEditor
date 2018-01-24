@@ -814,6 +814,9 @@
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
     </property>
+    <property name="tickPosition">
+     <enum>QSlider::TicksAbove</enum>
+    </property>
    </widget>
    <widget class="QLabel" name="label_EmDelaySlide">
     <property name="geometry">
@@ -867,6 +870,9 @@
     <property name="invertedAppearance">
      <bool>false</bool>
     </property>
+    <property name="tickPosition">
+     <enum>QSlider::TicksAbove</enum>
+    </property>
    </widget>
    <widget class="QSlider" name="velocityYSlider">
     <property name="geometry">
@@ -886,6 +892,9 @@
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
     </property>
+    <property name="tickPosition">
+     <enum>QSlider::TicksAbove</enum>
+    </property>
    </widget>
    <widget class="QSlider" name="velocityZSlider">
     <property name="geometry">
@@ -904,6 +913,9 @@
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
+    </property>
+    <property name="tickPosition">
+     <enum>QSlider::TicksAbove</enum>
     </property>
    </widget>
    <widget class="QTabWidget" name="psTabs">
@@ -1219,7 +1231,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QLineEdit" name="velocityZ_2">
+   <widget class="QLineEdit" name="offsetZ">
     <property name="geometry">
      <rect>
       <x>310</x>
@@ -1260,7 +1272,7 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLineEdit" name="velocityX_2">
+   <widget class="QLineEdit" name="offsetX">
     <property name="geometry">
      <rect>
       <x>310</x>
@@ -1301,7 +1313,7 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QSlider" name="velocityYSlider_2">
+   <widget class="QSlider" name="offsetYSlider">
     <property name="geometry">
      <rect>
       <x>380</x>
@@ -1316,8 +1328,14 @@
     <property name="minimum">
      <number>-99</number>
     </property>
+    <property name="maximum">
+     <number>99</number>
+    </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
+    </property>
+    <property name="tickPosition">
+     <enum>QSlider::TicksAbove</enum>
     </property>
    </widget>
    <widget class="QLabel" name="label_VelocityY_2">
@@ -1339,7 +1357,7 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QSlider" name="velocityXSlider_2">
+   <widget class="QSlider" name="offsetXSlider">
     <property name="geometry">
      <rect>
       <x>380</x>
@@ -1360,6 +1378,9 @@
     <property name="singleStep">
      <number>1</number>
     </property>
+    <property name="pageStep">
+     <number>10</number>
+    </property>
     <property name="value">
      <number>0</number>
     </property>
@@ -1375,8 +1396,11 @@
     <property name="invertedAppearance">
      <bool>false</bool>
     </property>
+    <property name="tickPosition">
+     <enum>QSlider::TicksAbove</enum>
+    </property>
    </widget>
-   <widget class="QLineEdit" name="velocityY_2">
+   <widget class="QLineEdit" name="offsetY">
     <property name="geometry">
      <rect>
       <x>310</x>
@@ -1398,7 +1422,7 @@
      <string>0.0</string>
     </property>
    </widget>
-   <widget class="QSlider" name="velocityZSlider_2">
+   <widget class="QSlider" name="offsetZSlider">
     <property name="geometry">
      <rect>
       <x>380</x>
@@ -1413,8 +1437,14 @@
     <property name="minimum">
      <number>-99</number>
     </property>
+    <property name="maximum">
+     <number>99</number>
+    </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
+    </property>
+    <property name="tickPosition">
+     <enum>QSlider::TicksAbove</enum>
     </property>
    </widget>
    <widget class="QLabel" name="label_Velocity_2">
@@ -1481,6 +1511,9 @@
     </property>
     <property name="invertedAppearance">
      <bool>false</bool>
+    </property>
+    <property name="tickPosition">
+     <enum>QSlider::TicksAbove</enum>
     </property>
    </widget>
    <widget class="QLineEdit" name="rotation">
@@ -1566,15 +1599,15 @@
    <zorder>color2Btn</zorder>
    <zorder>groupBoxTexture</zorder>
    <zorder>groupBoxTextureNoise</zorder>
-   <zorder>velocityZ_2</zorder>
+   <zorder>offsetZ</zorder>
    <zorder>label_VelocityX_2</zorder>
-   <zorder>velocityX_2</zorder>
+   <zorder>offsetX</zorder>
    <zorder>label_VelocityZ_2</zorder>
-   <zorder>velocityYSlider_2</zorder>
+   <zorder>offsetYSlider</zorder>
    <zorder>label_VelocityY_2</zorder>
-   <zorder>velocityXSlider_2</zorder>
-   <zorder>velocityY_2</zorder>
-   <zorder>velocityZSlider_2</zorder>
+   <zorder>offsetXSlider</zorder>
+   <zorder>offsetY</zorder>
+   <zorder>offsetZSlider</zorder>
    <zorder>label_Velocity_2</zorder>
    <zorder>bloomParticles</zorder>
    <zorder>rotationSlider</zorder>
@@ -1630,6 +1663,12 @@
     <slot>SetRotation()</slot>
     <slot>SetRotationSlider(int)</slot>
     <slot>RenameTab(int)</slot>
+    <slot>SetOffsetX()</slot>
+    <slot>SetOffsetY()</slot>
+    <slot>SetOffsetZ()</slot>
+    <slot>SetOffsetXSlider(int)</slot>
+    <slot>SetOffsetYSlider(int)</slot>
+    <slot>SetOffsetZSlider(int)</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -2206,6 +2245,102 @@
     <hint type="sourcelabel">
      <x>330</x>
      <y>502</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>491</x>
+     <y>324</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>offsetX</sender>
+   <signal>editingFinished()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>SetOffsetX()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>339</x>
+     <y>561</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>491</x>
+     <y>324</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>offsetY</sender>
+   <signal>editingFinished()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>SetOffsetY()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>339</x>
+     <y>585</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>491</x>
+     <y>324</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>offsetZ</sender>
+   <signal>editingFinished()</signal>
+   <receiver>maincontainer</receiver>
+   <slot>SetOffsetZ()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>339</x>
+     <y>609</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>491</x>
+     <y>324</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>offsetXSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>maincontainer</receiver>
+   <slot>SetOffsetXSlider(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>467</x>
+     <y>561</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>491</x>
+     <y>324</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>offsetYSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>maincontainer</receiver>
+   <slot>SetOffsetYSlider(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>467</x>
+     <y>585</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>491</x>
+     <y>324</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>offsetZSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>maincontainer</receiver>
+   <slot>SetOffsetZSlider(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>467</x>
+     <y>609</y>
     </hint>
     <hint type="destinationlabel">
      <x>491</x>

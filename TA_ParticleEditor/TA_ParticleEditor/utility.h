@@ -36,6 +36,11 @@ struct FLOAT3
 		X = x; Y = y; Z = z;
 	}
 
+	FLOAT3(float value)
+	{
+		X = value; Y = value; Z = value;
+	}
+
 	FLOAT3 operator+(FLOAT3 const &F3)
 	{
 		return FLOAT3(X + F3.X, Y + F3.Y, Z + F3.Z);
@@ -134,6 +139,7 @@ enum PS_PROPERTY
 {
 	PS_POSITION = 0,
 	PS_VELOCITY,
+	PS_OFFSET,
 	PS_EMISSIONDELAY,
 	PS_LIFETIME,
 	PS_GRAVITY,
@@ -153,6 +159,7 @@ enum PS_PROPERTY
 	PS_TEXTURE_ROWS,
 	PS_LOOPING,
 	PS_NOISE_DISSOLVE,
+	PS_INTERPOLATION,
 	PS_BLOOM_PARTICLES
 };
 
@@ -226,6 +233,7 @@ struct EMITTER
 	EMITTER_TYPE emittertype;
 	int maxparticles;
 	FLOAT3 velocity;
+	FLOAT3 offset;
 	float emissiondelay;
 	float lifetime;
 	float gravity;
@@ -239,6 +247,7 @@ struct EMITTER
 	float rectSizeX;
 	float rectSizeZ;
 	float rotation;
+	int interpolation;
 	int textureType;
 	int textureColumns;
 	int textureRows;
@@ -276,6 +285,7 @@ struct CBUFFER_PARTICLESYSTEM_ANIMATED
 	XMFLOAT2 endsize;
 	float rotation;
 	float lifetime;
+	int interpolation;
 	int columns;
 	int rows;
 };

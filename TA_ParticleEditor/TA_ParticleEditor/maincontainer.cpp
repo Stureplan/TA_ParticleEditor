@@ -23,6 +23,12 @@ void MainContainer::SetPointers(ParticleSystem* ps)
 	velocityYSlider				= findChild<QSlider*>		("velocityYSlider",		Qt::FindChildOption::FindChildrenRecursively);
 	textFieldVelocityZ			= findChild<QLineEdit*>		("velocityZ",			Qt::FindChildOption::FindChildrenRecursively);
 	velocityZSlider				= findChild<QSlider*>		("velocityZSlider",		Qt::FindChildOption::FindChildrenRecursively);
+	textFieldOffsetX			= findChild<QLineEdit*>		("offsetX",				Qt::FindChildOption::FindChildrenRecursively);
+	textFieldOffsetY			= findChild<QLineEdit*>		("offsetY",				Qt::FindChildOption::FindChildrenRecursively);
+	textFieldOffsetZ			= findChild<QLineEdit*>		("offsetZ",				Qt::FindChildOption::FindChildrenRecursively);
+	offsetXSlider				= findChild<QSlider*>		("offsetXSlider",		Qt::FindChildOption::FindChildrenRecursively);
+	offsetYSlider				= findChild<QSlider*>		("offsetYSlider",		Qt::FindChildOption::FindChildrenRecursively);
+	offsetZSlider				= findChild<QSlider*>		("offsetZSlider",		Qt::FindChildOption::FindChildrenRecursively);
 	textFieldRotation			= findChild<QLineEdit*>		("rotation",			Qt::FindChildOption::FindChildrenRecursively);
 	rotationSlider				= findChild<QSlider*>		("rotationSlider",		Qt::FindChildOption::FindChildrenRecursively);
 	textFieldGravity			= findChild<QLineEdit*>		("gravity",				Qt::FindChildOption::FindChildrenRecursively);
@@ -73,6 +79,12 @@ void MainContainer::Init()
 	textFieldVelocityX->setPlaceholderText(std::to_string(DEFAULT_VELOCITY.X).c_str());
 	textFieldVelocityY->setPlaceholderText(std::to_string(DEFAULT_VELOCITY.Y).c_str());
 	textFieldVelocityZ->setPlaceholderText(std::to_string(DEFAULT_VELOCITY.Z).c_str());
+
+	mCurrentPS.offset = FLOAT3(0);
+	textFieldOffsetX->setPlaceholderText(std::to_string(mCurrentPS.offset.X).c_str());
+	textFieldOffsetY->setPlaceholderText(std::to_string(mCurrentPS.offset.Y).c_str());
+	textFieldOffsetZ->setPlaceholderText(std::to_string(mCurrentPS.offset.Z).c_str());
+
 
 	mCurrentPS.gravity = DEFAULT_GRAVITY;
 	textFieldGravity->setPlaceholderText(std::to_string(DEFAULT_GRAVITY).c_str());
@@ -228,6 +240,11 @@ void MainContainer::SetUiElements()
 	textFieldVelocityY->setText(QString::number(mCurrentPS.velocity.Y));
 	textFieldVelocityZ->setText(QString::number(mCurrentPS.velocity.Z));
 
+	textFieldOffsetX->setText(QString::number(mCurrentPS.offset.X));
+	textFieldOffsetY->setText(QString::number(mCurrentPS.offset.Y));
+	textFieldOffsetZ->setText(QString::number(mCurrentPS.offset.Z));
+
+
 	textFieldRotation->setText(QString::number(mCurrentPS.rotation));
 	rotationSlider->setValue((int)(mCurrentPS.rotation));
 
@@ -264,7 +281,7 @@ void MainContainer::SetUiElements()
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_START_SIZE_X, &mCurrentPS.startSizeX);
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_START_SIZE_Y, &mCurrentPS.startSizeY);
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_END_SIZE_X,   &mCurrentPS.endSizeX);
-	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_END_SIZE_Y,	  &mCurrentPS.endSizeY);
+	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_END_SIZE_Y,	&mCurrentPS.endSizeY);
 
 
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_EMITTER_TYPE, &mCurrentPS.emittertype);
@@ -359,15 +376,17 @@ void MainContainer::textureTypeChanged(int mode)
 
 	mCurrentPS.textureType = mode;
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_TEXTURE_TYPE, &mCurrentPS.textureType);
-	graphics->RecompileShader(mCurrentPSIndex, mCurrentPS.textureType, false, interpolateFrames->isChecked());
+	graphics->RecompileShader(mCurrentPSIndex, mCurrentPS.textureType, noiseDissolve->isChecked());
 }
 
 void MainContainer::shaderCompileChanged(int useless)
 {
-	graphics->RecompileShader(mCurrentPSIndex, mCurrentPS.textureType, noiseDissolve->isChecked(), interpolateFrames->isChecked());
+	graphics->RecompileShader(mCurrentPSIndex, mCurrentPS.textureType, noiseDissolve->isChecked());
 
 	mCurrentPS.noiseDissolve = noiseDissolve->isChecked();
+	mCurrentPS.interpolation = interpolateFrames->isChecked();
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_NOISE_DISSOLVE, &mCurrentPS.noiseDissolve);
+	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_INTERPOLATION, &mCurrentPS.interpolation);
 }
 
 void MainContainer::BloomParticles(int useless)
@@ -549,6 +568,58 @@ void MainContainer::setVelocityZSlider(int value)
 	textFieldVelocityZ->setText(QString::number(mCurrentPS.velocity.Z, 'f', 1));
 
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_VELOCITY, &mCurrentPS.velocity);
+}
+
+void MainContainer::SetOffsetX()
+{
+	float x = textFieldOffsetX->text().toFloat();
+
+	mCurrentPS.offset.X = x;
+	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_OFFSET, &mCurrentPS.offset);
+}
+
+void MainContainer::SetOffsetY()
+{
+	float y = textFieldOffsetY->text().toFloat();
+
+	mCurrentPS.offset.Y = y;
+	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_OFFSET, &mCurrentPS.offset);
+}
+
+void MainContainer::SetOffsetZ()
+{
+	float z = textFieldOffsetZ->text().toFloat();
+
+	mCurrentPS.offset.Z = z;
+	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_OFFSET, &mCurrentPS.offset);
+}
+
+void MainContainer::SetOffsetXSlider(int value)
+{
+	int x = offsetXSlider->value();
+	mCurrentPS.offset.X = (float)(x*0.1f);
+	textFieldOffsetX->setText(QString::number(mCurrentPS.offset.X, 'f', 1));
+
+	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_OFFSET, &mCurrentPS.offset);
+}
+
+void MainContainer::SetOffsetYSlider(int value)
+{
+	int y = offsetYSlider->value();
+	mCurrentPS.offset.Y = (float)(y*0.1f);
+	textFieldOffsetY->setText(QString::number(mCurrentPS.offset.Y, 'f', 1));
+
+	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_OFFSET, &mCurrentPS.offset);
+
+}
+
+void MainContainer::SetOffsetZSlider(int value)
+{
+	int z = offsetZSlider->value();
+	mCurrentPS.offset.Z = (float)(z*0.1f);
+	textFieldOffsetZ->setText(QString::number(mCurrentPS.offset.Z, 'f', 1));
+
+	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_OFFSET, &mCurrentPS.offset);
 }
 
 void MainContainer::SetRotation()

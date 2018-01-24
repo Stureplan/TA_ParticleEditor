@@ -134,5 +134,11 @@
     <None Include="..\x64\Debug\Data\gizmo.hlsl">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\x64\Debug\Data\particle_noise.hlsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\x64\Debug\Data\particle_animated_noise.hlsl">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

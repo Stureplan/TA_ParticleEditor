@@ -38,6 +38,8 @@ public:
 	void SetProperty(PS_PROPERTY prop, void* data);
 	void* GetProperty(PS_PROPERTY prop);
 
+	std::string TextureParticlePath();
+	std::string TextureNoisePath();
 
 	void Initialize();
 	void Rebuild(EMITTER e);
