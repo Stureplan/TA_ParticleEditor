@@ -339,7 +339,7 @@ void Graphics::LoadFullscreenQuad()
 
 void Graphics::GainedFocus()
 {
-	shaders.ReloadLastShader(device, context);
+	//shaders.ReloadLastShader(device, context);
 }
 
 void Graphics::LoadTextures()

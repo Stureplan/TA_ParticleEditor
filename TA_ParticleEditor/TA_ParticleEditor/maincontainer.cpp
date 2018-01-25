@@ -132,8 +132,6 @@ void MainContainer::setGravity()
 void MainContainer::load()
 {
 	std::string loadPath = QFileDialog::getOpenFileName(this).toStdString();
-	int textureNameSize = 0;
-	int textureNoiseNameSize = 0;
 	EMITTER ps;
 	FILE* file = fopen(loadPath.c_str(), "rb");
 
@@ -184,21 +182,16 @@ void MainContainer::load()
 
 			graphics->Retexture(i, TEXTURE_TYPE::TEXTURE, dir+t);
 			graphics->Retexture(i, TEXTURE_TYPE::TEXTURE_NOISE, dir+n);
+
+
+			mCurrentPS = e;
+			psTabs->setCurrentIndex(i);
+			SetUiElements();
 		}
 
 		mCurrentPS = ps;
 		psTabs->setCurrentIndex(0);
 		
-		/*mTexturePath = n.c_str();
-		mTextureNoisePath = n_n.c_str();
-		std::string tex_fullpath = Utility::Path() + "Data\\Textures\\" + mTexturePath.toStdString();
-		std::string tex_noise_fullpath = Utility::Path() + "Data\\Textures\\" + mTextureNoisePath.toStdString();
-		graphics->Retexture(666, TEXTURE_TYPE::TEXTURE,		 tex_fullpath);
-		graphics->Retexture(666, TEXTURE_TYPE::TEXTURE_NOISE, tex_noise_fullpath);
-
-		textureView->setPixmap(QString(tex_fullpath.c_str()));
-		textureViewNoise->setPixmap(QString(tex_noise_fullpath.c_str()));
-		*/
 		fclose(file);
 
 		SetUiElements();
@@ -263,32 +256,6 @@ void MainContainer::save()
 		}
 
 		int result = fclose(file);
-
-
-
-		/*std::string texpath = PathFindFileNameA(mTexturePath.toStdString().c_str());
-		std::string textpath_noise = PathFindFileNameA(mTextureNoisePath.toStdString().c_str());
-		const char* tex = texpath.c_str();
-		const char* tex_noise = textpath_noise.c_str();
-
-		int texturenamesize = strlen(tex);
-		int texture_noisenamesize = strlen(tex_noise);
-
-		// First just write the size of the texture filename (imagine this is a header)
-		fwrite(&texturenamesize, sizeof(int), 1, file);
-
-		// ...then write the texture name
-		fwrite(tex, sizeof(const char), texturenamesize, file);
-
-		// Write size of noise texture filename
-		fwrite(&texture_noisenamesize, sizeof(int), 1, file);
-
-		// ...then write texture noise name
-		fwrite(tex_noise, sizeof(const char), texture_noisenamesize, file);
-
-		// ...then we write the particle system details
-		fwrite(&ps, sizeof(EMITTER), 1, file);
-		int result = fclose(file);*/
 
 		if (result == 0)
 		{
@@ -366,7 +333,8 @@ void MainContainer::SetUiElements()
 	//emitterTypeChanged(mCurrentPS.emittertype);	
 	spriteColumns	->setText(QString::number(mCurrentPS.textureColumns));
 	spriteRows		->setText(QString::number(mCurrentPS.textureRows));
-	textureTypeBox->setCurrentIndex(mCurrentPS.textureType);
+	textureTypeBox	->setCurrentIndex(mCurrentPS.textureType);
+	textureTypeChanged(mCurrentPS.textureType);
 
 	setColumnsRows();
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_TEXTURE_TYPE, &mCurrentPS.textureType);
@@ -385,6 +353,7 @@ void MainContainer::SetUiElements()
 
 	noiseDissolve->setChecked(mCurrentPS.noiseDissolve);
 	bloomParticles->setChecked(mCurrentPS.bloomParticles);
+	interpolateFrames->setChecked(mCurrentPS.interpolation);
 }
 
 //TODO: World Space Checkbox
