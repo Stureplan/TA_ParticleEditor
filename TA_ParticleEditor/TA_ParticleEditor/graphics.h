@@ -60,6 +60,7 @@ public:
 	int EmitterCount() { return particlesystems.size(); }
 	void AddParticleSystem(int index, EMITTER ps);
 	void RemoveParticleSystem(int index);
+	void ClearParticleSystems();
 
 	virtual QPaintEngine* paintEngine() const { return NULL; }
 

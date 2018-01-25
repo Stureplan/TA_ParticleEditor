@@ -458,12 +458,18 @@ void Graphics::AddParticleSystem(int index, EMITTER ps)
 	particlesystems[index]->Rebuild(ps);
 	particlesystems[index]->LoadParticleTexture(device, DEFAULT_TEXTURE);
 	particlesystems[index]->LoadNoiseTexture(device, DEFAULT_NOISE_TEXTURE);
+	particlesystems[index]->SetShader(0);
 	cEmitter = index;
 }
 
 void Graphics::RemoveParticleSystem(int index)
 {
 	particlesystems.erase(particlesystems.begin() + index);
+}
+
+void Graphics::ClearParticleSystems()
+{
+	particlesystems.clear();
 }
 
 EMITTER Graphics::EmitterByIndex(int index)

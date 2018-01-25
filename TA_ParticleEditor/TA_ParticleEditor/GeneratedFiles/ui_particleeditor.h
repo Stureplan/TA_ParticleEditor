@@ -108,6 +108,7 @@ public:
     QSlider *rotationSlider;
     QLineEdit *rotation;
     QLabel *label_Velocity_3;
+    QCheckBox *worldspace;
 
     void setupUi(QMainWindow *ParticleEditorClass)
     {
@@ -149,7 +150,7 @@ public:
         label_EmissionDelay->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         label_MaxParticles = new QLabel(maincontainer);
         label_MaxParticles->setObjectName(QStringLiteral("label_MaxParticles"));
-        label_MaxParticles->setGeometry(QRect(910, 139, 70, 16));
+        label_MaxParticles->setGeometry(QRect(907, 149, 70, 16));
         label_MaxParticles->setAlignment(Qt::AlignCenter);
         savePS = new QPushButton(maincontainer);
         savePS->setObjectName(QStringLiteral("savePS"));
@@ -236,7 +237,7 @@ public:
         startSizeY->setAlignment(Qt::AlignCenter);
         maxParticles = new QLineEdit(maincontainer);
         maxParticles->setObjectName(QStringLiteral("maxParticles"));
-        maxParticles->setGeometry(QRect(920, 158, 45, 20));
+        maxParticles->setGeometry(QRect(917, 168, 45, 20));
         maxParticles->setAlignment(Qt::AlignCenter);
         rectangleWidget = new QWidget(maincontainer);
         rectangleWidget->setObjectName(QStringLiteral("rectangleWidget"));
@@ -379,10 +380,10 @@ public:
         label_EmitterType_2->setAlignment(Qt::AlignCenter);
         noiseDissolve = new QCheckBox(maincontainer);
         noiseDissolve->setObjectName(QStringLiteral("noiseDissolve"));
-        noiseDissolve->setGeometry(QRect(850, 240, 111, 17));
+        noiseDissolve->setGeometry(QRect(842, 265, 111, 17));
         looping = new QCheckBox(maincontainer);
         looping->setObjectName(QStringLiteral("looping"));
-        looping->setGeometry(QRect(820, 160, 61, 17));
+        looping->setGeometry(QRect(820, 155, 61, 17));
         looping->setChecked(true);
         groupBoxTexture = new QGroupBox(maincontainer);
         groupBoxTexture->setObjectName(QStringLiteral("groupBoxTexture"));
@@ -477,13 +478,13 @@ public:
         label_Velocity_2->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         bloomParticles = new QCheckBox(maincontainer);
         bloomParticles->setObjectName(QStringLiteral("bloomParticles"));
-        bloomParticles->setGeometry(QRect(850, 224, 111, 17));
+        bloomParticles->setGeometry(QRect(842, 249, 111, 17));
         rotationSlider = new QSlider(maincontainer);
         rotationSlider->setObjectName(QStringLiteral("rotationSlider"));
-        rotationSlider->setGeometry(QRect(550, 520, 175, 22));
+        rotationSlider->setGeometry(QRect(640, 599, 100, 22));
         rotationSlider->setStyleSheet(QStringLiteral("selection-background-color: rgb(53, 53, 53);"));
-        rotationSlider->setMinimum(-19);
-        rotationSlider->setMaximum(19);
+        rotationSlider->setMinimum(-99);
+        rotationSlider->setMaximum(99);
         rotationSlider->setSingleStep(1);
         rotationSlider->setValue(0);
         rotationSlider->setSliderPosition(0);
@@ -493,12 +494,16 @@ public:
         rotationSlider->setTickPosition(QSlider::TicksAbove);
         rotation = new QLineEdit(maincontainer);
         rotation->setObjectName(QStringLiteral("rotation"));
-        rotation->setGeometry(QRect(480, 520, 60, 20));
+        rotation->setGeometry(QRect(570, 599, 60, 20));
         rotation->setAlignment(Qt::AlignCenter);
         label_Velocity_3 = new QLabel(maincontainer);
         label_Velocity_3->setObjectName(QStringLiteral("label_Velocity_3"));
-        label_Velocity_3->setGeometry(QRect(480, 500, 71, 20));
+        label_Velocity_3->setGeometry(QRect(570, 579, 71, 20));
         label_Velocity_3->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+        worldspace = new QCheckBox(maincontainer);
+        worldspace->setObjectName(QStringLiteral("worldspace"));
+        worldspace->setGeometry(QRect(820, 170, 81, 17));
+        worldspace->setChecked(true);
         ParticleEditorClass->setCentralWidget(maincontainer);
         graphics->raise();
         label_Lifetime->raise();
@@ -559,6 +564,7 @@ public:
         rotationSlider->raise();
         rotation->raise();
         label_Velocity_3->raise();
+        worldspace->raise();
 
         retranslateUi(ParticleEditorClass);
         QObject::connect(savePS, SIGNAL(clicked()), maincontainer, SLOT(save()));
@@ -725,6 +731,7 @@ public:
         rotation->setText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
         rotation->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
         label_Velocity_3->setText(QApplication::translate("ParticleEditorClass", "Rotation", Q_NULLPTR));
+        worldspace->setText(QApplication::translate("ParticleEditorClass", "World Space", Q_NULLPTR));
     } // retranslateUi
 
 };

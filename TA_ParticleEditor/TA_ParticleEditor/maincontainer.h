@@ -98,7 +98,9 @@ protected:
 	virtual void keyReleaseEvent(QKeyEvent* evt);
 	virtual void mousePressEvent(QMouseEvent* evt);
 private:
-	void FillValues(EMITTER fromPS);
+	void ClearValues();
+	void ClearUI();
+	void FillValues();
 
 	// PROGRAM POINTERS
 	Graphics* graphics;
@@ -155,8 +157,8 @@ private:
 	QCheckBox* loopingCheckBox;
 
 	// QT VARIABLES
-	QString mTexturePath;
-	QString mTextureNoisePath;
+	//QString mTexturePath;
+	//QString mTextureNoisePath;
 	QString savePath;
 	QColor mColor0;
 	QColor mColor1;

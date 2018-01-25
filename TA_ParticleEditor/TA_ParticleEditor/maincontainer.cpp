@@ -100,11 +100,11 @@ void MainContainer::Init()
 	GetModuleFileNameA(NULL, result, MAX_PATH);
 	PathRemoveFileSpecA(result);
 	
-	mTexturePath = QString(result).append("\\Data\\Textures\\plasmaball.png");
-	textureView->setPixmap(mTexturePath);
+	QString tex = QString(result).append("\\Data\\Textures\\plasmaball.png");
+	textureView->setPixmap(tex);
 
-	mTextureNoisePath = QString(result).append("\\Data\\Textures\\noise_cloud.png");
-	textureViewNoise->setPixmap(mTextureNoisePath);
+	QString tex_n = QString(result).append("\\Data\\Textures\\noise_cloud.png");
+	textureViewNoise->setPixmap(tex_n);
 
 	mColor0 = Qt::white;
 	mColor1 = Qt::white;
@@ -142,6 +142,8 @@ void MainContainer::load()
 		//TODO HERE: Remove/empty all the stuff in Graphics and MainContainer,
 		//every old particlesystem and emitter should be emptied to prepare
 		//for the incoming file details.
+		ClearValues();
+		ClearUI();
 
 
 		int amount_of_emitters = -1;
@@ -162,25 +164,32 @@ void MainContainer::load()
 
 			EMITTER e;
 			fread(&e, sizeof(EMITTER), 1, file);
+
+			if (i == 0)
+			{
+				ps = e;
+			}
+
+
+			//add particle system
+			psTabs->insertTab(i, new QWidget(this), QString("Emitter %0").arg(i+1));
+			graphics->AddParticleSystem(i, e);
+
+
+			char result[MAX_PATH];
+			GetModuleFileNameA(NULL, result, MAX_PATH);
+			PathRemoveFileSpecA(result);
+			std::string dir = result;
+			dir.append("\\Data\\Textures\\");
+
+			graphics->Retexture(i, TEXTURE_TYPE::TEXTURE, dir+t);
+			graphics->Retexture(i, TEXTURE_TYPE::TEXTURE_NOISE, dir+n);
 		}
 
-
-
-
-		// Read regular texture
-		fread(&textureNameSize, sizeof(int), 1, file);
-		std::string n(textureNameSize, '\0');
-		fread(&n[0], sizeof(char), textureNameSize, file);
-
-		// Read noise texture
-		fread(&textureNoiseNameSize, sizeof(int), 1, file);
-		std::string n_n(textureNoiseNameSize, '\0');
-		fread(&n_n[0], sizeof(char), textureNoiseNameSize, file);
-
-		fread(&ps, sizeof(EMITTER), 1, file);
 		mCurrentPS = ps;
-
-		mTexturePath = n.c_str();
+		psTabs->setCurrentIndex(0);
+		
+		/*mTexturePath = n.c_str();
 		mTextureNoisePath = n_n.c_str();
 		std::string tex_fullpath = Utility::Path() + "Data\\Textures\\" + mTexturePath.toStdString();
 		std::string tex_noise_fullpath = Utility::Path() + "Data\\Textures\\" + mTextureNoisePath.toStdString();
@@ -189,7 +198,7 @@ void MainContainer::load()
 
 		textureView->setPixmap(QString(tex_fullpath.c_str()));
 		textureViewNoise->setPixmap(QString(tex_noise_fullpath.c_str()));
-
+		*/
 		fclose(file);
 
 		SetUiElements();
@@ -215,11 +224,19 @@ void MainContainer::save()
 	FILE* file = fopen(exportPath.c_str(), "wb");
 	if (file != NULL)
 	{
-		// amount of emitters
-		// for...
-		//		texture_size
-		//		texture_noise_size
-		//		emitter
+		//====================================
+		//		FILE STRUCTURE			    //
+		//====================================
+		//								    //
+		//	(int)amount of emitters			//
+		//	for...							//
+		//		(int)texture_size			//
+		//		(char*)texture_string		//
+		//		(int)texture_noise_size		//
+		//		(char*)texture_noise_string	//
+		//		(EMITTER)emitter			//
+		//								    //
+		//====================================
 
 		int amount_of_emitters = graphics->EmitterCount();
 		fwrite(&amount_of_emitters, sizeof(int), 1, file);
@@ -347,9 +364,24 @@ void MainContainer::SetUiElements()
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_EMITTER_TYPE, &mCurrentPS.emittertype);
 
 	//emitterTypeChanged(mCurrentPS.emittertype);	
+	spriteColumns	->setText(QString::number(mCurrentPS.textureColumns));
+	spriteRows		->setText(QString::number(mCurrentPS.textureRows));
+	textureTypeBox->setCurrentIndex(mCurrentPS.textureType);
+
+	setColumnsRows();
+	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_TEXTURE_TYPE, &mCurrentPS.textureType);
+
+
 	
-	textBrowser->setText(PathFindFileNameA(mTexturePath.toStdString().c_str()));
-	textBrowserNoise->setText(PathFindFileNameA(mTextureNoisePath.toStdString().c_str()));
+	std::string tex = graphics->ParticleSystemByIndex(mCurrentPSIndex)->TextureParticlePath();
+	textBrowser		->setText(tex.c_str());
+	tex.insert(0, Utility::Path() + "Data\\Textures\\");
+	textureView->setPixmap(QString(tex.c_str()));
+
+	std::string tex_n = graphics->ParticleSystemByIndex(mCurrentPSIndex)->TextureNoisePath();
+	textBrowserNoise->setText(tex_n.c_str());
+	tex_n.insert(0, Utility::Path() + "Data\\Textures\\");
+	textureViewNoise->setPixmap(QString(tex_n.c_str()));
 
 	noiseDissolve->setChecked(mCurrentPS.noiseDissolve);
 	bloomParticles->setChecked(mCurrentPS.bloomParticles);
@@ -440,10 +472,11 @@ void MainContainer::textureTypeChanged(int mode)
 
 void MainContainer::shaderCompileChanged(int useless)
 {
-	graphics->RecompileShader(mCurrentPSIndex, mCurrentPS.textureType, noiseDissolve->isChecked());
-
 	mCurrentPS.noiseDissolve = noiseDissolve->isChecked();
 	mCurrentPS.interpolation = interpolateFrames->isChecked();
+
+	graphics->RecompileShader(mCurrentPSIndex, mCurrentPS.textureType, mCurrentPS.noiseDissolve);
+
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_NOISE_DISSOLVE, &mCurrentPS.noiseDissolve);
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_INTERPOLATION, &mCurrentPS.interpolation);
 }
@@ -499,23 +532,23 @@ void MainContainer::BrowseTexture()
 	std::string dir = result;
 	dir.append("\\Data\\Textures");
 
-	mTexturePath = QFileDialog::getOpenFileName(this,
+	QString tex = QFileDialog::getOpenFileName(this,
 		tr("Open Image"),dir.c_str(), tr("Image Files (*.png *.PNG *.dds *.DDS)"));
 
-	if (mTexturePath != "")
+	if (tex != "")
 	{
-		textBrowser->setPlainText(PathFindFileNameA(mTexturePath.toStdString().c_str()));
-		if (mTexturePath.contains(".DDS") || mTexturePath.contains(".dds"))
+		textBrowser->setPlainText(PathFindFileNameA(tex.toStdString().c_str()));
+		if (tex.contains(".DDS") || tex.contains(".dds"))
 		{
 			textureView->setPixmap(QString(DEFAULT_DDS_TEXTUREPATH));
 		}
 		else
 		{
-			textureView->setPixmap(mTexturePath);
+			textureView->setPixmap(tex);
 		}
 
-		graphics->Retexture(mCurrentPSIndex, TEXTURE_TYPE::TEXTURE, mTexturePath.toStdString());
-		mTexturePath = PathFindFileNameA(mTexturePath.toStdString().c_str());
+		graphics->Retexture(mCurrentPSIndex, TEXTURE_TYPE::TEXTURE, tex.toStdString());
+		//mTexturePath = PathFindFileNameA(mTexturePath.toStdString().c_str());
 	}
 }
 
@@ -527,22 +560,22 @@ void MainContainer::BrowseTextureNoise()
 	std::string dir = result;
 	dir.append("\\Data\\Textures");
 
-	mTextureNoisePath = QFileDialog::getOpenFileName(this,
+	QString tex = QFileDialog::getOpenFileName(this,
 		tr("Open Image"), dir.c_str(), tr("Image Files (*.png *.PNG *.dds *.DDS)"));
 
-	if (mTextureNoisePath != "")
+	if (tex != "")
 	{
-		textBrowserNoise->setPlainText(PathFindFileNameA(mTextureNoisePath.toStdString().c_str()));
-		if (mTextureNoisePath.contains(".DDS") || mTextureNoisePath.contains(".dds"))
+		textBrowserNoise->setPlainText(PathFindFileNameA(tex.toStdString().c_str()));
+		if (tex.contains(".DDS") || tex.contains(".dds"))
 		{
 			textureViewNoise->setPixmap(QString(DEFAULT_DDS_TEXTUREPATH));
 		}
 		else
 		{
-			textureViewNoise->setPixmap(mTextureNoisePath);
+			textureViewNoise->setPixmap(tex);
 		}
-		graphics->Retexture(mCurrentPSIndex, TEXTURE_TYPE::TEXTURE_NOISE, mTextureNoisePath.toStdString());
-		mTextureNoisePath = PathFindFileNameA(mTextureNoisePath.toStdString().c_str());
+		graphics->Retexture(mCurrentPSIndex, TEXTURE_TYPE::TEXTURE_NOISE, tex.toStdString());
+		//mTextureNoisePath = PathFindFileNameA(mTextureNoisePath.toStdString().c_str());
 	}
 }
 
@@ -689,8 +722,8 @@ void MainContainer::SetRotation()
 
 void MainContainer::SetRotationSlider(int value)
 {
-	int a = rotationSlider->value();
-	mCurrentPS.rotation = a;
+	int r = rotationSlider->value();
+	mCurrentPS.rotation = (float)(r*0.1f);
 	textFieldRotation->setText(QString::number(mCurrentPS.rotation, 'f', 1));
 
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_ROTATION, &mCurrentPS.rotation);
@@ -730,7 +763,7 @@ void MainContainer::selectTab(int index)
 		// PS selected, change all values in maincontainer to reflect it.
 		mCurrentPSIndex = index;
 		mCurrentPS = graphics->EmitterByIndex(mCurrentPSIndex);
-		FillValues(mCurrentPS);
+		FillValues();
 		graphics->CurrentEmitterIndex(mCurrentPSIndex);
 	}
 }
@@ -776,9 +809,26 @@ void MainContainer::RenameTab(int index)
 	}
 }
 
-void MainContainer::FillValues(EMITTER fromCurrentPS)
+void MainContainer::ClearValues()
 {
-	mCurrentPS = fromCurrentPS;
+	graphics->ClearParticleSystems();
+	mCurrentPSIndex = 0;
+	mCurrentPS = EMITTER();
+
+
+}
+
+void MainContainer::ClearUI()
+{
+	int count = psTabs->count();
+	for (int i = 0; i < count; i++)
+	{
+		psTabs->removeTab(i);
+	}
+}
+
+void MainContainer::FillValues()
+{
 	SetUiElements();
 }
 

@@ -162,7 +162,11 @@ void ParticleSystem::Render(ID3D11DeviceContext* context, ID3D11SamplerState* sa
 	context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 	context->PSSetSamplers(0, 1, &sampler);
 	context->PSSetShaderResources(0, 1, &texture_particle);
-	context->PSSetShaderResources(1, 1, &texture_noise);
+
+	if (emitter.noiseDissolve)
+	{
+		context->PSSetShaderResources(1, 1, &texture_noise);
+	}
 	context->Draw(particleCount, 0);
 }
 
