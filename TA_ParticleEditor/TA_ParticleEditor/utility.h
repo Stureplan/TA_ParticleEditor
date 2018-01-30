@@ -256,6 +256,7 @@ struct EMITTER
 	int looping;
 	int noiseDissolve;
 	int bloomParticles;
+	//int shader;
 };
 
 #pragma region CONSTANT BUFFERS
