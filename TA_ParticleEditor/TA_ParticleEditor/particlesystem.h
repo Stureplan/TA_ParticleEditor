@@ -27,7 +27,7 @@ public:
 	bool LoadParticleTexture(ID3D11Device* device, std::string path);
 	bool LoadNoiseTexture(ID3D11Device* device, std::string path);
 
-	void Render(ID3D11DeviceContext* context, ID3D11SamplerState* sampler);
+	unsigned int Render(ID3D11DeviceContext* context, ID3D11SamplerState* sampler);
 	void RenderDebug(ID3D11DeviceContext* context, ID3D11SamplerState* sampler, ID3D11ShaderResourceView* texture_debug);
 
 

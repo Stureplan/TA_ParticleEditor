@@ -149,7 +149,7 @@ bool ParticleSystem::LoadNoiseTexture(ID3D11Device* device, std::string path)
 	return DX::LoadTexture(device, texture_noise, path);
 }
 
-void ParticleSystem::Render(ID3D11DeviceContext* context, ID3D11SamplerState* sampler)
+unsigned int ParticleSystem::Render(ID3D11DeviceContext* context, ID3D11SamplerState* sampler)
 {
 	UINT stride;
 	UINT offset;
@@ -168,6 +168,8 @@ void ParticleSystem::Render(ID3D11DeviceContext* context, ID3D11SamplerState* sa
 		context->PSSetShaderResources(1, 1, &texture_noise);
 	}
 	context->Draw(particleCount, 0);
+
+	return particleCount;
 }
 
 void ParticleSystem::RenderDebug(ID3D11DeviceContext* context, ID3D11SamplerState* sampler, ID3D11ShaderResourceView* texture_debug)

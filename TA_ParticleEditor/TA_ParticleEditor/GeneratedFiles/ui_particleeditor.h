@@ -35,6 +35,10 @@ class Ui_ParticleEditorClass
 public:
     MainContainer *maincontainer;
     Graphics *graphics;
+    QLabel *emitterParticleCountLabel;
+    QLabel *emitterParticleCountText;
+    QLabel *totalParticleCountText;
+    QLabel *totalParticleCountLabel;
     QLabel *label_Lifetime;
     QLabel *label_Velocity;
     QLabel *label_EmissionDelay;
@@ -136,6 +140,40 @@ public:
         graphics = new Graphics(maincontainer);
         graphics->setObjectName(QStringLiteral("graphics"));
         graphics->setGeometry(QRect(9, 9, 640, 480));
+        emitterParticleCountLabel = new QLabel(graphics);
+        emitterParticleCountLabel->setObjectName(QStringLiteral("emitterParticleCountLabel"));
+        emitterParticleCountLabel->setGeometry(QRect(481, 0, 151, 31));
+        QFont font;
+        font.setPointSize(12);
+        emitterParticleCountLabel->setFont(font);
+        emitterParticleCountLabel->setStyleSheet(QStringLiteral("QLabel { background-color : rgba(51,51,51,255); color : white; }"));
+        emitterParticleCountLabel->setTextFormat(Qt::PlainText);
+        emitterParticleCountLabel->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+        emitterParticleCountText = new QLabel(graphics);
+        emitterParticleCountText->setObjectName(QStringLiteral("emitterParticleCountText"));
+        emitterParticleCountText->setGeometry(QRect(601, 0, 38, 31));
+        emitterParticleCountText->setFont(font);
+        emitterParticleCountText->setStyleSheet(QStringLiteral("QLabel { background-color : rgba(51,51,51,255); color : white; }"));
+        emitterParticleCountText->setTextFormat(Qt::PlainText);
+        emitterParticleCountText->setAlignment(Qt::AlignCenter);
+        totalParticleCountText = new QLabel(graphics);
+        totalParticleCountText->setObjectName(QStringLiteral("totalParticleCountText"));
+        totalParticleCountText->setGeometry(QRect(601, 31, 38, 31));
+        totalParticleCountText->setFont(font);
+        totalParticleCountText->setStyleSheet(QStringLiteral("QLabel { background-color : rgba(51,51,51,255); color : white; }"));
+        totalParticleCountText->setTextFormat(Qt::PlainText);
+        totalParticleCountText->setAlignment(Qt::AlignCenter);
+        totalParticleCountLabel = new QLabel(graphics);
+        totalParticleCountLabel->setObjectName(QStringLiteral("totalParticleCountLabel"));
+        totalParticleCountLabel->setGeometry(QRect(481, 31, 151, 31));
+        totalParticleCountLabel->setFont(font);
+        totalParticleCountLabel->setStyleSheet(QStringLiteral("QLabel { background-color : rgba(51,51,51,255); color : white; }"));
+        totalParticleCountLabel->setTextFormat(Qt::PlainText);
+        totalParticleCountLabel->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+        emitterParticleCountLabel->raise();
+        emitterParticleCountText->raise();
+        totalParticleCountLabel->raise();
+        totalParticleCountText->raise();
         label_Lifetime = new QLabel(maincontainer);
         label_Lifetime->setObjectName(QStringLiteral("label_Lifetime"));
         label_Lifetime->setGeometry(QRect(770, 186, 51, 20));
@@ -165,9 +203,9 @@ public:
         color0Display = new QLineEdit(maincontainer);
         color0Display->setObjectName(QStringLiteral("color0Display"));
         color0Display->setGeometry(QRect(685, 10, 91, 31));
-        QFont font;
-        font.setKerning(true);
-        color0Display->setFont(font);
+        QFont font1;
+        font1.setKerning(true);
+        color0Display->setFont(font1);
         color0Display->setCursor(QCursor(Qt::IBeamCursor));
         color0Display->setFocusPolicy(Qt::NoFocus);
         color0Display->setContextMenuPolicy(Qt::NoContextMenu);
@@ -178,7 +216,7 @@ public:
         color1Display = new QLineEdit(maincontainer);
         color1Display->setObjectName(QStringLiteral("color1Display"));
         color1Display->setGeometry(QRect(775, 10, 91, 31));
-        color1Display->setFont(font);
+        color1Display->setFont(font1);
         color1Display->setCursor(QCursor(Qt::IBeamCursor));
         color1Display->setMouseTracking(false);
         color1Display->setFocusPolicy(Qt::NoFocus);
@@ -365,7 +403,7 @@ public:
         color2Display = new QLineEdit(maincontainer);
         color2Display->setObjectName(QStringLiteral("color2Display"));
         color2Display->setGeometry(QRect(865, 10, 91, 31));
-        color2Display->setFont(font);
+        color2Display->setFont(font1);
         color2Display->setCursor(QCursor(Qt::IBeamCursor));
         color2Display->setMouseTracking(false);
         color2Display->setFocusPolicy(Qt::NoFocus);
@@ -620,6 +658,10 @@ public:
     void retranslateUi(QMainWindow *ParticleEditorClass)
     {
         ParticleEditorClass->setWindowTitle(QApplication::translate("ParticleEditorClass", "Particle Editor (v. 0.1)", Q_NULLPTR));
+        emitterParticleCountLabel->setText(QApplication::translate("ParticleEditorClass", "Emitter Particles:", Q_NULLPTR));
+        emitterParticleCountText->setText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));
+        totalParticleCountText->setText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));
+        totalParticleCountLabel->setText(QApplication::translate("ParticleEditorClass", "Total Particles:", Q_NULLPTR));
         label_Lifetime->setText(QApplication::translate("ParticleEditorClass", "Lifetime", Q_NULLPTR));
         label_Velocity->setText(QApplication::translate("ParticleEditorClass", "Velocity", Q_NULLPTR));
         label_EmissionDelay->setText(QApplication::translate("ParticleEditorClass", "Emission Delay", Q_NULLPTR));

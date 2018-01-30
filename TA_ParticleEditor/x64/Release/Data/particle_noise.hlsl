@@ -25,6 +25,7 @@ struct VOut
 };
 
 Texture2D particleTexture : register(t0);
+Texture2D noiseTexture : register(t1);
 SamplerState smp;
 
 VOut VShader(float4 position : POSITION, float3 direction : DIRECTION, float lifetime : LIFETIME)
@@ -113,7 +114,18 @@ float4 PShader(VOut input) : SV_TARGET
 	float2 uv = input.texcoord;
 	float lt = input.currentLifetime;
 	
+	float2 noiseUV = uv;
+	noiseUV.y += (lt * 0.4);
+	float4 noise = noiseTexture.Sample(smp, noiseUV);
+	uv -= ((noise.xy) - 0.5) * 2 * 0.1 * lt;
+
 	float4 color = particleTexture.Sample(smp, uv) * triple_lerp(col0, col1, col2, lt);
+
+	float n = noise.x-lt;
+	clip(n);
+	n = clamp(n, 0, 0.2);
+	color.a = lerp(0, color.a, n*10);
+
 
 	return color;
 }

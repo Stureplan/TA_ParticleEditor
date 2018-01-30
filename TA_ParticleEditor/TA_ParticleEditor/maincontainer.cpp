@@ -66,7 +66,7 @@ void MainContainer::SetPointers(ParticleSystem* ps)
 }
 #pragma endregion
 
-void MainContainer::Init()
+void MainContainer::Initialize()
 {
 	mCurrentPS.emittertype = EMITTER_TYPE::EMIT_POINT;
 	mCurrentPS.lifetime = DEFAULT_LIFETIME;
@@ -279,21 +279,24 @@ void MainContainer::save()
 void MainContainer::SetUiElements()
 {
 	// Set UI textfields after loading a previously saved particle effect
-	
+	velocityXSlider->setSliderPosition(mCurrentPS.velocity.X);
+	velocityYSlider->setSliderPosition(mCurrentPS.velocity.Y);
+	velocityZSlider->setSliderPosition(mCurrentPS.velocity.Z);
 	textFieldVelocityX->setText(QString::number(mCurrentPS.velocity.X));
 	textFieldVelocityY->setText(QString::number(mCurrentPS.velocity.Y));
 	textFieldVelocityZ->setText(QString::number(mCurrentPS.velocity.Z));
 
+	offsetXSlider->setSliderPosition(mCurrentPS.offset.X * 10);
+	offsetYSlider->setSliderPosition(mCurrentPS.offset.Y * 10);
+	offsetZSlider->setSliderPosition(mCurrentPS.offset.Z * 10);
 	textFieldOffsetX->setText(QString::number(mCurrentPS.offset.X));
 	textFieldOffsetY->setText(QString::number(mCurrentPS.offset.Y));
 	textFieldOffsetZ->setText(QString::number(mCurrentPS.offset.Z));
-
 
 	textFieldRotation->setText(QString::number(mCurrentPS.rotation));
 	rotationSlider->setValue((int)(mCurrentPS.rotation));
 
 	//need implementation of rectangle position for emitter etc
-
 	textFieldEmissionDelay	->setText(QString::number(mCurrentPS.emissiondelay));
 	emissionDelaySlider		->setValue((int)(mCurrentPS.emissiondelay * 100));
 	textFieldLifetime		->setText(QString::number(mCurrentPS.lifetime));

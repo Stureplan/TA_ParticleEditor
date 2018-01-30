@@ -72,6 +72,118 @@
       <height>480</height>
      </rect>
     </property>
+    <widget class="QLabel" name="emitterParticleCountLabel">
+     <property name="geometry">
+      <rect>
+       <x>481</x>
+       <y>0</y>
+       <width>151</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel { background-color : rgba(51,51,51,255); color : white; }</string>
+     </property>
+     <property name="text">
+      <string>Emitter Particles:</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="emitterParticleCountText">
+     <property name="geometry">
+      <rect>
+       <x>601</x>
+       <y>0</y>
+       <width>38</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel { background-color : rgba(51,51,51,255); color : white; }</string>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="totalParticleCountText">
+     <property name="geometry">
+      <rect>
+       <x>601</x>
+       <y>31</y>
+       <width>38</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel { background-color : rgba(51,51,51,255); color : white; }</string>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="totalParticleCountLabel">
+     <property name="geometry">
+      <rect>
+       <x>481</x>
+       <y>31</y>
+       <width>151</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel { background-color : rgba(51,51,51,255); color : white; }</string>
+     </property>
+     <property name="text">
+      <string>Total Particles:</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <zorder>emitterParticleCountLabel</zorder>
+    <zorder>emitterParticleCountText</zorder>
+    <zorder>totalParticleCountLabel</zorder>
+    <zorder>totalParticleCountText</zorder>
    </widget>
    <widget class="QLabel" name="label_Lifetime">
     <property name="geometry">

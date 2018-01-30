@@ -40,7 +40,7 @@ public:
 	~MainContainer();
 
 	void SetPointers(ParticleSystem* ps);
-	void Init();
+	void Initialize();
 	void BuildParticleSystem();
 	void SetUiElements();
 	

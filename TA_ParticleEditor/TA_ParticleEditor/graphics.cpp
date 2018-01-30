@@ -3,6 +3,7 @@
 Graphics::Graphics(QWidget * parent)
 {
 	setParent(parent);
+
 	setAttribute(Qt::WA_PaintOnScreen, true);
 	setAttribute(Qt::WA_NativeWindow, true);
 	
@@ -16,7 +17,6 @@ Graphics::Graphics(QWidget * parent)
 	timer->setInterval(16.666);
 	connect(timer, SIGNAL(timeout()), this, SLOT(Loop()));
 	timer->start(0);
-
 }
 
 
@@ -74,6 +74,11 @@ void Graphics::Loop()
 	//qint64 time = t.nsecsElapsed();
 }
 
+void Graphics::SetPointers()
+{
+	emitterParticleCountText = findChild<QLabel*>("emitterParticleCountText");
+	totalParticleCountText   = findChild<QLabel*>("totalParticleCountText");
+}
 
 void Graphics::Initialize()
 {
@@ -516,8 +521,9 @@ void Graphics::Render()
 {
 	float color[4]  = { 0.2f, 0.2f, 0.2f, 1.0f };
 	context->ClearRenderTargetView(renderTargetView, color);
-
-
+	
+	unsigned int activeEmitterParticles = 0;
+	unsigned int activeTotalParticles = 0;
 	for (int i = 0; i < particlesystems.size(); i++)
 	{
 		// DRAW PARTICLES
@@ -543,7 +549,18 @@ void Graphics::Render()
 		}
 		particlesystems[i]->UploadParticleBuffer(context);
 		particlesystems[i]->UpdateConstantBuffer(context, WVP, World, campos, camup);
-		particlesystems[i]->Render(context, textureSamplerState);
+		unsigned int p = particlesystems[i]->Render(context, textureSamplerState);
+
+		if (i == cEmitter)
+		{
+			activeEmitterParticles = p;
+		}
+		activeTotalParticles  += p;
+		if (frame % 5 == 0)
+		{
+			emitterParticleCountText->setText(QString::number(activeEmitterParticles));
+			totalParticleCountText	->setText(QString::number(activeTotalParticles));
+		}
 
 		// DRAW DEBUG PARTICLES
 		if (debug == true)
@@ -578,9 +595,14 @@ void Graphics::Render()
 
 
 
-	
 	camup = XMVectorSet(0, 1, 0, 1);
 	swapChain->Present(VSYNC, 0);
+
+	frame++;
+	if (frame > 99)
+	{
+		frame = 0;
+	}
 }
 
 void Graphics::paintEvent(QPaintEvent* evt)

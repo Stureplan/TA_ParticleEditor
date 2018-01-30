@@ -28,12 +28,13 @@
 
 using namespace DirectX;
 
-class Graphics : public QWidget 
+class Graphics : public QWidget
 {
 public:
 	Graphics(QWidget* parent = Q_NULLPTR);
 	~Graphics();
 
+	void SetPointers();
 	void Initialize();
 	void SetupCamera(XMVECTOR pos, XMVECTOR dir, XMVECTOR up);
 	void MoveCamera(float z);
@@ -77,6 +78,7 @@ private:
 
 	ULONGLONG last = 0;
 	float ms = 0;
+	int frame = 0;
 
 	XMMATRIX v;
 
@@ -118,18 +120,19 @@ private:
 
 
 	ID3D11Buffer* fullscreenQuadVertexBuffer;
-
 	ID3D11ShaderResourceView* fullscreenQuadTexture;
 	ID3D11Texture2D* sharedTexture;
 
-	std::vector<VERTEX>		  fullscreenQuadVertexData;
+	std::vector<VERTEX> fullscreenQuadVertexData;
 	PARTICLE_VERTEX debugParticle;
 
 	std::vector<ID3D11ShaderResourceView*> textures;
-
 	std::vector<ParticleSystem*> particlesystems;
 	Shaders shaders;
 
 	Gizmo* positionGizmo;
 	Gizmo* emitterGizmo;
+
+	QLabel* emitterParticleCountText;
+	QLabel* totalParticleCountText;
 };
