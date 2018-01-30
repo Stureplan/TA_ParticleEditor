@@ -204,6 +204,7 @@ struct EMITTER
 		looping = 0;
 		noiseDissolve = 0;
 		bloomParticles = 1;
+		shader = 0;
 	}
 	EMITTER (EMITTER_TYPE e, int m, FLOAT3 v, float ed, float lt, float grv, FLOAT4 col0, FLOAT4 col1, FLOAT4 col2, float sX, float sY, float eX, float eY, float rsX, float rsZ, float r, int i, int tT, int tC, int tR, int l, int nD, int b)
 	{
@@ -230,6 +231,7 @@ struct EMITTER
 		looping = l;
 		noiseDissolve = nD;
 		bloomParticles = b;
+		shader = 0;
 	}
 	// PS Export variables
 	EMITTER_TYPE emittertype;
@@ -256,7 +258,7 @@ struct EMITTER
 	int looping;
 	int noiseDissolve;
 	int bloomParticles;
-	//int shader;
+	int shader;
 };
 
 #pragma region CONSTANT BUFFERS
@@ -292,12 +294,12 @@ struct CBUFFER_PARTICLESYSTEM_ANIMATED
 	int columns;
 	int rows;
 };
-#pragma endregion
 
 struct CBUFFER_VERTEX
 {
 	XMMATRIX wvp;
 };
+#pragma endregion
 
 
 

@@ -429,17 +429,37 @@ void MainContainer::textureTypeChanged(int mode)
 {
 	if (mode == 0)
 	{
+		// Single texture
 		spriteSheetWidget->setEnabled(false);
+
+		if (noiseDissolve->isChecked() == false)
+		{
+			mCurrentPS.shader = 0;
+		}
+		else
+		{
+			mCurrentPS.shader = 2;
+		}
 	}
 	if (mode == 1)
 	{
+		// Texture sheet
 		spriteSheetWidget->setEnabled(true);
 		setColumnsRows();
+
+		if (noiseDissolve->isChecked() == false)
+		{
+			mCurrentPS.shader = 1;
+		}
+		else
+		{
+			mCurrentPS.shader = 3;
+		}
 	}
 
 	mCurrentPS.textureType = mode;
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_TEXTURE_TYPE, &mCurrentPS.textureType);
-	graphics->RecompileShader(mCurrentPSIndex, mCurrentPS.textureType, noiseDissolve->isChecked());
+	graphics->RecompileShader(mCurrentPSIndex, mCurrentPS.textureType, noiseDissolve->isChecked(), mCurrentPS.shader);
 }
 
 void MainContainer::shaderCompileChanged(int useless)
@@ -447,7 +467,24 @@ void MainContainer::shaderCompileChanged(int useless)
 	mCurrentPS.noiseDissolve = noiseDissolve->isChecked();
 	mCurrentPS.interpolation = interpolateFrames->isChecked();
 
-	graphics->RecompileShader(mCurrentPSIndex, mCurrentPS.textureType, mCurrentPS.noiseDissolve);
+	if (mCurrentPS.textureType == 0 && mCurrentPS.noiseDissolve == 0)
+	{
+		mCurrentPS.shader = 0;
+	}
+	if (mCurrentPS.textureType == 1 && mCurrentPS.noiseDissolve == 0)
+	{
+		mCurrentPS.shader = 1;
+	}
+	if (mCurrentPS.textureType == 0 && mCurrentPS.noiseDissolve == 1)
+	{
+		mCurrentPS.shader = 2;
+	}
+	if (mCurrentPS.textureType == 1 && mCurrentPS.noiseDissolve == 1)
+	{
+		mCurrentPS.shader = 3;
+	}
+
+	graphics->RecompileShader(mCurrentPSIndex, mCurrentPS.textureType, mCurrentPS.noiseDissolve, mCurrentPS.shader);
 
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_NOISE_DISSOLVE, &mCurrentPS.noiseDissolve);
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_INTERPOLATION, &mCurrentPS.interpolation);

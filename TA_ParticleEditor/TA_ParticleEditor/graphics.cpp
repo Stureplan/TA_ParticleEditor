@@ -388,10 +388,9 @@ void Graphics::Retexture(int index, TEXTURE_TYPE type, std::string path)
 	}
 }
 
-void Graphics::RecompileShader(int index, int type, bool noise)
+void Graphics::RecompileShader(int index, int type, bool noise, int shader)
 {
 	shaders.CompileIncludes(noise, false);
-	int shader = 0;
 
 	if (type == 0 && noise == false)
 	{
