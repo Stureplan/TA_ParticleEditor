@@ -331,6 +331,9 @@ void ParticleSystem::SetProperty(PS_PROPERTY prop, void* data)
 	case PS_PROPERTY::PS_BLOOM_PARTICLES:
 		emitter.bloomParticles = *((int*)data);
 		break;
+	case PS_PROPERTY::PS_SHADER:
+		emitter.shader = *((int*)data);
+		break;
 	}
 }
 
@@ -406,6 +409,9 @@ void* ParticleSystem::GetProperty(PS_PROPERTY prop)
 		break;
 	case PS_PROPERTY::PS_BLOOM_PARTICLES:
 		return &emitter.bloomParticles;
+		break;
+	case PS_PROPERTY::PS_SHADER:
+		return &emitter.shader;
 		break;
 	}
 

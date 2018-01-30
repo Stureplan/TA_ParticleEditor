@@ -332,6 +332,7 @@ void MainContainer::SetUiElements()
 
 
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_EMITTER_TYPE, &mCurrentPS.emittertype);
+	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_SHADER, &mCurrentPS.shader);
 
 	//emitterTypeChanged(mCurrentPS.emittertype);	
 	spriteColumns	->setText(QString::number(mCurrentPS.textureColumns));
@@ -422,6 +423,7 @@ void MainContainer::emitterTypeChanged(int mode)
 		//BuildParticleSystem();
 	}
 
+	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_SHADER, &mCurrentPS.shader);
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_EMITTER_TYPE, &mCurrentPS.emittertype);
 }
 
@@ -458,6 +460,7 @@ void MainContainer::textureTypeChanged(int mode)
 	}
 
 	mCurrentPS.textureType = mode;
+	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_SHADER, &mCurrentPS.shader);
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_TEXTURE_TYPE, &mCurrentPS.textureType);
 	graphics->RecompileShader(mCurrentPSIndex, mCurrentPS.textureType, noiseDissolve->isChecked(), mCurrentPS.shader);
 }
@@ -486,6 +489,7 @@ void MainContainer::shaderCompileChanged(int useless)
 
 	graphics->RecompileShader(mCurrentPSIndex, mCurrentPS.textureType, mCurrentPS.noiseDissolve, mCurrentPS.shader);
 
+	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_SHADER, &mCurrentPS.shader);
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_NOISE_DISSOLVE, &mCurrentPS.noiseDissolve);
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_INTERPOLATION, &mCurrentPS.interpolation);
 }

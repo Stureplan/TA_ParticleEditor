@@ -160,7 +160,8 @@ enum PS_PROPERTY
 	PS_LOOPING,
 	PS_NOISE_DISSOLVE,
 	PS_INTERPOLATION,
-	PS_BLOOM_PARTICLES
+	PS_BLOOM_PARTICLES,
+	PS_SHADER
 };
 
 enum EMITTER_TYPE
@@ -258,7 +259,7 @@ struct EMITTER
 	int looping;
 	int noiseDissolve;
 	int bloomParticles;
-	int shader;
+	int shader; // 0=particle.hlsl, 1=particle_animated.hlsl, 2=particle_noise.hlsl, 3=particle_animated_noise.hlsl
 };
 
 #pragma region CONSTANT BUFFERS
