@@ -79,7 +79,6 @@ void ParticleSystem::UpdateConstantBuffer(ID3D11DeviceContext* context, XMMATRIX
 	{
 		// Regular particle
 		cBufferParticle.wvp = XMMatrixTranspose(wvp);
-		cBufferParticle.world = XMMatrixTranspose(world);
 		cBufferParticle.campos = campos;
 		cBufferParticle.camup = camup;
 		cBufferParticle.startsize = XMFLOAT2(emitter.startSizeX, emitter.startSizeY);
@@ -99,7 +98,6 @@ void ParticleSystem::UpdateConstantBuffer(ID3D11DeviceContext* context, XMMATRIX
 	{
 		// Animated particle
 		cBufferParticleAnimated.wvp = XMMatrixTranspose(wvp);
-		cBufferParticleAnimated.world = XMMatrixTranspose(world);
 		cBufferParticleAnimated.campos = campos;
 		cBufferParticleAnimated.camup = camup;
 		cBufferParticleAnimated.startsize = XMFLOAT2(emitter.startSizeX, emitter.startSizeY);
