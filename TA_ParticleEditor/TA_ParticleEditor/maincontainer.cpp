@@ -295,7 +295,7 @@ void MainContainer::SetUiElements()
 	textFieldOffsetZ->setText(QString::number(mCurrentPS.offset.Z));
 
 	textFieldRotation->setText(QString::number(mCurrentPS.rotation));
-	rotationSlider->setValue((int)(mCurrentPS.rotation));
+	rotationSlider->setValue((int)(mCurrentPS.rotation*10));
 
 	//need implementation of rectangle position for emitter etc
 	textFieldEmissionDelay	->setText(QString::number(mCurrentPS.emissiondelay));
@@ -325,6 +325,8 @@ void MainContainer::SetUiElements()
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_COLOR_2, &mCurrentPS.color2);
 
 	emitterTypeDisplay->setCurrentIndex(mCurrentPS.emittertype);
+
+
 
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_START_SIZE_X, &mCurrentPS.startSizeX);
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_START_SIZE_Y, &mCurrentPS.startSizeY);
@@ -729,6 +731,9 @@ void MainContainer::SetOffsetZSlider(int value)
 void MainContainer::SetRotation()
 {
 	float r = textFieldRotation->text().toFloat();
+
+	rotationSlider->setValue((int)(mCurrentPS.rotation * 10));
+
 
 	mCurrentPS.rotation = r;
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_ROTATION, &mCurrentPS.rotation);
