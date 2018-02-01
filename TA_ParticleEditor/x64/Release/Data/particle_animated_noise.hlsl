@@ -4,7 +4,6 @@
 cbuffer CBUFFER
 {
 	float4x4 wvp;
-	float4x4 world;
 	float4 campos;
 	float4 camup;
 	float4 col0;

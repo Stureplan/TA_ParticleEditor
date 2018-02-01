@@ -252,6 +252,7 @@ void MainContainer::save()
 			fwrite(texture_noise, sizeof(const char), texture_noise_size, file);
 
 			EMITTER e = graphics->EmitterByIndex(i);
+			e.maxparticles = (int)(e.lifetime / e.emissiondelay)+1;
 			fwrite(&e, sizeof(EMITTER), 1, file);
 		}
 

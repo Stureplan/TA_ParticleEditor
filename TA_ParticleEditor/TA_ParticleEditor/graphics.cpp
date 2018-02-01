@@ -353,9 +353,9 @@ void Graphics::LoadTextures()
 	textures.push_back(nullptr);
 	textures.push_back(nullptr);
 
-	DX::LoadTexture(device, textures[0], Utility::Path() + "Data\\Textures\\debug.png");
-	DX::LoadTexture(device, textures[1], Utility::Path() + "Data\\Textures\\debug_transparent.png");
-	DX::LoadTexture(device, textures[2], Utility::Path() + "Data\\Textures\\debug_wireframe.png");
+	DX::LoadTexture(device, textures[0], Utility::Path() + "Data\\Textures\\debug.dds");
+	DX::LoadTexture(device, textures[1], Utility::Path() + "Data\\Textures\\debug_transparent.dds");
+	DX::LoadTexture(device, textures[2], Utility::Path() + "Data\\Textures\\debug_wireframe.dds");
 
 	for (int i = 0; i < particlesystems.size(); i++)
 	{

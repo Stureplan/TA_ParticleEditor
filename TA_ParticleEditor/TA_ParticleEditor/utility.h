@@ -4,6 +4,7 @@
 #include <Windows.h>
 #include <DirectXMath.h>
 
+#include "comdef.h"
 #include "WICTextureLoader.h"
 #include "DDSTextureLoader.h"
 
@@ -22,8 +23,8 @@
 
 #define FLOAT4_0 FLOAT4(0,0,0,0)
 
-#define DEFAULT_TEXTURE Utility::Path() + "Data\\Textures\\plasmaball.png"
-#define DEFAULT_NOISE_TEXTURE Utility::Path() + "Data\\Textures\\noise_cloud.png"
+#define DEFAULT_TEXTURE Utility::Path() + "Data\\Textures\\plasmaball.dds"
+#define DEFAULT_NOISE_TEXTURE Utility::Path() + "Data\\Textures\\noise_cloud.dds"
 
 using namespace DirectX;
 
@@ -266,7 +267,6 @@ struct EMITTER
 struct CBUFFER_PARTICLESYSTEM
 {
 	XMMATRIX wvp;
-	XMMATRIX world;
 	XMVECTOR campos;
 	XMVECTOR camup;
 	FLOAT4 col0;
@@ -281,7 +281,6 @@ struct CBUFFER_PARTICLESYSTEM
 struct CBUFFER_PARTICLESYSTEM_ANIMATED
 {
 	XMMATRIX wvp;
-	XMMATRIX world;
 	XMVECTOR campos;
 	XMVECTOR camup;
 	FLOAT4 col0;
