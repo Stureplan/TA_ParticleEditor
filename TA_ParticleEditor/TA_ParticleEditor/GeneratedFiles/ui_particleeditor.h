@@ -750,11 +750,11 @@ public:
         groupBoxTexture->setTitle(QApplication::translate("ParticleEditorClass", "Texture", Q_NULLPTR));
         textureView->setText(QString());
         browsepath->setText(QApplication::translate("ParticleEditorClass", "Browse", Q_NULLPTR));
-        textBrowser->setPlaceholderText(QApplication::translate("ParticleEditorClass", "plasmaball.png", Q_NULLPTR));
+        textBrowser->setPlaceholderText(QApplication::translate("ParticleEditorClass", "plasmaball.dds", Q_NULLPTR));
         groupBoxTextureNoise->setTitle(QApplication::translate("ParticleEditorClass", "Noise Texture", Q_NULLPTR));
         textureViewNoise->setText(QString());
         browsepathNoise->setText(QApplication::translate("ParticleEditorClass", "Browse", Q_NULLPTR));
-        textBrowserNoise->setPlaceholderText(QApplication::translate("ParticleEditorClass", "noise_cloud.png", Q_NULLPTR));
+        textBrowserNoise->setPlaceholderText(QApplication::translate("ParticleEditorClass", "noise_cloud.dds", Q_NULLPTR));
         offsetZ->setInputMask(QApplication::translate("ParticleEditorClass", "##0\\.00", Q_NULLPTR));
         offsetZ->setText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));
         offsetZ->setPlaceholderText(QApplication::translate("ParticleEditorClass", "0.0", Q_NULLPTR));

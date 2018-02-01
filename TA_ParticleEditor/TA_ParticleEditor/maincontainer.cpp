@@ -100,10 +100,10 @@ void MainContainer::Initialize()
 	GetModuleFileNameA(NULL, result, MAX_PATH);
 	PathRemoveFileSpecA(result);
 	
-	QString tex = QString(result).append("\\Data\\Textures\\plasmaball.png");
+	QString tex = QString(result).append("\\Data\\Textures\\plasmaball.dds");
 	textureView->setPixmap(tex);
 
-	QString tex_n = QString(result).append("\\Data\\Textures\\noise_cloud.png");
+	QString tex_n = QString(result).append("\\Data\\Textures\\noise_cloud.dds");
 	textureViewNoise->setPixmap(tex_n);
 
 	mColor0 = Qt::white;

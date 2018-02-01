@@ -1278,7 +1278,7 @@
       <set>Qt::NoTextInteraction</set>
      </property>
      <property name="placeholderText">
-      <string>plasmaball.png</string>
+      <string>plasmaball.dds</string>
      </property>
     </widget>
    </widget>
@@ -1339,7 +1339,7 @@
       <set>Qt::NoTextInteraction</set>
      </property>
      <property name="placeholderText">
-      <string>noise_cloud.png</string>
+      <string>noise_cloud.dds</string>
      </property>
     </widget>
    </widget>

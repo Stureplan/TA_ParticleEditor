@@ -373,7 +373,7 @@ void Graphics::Retexture(int index, TEXTURE_TYPE type, std::string path)
 		if (result == false)
 		{
 			MessageBoxA(NULL, std::string("Texture at: " + path + " was not found!\nLoading default texture.").c_str(), "Texture Missing", MB_OK);
-			Retexture(index, TEXTURE_TYPE::TEXTURE, Utility::Path() + "Data\\Textures\\plasmaball.png");
+			Retexture(index, TEXTURE_TYPE::TEXTURE, Utility::Path() + "Data\\Textures\\plasmaball.dds");
 		}
 	}
 	if (type == TEXTURE_TYPE::TEXTURE_NOISE)
@@ -383,7 +383,7 @@ void Graphics::Retexture(int index, TEXTURE_TYPE type, std::string path)
 		if (result == false)
 		{
 			MessageBoxA(NULL, std::string("Texture at: " + path + " was not found!\nLoading default texture.").c_str(), "Texture Missing", MB_OK);
-			Retexture(index, TEXTURE_TYPE::TEXTURE_NOISE, Utility::Path() + "Data\\Textures\\noise_cloud.png");
+			Retexture(index, TEXTURE_TYPE::TEXTURE_NOISE, Utility::Path() + "Data\\Textures\\noise_cloud.dds");
 		}
 	}
 }
