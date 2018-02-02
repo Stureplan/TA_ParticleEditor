@@ -483,7 +483,7 @@ EMITTER Graphics::EmitterByIndex(int index)
 
 ParticleSystem* Graphics::ParticleSystemByIndex(int index)
 {
-	return particlesystems.at(index);
+	return particlesystems.at(index); //TODO: Continue sniffing
 }
 
 void Graphics::Debug(bool active)

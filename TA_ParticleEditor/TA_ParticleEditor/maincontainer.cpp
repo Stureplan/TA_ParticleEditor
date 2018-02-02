@@ -336,6 +336,7 @@ void MainContainer::SetUiElements()
 
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_EMITTER_TYPE, &mCurrentPS.emittertype);
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_SHADER, &mCurrentPS.shader);
+	shaderCompileChanged(0);
 
 	//emitterTypeChanged(mCurrentPS.emittertype);	
 	spriteColumns	->setText(QString::number(mCurrentPS.textureColumns));
@@ -461,7 +462,7 @@ void MainContainer::textureTypeChanged(int mode)
 			mCurrentPS.shader = 3;
 		}
 	}
-
+	
 	mCurrentPS.textureType = mode;
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_SHADER, &mCurrentPS.shader);
 	graphics->ParticleSystemByIndex(mCurrentPSIndex)->SetProperty(PS_PROPERTY::PS_TEXTURE_TYPE, &mCurrentPS.textureType);
