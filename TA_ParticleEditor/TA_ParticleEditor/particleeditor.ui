@@ -54,7 +54,7 @@
    </palette>
   </property>
   <property name="windowTitle">
-   <string>Particle Editor (v. 0.1)</string>
+   <string>Particle Editor (v. 0.11)</string>
   </property>
   <property name="styleSheet">
    <string notr="true"/>

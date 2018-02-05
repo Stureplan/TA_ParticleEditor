@@ -657,7 +657,7 @@ public:
 
     void retranslateUi(QMainWindow *ParticleEditorClass)
     {
-        ParticleEditorClass->setWindowTitle(QApplication::translate("ParticleEditorClass", "Particle Editor (v. 0.1)", Q_NULLPTR));
+        ParticleEditorClass->setWindowTitle(QApplication::translate("ParticleEditorClass", "Particle Editor (v. 0.11)", Q_NULLPTR));
         emitterParticleCountLabel->setText(QApplication::translate("ParticleEditorClass", "Emitter Particles:", Q_NULLPTR));
         emitterParticleCountText->setText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));
         totalParticleCountText->setText(QApplication::translate("ParticleEditorClass", "0", Q_NULLPTR));
