@@ -72,6 +72,7 @@ public slots:
 	void BrowseTextureNoise();
 	void load();
 	void save();
+	void resave();
 
 	void color0();
 	void color1();
@@ -167,4 +168,6 @@ private:
 	// PS VARIABLES
 	EMITTER mCurrentPS;
 	int mCurrentPSIndex = 0;
+
+	std::string lastSaveSpot = "";
 };

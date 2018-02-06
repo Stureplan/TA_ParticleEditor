@@ -203,6 +203,7 @@ void MainContainer::save()
 {
 	std::string exportPath = QFileDialog::getSaveFileName(this).toStdString();
 
+
 	size_t found = exportPath.find(".ps");
 	if (found == std::string::npos)
 	{
@@ -214,6 +215,7 @@ void MainContainer::save()
 	// Safe check to make sure we didn't just refuse to enter a name and escaped
 	if (exportPath == ".ps") { return; }
 
+	lastSaveSpot = exportPath;
 	FILE* file = fopen(exportPath.c_str(), "wb");
 	if (file != NULL)
 	{
@@ -244,6 +246,76 @@ void MainContainer::save()
 
 			int texture_particle_size	= strlen(texture_particle);
 			int texture_noise_size		= strlen(texture_noise);
+
+			fwrite(&texture_particle_size, sizeof(int), 1, file);
+			fwrite(texture_particle, sizeof(const char), texture_particle_size, file);
+
+			fwrite(&texture_noise_size, sizeof(int), 1, file);
+			fwrite(texture_noise, sizeof(const char), texture_noise_size, file);
+
+			EMITTER e = graphics->EmitterByIndex(i);
+			if (e.looping == true)
+			{
+				e.maxparticles = (int)(e.lifetime / e.emissiondelay) + 1;
+			}
+			fwrite(&e, sizeof(EMITTER), 1, file);
+		}
+
+		int result = fclose(file);
+
+		if (result == 0)
+		{
+			QMessageBox msg;
+			msg.setWindowTitle("File Exported");
+			msg.setText(QString("File: " + QString(exportPath.c_str()) + " was successfully exported."));
+			msg.exec();
+		}
+		else
+		{
+			QMessageBox msg;
+			msg.setWindowTitle("File Export Failed");
+			msg.setText(QString("File: " + QString(exportPath.c_str()) + " failed on export."));
+			msg.exec();
+		}
+
+		fclose(file);
+	}
+}
+
+void MainContainer::resave()
+{
+	std::string exportPath = lastSaveSpot;
+	if (exportPath == "") { return; }
+	FILE* file = fopen(exportPath.c_str(), "wb");
+	if (file != NULL)
+	{
+		//====================================
+		//		FILE STRUCTURE			    //
+		//====================================
+		//								    //
+		//	(int)amount of emitters			//
+		//	for...							//
+		//		(int)texture_size			//
+		//		(char*)texture_string		//
+		//		(int)texture_noise_size		//
+		//		(char*)texture_noise_string	//
+		//		(EMITTER)emitter			//
+		//								    //
+		//====================================
+
+		int amount_of_emitters = graphics->EmitterCount();
+		fwrite(&amount_of_emitters, sizeof(int), 1, file);
+
+		for (int i = 0; i < amount_of_emitters; i++)
+		{
+			std::string t = graphics->ParticleSystemByIndex(i)->TextureParticlePath();
+			std::string n = graphics->ParticleSystemByIndex(i)->TextureNoisePath();
+
+			const char* texture_particle = t.c_str();
+			const char* texture_noise = n.c_str();
+
+			int texture_particle_size = strlen(texture_particle);
+			int texture_noise_size = strlen(texture_noise);
 
 			fwrite(&texture_particle_size, sizeof(int), 1, file);
 			fwrite(texture_particle, sizeof(const char), texture_particle_size, file);
@@ -776,6 +848,8 @@ void MainContainer::setLooping(int value)
 	if (value == 2) value = 1;
 	mCurrentPS.looping = value;
 	BuildParticleSystem();
+
+	FillValues();
 }
 
 void MainContainer::selectTab(int index)
@@ -878,6 +952,11 @@ void MainContainer::keyPressEvent(QKeyEvent* evt)
 	if (key == Qt::Key::Key_F)
 	{
 		graphics->UpdateOnce();
+	}
+	
+	if (key == Qt::Key::Key_R)
+	{
+		resave();
 	}
 
 	if (key == Qt::Key::Key_Escape)
